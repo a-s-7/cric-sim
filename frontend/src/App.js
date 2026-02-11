@@ -1,12 +1,13 @@
 import './App.css';
 import NavBar from "./components/NavBar";
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import T20LeaguePage from "./pages/T20LeaguePage";
 import LeagueLandingPage from "./pages/LeagueLandingPage";
 import EventsLandingPage from "./pages/EventsLandingPage";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import WTCPage from "./pages/WTCPage";
+import IccEvents from "./pages/IccEvents";
 
 // const DEV_ON = false;
 // export const BASE_URL = DEV_ON === true ? "http://127.0.0.1:5000" : "";
@@ -30,7 +31,7 @@ function App() {
         }
     };
 
-     const fetchWtcs = async () => {
+    const fetchWtcs = async () => {
         let url = '/wtc/info';
 
         try {
@@ -54,33 +55,34 @@ function App() {
         <div className="App">
             <NavBar></NavBar>
             <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/leagues" element={<LeagueLandingPage/>}/>
-                <Route path="/events" element={<EventsLandingPage/>}/>
+                <Route path="/" element={<Home />} />
+                <Route path="/leagues" element={<LeagueLandingPage />} />
+                <Route path="/events" element={<EventsLandingPage />} />
+                <Route path="/icc_events" element={<IccEvents />} />
 
                 {leagues.map(league => (
                     <Route path={"/" + league["acronym"] + "/" + league["edition"]}
-                           key={league["acronym"] + "-" + league["edition"]}
-                           element={<T20LeaguePage leagueEdition={league["edition"]}
-                                                    leagueUrlTag={league["acronym"]}
-                                                    leagueName = {league["name"]}
-                                                    leagueLogo = {league["logo"]}
-                                                    leagueGradient = {league["gradient"]}
-                                                    leaguePointsTableColor = {league["pointsTableColor"]}/>
-                    }>
+                        key={league["acronym"] + "-" + league["edition"]}
+                        element={<T20LeaguePage leagueEdition={league["edition"]}
+                            leagueUrlTag={league["acronym"]}
+                            leagueName={league["name"]}
+                            leagueLogo={league["logo"]}
+                            leagueGradient={league["gradient"]}
+                            leaguePointsTableColor={league["pointsTableColor"]} />
+                        }>
                     </Route>))
                 }
 
                 {wtcs.map(wtc => (
                     <Route path={"/" + wtc["acronym"] + "/" + wtc["edition"]}
-                           key={wtc["cycle"]}
-                           element={<WTCPage wtcUrlTag={wtc["acronym"]}
-                                             wtcEdition={wtc["edition"]}
-                                             wtcLogo={wtc["logo"]}
-                                             wtcPointsTableColor={wtc["pointsTableColor"]}
-                                             wtcName={wtc["name"]}
-                                             wtcControlBarColor={wtc["gradient"]}/>
-                    }>
+                        key={wtc["cycle"]}
+                        element={<WTCPage wtcUrlTag={wtc["acronym"]}
+                            wtcEdition={wtc["edition"]}
+                            wtcLogo={wtc["logo"]}
+                            wtcPointsTableColor={wtc["pointsTableColor"]}
+                            wtcName={wtc["name"]}
+                            wtcControlBarColor={wtc["gradient"]} />
+                        }>
                     </Route>
                 ))}
             </Routes>

@@ -1,5 +1,5 @@
 import React from "react";
-import {NavLink, useLocation} from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 function NavBar() {
     const location = useLocation();
@@ -12,16 +12,22 @@ function NavBar() {
             </div>
             <div className="appModeArea">
                 <NavLink to="/leagues"
-                         style={{
-                            borderBottom: path === "/leagues" ? "1px solid black" : "none"
-                         }}>
+                    style={{
+                        borderBottom: path === "/leagues" ? "1px solid black" : "none"
+                    }}>
                     LEAGUES
                 </NavLink>
                 <NavLink to="/events"
-                         style={{
-                            borderBottom: path === "/icc_events" ? "1px solid black" : "none"
-                         }}>
+                    style={{
+                        borderBottom: path === "/events" ? "1px solid black" : "none"
+                    }}>
                     EVENTS
+                </NavLink>
+                <NavLink to="/icc_events"
+                    style={{
+                        borderBottom: path === "/icc_events" ? "1px solid black" : "none"
+                    }}>
+                    ICC EVENTS
                 </NavLink>
             </div>
         </div>
