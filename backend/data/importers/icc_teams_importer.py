@@ -28,7 +28,13 @@ def main():
 
     try:
         result = teams_collection.insert_many(json_info["teams"], ordered=False)
-        print("Inserted IDs:", result.inserted_ids)
+        print(f"\nINSERTED {len(result.inserted_ids)} TEAMS\n")
+        print(f"{'NAME':<40} {'ID':<10}")
+        print("─" * 60)
+        for i, id in enumerate(result.inserted_ids):
+            name = json_info['teams'][i]['name']
+            print(f"{name:<40} {str(id):<10}")
+        print("─" * 60)
     except BulkWriteError as e:
         write_errors = e.details.get('writeErrors', [])
 

@@ -6,173 +6,186 @@ from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from bson import ObjectId
 
-if os.getenv("RENDER_STATUS") != "TRUE":
-    from dotenv import load_dotenv
-    load_dotenv()
+def main():
+    if os.getenv("RENDER_STATUS") != "TRUE":
+        from dotenv import load_dotenv
+        load_dotenv()
 
-connection_string = os.getenv('MONGODB_URI')
+    connection_string = os.getenv('MONGODB_URI')
 
-if not connection_string:
-    raise ValueError("MONGODB_URI not found in environment variables")
+    if not connection_string:
+        raise ValueError("MONGODB_URI not found in environment variables")
 
-client = MongoClient(connection_string)
-db = client['events']
+    client = MongoClient(connection_string)
+    db = client['events']
 
-################################################################ (TOURNAMENTS COLLECTION)
+    ################################################################ (TOURNAMENTS COLLECTION)
 
-# Load tournament info as JSON
+    # Load tournament info as JSON
 
-event_folder = "t20-world-cup"
-file_name = "t20-wc-2026.json"
+    event_folder = "t20-world-cup"
+    file_name = "t20-wc-2026.json"
 
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-file_path = os.path.join(base_dir, "sources", "events", event_folder, file_name)
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    file_path = os.path.join(base_dir, "sources", "events", event_folder, file_name)
 
-with open(file_path, 'r') as file:
-    json_info = json.load(file)
-
-
-# Prepare tournament data for DB
-
-tournament = json_info["tournament"]
-
-zone = ZoneInfo("America/Los_Angeles")
-
-tournament["startDate"] = datetime.fromisoformat(
-    tournament["startDate"]
-).replace(tzinfo=zone)
-
-tournament["endDate"] = datetime.fromisoformat(
-    tournament["endDate"]
-).replace(tzinfo=zone)
-
-# Add tournament to DB
-
-tournaments_collection = db['tournaments']
-
-try:
-    result = tournaments_collection.insert_one(tournament)
-    print(f"Tournament inserted with ID: {result.inserted_id}\n")
-except DuplicateKeyError:
-    print(f"Tournament with ID '{tournament['_id']}' already exists")
-
-################################################################ (STAGES COLLECTION) 
-
-stages = json_info["stages"]
-
-stages_collection = db['stages']
-stages_collection.create_index(
-    [("tournamentId", 1), ("order", 1)],
-    unique=True
-)
-
-DB_STAGE_ORDER_TO_ID = {}
-
-try:
-    result = stages_collection.insert_many(stages, ordered=True)
-    print("Stages inserted with IDs:", result.inserted_ids, "\n")
-
-    for i, stage in enumerate(stages):
-        stage_order = stage["order"]
-        object_id = result.inserted_ids[i]
-        DB_STAGE_ORDER_TO_ID[stage_order] = object_id
-            
-except BulkWriteError as e:
-    write_errors = e.details.get('writeErrors', [])
-    
-    first_error_index = write_errors[0]['index']
-
-    print(f"Error: Stopped inserting stage entries at stage order {first_error_index + 1}")
+    with open(file_path, 'r') as file:
+        json_info = json.load(file)
 
 
-################################################################ (STAGE TEAMS COLLECTION) 
+    # Prepare tournament data for DB
 
-stage_teams = json_info["stageTeams"]
+    tournament = json_info["tournament"]
 
-stage_teams_collection = db['stageTeams']
-stage_teams_collection.create_index(
-    [("stageId", 1), ("teamId", 1)],
-    unique=True
-)
+    zone = ZoneInfo("America/Los_Angeles")
 
-for s_team in stage_teams:
-    s_team["stageId"] = DB_STAGE_ORDER_TO_ID[s_team["stageOrder"]]
-    del s_team["stageOrder"]
+    tournament["startDate"] = datetime.fromisoformat(
+        tournament["startDate"]
+    ).replace(tzinfo=zone)
+
+    tournament["endDate"] = datetime.fromisoformat(
+        tournament["endDate"]
+    ).replace(tzinfo=zone)
+
+    # Add tournament to DB
+
+    tournaments_collection = db['tournaments']
+
+    try:
+        result = tournaments_collection.insert_one(tournament)
+        print("\nINSERTED TOURNAMENT WITH ID:", result.inserted_id)
+        
+    except DuplicateKeyError:
+        print(f"Tournament with ID '{tournament['_id']}' already exists")
+
+    ################################################################ (STAGES COLLECTION) 
+
+    stages = json_info["stages"]
+
+    stages_collection = db['stages']
+    stages_collection.create_index(
+        [("tournamentId", 1), ("order", 1)],
+        unique=True
+    )
+
+    DB_STAGE_ORDER_TO_ID = {}
+
+    try:
+        result = stages_collection.insert_many(stages, ordered=True)
+        print(f"\nINSERTED {len(result.inserted_ids)} STAGES\n")
+        print(f"{'STAGE':<20} {'ID':<50}")
+        print("─" * 70)
+
+        for i, stage in enumerate(stages):
+            stage_order = stage["order"]
+            object_id = result.inserted_ids[i]
+            DB_STAGE_ORDER_TO_ID[stage_order] = object_id
+            print(f"{stage_order:<20} {str(object_id):<50}")
+        print("─" * 70 + "\n")
+                
+    except BulkWriteError as e:
+        write_errors = e.details.get('writeErrors', [])
+        
+        first_error_index = write_errors[0]['index']
+
+        print(f"Error: Stopped inserting stage entries at stage order {first_error_index + 1}")
 
 
-DB_NAME_OR_SEED_TO_ID = {}
+    ################################################################ (STAGE TEAMS COLLECTION) 
 
-try:
-    result = stage_teams_collection.insert_many(stage_teams, ordered=True)
-    print("Stage teams inserted with IDs:", result.inserted_ids, "\n")
+    stage_teams = json_info["stageTeams"]
 
-    for i, s_team in enumerate(stage_teams):
-        if "confirmed" in s_team and not s_team["confirmed"]:
-            DB_NAME_OR_SEED_TO_ID[s_team["seed"]] = result.inserted_ids[i]
-        else:
-            DB_NAME_OR_SEED_TO_ID[s_team["teamId"]] = result.inserted_ids[i]
-    
-    print("Team ID/Seed mapped to Stage Team IDs:", DB_NAME_OR_SEED_TO_ID, "\n")
-            
-except BulkWriteError as e:
-    write_errors = e.details.get('writeErrors', [])
-    
-    first_error_index = write_errors[0]['index']
+    stage_teams_collection = db['stageTeams']
+    stage_teams_collection.create_index(
+        [("stageId", 1), ("teamId", 1)],
+        unique=True
+    )
 
-    print(f"Error: Stopped inserting stage teams at stage team index {first_error_index}")
+    for s_team in stage_teams:
+        s_team["stageId"] = DB_STAGE_ORDER_TO_ID[s_team["stageOrder"]]
+        del s_team["stageOrder"]
 
-################################################################ (MATCHES COLLECTION)
 
-DB_STADIUM_NAME_TO_ID = {}
+    DB_NAME_OR_SEED_TO_ID = {}
 
-venues_collection = db['venues']
-venues = venues_collection.find({
-    "stadium": {
-        "$in": json_info["stadiums"]
-    }
-})
-venue_dict = {v["stadium"]: v["_id"] for v in venues}
-print("Stadiums mapped to VenueIDs:", venue_dict, "\n")
+    try:
+        result = stage_teams_collection.insert_many(stage_teams, ordered=True)
+        print(f"INSERTED {len(result.inserted_ids)} STAGE TEAMS\n")
+        print(f"{'STAGE TEAM':<20} {'ID':<50}")
+        print("─" * 70)
+        
+        for i, s_team in enumerate(stage_teams):
+            if "confirmed" in s_team and not s_team["confirmed"]:
+                DB_NAME_OR_SEED_TO_ID[s_team["seed"]] = result.inserted_ids[i]
+                print(f"{s_team['seed']:<20} {str(result.inserted_ids[i]):<50}")
+            else:
+                DB_NAME_OR_SEED_TO_ID[s_team["teamId"]] = result.inserted_ids[i]
+                print(f"{s_team['teamId']:<20} {str(result.inserted_ids[i]):<50}")
+        print("─" * 70 + "\n")
+                        
+    except BulkWriteError as e:
+        write_errors = e.details.get('writeErrors', [])
+        
+        first_error_index = write_errors[0]['index']
 
-matches_collection = db['matches']
+        print(f"Error: Stopped inserting stage teams at stage team index {first_error_index}")
 
-matches_collection.create_index(
-    [("tournamentId", 1), ("matchNumber", 1)],
-    unique=True
-)
+    ################################################################ (MATCHES COLLECTION)
 
-matches = json_info["matches"]
+    DB_STADIUM_NAME_TO_ID = {}
 
-for match in matches:
+    venues_collection = db['venues']
+    venues = venues_collection.find({
+        "stadium": {
+            "$in": json_info["stadiums"]
+        }
+    })
+    venue_dict = {v["stadium"]: v["_id"] for v in venues}
 
-    match["stageId"] = DB_STAGE_ORDER_TO_ID[match["stageOrder"]]
-    del match["stageOrder"]    
+    matches_collection = db['matches']
 
-    dt = datetime.fromisoformat(match["date"])
-    dt_pst = dt.replace(tzinfo=zone)
-    match["date"] = dt_pst.astimezone(timezone.utc)
+    matches_collection.create_index(
+        [("tournamentId", 1), ("matchNumber", 1)],
+        unique=True
+    )
 
-    match["venueId"] = venue_dict[match["venue"]]
-    del match["venue"]
+    matches = json_info["matches"]
 
-    match["homeStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["homeStageTeamId"]]
-    match["awayStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["awayStageTeamId"]]
-    
+    for match in matches:
 
-try:
-    result = matches_collection.insert_many(matches, ordered=True)
+        match["stageId"] = DB_STAGE_ORDER_TO_ID[match["stageOrder"]]
+        del match["stageOrder"]    
 
-    print(f"\n{len(result.inserted_ids)} matches inserted with IDs:\n")
-    for i, id in enumerate(result.inserted_ids):
-        print(f"Match {i + 1} inserted with ID: {id}")
+        dt = datetime.fromisoformat(match["date"])
+        dt_pst = dt.replace(tzinfo=zone)
+        match["date"] = dt_pst.astimezone(timezone.utc)
 
-except BulkWriteError as e:
-    write_errors = e.details.get('writeErrors', [])
-    
-    first_error_index = write_errors[0]['index']
+        match["venueId"] = venue_dict[match["venue"]]
+        del match["venue"]
 
-    print(f"Error: Stopped inserting matches at match {first_error_index + 1}")
+        match["homeStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["homeStageTeamId"]]
+        match["awayStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["awayStageTeamId"]]
+        
 
+    try:
+        result = matches_collection.insert_many(matches, ordered=True)
+
+        print(f"INSERTED {len(result.inserted_ids)} MATCHES\n")
+        print(f"{'MATCH NUMBER':<20} {'ID':<50}")
+        print("─" * 70)
+        for i, id in enumerate(result.inserted_ids):
+            print(f"{matches[i]['matchNumber']:<20} {str(id):<50}")
+        print("─" * 70 + "\n")
+
+    except BulkWriteError as e:
+        write_errors = e.details.get('writeErrors', [])
+        
+        first_error_index = write_errors[0]['index']
+
+        print(f"Error: Stopped inserting matches at match {first_error_index + 1}")
+
+if __name__ == "__main__":
+    main()
 
 
     

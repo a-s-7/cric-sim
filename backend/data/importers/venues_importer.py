@@ -27,7 +27,13 @@ def main():
 
     try:
         result = venues_collection.insert_many(json_info["venues"], ordered=False)
-        print("Inserted venues IDs:", result.inserted_ids)
+        print(f"\nINSERTED {len(result.inserted_ids)} VENUES\n")
+        print(f"{'STADIUM':<50} {'ID':<50}")
+        print("─" * 100)
+        for i, id in enumerate(result.inserted_ids):
+            stadium = json_info['venues'][i]['stadium']
+            print(f"{stadium:<50} {str(id):<50}")
+        print("─" * 100)
     except BulkWriteError as e:
         write_errors = e.details.get('writeErrors', [])
 
@@ -38,8 +44,12 @@ def main():
             failed_stadiums.append(venue['stadium'])
 
         inserted_count = len(json_info["venues"]) - len(failed_stadiums)
-        print(f"Inserted {inserted_count} venues")
-        print("Skipped duplicates:", failed_stadiums)
+        print(f"\n✅ {inserted_count} venues were successfully inserted.")
+        if failed_stadiums:
+            print(f"⏩ Skipped {len(failed_stadiums)} existing venues:")
+            for stadium in failed_stadiums:
+                print(f"   - {stadium}")
+        print()
 
 if __name__ == "__main__":
     main()
