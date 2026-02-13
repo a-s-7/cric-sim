@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import T20LeaguePage from "./pages/T20LeaguePage";
 import LeagueLandingPage from "./pages/LeagueLandingPage";
 import EventsLandingPage from "./pages/EventsLandingPage";
+import TournamentPage from "./pages/TournamentPage";
 import React, { useEffect, useState } from "react";
 import WTCPage from "./pages/WTCPage";
 import IccEvents from "./pages/IccEvents";
@@ -15,6 +16,23 @@ import IccEvents from "./pages/IccEvents";
 function App() {
     const [leagues, setLeagues] = useState([]);
     const [wtcs, setWtcs] = useState([]);
+
+    const [tournaments, setTournaments] = useState([]);
+
+    const fetchTournaments = async () => {
+        let url = `/tournaments?grouped=false`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error("Response was not ok");
+            }
+            const result = await response.json();
+            setTournaments(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
 
     const fetchLeagues = async () => {
         let url = `/leagues/info`;
@@ -49,6 +67,7 @@ function App() {
     useEffect(() => {
         fetchLeagues();
         fetchWtcs();
+        fetchTournaments();
     }, []);
 
     return (
@@ -83,6 +102,18 @@ function App() {
                             wtcName={wtc["name"]}
                             wtcControlBarColor={wtc["gradient"]} />
                         }>
+                    </Route>
+                ))}
+
+                {tournaments.map(tournament => (
+                    <Route path={"/" + tournament["id"]}
+                        key={tournament["id"]}
+                        element={<TournamentPage tournamentId={tournament["id"]}
+                            tournamentName={tournament["name"]}
+                            tournamentEdition={tournament["edition"]}
+                            tournamentLogo={tournament["logo"]}
+                            tournamentGradient={tournament["gradient"]}
+                            tournamentPointsTableColor={tournament["pointsTableColor"]} />}>
                     </Route>
                 ))}
             </Routes>

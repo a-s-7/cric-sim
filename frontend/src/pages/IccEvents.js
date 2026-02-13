@@ -40,7 +40,7 @@ function IccEvents() {
                             {tournamentList.map((tournament) => (
                                 <div
                                     key={tournament.id}
-                                    className="bg-white rounded-3xl border border-gray-200 
+                                    className="bg-white rounded-3xl border border-gray-300 
                                     shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500
                                     hover:scale-105
                                     transition-all duration-300 

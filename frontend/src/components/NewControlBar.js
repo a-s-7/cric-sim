@@ -3,7 +3,7 @@ import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft, faShuffle } from "@fortawesome/free-solid-svg-icons";
 
-function ControlBar({
+function NewControlBar({
     refreshFunction, matchCount, teams, stadiums, sst, setStadiums,
     urlTag, edition, logo, name, color, matchesFiltered
 }) {
@@ -127,25 +127,30 @@ function ControlBar({
 
 
     return (
-        <div className="controlBarHeader" style={{ background: color }}>
-            <div className="controlBarLogoContainer">
-                <img src={logo} alt={`${name} Logo`}></img>
+        <div className="flex h-[8%] m-2 rounded-3xl" style={{ background: color }}>
+            <div className="flex items-center justify-center w-[15%]">
+                <img className="w-[90%] h-[80%] object-contain" src={logo} alt={`${name} Logo`}></img>
             </div>
-            <div className="controlBarMatchCountContainer">
+            <div className="flex justify-center items-center w-[10%] font-['Reem_Kufi_Fun'] uppercase text-white">
                 {matchCount + " MATCHES"}
             </div>
-            <div className="controlBarFilterContainer">
-                <div className="teamFilterBar">
+            <div className="flex justify-center items-center w-[57%]">
+                <div className="p-[5px] font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] flex-1 flex items-center">
                     <Select
                         isMulti
                         menuPosition="fixed"
                         options={teamOptions}
                         styles={{
+                            container: (base) => ({
+                                ...base,
+                                width: '100%',
+                            }),
                             control: (baseStyles, state) => ({
                                 ...baseStyles,
                                 border: 0,
                                 boxShadow: 'none',
-                                borderRadius: '10px'
+                                borderRadius: '10px',
+                                minHeight: '3.5vh'
                             }),
 
                         }}
@@ -155,18 +160,23 @@ function ControlBar({
                         noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
                     />
                 </div>
-                <div className="stadiumFilterBar">
+                <div className="p-[5px] font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] flex-1 flex items-center">
                     <Select
                         isMulti
                         borderRadius="10px"
                         menuPosition="fixed"
                         options={stadiumOptions}
                         styles={{
+                            container: (base) => ({
+                                ...base,
+                                width: '100%',
+                            }),
                             control: (baseStyles, state) => ({
                                 ...baseStyles,
                                 border: 0,
                                 boxShadow: 'none',
-                                borderRadius: '10px'
+                                borderRadius: '10px',
+                                minHeight: '3.5vh'
                             }),
                         }}
                         value={stadiums}
@@ -176,11 +186,17 @@ function ControlBar({
                     />
                 </div>
             </div>
-            <div className="controlBarButtonContainer">
-                <button onClick={resetIncompleteMatches}>
+            <div className="w-[18%] flex justify-center">
+                <button
+                    className="flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white hover:bg-white hover:text-black hover:shadow-[0_4px_8px_rgba(0,0,0,0.5)] transition-all"
+                    onClick={resetIncompleteMatches}
+                >
                     <FontAwesomeIcon icon={faArrowRotateLeft} size="lg" />
                 </button>
-                <button onClick={randomlySimIncompleteMatches}>
+                <button
+                    className="flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white hover:bg-white hover:text-black hover:shadow-[0_4px_8px_rgba(0,0,0,0.5)] transition-all"
+                    onClick={randomlySimIncompleteMatches}
+                >
                     <FontAwesomeIcon icon={faShuffle} size="lg" />
                 </button>
             </div>
@@ -188,4 +204,4 @@ function ControlBar({
     );
 }
 
-export default ControlBar;
+export default NewControlBar;
