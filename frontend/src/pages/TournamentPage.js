@@ -7,6 +7,7 @@ import NewControlBar from "../components/NewControlBar";
 function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tournamentLogo, tournamentGradient, tournamentPointsTableColor }) {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [selectedStadiums, setSelectedStadiums] = useState([]);
+    const [selectedGroups, setSelectedGroups] = useState([]);
 
     const MATCH_DATA_INDEX = 3;
 
@@ -119,10 +120,12 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
             <NewControlBar
                 refreshFunction={handleRefresh}
                 matchCount={0}
-                teams={[]}
-                stadiums={[]}
+                teams={selectedTeams}
+                stadiums={selectedStadiums}
+                groups={selectedGroups}
                 sst={setSelectedTeams}
                 setStadiums={setSelectedStadiums}
+                setGroups={setSelectedGroups}
                 urlTag={tournamentId}
                 logo={tournamentLogo}
                 name={tournamentName}

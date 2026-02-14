@@ -19,6 +19,7 @@ db = client['events']
 tournaments_collection = db['tournaments']
 stageTeams_collection = db['stageTeams']
 teams_collection = db['teams']
+matches_collection = db['matches']
 
 events_bp = Blueprint('events_bp', __name__)
 
@@ -83,16 +84,113 @@ def get_tournaments_teams(id):
         {
             "$project": {
                 "_id": 0,
-                "teamId": 1,
-                "teamName": "$team.name"
+                "value": { "$toString": "$team._id" },
+                "label": "$team.name"
+            }
+        },
+        {
+            "$sort": {
+                "label": 1
             }
         }
     ]))
-
-    print(teams)
 
     if not teams:
         return jsonify({"error": "Teams not found"}), 404        
 
     return jsonify(teams)
+
+@events_bp.route('/tournaments/<string:id>/venues', methods=['GET'])
+def get_tournaments_venues(id):
+    venues = []
+
+    tournament = tournaments_collection.find_one({"_id": id})
+
+    if not tournament:
+        return jsonify({"error": "Tournament not found"}), 404
+    
+    
+    venues = list(matches_collection.aggregate([
+        {
+            "$match": {
+                "tournamentId": id
+            }
+        },
+        {
+            "$lookup": {
+                "from": "venues",
+                "localField": "venueId",
+                "foreignField": "_id",
+                "as": "venue"
+            }
+        },
+        {
+            "$unwind": "$venue"
+        },
+        {
+            "$group": {
+                "_id": "$venue.stadium"
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "label": "$_id",
+                "value": "$_id"
+            }
+        },
+        {
+            "$sort": {
+                "label": 1
+            }
+        }
+    ]))
+
+    if not venues:
+        return jsonify({"error": "Venues not found"}), 404        
+
+    return jsonify(venues)
+
+
+
+@events_bp.route('/tournaments/<string:id>/groups', methods=['GET'])
+def get_tournaments_groups(id):
+    groups = []
+
+    tournament = tournaments_collection.find_one({"_id": id})
+
+    if not tournament:
+        return jsonify({"error": "Tournament not found"}), 404
+    
+    
+    groups = list(matches_collection.aggregate([
+        {
+            "$match": {
+                "tournamentId": id
+            }
+        },
+        {
+            "$group": {
+                "_id": "$group"
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "label": "$_id",
+                "value": "$_id"
+            }
+        },
+        {
+            "$sort": {
+                "label": 1
+            }
+        }
+    ]))
+
+    if not groups:
+        return jsonify({"error": "Groups not found"}), 404        
+
+    return jsonify(groups)
+
 
