@@ -7,14 +7,13 @@ function EventStandings({ standingsData, color }) {
     if (!standingsData || !standingsData.length) return null;
 
     return (
-        <div className="w-full h-full flex flex-col p-2 gap-4 font-['Nunito_Sans']">
+        <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
             {/* Stage Selector Toggle */}
-            <div className="flex flex-row">
-                {/* <div className="text-2xl font-bold tracking-tight text-zinc-800">
-                    STANDINGS
-                </div> */}
+            <div className="flex flex-row items-center justify-between p-4 ">
+                <h3 className={`text-5xl font-bold tracking-tight text-black font-['Kanit']`}>STANDINGS</h3>
 
-                <div className="flex rounded-xl p-1 w-full border border-zinc-200 shadow-inner">
+
+                <div className="flex rounded-xl p-1 w-[60%] border border-zinc-200 shadow-inner">
                     {standingsData.map((stage, index) => (
                         <button
                             key={stage.stageOrder}
@@ -39,7 +38,7 @@ function EventStandings({ standingsData, color }) {
                         <div className="flex flex-col gap-2" key={groupName}>
                             <h3 className={`text-2xl font-bold tracking-tight text-black font-['Kanit']`}>GROUP {groupName}</h3>
 
-                            <PointsTable pointsTableData={teams} headerColor={color} />
+                            <PointsTable pointsTableData={teams} headerColor={color} topQualifiers={standingsData[activeStage].numQualifiers} />
                         </div>
                     ))}
                 </div>

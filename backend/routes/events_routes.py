@@ -236,7 +236,8 @@ def get_tournaments_standings(id):
             "stageName": "$stage.name",
             "stageOrder": "$stage.order",
             "confirmed": "$confirmed",
-            "seed": "$seed"
+            "seed": "$seed",
+            "numQualifiers": "$stage.config.qualifiersPerGroup"
         }}
     ]))
 
@@ -247,11 +248,13 @@ def get_tournaments_standings(id):
         stageOrder = team["stageOrder"]
         stageName = team["stageName"]
         group = team["group"]
+        numQualifiers = team["numQualifiers"]
 
         if stageOrder not in standings:
             standings[stageOrder] = {
                 "stageName": stageName,
                 "stageOrder": stageOrder,
+                "numQualifiers": numQualifiers,
                 "groups": {}
             }
         
