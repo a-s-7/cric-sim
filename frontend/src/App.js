@@ -111,7 +111,7 @@ function App() {
                         element={<TournamentPage tournamentId={tournament["id"]}
                             tournamentName={tournament["name"]}
                             tournamentEdition={tournament["edition"]}
-                            tournamentLogo={tournament["logo"]}
+                            tournamentLogo={tournament["horizontalLogo"]}
                             tournamentGradient={tournament["gradient"]}
                             tournamentPointsTableColor={tournament["pointsTableColor"]} />}>
                     </Route>

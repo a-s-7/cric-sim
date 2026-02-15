@@ -3,110 +3,98 @@ import T20LeagueMatchCardPanel from "../components/T20League/T20LeagueMatchCardP
 import T20LeaguePointsTable from "../components/T20League/T20LeaguePointsTable";
 import ControlBar from "../components/ControlBar";
 import NewControlBar from "../components/NewControlBar";
+import EventStandings from "../components/EventStandings";
 
 function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tournamentLogo, tournamentGradient, tournamentPointsTableColor }) {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [selectedStadiums, setSelectedStadiums] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
 
-    const MATCH_DATA_INDEX = 3;
-
     const [matchesData, setMatchesData] = useState([]);
-    const [pointsTableData, setPointsTableData] = useState([]);
+    const [standingsData, setStandingsData] = useState([]);
 
     const [matchAreaKey, setMatchAreaKey] = useState(0);
 
     const refreshPointsTable = async () => {
-        // await fetchPointsTableData();
+        await fetchStandings();
     }
 
     const refreshMatchArea = async () => {
-        // await fetchMatchData();
-        // setMatchAreaKey(matchAreaKey + 1);
+        await fetchMatches();
+        setMatchAreaKey(matchAreaKey + 1);
     }
 
     const handleRefresh = async () => {
-        // await refreshMatchArea();
-        // await refreshPointsTable();
+        await refreshMatchArea();
+        await refreshPointsTable();
     }
 
-    // const fetchMatchData = async () => {
-    //     let teamVal = "All";
-    //     let stadiumVal = "All";
+    const fetchMatches = async () => {
+        // let teamVal = "All";
+        // let stadiumVal = "All";
 
-    //     if (selectedTeams.length > 0) {
-    //         teamVal = selectedTeams.map(team => team.value).join("-");
-    //     }
+        // if (selectedTeams.length > 0) {
+        //     teamVal = selectedTeams.map(team => team.value).join("-");
+        // }
 
-    //     if (selectedStadiums.length > 0) {
-    //         stadiumVal = selectedStadiums.map(stadium => stadium.value).join(",");
-    //     }
+        // if (selectedStadiums.length > 0) {
+        //     stadiumVal = selectedStadiums.map(stadium => stadium.value).join(",");
+        // }
 
-    //     let url = `/leagues/${tournamentId}/${leagueEdition}/matches/${teamVal}/${stadiumVal}`;
+        // let url = `/leagues/${tournamentId}/${leagueEdition}/matches/${teamVal}/${stadiumVal}`;
 
-    //     try {
-    //         const response = await fetch(url);
-    //         if (!response.ok) {
-    //             throw new Error("Response was not ok");
-    //         }
-    //         const result = await response.json();
-    //         setMatchesData(result);
-    //     } catch (error) {
-    //         console.error("Error fetching data:", error);
-    //     }
-    // };
+        // try {
+        //     const response = await fetch(url);
+        //     if (!response.ok) {
+        //         throw new Error("Response was not ok");
+        //     }
+        //     const result = await response.json();
+        //     setMatchesData(result);
+        // } catch (error) {
+        //     console.error("Error fetching data:", error);
+        // }
+    };
 
-    // const fetchPointsTableData = async () => {
-    //     let url = `/leagues/${tournamentId}/${leagueEdition}/points_table`;
+    const fetchStandings = async () => {
+        let url = `/tournaments/${tournamentId}/standings`;
 
-    //     try {
-    //         const response = await fetch(url);
-    //         if (!response.ok) {
-    //             throw new Error("Response was not ok");
-    //         }
-    //         const result = await response.json();
+        try {
+            const response = await fetch(url);
 
-    //         if (pointsTableData.length > 0) {
-    //             const diffs = calculatePointsTableChanges(result);
-    //             result.forEach(team => {
-    //                 team["diff"] = diffs.get(team.acronym);
-    //             });
-    //         } else {
-    //             result.forEach(team => {
-    //                 team["diff"] = 0;
-    //             });
-    //         }
-    //         setPointsTableData(result);
-    //     } catch (error) {
-    //         console.error("Error fetching data:", error);
-    //     }
-    // };
+            if (!response.ok) {
+                throw new Error("Response was not ok");
+            }
+            const result = await response.json();
 
-    // const calculatePointsTableChanges = (newData) => {
-    //     const diffMap = new Map();
+            // if (pointsTableData.length > 0) {
+            //     const diffs = calculatePointsTableChanges(result);
+            //     result.forEach(team => {
+            //         team["diff"] = diffs.get(team.acronym);
+            //     });
+            // } else {
+            //     result.forEach(team => {
+            //         team["diff"] = 0;
+            //     });
+            // }
+            setStandingsData(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
 
-    //     pointsTableData.forEach((team, index) => {
-    //         diffMap.set(team.acronym, index)
-    //     })
-
-    //     newData.forEach((team, index) => {
-    //         diffMap.set(team.acronym, diffMap.get(team.acronym) - index)
-    //     })
-
-    //     return diffMap;
-    // }
-
-    useEffect(() => {
-        handleRefresh();
-        // eslint-disable-next-line
-    }, [selectedTeams, selectedStadiums]);
 
     const resetState = async () => {
         await setSelectedTeams([]);
         await setSelectedStadiums([]);
         await setMatchesData([]);
-        await setPointsTableData([]);
+        await setStandingsData([]);
     }
+
+
+    useEffect(() => {
+        handleRefresh();
+        // eslint-disable-next-line
+    }, [selectedTeams, selectedStadiums]);
 
     useEffect(() => {
         resetState();
@@ -116,7 +104,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
 
 
     return (
-        <div className="T20LeaguePage">
+        <div className="T20LeaguePage flex flex-col overflow-hidden">
             <NewControlBar
                 refreshFunction={handleRefresh}
                 matchCount={0}
@@ -134,23 +122,22 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                 matchesFiltered={[]}
             />
 
-            {/* <div className="matchArea" >
-                <div className="matchCardContainer">
-                    <T20LeagueMatchCardPanel key={matchAreaKey}
+            <div className="flex flex-row w-full flex-1 overflow-hidden">
+                <div className="flex flex-col w-[55%] h-full gap-[20px] p-[10px] overflow-auto">
+                    {/* <T20LeagueMatchCardPanel key={matchAreaKey}
                         onMatchUpdate={refreshPointsTable}
                         matches={matchesData}
-                        leagueUrlTag={leagueUrlTag}
-                        leagueEdition={leagueEdition}
-                        cardNeutralGradient={leagueGradient} />
+                        leagueUrlTag={tournamentId}
+                        leagueEdition={tournamentEdition}
+                        cardNeutralGradient={tournamentGradient} /> */}
                 </div>
-                <div className="tableContainer">
-                    <div className="tableWrapper">
-                        <T20LeaguePointsTable leagueID={leagueUrlTag}
+                <div className="w-[45%] h-full overflow-auto flex flex-col rounded-l-3xl">
+                    {/* <T20LeaguePointsTable leagueID={tournamentId}
                             pointsTableData={pointsTableData}
-                            headerColor={leaguePointsTableColor} />
-                    </div>
+                            headerColor={tournamentPointsTableColor} /> */}
+                    <EventStandings standingsData={standingsData} color={tournamentPointsTableColor} />
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 }

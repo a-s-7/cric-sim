@@ -46,7 +46,7 @@ function IccEvents() {
                                     transition-all duration-300 
                                     cursor-pointer w-48 h-48 flex items-center justify-center">
                                     <img
-                                        src={tournament.logo}
+                                        src={tournament.mainLogo}
                                         alt={tournament.name}
                                         className="h-[65%] w-[65%] object-contain"
                                     />

@@ -2,7 +2,9 @@
     box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -120,7 +122,8 @@ html, body, #root {
     width: 50%;
 }
 
-.teamFilterBar, .stadiumFilterBar {
+.teamFilterBar,
+.stadiumFilterBar {
     padding: 5px;
     font-family: "Reem Kufi Fun", sans-serif;
     text-transform: uppercase;
@@ -189,16 +192,18 @@ html, body, #root {
     gap: 20px;
 }
 
-.WTCTable, .T20Table {
+.WTCTable,
+.T20Table {
     background-color: white;
     width: 100%;
-    height: 100%;
+    height: auto;
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border: 1px solid lightgrey;
     overflow: hidden;
+    table-layout: fixed;
 }
 
 .tableWrapper {
@@ -208,7 +213,8 @@ html, body, #root {
     height: 100%;
 }
 
-.WTCTable thead, .T20Table thead {
+.WTCTable thead,
+.T20Table thead {
     font-family: "Reem Kufi Fun", sans-serif;
     color: white;
     text-align: center;
@@ -224,15 +230,112 @@ html, body, #root {
     white-space: nowrap;
 }
 
-.WTCTable thead th, .T20Table thead th {
-    padding: 9px;
+.WTCTable thead th,
+.T20Table thead th {
+    padding: 16px 12px;
 }
 
-.WTCTable thead th:nth-child(3), .T20Table thead th:nth-child(3) {
+.WTCTable thead th:nth-child(3),
+.T20Table thead th:nth-child(3) {
     text-align: left;
 }
 
-.WTCTable tbody td:nth-child(3), .T20Table tbody td:nth-child(3) {
+/* T20 Table Column Widths */
+.T20Table th:nth-child(1) {
+    width: 60px;
+}
+
+.T20Table th:nth-child(2) {
+    width: 60px;
+}
+
+.T20Table th:nth-child(3) {
+    width: 240px;
+}
+
+.T20Table th:nth-child(4) {
+    width: 90px;
+}
+
+.T20Table th:nth-child(5) {
+    width: 70px;
+}
+
+.T20Table th:nth-child(6) {
+    width: 70px;
+}
+
+.T20Table th:nth-child(7) {
+    width: 60px;
+}
+
+.T20Table th:nth-child(8) {
+    width: 80px;
+}
+
+.T20Table th:nth-child(9) {
+    width: 80px;
+}
+
+.T20Table th:nth-child(10) {
+    width: 110px;
+}
+
+.T20Table th:nth-child(11) {
+    width: 110px;
+}
+
+.T20Table th:nth-child(12) {
+    width: 180px;
+}
+
+/* WTC Table Column Widths */
+.WTCTable th:nth-child(1) {
+    width: 60px;
+}
+
+.WTCTable th:nth-child(2) {
+    width: 60px;
+}
+
+.WTCTable th:nth-child(3) {
+    width: 240px;
+}
+
+.WTCTable th:nth-child(4) {
+    width: 90px;
+}
+
+.WTCTable th:nth-child(5) {
+    width: 70px;
+}
+
+.WTCTable th:nth-child(6) {
+    width: 70px;
+}
+
+.WTCTable th:nth-child(7) {
+    width: 70px;
+}
+
+.WTCTable th:nth-child(8) {
+    width: 70px;
+}
+
+.WTCTable th:nth-child(9) {
+    width: 80px;
+}
+
+.WTCTable th:nth-child(10) {
+    width: 80px;
+}
+
+.WTCTable th:nth-child(11) {
+    width: 180px;
+}
+
+.WTCTable tbody td:nth-child(3),
+.T20Table tbody td:nth-child(3) {
     font-family: "Reem Kufi Fun", sans-serif;
     text-transform: uppercase;
     color: black;
@@ -240,13 +343,15 @@ html, body, #root {
     white-space: nowrap;
 }
 
-.WTCTable tbody td:nth-child(1), .T20Table tbody td:nth-child(1) {
+.WTCTable tbody td:nth-child(1),
+.T20Table tbody td:nth-child(1) {
     font-family: "Reem Kufi Fun", sans-serif;
     font-size: 20px;
     color: black;
 }
 
-.WTCTable tbody td:nth-child(10), .T20Table tbody td:nth-child(9) {
+.WTCTable tbody td:nth-child(10),
+.T20Table tbody td:nth-child(9) {
     font-weight: bolder;
 }
 
@@ -255,7 +360,8 @@ html, body, #root {
     padding-left: 20px;
 }
 
-.WTCTable tbody tr:hover, .T20Table tbody tr:hover {
+.WTCTable tbody tr:hover,
+.T20Table tbody tr:hover {
     background-color: RGB(228, 228, 228);
 }
 
@@ -282,20 +388,23 @@ html, body, #root {
 }
 
 .T20Table tbody img {
-    width: 5vh;
-    margin-right: 5px;
+    width: 4.5vh;
+    margin-right: 12px;
 }
 
 .WTCTable tbody img {
     width: 3vh;
 }
 
-.WTCTable tbody, .T20Table tbody {
+.WTCTable tbody,
+.T20Table tbody {
     font-family: "Nunito Sans", sans-serif;
 }
 
-.WTCTable td, .T20Table td {
+.WTCTable td,
+.T20Table td {
     text-align: center;
+    padding: 12px 8px;
     border-bottom: 0.5px solid lightgray;
 }
 
@@ -312,7 +421,7 @@ html, body, #root {
     align-items: center;
     justify-content: center;
     font-family: "Reem Kufi Fun", sans-serif;
-    padding: 10px;
+    padding: 4px;
 }
 
 .teamNameInfo {
@@ -346,11 +455,12 @@ html, body, #root {
 }
 
 .T20Table td:nth-child(8),
-.T20Table td:nth-child(8),
 .T20Table td:nth-child(9),
-.T20Table td:nth-child(9) {
-    padding-left: 20px;
-    padding-right: 20px;
+.T20Table td:nth-child(10),
+.T20Table td:nth-child(11) {
+    padding-left: 16px;
+    padding-right: 16px;
+    white-space: nowrap;
 }
 
 .lastFive {
@@ -389,13 +499,15 @@ html, body, #root {
 }
 
 
-.awayDed, .homeDed {
+.awayDed,
+.homeDed {
     padding: 2px;
     display: flex;
     height: 90%;
 }
 
-.homeDed input, .awayDed input {
+.homeDed input,
+.awayDed input {
     font-family: "Nunito Sans", sans-serif;
     border-radius: 10px;
     border: 1px solid whitesmoke;
@@ -404,7 +516,8 @@ html, body, #root {
     font-weight: bold;
 }
 
-.homeDed input:focus, .awayDed input:focus {
+.homeDed input:focus,
+.awayDed input:focus {
     outline: 1px solid gray;
 }
 
@@ -416,7 +529,8 @@ html, body, #root {
     color: lightgrey;
 }
 
-.homeTeam, .awayTeam {
+.homeTeam,
+.awayTeam {
     display: flex;
     flex-direction: row;
     width: 40%;
@@ -425,7 +539,8 @@ html, body, #root {
 }
 
 
-.homeName, .awayName {
+.homeName,
+.awayName {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -452,7 +567,8 @@ html, body, #root {
 }
 
 
-.homeScore, .awayScore {
+.homeScore,
+.awayScore {
     font-family: "Reem Kufi Fun", sans-serif;
     text-align: center;
     display: flex;
@@ -475,17 +591,20 @@ html, body, #root {
     align-items: flex-end;
 }
 
-.homeOvers, .homeRunsWickets {
+.homeOvers,
+.homeRunsWickets {
     display: flex;
     justify-content: flex-end;
 }
 
-.awayOvers, .awayRunsWickets {
+.awayOvers,
+.awayRunsWickets {
     display: flex;
     justify-content: flex-start;
 }
 
-.awayRunsWickets, .homeRunsWickets {
+.awayRunsWickets,
+.homeRunsWickets {
     align-items: center;
     font-family: "Reem Kufi Fun", sans-serif;
     border-radius: 5px;
@@ -543,7 +662,10 @@ input[type="number"]::-webkit-inner-spin-button {
     justify-content: flex-start;
 }
 
-.homeFlag, .awayFlag, .homeLogo, .awayLogo {
+.homeFlag,
+.awayFlag,
+.homeLogo,
+.awayLogo {
     width: 45%;
     display: flex;
     justify-content: center;
@@ -551,12 +673,14 @@ input[type="number"]::-webkit-inner-spin-button {
     padding: 30px;
 }
 
-.homeLogo, .awayLogo {
+.homeLogo,
+.awayLogo {
     width: 36%;
 }
 
 
-.homeFlag img, .awayFlag img {
+.homeFlag img,
+.awayFlag img {
     background-color: white;
     box-sizing: content-box;
     border-radius: 5px;
@@ -564,7 +688,8 @@ input[type="number"]::-webkit-inner-spin-button {
     width: 100%;
 }
 
-.homeLogo img, .awayLogo img {
+.homeLogo img,
+.awayLogo img {
     box-sizing: content-box;
     border: 1px solid transparent;
     width: 100%;

@@ -20,6 +20,7 @@ tournaments_collection = db['tournaments']
 stageTeams_collection = db['stageTeams']
 teams_collection = db['teams']
 matches_collection = db['matches']
+stages_collection = db["stages"]
 
 events_bp = Blueprint('events_bp', __name__)
 
@@ -37,10 +38,11 @@ def get_events_info():
                   "status": tournament["status"],
                   "startDate": tournament["startDate"].isoformat(),
                   "endDate": tournament["endDate"].isoformat(),
-                  "currentStageId": tournament.get("currentStageId"),
-                  "gradient": tournament.get("gradient"),
-                  "logo": tournament.get("logo"),
-                  "pointsTableColor": tournament.get("pointsTableColor")}
+                  "currentStageId": tournament["currentStageId"],
+                  "gradient": tournament["gradient"],
+                  "mainLogo": tournament["mainLogo"],
+                  "horizontalLogo": tournament["horizontalLogo"],
+                  "pointsTableColor": tournament["pointsTableColor"]}
         
         if group_results:
             fmt = tournament["format"]
@@ -192,5 +194,73 @@ def get_tournaments_groups(id):
         return jsonify({"error": "Groups not found"}), 404        
 
     return jsonify(groups)
+@events_bp.route('/tournaments/<string:id>/standings', methods=['GET'])
+def get_tournaments_standings(id):
+    tournament = tournaments_collection.find_one({"_id": id})
 
+    if not tournament:
+        return jsonify({"error": "Tournament not found"}), 404
 
+    # Get all stage-team info with team and stage details
+    stageTeamsData = list(stageTeams_collection.aggregate([
+        {"$match": {"tournamentId": id}},
+        {"$lookup": {
+            "from": "teams",
+            "localField": "teamId",
+            "foreignField": "_id",
+            "as": "team"
+        }},
+        {"$unwind": "$team"},
+        {"$lookup": {
+            "from": "stages",
+            "localField": "stageId",
+            "foreignField": "_id",
+            "as": "stage"
+        }},
+        {"$unwind": "$stage"},
+        {"$project": {
+            "_id": 0,
+            "name": "$team.name",
+            "flag": "$team.flag",
+            "group": "$group",
+            "played": "$matchesPlayed",
+            "won": "$won",
+            "lost": "$lost",
+            "noResult": "$noResult",
+            "ballsFaced": "$ballsFaced",
+            "ballsBowled": "$ballsBowled",
+            "runsScored": "$runsScored",
+            "runsConceded": "$runsConceded",
+            "netRunRate": "$netRunRate",
+            "points": "$points",
+            "stageName": "$stage.name",
+            "stageOrder": "$stage.order",
+            "confirmed": "$confirmed",
+            "seed": "$seed"
+        }}
+    ]))
+
+    # Organize into stages -> groups -> teams
+    standings = {}
+
+    for team in stageTeamsData:
+        stageOrder = team["stageOrder"]
+        stageName = team["stageName"]
+        group = team["group"]
+
+        if stageOrder not in standings:
+            standings[stageOrder] = {
+                "stageName": stageName,
+                "stageOrder": stageOrder,
+                "groups": {}
+            }
+        
+        if group not in standings[stageOrder]["groups"]:
+            standings[stageOrder]["groups"][group] = []
+
+        standings[stageOrder]["groups"][group].append(team)
+
+    # Sort stages by stageOrder
+    sorted_standings = [standings[k] for k in sorted(standings.keys())]
+
+    return jsonify(sorted_standings)
