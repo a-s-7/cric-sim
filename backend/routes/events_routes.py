@@ -25,7 +25,7 @@ stages_collection = db["stages"]
 events_bp = Blueprint('events_bp', __name__)
 
 @events_bp.route('/tournaments', methods=['GET'])
-def get_events_info():
+def get_tournaments_info():
     group_results = request.args.get('grouped', 'true').lower() == 'true'
     
     output = [] if not group_results else {}
@@ -53,7 +53,6 @@ def get_events_info():
             output.append(t_data)
     
     return jsonify(output)
-
 
 @events_bp.route('/tournaments/<string:id>/teams', methods=['GET'])
 def get_tournaments_teams(id):
@@ -153,8 +152,6 @@ def get_tournaments_venues(id):
 
     return jsonify(venues)
 
-
-
 @events_bp.route('/tournaments/<string:id>/groups', methods=['GET'])
 def get_tournaments_groups(id):
     groups = []
@@ -194,6 +191,7 @@ def get_tournaments_groups(id):
         return jsonify({"error": "Groups not found"}), 404        
 
     return jsonify(groups)
+
 @events_bp.route('/tournaments/<string:id>/standings', methods=['GET'])
 def get_tournaments_standings(id):
     tournament = tournaments_collection.find_one({"_id": id})
@@ -267,3 +265,161 @@ def get_tournaments_standings(id):
     sorted_standings = [standings[k] for k in sorted(standings.keys())]
 
     return jsonify(sorted_standings)
+
+@events_bp.route('/tournaments/<string:id>/matches', methods=['GET'])
+def get_tournaments_match_data(id):
+    tournament = tournaments_collection.find_one({"_id": id})
+
+    if not tournament:
+        return jsonify({"error": "Tournament not found"}), 404
+
+    tournament_pipeline = [{
+        "$match": {"_id": id},
+    }, {
+        "$project": {
+            "_id": 1,
+            "name": 1,
+            "edition": 1
+        }
+    }]
+
+    tournament_data = list(tournaments_collection.aggregate(tournament_pipeline))
+
+    teams_pipeline = [
+    { "$match": { "tournamentId": id } },
+
+    {
+        "$lookup": {
+            "from": "teams",
+            "localField": "teamId",
+            "foreignField": "_id",
+            "as": "team"
+        }
+    },
+
+    { "$unwind": "$team" },
+
+    {
+        "$project": {
+            "_id": 0,
+            "acronym": "$team._id",
+            "gradient": "$team.gradient",
+            "name": "$team.name",
+            "logo": "$team.flag"
+        }
+    },
+
+    {
+        "$group": {
+            "_id": None,
+            "teams": { 
+                "$push": {
+                    "k": "$acronym",
+                    "v": { "gradient": "$gradient", "logo": "$logo", "name": "$name" }
+                }
+            }
+        }
+    },
+    {
+        "$replaceRoot": { "newRoot": { "$arrayToObject": "$teams" } }
+    }
+    ]
+
+    teams_data = list(stageTeams_collection.aggregate(teams_pipeline))
+
+    filtering_data = request.get_json()
+
+    groups = filtering_data.get("groups", [])
+    teams = filtering_data.get("teams", [])
+    venues = filtering_data.get("venues", [])
+
+    pipeline = [
+        { "$match": {"tournamentId": id} },
+        {"$lookup": {
+            "from": "venues",
+            "localField": "venueId",
+            "foreignField": "_id",
+            "as": "venue"
+        }},
+        {"$unwind": "$venue"},
+        {
+            "$set": {
+                "venue": "$venue.stadium"
+            }
+        },
+        {"$lookup": {
+            "from": "stageTeams",
+            "localField": "homeStageTeamId",
+            "foreignField": "_id",
+            "as": "homeStageTeam"
+        }},
+        {"$unwind": "$homeStageTeam"},
+        {
+            "$set": {
+                "homeStageTeam": "$homeStageTeam.teamId",
+                "homeConfirmed": "$homeStageTeam.confirmed",
+                "homeSeed": "$homeStageTeam.seed"
+            }
+        },
+        {"$lookup": {
+            "from": "stageTeams",
+            "localField": "awayStageTeamId",
+            "foreignField": "_id",
+            "as": "awayStageTeam"
+        }},
+        {"$unwind": "$awayStageTeam"},
+        {
+            "$set": {
+                "awayStageTeam": "$awayStageTeam.teamId",
+                "awayConfirmed": "$awayStageTeam.confirmed",
+                "awaySeed": "$awayStageTeam.seed"
+            }
+        },
+        {"$lookup": {
+            "from": "stages",
+            "localField": "stageId",
+            "foreignField": "_id",
+            "as": "stage"
+        }},
+        {"$unwind": "$stage"},
+        {
+            "$set": {
+                "stage": "$stage.name"
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "tournamentId": 0,
+                "homeStageTeamId": 0,
+                "awayStageTeamId": 0,
+                "venueId": 0,
+                "stageId": 0,
+            }
+        }
+    ]
+
+    or_condition = {
+            "$or": [
+            ]
+        }
+
+    if groups:
+        or_condition["$or"].append({"group": { "$in": groups }})
+
+    if teams:
+        or_condition["$or"].append({"homeStageTeam": { "$in": teams }})
+        or_condition["$or"].append({"awayStageTeam": { "$in": teams }})
+
+    if venues:
+        or_condition["$or"].append({"venue": { "$in": venues }})
+
+    if or_condition["$or"]:
+        pipeline.append({"$match": or_condition})
+
+    pipeline.append({"$sort": {"matchNumber": 1}})
+        
+    filtered_matches = list(matches_collection.aggregate(pipeline))
+
+    return jsonify({"tournament": tournament_data, "teams": teams_data, "matches": filtered_matches})
+

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import T20LeagueMatchCardPanel from "../components/T20League/T20LeagueMatchCardPanel";
-import T20LeaguePointsTable from "../components/T20League/T20LeaguePointsTable";
-import ControlBar from "../components/ControlBar";
 import NewControlBar from "../components/NewControlBar";
 import EventStandings from "../components/EventStandings";
+import EventMatchDisplay from "../components/EventMatchDisplay";
 
 function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tournamentLogo, tournamentGradient, tournamentPointsTableColor }) {
     const [selectedTeams, setSelectedTeams] = useState([]);
@@ -123,18 +121,14 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
             />
 
             <div className="flex flex-row w-full flex-1 overflow-hidden">
-                <div className="flex flex-col w-[55%] h-full gap-[20px] p-[10px] overflow-auto">
-                    {/* <T20LeagueMatchCardPanel key={matchAreaKey}
+                <div className="flex flex-col w-[55%] h-full gap-[20px] overflow-auto">
+                    <EventMatchDisplay
                         onMatchUpdate={refreshPointsTable}
-                        matches={matchesData}
-                        leagueUrlTag={tournamentId}
-                        leagueEdition={tournamentEdition}
-                        cardNeutralGradient={tournamentGradient} /> */}
+                        matches={[]}
+                        tournamentUrlTag={tournamentId}
+                        cardNeutralGradient={tournamentGradient} />
                 </div>
-                <div className="w-[45%] h-full overflow-auto flex flex-col rounded-l-3xl">
-                    {/* <T20LeaguePointsTable leagueID={tournamentId}
-                            pointsTableData={pointsTableData}
-                            headerColor={tournamentPointsTableColor} /> */}
+                <div className="w-[45%] h-full overflow-auto flex flex-col">
                     <EventStandings standingsData={standingsData} color={tournamentPointsTableColor} />
                 </div>
             </div>
