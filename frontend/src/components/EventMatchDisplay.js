@@ -5,70 +5,80 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import T20LeagueMatchCard from "./T20League/T20LeagueMatchCard";
+import T20LeagueMatchResultCard from "./T20League/T20LeagueMatchResultCard";
+import MatchCard from "./MatchCard";
+import MatchResultCard from "./MatchResultCard";
 
 
-function EventMatchDisplay({ onMatchUpdate, matches, tournamentUrlTag, cardNeutralGradient }) {
+function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient }) {
 
-    // const [league = "", leagueName = "", teamData = {}, matchData = []] = matches;
+    const matchesArray = matches?.matches || [];
+    const teamDictionary = matches?.teams?.[0] || {};
+    const tournamentDictionary = matches?.tournament?.[0] || {};
 
     return (
-        <div className="">
+        <div className="flex flex-col">
             <h3 className={`text-3xl font-bold tracking-tight text-black font-['Kanit'] p-4`}>MATCHES</h3>
-
-
+            <div className="flex flex-col gap-[20px] px-4">
+                {matchesArray && matchesArray.map(match => (
+                    <div key={`${match.matchNumber}`}>
+                        {(match.awayConfirmed == false || match.homeConfirmed == false) ? <MatchResultCard
+                            homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
+                            awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
+                            homeTeamName={match.homeStageTeam}
+                            awayTeamName={match.awayStageTeam}
+                            homeTeamLogo={teamDictionary[match.homeStageTeam]?.logo}
+                            awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
+                            homeSeed={match.homeSeed}
+                            awaySeed={match.awaySeed}
+                            homeConfirmed={match.homeConfirmed}
+                            awayConfirmed={match.awayConfirmed}
+                            leagueName={tournamentDictionary?.name}
+                            edition={tournamentDictionary?.edition}
+                            matchNum={match.matchNumber}
+                            venue={match.venue}
+                            date={match.date}
+                            matchResult={match.result}
+                            homeTeamRuns={match.homeTeamRuns}
+                            homeTeamWickets={match.homeTeamWickets}
+                            homeTeamOvers={match.homeTeamOvers}
+                            awayTeamRuns={match.awayTeamRuns}
+                            awayTeamWickets={match.awayTeamWickets}
+                            awayTeamOvers={match.awayTeamOvers}
+                            neutralGradient={cardNeutralGradient}
+                            group={match.group}
+                            stage={match.stage}
+                        /> : <MatchCard
+                            homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
+                            awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
+                            homeTeamName={match.homeStageTeam}
+                            awayTeamName={match.awayStageTeam}
+                            homeTeamLogo={teamDictionary[match.homeStageTeam]?.logo}
+                            awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
+                            leagueName={tournamentDictionary?.name}
+                            leagueID={tournamentDictionary?._id}
+                            edition={tournamentDictionary?.edition}
+                            matchNum={match.matchNumber}
+                            venue={match.venue}
+                            date={match.date}
+                            matchResult={match.result}
+                            onMatchUpdate={onMatchUpdate}
+                            homeTeamRuns={match.homeTeamRuns}
+                            homeTeamWickets={match.homeTeamWickets}
+                            homeTeamOvers={match.homeTeamOvers}
+                            awayTeamRuns={match.awayTeamRuns}
+                            awayTeamWickets={match.awayTeamWickets}
+                            awayTeamOvers={match.awayTeamOvers}
+                            neutralGradient={cardNeutralGradient}
+                            group={match.group}
+                            stage={match.stage}
+                        />
+                        }
+                    </div>
+                ))}
+            </div>
         </div>
-        // matchData.map(match => (
-        //     <div key={`${match.MatchNumber}`}>
-        //         {match.status === "incomplete" ? <T20LeagueMatchCard
-        //             homeGradient={teamData[match.HomeTeam].gradient}
-        //             awayGradient={teamData[match.AwayTeam].gradient}
-        //             homeTeamName={match.HomeTeam}
-        //             homeTeamLogo={teamData[match.HomeTeam].logo}
-        //             awayTeamName={match.AwayTeam}
-        //             awayTeamLogo={teamData[match.AwayTeam].logo}
-        //             leagueName={league}
-        //             leagueID={leagueName}
-        //             matchNum={match.MatchNumber}
-        //             venue={match.Location}
-        //             date={match.date}
-        //             time={match.startTime}
-        //             matchResult={match.result}
-        //             onMatchUpdate={onMatchUpdate}
-        //             leagueUrlTag={leagueUrlTag}
-        //             homeTeamRuns={match.homeTeamRuns}
-        //             homeTeamWickets={match.homeTeamWickets}
-        //             homeTeamOvers={match.homeTeamOvers}
-        //             awayTeamRuns={match.awayTeamRuns}
-        //             awayTeamWickets={match.awayTeamWickets}
-        //             awayTeamOvers={match.awayTeamOvers}
-        //             neutralGradient={cardNeutralGradient}
-        //             leagueEdition={leagueEdition}
-        //         /> : <T20LeagueMatchResultCard
-        //          homeGradient={teamData[match.homeTeam].gradient}
-        //             awayGradient={teamData[match.awayTeam].gradient}
-        //             homeTeamName={match.homeTeam}
-        //             homeTeamLogo={teamData[match.homeTeam].logo}
-        //             awayTeamName={match.awayTeam}
-        //             awayTeamLogo={teamData[match.awayTeam].logo}
-        //             leagueName={league}
-        //             matchNum={match.matchNumber}
-        //             venue={match.location}
-        //             date={match.date}
-        //             time={match.startTime}
-        //             matchResult={match.result}
-
-        //             homeTeamRuns={match.homeTeamRuns}
-        //             homeTeamWickets={match.homeTeamWickets}
-        //             homeTeamOvers={match.homeTeamOvers}
-        //             awayTeamRuns={match.awayTeamRuns}
-        //             awayTeamWickets={match.awayTeamWickets}
-        //             awayTeamOvers={match.awayTeamOvers}
-        //             neutralGradient={cardNeutralGradient}
-        //         />
-        //         }
-
-        //     </div>
-        // ))
     );
 }
 

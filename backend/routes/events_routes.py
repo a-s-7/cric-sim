@@ -327,11 +327,13 @@ def get_tournaments_match_data(id):
 
     teams_data = list(stageTeams_collection.aggregate(teams_pipeline))
 
-    filtering_data = request.get_json()
+    groups = request.args.get("groups", "")
+    teams = request.args.get("teams", "")
+    venues = request.args.get("venues", "")
 
-    groups = filtering_data.get("groups", [])
-    teams = filtering_data.get("teams", [])
-    venues = filtering_data.get("venues", [])
+    groups = groups.split(",") if groups else []
+    teams = teams.split(",") if teams else []
+    venues = venues.split(",") if venues else []
 
     pipeline = [
         { "$match": {"tournamentId": id} },

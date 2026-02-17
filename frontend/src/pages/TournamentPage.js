@@ -28,29 +28,25 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
     }
 
     const fetchMatches = async () => {
-        // let teamVal = "All";
-        // let stadiumVal = "All";
+        const params = new URLSearchParams();
 
-        // if (selectedTeams.length > 0) {
-        //     teamVal = selectedTeams.map(team => team.value).join("-");
-        // }
+        params.set("groups", selectedGroups.map(group => group.value).join(","));
+        params.set("teams", selectedTeams.map(team => team.value).join(","));
+        params.set("venues", selectedStadiums.map(stadium => stadium.value).join(","));
 
-        // if (selectedStadiums.length > 0) {
-        //     stadiumVal = selectedStadiums.map(stadium => stadium.value).join(",");
-        // }
+        let url = `/tournaments/${tournamentId}/matches?${params.toString()}`;
 
-        // let url = `/leagues/${tournamentId}/${leagueEdition}/matches/${teamVal}/${stadiumVal}`;
+        try {
+            const response = await fetch(url);
 
-        // try {
-        //     const response = await fetch(url);
-        //     if (!response.ok) {
-        //         throw new Error("Response was not ok");
-        //     }
-        //     const result = await response.json();
-        //     setMatchesData(result);
-        // } catch (error) {
-        //     console.error("Error fetching data:", error);
-        // }
+            if (!response.ok) {
+                throw new Error("Response was not ok");
+            }
+            const result = await response.json();
+            setMatchesData(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     };
 
     const fetchStandings = async () => {
@@ -84,6 +80,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
     const resetState = async () => {
         await setSelectedTeams([]);
         await setSelectedStadiums([]);
+        await setSelectedGroups([]);
         await setMatchesData([]);
         await setStandingsData([]);
     }
@@ -92,7 +89,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
     useEffect(() => {
         handleRefresh();
         // eslint-disable-next-line
-    }, [selectedTeams, selectedStadiums]);
+    }, [selectedTeams, selectedStadiums, selectedGroups]);
 
     useEffect(() => {
         resetState();
@@ -105,13 +102,13 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
         <div className="T20LeaguePage flex flex-col overflow-hidden">
             <NewControlBar
                 refreshFunction={handleRefresh}
-                matchCount={0}
+                matchCount={matchesData?.matches?.length || 0}
                 teams={selectedTeams}
                 stadiums={selectedStadiums}
                 groups={selectedGroups}
-                sst={setSelectedTeams}
-                setStadiums={setSelectedStadiums}
-                setGroups={setSelectedGroups}
+                setSelectedTeams={setSelectedTeams}
+                setSelectedStadiums={setSelectedStadiums}
+                setSelectedGroups={setSelectedGroups}
                 urlTag={tournamentId}
                 logo={tournamentLogo}
                 name={tournamentName}
@@ -121,10 +118,10 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
             />
 
             <div className="flex flex-row w-full flex-1 overflow-hidden">
-                <div className="flex flex-col w-[55%] h-full gap-[20px] overflow-auto">
+                <div className="flex flex-col w-[55%] h-full overflow-auto">
                     <EventMatchDisplay
                         onMatchUpdate={refreshPointsTable}
-                        matches={[]}
+                        matches={matchesData}
                         tournamentUrlTag={tournamentId}
                         cardNeutralGradient={tournamentGradient} />
                 </div>

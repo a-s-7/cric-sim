@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft, faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 function NewControlBar({
-    refreshFunction, matchCount, teams, stadiums, sst, setStadiums,
+    refreshFunction, matchCount, teams, stadiums, setSelectedTeams, setSelectedStadiums, setSelectedGroups,
     urlTag, edition, logo, name, color, matchesFiltered, groups, setGroups
 }) {
 
@@ -63,77 +63,79 @@ function NewControlBar({
     };
 
     const handleTeamChange = (selectedOptions) => {
-        sst(selectedOptions);
+        setSelectedTeams(selectedOptions);
     };
 
     const handleVenueChange = (selectedOptions) => {
-        setStadiums(selectedOptions);
+        setSelectedStadiums(selectedOptions);
     };
 
     const handleGroupChange = (selectedOptions) => {
-        setGroups(selectedOptions);
+        setSelectedGroups(selectedOptions);
     };
 
 
     const resetIncompleteMatches = async () => {
-        let matchNums = "";
+        // let matchNums = "";
 
-        if (urlTag === "wtc") {
-            matchNums = matchesFiltered.map(match => `${match.seriesID}.${match.matchNumber.charAt(0)}`).join("-");
-        } else {
-            matchNums = matchesFiltered.map(match => match.MatchNumber).join("-")
-        }
+        // if (urlTag === "wtc") {
+        //     matchNums = matchesFiltered.map(match => `${match.seriesID}.${match.matchNumber.charAt(0)}`).join("-");
+        // } else {
+        //     matchNums = matchesFiltered.map(match => match.MatchNumber).join("-")
+        // }
 
-        try {
-            let url = urlTag === "wtc" ? `/${urlTag}/${edition}` : `/leagues/${urlTag}/${edition}`;
+        // try {
+        //     let url = urlTag === "wtc" ? `/${urlTag}/${edition}` : `/leagues/${urlTag}/${edition}`;
 
-            const response = await fetch(`${url}/clear/${matchNums}`,
-                {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+        //     const response = await fetch(`${url}/clear/${matchNums}`,
+        //         {
+        //             method: 'PATCH',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             }
+        //         });
 
-            if (response.ok) {
-                refreshFunction();
-            } else {
-                alert("Error: Response not ok")
-            }
-        } catch (error) {
-            alert(error)
-        }
+        //     if (response.ok) {
+        //         refreshFunction();
+        //     } else {
+        //         alert("Error: Response not ok")
+        //     }
+        // } catch (error) {
+        //     alert(error)
+        // }
+        alert("Reset coming soon")
     };
 
     const randomlySimIncompleteMatches = async () => {
-        let matchNums = "";
+        // let matchNums = "";
 
-        if (urlTag === "wtc") {
-            matchNums = matchesFiltered.map(match => `${match.seriesID}.${match.matchNumber.charAt(0)}`).join("-");
-        } else {
-            matchNums = matchesFiltered.map(match => match.MatchNumber).join("-")
-        }
+        // if (urlTag === "wtc") {
+        //     matchNums = matchesFiltered.map(match => `${match.seriesID}.${match.matchNumber.charAt(0)}`).join("-");
+        // } else {
+        //     matchNums = matchesFiltered.map(match => match.MatchNumber).join("-")
+        // }
 
-        try {
+        // try {
 
-            let url = urlTag === "wtc" ? `/${urlTag}/${edition}` : `/leagues/${urlTag}/${edition}`;
+        //     let url = urlTag === "wtc" ? `/${urlTag}/${edition}` : `/leagues/${urlTag}/${edition}`;
 
-            const response = await fetch(`${url}/sim/${matchNums}`,
-                {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+        //     const response = await fetch(`${url}/sim/${matchNums}`,
+        //         {
+        //             method: 'PATCH',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             }
+        //         });
 
-            if (response.ok) {
-                refreshFunction();
-            } else {
-                alert("Error: Response not ok")
-            }
-        } catch (error) {
-            alert(error)
-        }
+        //     if (response.ok) {
+        //         refreshFunction();
+        //     } else {
+        //         alert("Error: Response not ok")
+        //     }
+        // } catch (error) {
+        //     alert(error)
+        // }
+        alert("Random simulation coming soon")
     };
 
     useEffect(() => {
