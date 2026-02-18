@@ -84,24 +84,23 @@ function MatchCard({
     const handleClick = async (result) => {
         setSelected(result);
 
-        // try {
-        //     const response = await fetch(`/leagues/${leagueUrlTag}/${leagueEdition}/match/${matchNum}/${result}`,
-        //         {
-        //             method: 'PATCH',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             }
-        //         });
+        try {
+            const response = await fetch(`/tournaments/${leagueID}/match/${matchNum}/${result}`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-        //     if (response.ok) {
-        //         onMatchUpdate();
-        //     } else {
-        //         alert("Error: Response not ok")
-        //     }
-        // } catch (error) {
-        //     alert(error)
-        // }
-        // alert("Match result not implemented yet")
+            if (response.ok) {
+                onMatchUpdate();
+            } else {
+                alert("Error: Response not ok")
+            }
+        } catch (error) {
+            alert(error)
+        }
     }
 
 

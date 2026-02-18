@@ -425,3 +425,24 @@ def get_tournaments_match_data(id):
 
     return jsonify({"tournament": tournament_data, "teams": teams_data, "matches": filtered_matches})
 
+@events_bp.route('/tournaments/<string:id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
+def update_tournament_match_result(id, match_num, result):
+    if result not in ["Home-win", "Away-win", "No-result", "None"]:
+        return jsonify({"error": "Invalid result value"}), 400
+
+    try:
+        result = matches_collection.update_one(
+            {"tournamentId": id, "matchNumber": match_num},
+            {"$set": {"result": result}},
+        )
+
+        if result.matched_count == 0:
+            raise ValueError("No match was found")
+
+    except ValueError as e:
+        return jsonify(str(e)), 404
+
+    return jsonify({"message": f"Tournament id {id} match #{match_num} updated successfully"})
+    
+        
+    
