@@ -38,7 +38,7 @@ function EventStandings({ standingsData, color }) {
                         <div className="flex flex-col gap-2" key={groupName}>
                             <h3 className={`text-2xl font-bold tracking-tight text-black font-['Kanit']`}>GROUP {groupName}</h3>
 
-                            <PointsTable pointsTableData={teams} headerColor={color} topQualifiers={standingsData[activeStage].numQualifiers} />
+                            <PointsTable pointsTableTeamsData={teams} headerColor={color} topQualifiers={standingsData[activeStage].numQualifiers} />
                         </div>
                     ))}
                 </div>

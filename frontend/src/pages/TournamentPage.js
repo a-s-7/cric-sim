@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import NewControlBar from "../components/NewControlBar";
 import EventStandings from "../components/EventStandings";
 import EventMatchDisplay from "../components/EventMatchDisplay";
+import { calculateStandingsMovement } from "../utils/standingsUtils";
+
 
 function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tournamentLogo, tournamentGradient, tournamentPointsTableColor }) {
     const [selectedTeams, setSelectedTeams] = useState([]);
@@ -58,23 +60,18 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }
-            const result = await response.json();
+            const newStandingsData = await response.json();
 
-            // if (pointsTableData.length > 0) {
-            //     const diffs = calculatePointsTableChanges(result);
-            //     result.forEach(team => {
-            //         team["diff"] = diffs.get(team.acronym);
-            //     });
-            // } else {
-            //     result.forEach(team => {
-            //         team["diff"] = 0;
-            //     });
-            // }
-            setStandingsData(result);
+            // Calculate the position changes (movement) compared to what we saw last
+            const updatedStandings = calculateStandingsMovement(standingsData, newStandingsData);
+            setStandingsData(updatedStandings);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     };
+
+    // Removed the buggy calculatePointsTableChanges helper as it's now integrated and fixed in fetchStandings
+
 
 
     const resetState = async () => {
