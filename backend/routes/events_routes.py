@@ -431,12 +431,80 @@ def update_tournament_match_result(id, match_num, result):
         return jsonify({"error": "Invalid result value"}), 400
 
     try:
-        result = matches_collection.update_one(
+        match = matches_collection.find_one({"tournamentId": id, "matchNumber": match_num}) 
+
+        if match["result"] == "Home-win":
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["homeStageTeamId"])},
+                {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
+            )
+
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["awayStageTeamId"])},
+                {"$inc": {"lost": -1, "matchesPlayed": -1}}
+            )
+
+        elif match["result"] == "Away-win":
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["awayStageTeamId"])},
+                {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
+            )
+
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["homeStageTeamId"])},
+                {"$inc": {"lost": -1, "matchesPlayed": -1}}
+            )
+
+        elif match["result"] == "No-result":
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["homeStageTeamId"])},
+                {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
+            )
+
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["awayStageTeamId"])},
+                {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
+            )
+
+        if result == "Home-win":
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["homeStageTeamId"])},
+                {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
+            )
+
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["awayStageTeamId"])},
+                {"$inc": {"lost": 1, "matchesPlayed": 1}}
+            )
+
+        elif result == "Away-win":
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["awayStageTeamId"])},
+                {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
+            )
+
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["homeStageTeamId"])},
+                {"$inc": {"lost": 1, "matchesPlayed": 1}}
+            )
+        
+        elif result == "No-result":
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["homeStageTeamId"])},
+                {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
+            )
+
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["awayStageTeamId"])},
+                {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
+            )
+    
+        update_result = matches_collection.update_one(
             {"tournamentId": id, "matchNumber": match_num},
             {"$set": {"result": result}},
         )
 
-        if result.matched_count == 0:
+        if update_result.matched_count == 0:
             raise ValueError("No match was found")
 
     except ValueError as e:
