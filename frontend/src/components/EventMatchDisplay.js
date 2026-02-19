@@ -14,7 +14,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient }) {
             <div className="flex flex-col gap-[20px] px-4">
                 {matchesArray && matchesArray.map(match => (
                     <div key={`${match.matchNumber}`}>
-                        {(match.awayConfirmed == false || match.homeConfirmed == false) ? <MatchResultCard
+                        {(match.awayConfirmed === false || match.homeConfirmed === false) ? <MatchResultCard
                             homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
                             awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
                             homeTeamName={match.homeStageTeam}

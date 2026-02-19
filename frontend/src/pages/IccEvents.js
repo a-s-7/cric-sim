@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 function IccEvents() {
 
     const [tournaments, setTournaments] = useState([]);
-
-    const colors = {
-        "darkblue": "blue"
-    }
 
     const fetchTournaments = async () => {
         let url = '/tournaments';
