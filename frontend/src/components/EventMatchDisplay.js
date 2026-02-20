@@ -8,6 +8,12 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient }) {
     const teamDictionary = matches?.teams?.[0] || {};
     const tournamentDictionary = matches?.tournament?.[0] || {};
 
+    const convertBallsToDecimalOvers = (balls) => {
+        const overs = Math.floor(balls / 6);
+        const remainingBalls = balls % 6;
+        return parseFloat(`${overs}.${remainingBalls}`);
+    }
+
     return (
         <div className="flex flex-col">
             <h3 className={`text-3xl font-bold tracking-tight text-black font-['Kanit'] p-4`}>MATCHES</h3>
@@ -33,10 +39,10 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient }) {
                             matchResult={match.result}
                             homeTeamRuns={match.homeTeamRuns}
                             homeTeamWickets={match.homeTeamWickets}
-                            homeTeamOvers={match.homeTeamOvers}
+                            homeTeamOvers={convertBallsToDecimalOvers(match.homeTeamBalls)}
                             awayTeamRuns={match.awayTeamRuns}
                             awayTeamWickets={match.awayTeamWickets}
-                            awayTeamOvers={match.awayTeamOvers}
+                            awayTeamOvers={convertBallsToDecimalOvers(match.awayTeamBalls)}
                             neutralGradient={cardNeutralGradient}
                             group={match.group}
                             stage={match.stage}
@@ -57,10 +63,10 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient }) {
                             onMatchUpdate={onMatchUpdate}
                             homeTeamRuns={match.homeTeamRuns}
                             homeTeamWickets={match.homeTeamWickets}
-                            homeTeamOvers={match.homeTeamOvers}
+                            homeTeamOvers={convertBallsToDecimalOvers(match.homeTeamBalls)}
                             awayTeamRuns={match.awayTeamRuns}
                             awayTeamWickets={match.awayTeamWickets}
-                            awayTeamOvers={match.awayTeamOvers}
+                            awayTeamOvers={convertBallsToDecimalOvers(match.awayTeamBalls)}
                             neutralGradient={cardNeutralGradient}
                             group={match.group}
                             stage={match.stage}

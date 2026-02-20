@@ -49,7 +49,6 @@ function MatchCard({
     const formattedDateObj = new Date(date);
     const timeZone = "America/Los_Angeles";
 
-
     const formattedDate = formattedDateObj.toLocaleDateString("en-US", {
         timeZone: timeZone,
         month: "short",
@@ -164,58 +163,56 @@ function MatchCard({
     }
 
     const handleNRRChange = async () => {
-        // const homeRunsValue = parseFloat(homeRunsRef.current.value);
-        // const awayRunsValue = parseFloat(awayRunsRef.current.value);
-        // const homeOversValue = parseFloat(homeOversRef.current.value);
-        // const awayOversValue = parseFloat(awayOversRef.current.value);
-        // const homeWicketsValue = parseFloat(homeWicketsRef.current.value);
-        // const awayWicketsValue = parseFloat(awayWicketsRef.current.value);
+        const homeRunsValue = parseFloat(homeRunsRef.current.value);
+        const awayRunsValue = parseFloat(awayRunsRef.current.value);
+        const homeOversValue = parseFloat(homeOversRef.current.value);
+        const awayOversValue = parseFloat(awayOversRef.current.value);
+        const homeWicketsValue = parseFloat(homeWicketsRef.current.value);
+        const awayWicketsValue = parseFloat(awayWicketsRef.current.value);
 
-        // if (!isNaN(homeWicketsValue) && !isNaN(awayWicketsValue) && !isNaN(homeRunsValue) && !isNaN(awayRunsValue) && !isNaN(homeOversValue) && homeOversValue !== 0 && !isNaN(awayOversValue) && awayOversValue !== 0) {
-        //     try {
-        //         const baseUrl = `/leagues/${leagueUrlTag}/${leagueEdition}/nrr/`;
-        //         const url = `${baseUrl}${matchNum}/${homeRunsValue}/${homeWicketsValue}/${homeOversValue}/${awayRunsValue}/${awayWicketsValue}/${awayOversValue}`;
+        if (!isNaN(homeWicketsValue) && !isNaN(awayWicketsValue) && !isNaN(homeRunsValue) && !isNaN(awayRunsValue) && !isNaN(homeOversValue) && homeOversValue !== 0 && !isNaN(awayOversValue) && awayOversValue !== 0) {
+            try {
+                const baseUrl = `/tournaments/${leagueID}/match/score/`;
+                const url = `${baseUrl}${matchNum}/${homeRunsValue}/${homeWicketsValue}/${homeOversValue.toString()}/${awayRunsValue}/${awayWicketsValue}/${awayOversValue.toString()}`;
 
 
-        //         const response = await fetch(url,
-        //             {
-        //                 method: 'PATCH',
-        //                 headers: {
-        //                     'Content-Type': 'application/json'
-        //                 }
-        //             });
+                const response = await fetch(url,
+                    {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
 
-        //         if (response.ok) {
-        //             onMatchUpdate();
-        //         } else {
-        //             alert("Error: Response not ok")
-        //         }
-        //     } catch (error) {
-        //         alert(error)
-        //     }
-        // }
-        alert("NRR calculation not implemented yet")
+                if (response.ok) {
+                    onMatchUpdate();
+                } else {
+                    alert("Error: Response not ok")
+                }
+            } catch (error) {
+                alert(error)
+            }
+        }
     }
 
     const resetMatchData = async () => {
-        // try {
-        //     const response = await fetch(`/leagues/${leagueUrlTag}/${leagueEdition}/clear/${matchNum}`,
-        //         {
-        //             method: 'PATCH',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             }
-        //         });
+        try {
+            const response = await fetch(`/tournaments/${leagueID}/match/clear/${matchNum}`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-        //     if (response.ok) {
-        //         //
-        //     } else {
-        //         alert("Error: Response not ok")
-        //     }
-        // } catch (error) {
-        //     alert(error)
-        // }
-        alert("Reset match data not implemented yet")
+            if (response.ok) {
+                //
+            } else {
+                alert("Error: Response not ok")
+            }
+        } catch (error) {
+            alert(error)
+        }
     };
 
     const resetMatch = async (result) => {

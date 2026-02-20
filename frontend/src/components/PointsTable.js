@@ -51,13 +51,12 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers }) {
                                 {team.confirmed === false ? team.seed : team.name}
                             </div>
                         </td>
-                        <td className="text-center py-3 px-2 border-b border-zinc-200">{team.netRunRate}</td>
+                        <td className="text-center py-3 px-2 border-b border-zinc-200">{team.netRunRate.toFixed(3)}</td>
                         <td className="text-center py-3 px-2 border-b border-zinc-200 font-bold">{team.points}</td>
                         <td className="text-center py-3 px-2 border-b border-zinc-200">{team.played}</td>
                         <td className="text-center py-3 px-2 border-b border-zinc-200">{team.won}</td>
                         <td className="text-center py-3 px-2 border-b border-zinc-200">{team.lost}</td>
                         <td className="text-center py-3 px-2 border-b border-zinc-200">{team.noResult}</td>
-                        <td className="text-center py-3 px-2 border-b border-zinc-200 font-bold">{team.points}</td>
                         <td className="text-center py-4 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsScored + "/" + (Math.floor(team.ballsFaced / 6) + "." + (team.ballsFaced % 6))}</td>
                         <td className="text-center py-4 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsConceded + "/" + (Math.floor(team.ballsBowled / 6) + "." + (team.ballsBowled % 6))}</td>
                     </tr>

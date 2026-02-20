@@ -5,6 +5,7 @@ import random
 from flask import Blueprint, jsonify, request
 from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
+from tournamentsUtils import overs_to_balls
 
 if os.getenv("RENDER_STATUS") != "TRUE":
     from dotenv import load_dotenv
@@ -543,4 +544,99 @@ def update_tournament_match_result(id, match_num, result):
     return jsonify({"message": f"Tournament id {id} match #{match_num} updated successfully"})
     
         
-    
+@events_bp.route('/tournaments/<string:id>/match/clear/<string:match_nums>', methods=['PATCH'])
+def clear_tournament_matches(id, match_nums):
+    match_nums = str(match_nums)
+
+    try:
+        match_num_strings = match_nums.split(",")
+        match_numbers = list(map(int, match_num_strings))
+
+        matches = matches_collection.find(
+            {"tournamentId": id, 
+             "matchNumber": {"$in": match_numbers},
+             "status": "incomplete"})
+
+        if not matches:
+            raise ValueError("No incomplete matches were found")
+
+        for match in matches:
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["homeStageTeamId"])},
+                {"$inc": {"runsScored": -match["homeTeamRuns"], "runsConceded": -match["awayTeamRuns"], "ballsBowled": -match["awayTeamBalls"],  "ballsFaced": -match["homeTeamBalls"]}}
+            )
+
+            stageTeams_collection.update_one(
+                {"_id": ObjectId(match["awayStageTeamId"])},
+                {"$inc": {"runsScored": -match["awayTeamRuns"], "runsConceded": -match["homeTeamRuns"], "ballsBowled": -match["homeTeamBalls"],  "ballsFaced": -match["awayTeamBalls"]}}
+            )
+
+        result = matches_collection.update_many(
+            {"tournamentId": id, 
+             "matchNumber": {"$in": match_numbers},
+             "status": "incomplete"},
+             {"$set": {
+                "homeTeamRuns": 0,
+                "homeTeamWickets": 0,
+                "homeTeamBalls": 0,
+                "awayTeamRuns": 0,
+                "awayTeamWickets": 0,
+                "awayTeamBalls": 0
+             }}
+        )
+
+        if result.matched_count == 0:
+            raise ValueError("No matches were found")
+
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    return jsonify({"message": f"{result.matched_count} matched - {result.modified_count} modified:"
+                               f" {id} matches cleared successfully"})
+
+@events_bp.route('/tournaments/<string:id>/match/score/<int:match_num>/<int:home_runs>/<int:home_wickets>/<string:home_overs>/<int:away_runs>/<int:away_wickets>/<string:away_overs>', methods=['PATCH'])
+def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, away_runs, away_wickets, away_overs):
+
+
+    try:
+        match = matches_collection.find_one(
+            {"tournamentId": id, "matchNumber": int(match_num)}
+        )
+        if not match:
+            raise ValueError("No match was found")
+
+        homeRunsDiff = int(home_runs) - match["homeTeamRuns"]
+        awayRunsDiff = int(away_runs) - match["awayTeamRuns"]
+
+        homeBallsDiff = overs_to_balls(home_overs) - match["homeTeamBalls"]
+        awayBallsDiff = overs_to_balls(away_overs) - match["awayTeamBalls"]
+
+        stageTeams_collection.update_one(
+                {"_id": ObjectId(match["homeStageTeamId"])},
+                {"$inc": {"runsScored": homeRunsDiff, "runsConceded": awayRunsDiff, "ballsBowled": awayBallsDiff,  "ballsFaced": homeBallsDiff}}
+            )
+
+        stageTeams_collection.update_one(
+                {"_id": ObjectId(match["awayStageTeamId"])},
+                {"$inc": {"runsScored": awayRunsDiff, "runsConceded": homeRunsDiff, "ballsBowled": homeBallsDiff,  "ballsFaced": awayBallsDiff}}
+         )
+
+        result = matches_collection.update_one(
+            {"tournamentId": id, "matchNumber": int(match_num)},
+            {"$set": {
+                "homeTeamRuns": int(home_runs),
+                "homeTeamWickets": int(home_wickets),
+                "homeTeamBalls": overs_to_balls(home_overs),
+                "awayTeamRuns": int(away_runs),
+                "awayTeamWickets": int(away_wickets),
+                "awayTeamBalls": overs_to_balls(away_overs)
+            }}
+        )
+
+        if result.matched_count == 0:
+            raise ValueError("No match was found")
+
+    except ValueError as e:
+        return jsonify(str(e)), 404
+
+    return jsonify({"message": f"Tournament id {id} match #{match_num} score updated successfully"})
