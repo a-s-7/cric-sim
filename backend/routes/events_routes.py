@@ -194,6 +194,25 @@ def get_tournaments_groups(id):
 
     return jsonify(groups)
 
+@events_bp.route('/tournaments/<string:id>/stages', methods=['GET'])
+def get_tournaments_stages(id):
+    stages = []
+
+    tournament = tournaments_collection.find_one({"_id": id})
+
+    if not tournament:
+        return jsonify({"error": "Tournament not found"}), 404    
+    
+    stages = list(stages_collection.find(
+        {"tournamentId": id, "type": "group"},
+        {"_id": 0, "label": "$name", "value": "$order"}
+    ))
+
+    if not stages:
+        return jsonify({"error": "Stages not found"}), 404        
+
+    return jsonify(stages)
+
 @events_bp.route('/tournaments/<string:id>/standings', methods=['GET'])
 def get_tournaments_standings(id):
     tournament = tournaments_collection.find_one({"_id": id})
@@ -350,10 +369,12 @@ def get_tournaments_match_data(id):
     groups = request.args.get("groups", "")
     teams = request.args.get("teams", "")
     venues = request.args.get("venues", "")
+    stages = request.args.get("stages", "")
 
     groups = groups.split(",") if groups else []
     teams = teams.split(",") if teams else []
     venues = venues.split(",") if venues else []
+    stages = [int(stage) for stage in stages.split(",")] if stages else []
 
     pipeline = [
         { "$match": {"tournamentId": id} },
@@ -406,7 +427,8 @@ def get_tournaments_match_data(id):
         {"$unwind": "$stage"},
         {
             "$set": {
-                "stage": "$stage.name"
+                "stage": "$stage.name",
+                "stageOrder": "$stage.order"
             }
         },
         {
@@ -435,6 +457,9 @@ def get_tournaments_match_data(id):
 
     if venues:
         or_condition["$or"].append({"venue": { "$in": venues }})
+
+    if stages:
+        or_condition["$or"].append({"stageOrder": { "$in": stages }})
 
     if or_condition["$or"]:
         pipeline.append({"$match": or_condition})

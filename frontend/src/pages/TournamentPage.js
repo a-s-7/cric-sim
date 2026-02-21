@@ -36,6 +36,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
         params.set("groups", selectedGroups.map(group => group.value).join(","));
         params.set("teams", selectedTeams.map(team => team.value).join(","));
         params.set("venues", selectedStadiums.map(stadium => stadium.value).join(","));
+        params.set("stages", selectedStages.map(stage => stage.value).join(","));
 
         let url = `/tournaments/${tournamentId}/matches?${params.toString()}`;
 
@@ -71,23 +72,22 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
         }
     };
 
-    // Removed the buggy calculatePointsTableChanges helper as it's now integrated and fixed in fetchStandings
-
-
-
     const resetState = async () => {
         await setSelectedTeams([]);
         await setSelectedStadiums([]);
         await setSelectedGroups([]);
+        await setSelectedStages([]);
+
         await setMatchesData([]);
         await setStandingsData([]);
+
     }
 
 
     useEffect(() => {
         handleRefresh();
         // eslint-disable-next-line
-    }, [selectedTeams, selectedStadiums, selectedGroups]);
+    }, [selectedTeams, selectedStadiums, selectedGroups, selectedStages]);
 
     useEffect(() => {
         resetState();

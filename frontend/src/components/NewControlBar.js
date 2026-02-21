@@ -79,6 +79,22 @@ function NewControlBar({
         }
     };
 
+    const fetchStageOptions = async () => {
+        let url = `/tournaments/${urlTag}/stages`;
+        console.log(url);
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error("Response was not ok");
+            }
+            const result = await response.json();
+            setStageOptions(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
     const handleTeamChange = (selectedOptions) => {
         setSelectedTeams(selectedOptions);
     };
@@ -160,6 +176,7 @@ function NewControlBar({
         fetchTeamOptions();
         fetchVenueOptions();
         fetchGroupOptions();
+        fetchStageOptions();
         // eslint-disable-next-line
     }, [urlTag]);
 
