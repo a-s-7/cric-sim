@@ -33,7 +33,7 @@ function EventStandings({ standingsData, color }) {
             {/* Main Standings Container */}
             <div className="flex-1 flex flex-col bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden">
                 {/* Content Area */}
-                <div className="flex-1 flex flex-col gap-8 p-4 overflow-y-auto">
+                <div className="flex-1 flex flex-col gap-8 p-4 overflow-y-auto no-scrollbar">
                     {Object.entries(standingsData[activeStage].groups).map(([groupName, teams]) => (
                         <div className="flex flex-col gap-2" key={groupName}>
                             <h3 className={`text-2xl font-bold tracking-tight text-black font-['Kanit']`}>GROUP {groupName}</h3>

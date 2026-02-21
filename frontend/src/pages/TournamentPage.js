@@ -9,6 +9,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [selectedStadiums, setSelectedStadiums] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
+    const [selectedStages, setSelectedStages] = useState([]);
 
     const [matchesData, setMatchesData] = useState([]);
     const [standingsData, setStandingsData] = useState([]);
@@ -96,7 +97,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
 
 
     return (
-        <div className="T20LeaguePage flex flex-col overflow-hidden">
+        <div className="T20LeaguePage flex flex-col">
             <NewControlBar
                 refreshFunction={handleRefresh}
                 matchCount={matchesData?.matches?.length || 0}
@@ -106,6 +107,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                 setSelectedTeams={setSelectedTeams}
                 setSelectedStadiums={setSelectedStadiums}
                 setSelectedGroups={setSelectedGroups}
+                setSelectedStages={setSelectedStages}
                 urlTag={tournamentId}
                 logo={tournamentLogo}
                 name={tournamentName}
@@ -115,7 +117,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
             />
 
             <div className="flex flex-row w-full flex-1 overflow-hidden">
-                <div className="flex flex-col w-[55%] h-full overflow-auto">
+                <div className="flex flex-col w-[55%] h-full overflow-auto no-scrollbar">
                     <EventMatchDisplay
                         key={matchAreaKey}
                         onMatchUpdate={refreshPointsTable}
@@ -125,7 +127,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                         tournamentEdition={tournamentEdition}
                         cardNeutralGradient={tournamentGradient} />
                 </div>
-                <div className="w-[45%] h-full overflow-auto flex flex-col">
+                <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
                     <EventStandings standingsData={standingsData} color={tournamentPointsTableColor} />
                 </div>
             </div>

@@ -2,15 +2,32 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { customStyles } from "../utils/selectStyles";
 
 function NewControlBar({
-    refreshFunction, matchCount, teams, stadiums, setSelectedTeams, setSelectedStadiums, setSelectedGroups,
-    urlTag, edition, logo, name, color, matchesFiltered, groups, setGroups
+    refreshFunction,
+    matchCount,
+    teams,
+    stadiums,
+    stages,
+    groups,
+    setSelectedTeams,
+    setSelectedStadiums,
+    setSelectedGroups,
+    setSelectedStages,
+    urlTag,
+    edition,
+    logo,
+    name,
+    color,
+    matchesFiltered,
+    setGroups
 }) {
 
     const [teamOptions, setTeamOptions] = useState([]);
     const [stadiumOptions, setStadiumOptions] = useState([]);
     const [groupOptions, setGroupOptions] = useState([]);
+    const [stageOptions, setStageOptions] = useState([]);
 
     const fetchTeamOptions = async () => {
 
@@ -72,6 +89,10 @@ function NewControlBar({
 
     const handleGroupChange = (selectedOptions) => {
         setSelectedGroups(selectedOptions);
+    };
+
+    const handleStageChange = (selectedOptions) => {
+        setSelectedStages(selectedOptions);
     };
 
 
@@ -143,58 +164,30 @@ function NewControlBar({
     }, [urlTag]);
 
 
-    const customStyles = {
-        container: (base) => ({
-            ...base,
-            width: '100%',
-        }),
-        control: (baseStyles, state) => ({
-            ...baseStyles,
-            border: 0,
-            boxShadow: 'none',
-            borderRadius: '10px',
-            height: '3.5vh',
-            minHeight: '3.5vh',
-            maxWidth: '100%',
-            overflow: 'hidden',
-        }),
-        valueContainer: (base) => ({
-            ...base,
-            flexWrap: 'nowrap',
-            overflowX: 'auto',
-            overflowY: 'hidden',
-            scrollbarWidth: 'none', /* Firefox */
-            '&::-webkit-scrollbar': {
-                display: 'none', /* Chrome/Safari */
-            },
-        }),
-        multiValue: (base) => ({
-            ...base,
-            flexShrink: 0,
-        }),
-        singleValue: (base) => ({
-            ...base,
-            width: '100%',
-        }),
-        placeholder: (base) => ({
-            ...base,
-            width: '100%',
-        }),
-        input: (base) => ({
-            ...base,
-            flexShrink: 0,
-        })
-    };
-
     return (
         <div className="flex h-[8%] m-2 rounded-3xl" style={{ background: color }}>
             <div className="flex items-center justify-center w-[15%]">
                 <img className="w-[90%] h-[80%] object-contain" src={logo} alt={`${name} Logo`}></img>
             </div>
+
             <div className="flex justify-center items-center w-[10%] font-['Reem_Kufi_Fun'] uppercase text-white">
                 {matchCount + " MATCHES"}
             </div>
+
             <div className="flex justify-center items-center w-[57%]">
+                <div className="p-[5px] font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[20%] flex items-center min-w-0">
+                    <Select
+                        isMulti
+                        borderRadius="10px"
+                        menuPosition="fixed"
+                        options={stageOptions}
+                        styles={customStyles}
+                        value={stages}
+                        onChange={handleStageChange}
+                        placeholder="Select stages"
+                        noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
+                    />
+                </div>
                 <div className="p-[5px] font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[20%] flex items-center min-w-0">
                     <Select
                         isMulti
@@ -234,15 +227,16 @@ function NewControlBar({
                     />
                 </div>
             </div>
+
             <div className="w-[18%] flex justify-center">
                 <button
-                    className="flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white hover:bg-white hover:text-black hover:shadow-[0_4px_8px_rgba(0,0,0,0.5)] transition-all"
+                    className="flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90"
                     onClick={resetIncompleteMatches}
                 >
                     <FontAwesomeIcon icon={faArrowRotateLeft} size="lg" />
                 </button>
                 <button
-                    className="flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white hover:bg-white hover:text-black hover:shadow-[0_4px_8px_rgba(0,0,0,0.5)] transition-all"
+                    className="flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90"
                     onClick={randomlySimIncompleteMatches}
                 >
                     <FontAwesomeIcon icon={faShuffle} size="lg" />
