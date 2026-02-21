@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 function MatchCard({
     homeGradient,
@@ -175,7 +175,8 @@ function MatchCard({
         setAwayWickets('');
         setAwayOvers('');
         await resetMatchData();
-        await handleClick(result);
+        setSelected(result);
+        onMatchUpdate();
     };
 
     return (

@@ -6,6 +6,7 @@ from flask import Blueprint, jsonify, request
 from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
 from data.utils.tournamentsUtils import overs_to_balls
+from collections import defaultdict
 
 if os.getenv("RENDER_STATUS") != "TRUE":
     from dotenv import load_dotenv
@@ -458,7 +459,7 @@ def get_tournaments_match_data(id):
 
 @events_bp.route('/tournaments/<string:id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
 def update_tournament_match_result(id, match_num, result):
-    if result not in ["Home-win", "Away-win", "No-result", "None"]:
+    if result not in ["Home-win", "Away-win", "No-result"]:
         return jsonify({"error": "Invalid result value"}), 400
 
 
@@ -551,41 +552,76 @@ def clear_tournament_matches(id):
         match_nums = request.args.get("match_nums", "") 
         match_numbers = list(map(int, match_nums.split(",")))
 
-        matches = matches_collection.find(
+        matches = list(matches_collection.find(
             {"tournamentId": id, 
              "matchNumber": {"$in": match_numbers},
-             "status": "incomplete"})
+             "status": "incomplete"}))
 
-        if not matches:
+        if len(matches) == 0:
             raise ValueError("No incomplete matches were found")
 
-        for match in matches:
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"runsScored": -match["homeTeamRuns"], "runsConceded": -match["awayTeamRuns"], "ballsBowled": -match["awayTeamBalls"],  "ballsFaced": -match["homeTeamBalls"]}}
-            )
 
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"runsScored": -match["awayTeamRuns"], "runsConceded": -match["homeTeamRuns"], "ballsBowled": -match["homeTeamBalls"],  "ballsFaced": -match["awayTeamBalls"]}}
+        team_acc = defaultdict(lambda: defaultdict(int))
+
+        for match in matches:
+            home_id = match["homeStageTeamId"]
+            away_id = match["awayStageTeamId"]
+
+            team_acc[home_id]["runsScored"] += -match["homeTeamRuns"]
+            team_acc[home_id]["runsConceded"] += -match["awayTeamRuns"]
+            team_acc[home_id]["ballsBowled"] += -match["awayTeamBalls"]
+            team_acc[home_id]["ballsFaced"] += -match["homeTeamBalls"]
+
+            team_acc[away_id]["runsScored"] += -match["awayTeamRuns"]
+            team_acc[away_id]["runsConceded"] += -match["homeTeamRuns"]
+            team_acc[away_id]["ballsBowled"] += -match["homeTeamBalls"]
+            team_acc[away_id]["ballsFaced"] += -match["awayTeamBalls"]
+
+            if match["result"] == "Home-win":
+                team_acc[home_id]["won"] += -1
+                team_acc[home_id]["points"] += -2
+                team_acc[home_id]["matchesPlayed"] += -1
+
+                team_acc[away_id]["lost"] += -1
+                team_acc[away_id]["matchesPlayed"] += -1
+
+            elif match["result"] == "Away-win":
+                team_acc[away_id]["won"] += -1
+                team_acc[away_id]["points"] += -2
+                team_acc[away_id]["matchesPlayed"] += -1
+
+                team_acc[home_id]["lost"] += -1
+                team_acc[home_id]["matchesPlayed"] += -1
+
+            elif match["result"] == "No-result":
+                team_acc[home_id]["matchesPlayed"] += -1
+                team_acc[home_id]["points"] += -1
+                team_acc[home_id]["noResult"] += -1
+
+                team_acc[away_id]["matchesPlayed"] += -1
+                team_acc[away_id]["points"] += -1
+                team_acc[away_id]["noResult"] += -1
+        
+        operations = [
+            UpdateOne(
+                {"_id": ObjectId(team_id)},
+                {"$inc": dict(inc_fields)}
             )
+            for team_id, inc_fields in team_acc.items()
+        ]
+
+        if operations:
+            stageTeams_collection.bulk_write(operations)
 
         result = matches_collection.update_many(
-            {"tournamentId": id, 
-             "matchNumber": {"$in": match_numbers},
-             "status": "incomplete"},
-             {"$set": {
-                "homeTeamRuns": 0,
-                "homeTeamWickets": 0,
-                "homeTeamBalls": 0,
-                "awayTeamRuns": 0,
-                "awayTeamWickets": 0,
-                "awayTeamBalls": 0
-             }}
+            {"tournamentId": id, "matchNumber": {"$in": match_numbers}, "status": "incomplete"},
+            {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
         )
 
         if result.matched_count == 0:
             raise ValueError("No matches were found")
+        
+        print(result.matched_count, result.modified_count)
 
     except ValueError as e:
         return jsonify({"error": str(e)}), 400

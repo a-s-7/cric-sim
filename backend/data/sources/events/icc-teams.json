@@ -4,7 +4,7 @@
             "_id": "AFG",
             "name": "Afghanistan",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/afg.png",
-            "gradient": "linear-gradient(135deg, green, forestgreen, gold)"
+            "gradient": "linear-gradient(135deg, #0D47A1, #1976D2, #D71A28)"
         },
         {
             "_id": "AUS",
@@ -16,13 +16,13 @@
             "_id": "CAN",
             "name": "Canada",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/can.png",
-            "gradient": "linear-gradient(135deg, #FF0000, #FFFFFF, #FF0000)"
+            "gradient": "linear-gradient(135deg, #1A0A0A, #8B0000, #D71A28)"
         },
         {
             "_id": "ENG",
             "name": "England",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/eng.png",
-            "gradient": "linear-gradient(135deg, red, red, white)"
+            "gradient": "linear-gradient(135deg, #D72631, #8B1C24, #1E3A70)"
         },
         {
             "_id": "IND",
@@ -34,31 +34,31 @@
             "_id": "IRE",
             "name": "Ireland",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/ire.png",
-            "gradient": "linear-gradient(135deg, green, white, green)"
+            "gradient": "linear-gradient(135deg, #041F16, #0A7F4A, #26B672)"
         },
         {
             "_id": "ITA",
             "name": "Italy",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/ita.png",
-            "gradient": "linear-gradient(135deg, green, white, green)"
+            "gradient": "linear-gradient(135deg, #0B2F6B, #1E64C8, #3AC2FF)"
         },
         {
             "_id": "NAM",
             "name": "Namibia",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/nam.png",
-            "gradient": "linear-gradient(135deg, green, red, green)"
+            "gradient": "linear-gradient(135deg, #0B1E3A, #102B4F, #FF5DA2)"
         },
         {
             "_id": "NEP",
             "name": "Nepal",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/nep.png",
-            "gradient": "linear-gradient(135deg, red, white, red)"
+            "gradient": "linear-gradient(135deg, #8B0000, #DC143C, #1E3A70)"
         },
         {
             "_id": "NED",
             "name": "Netherlands",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/ned.png",
-            "gradient": "linear-gradient(135deg, red, white, red)"
+            "gradient": "linear-gradient(135deg, #FF5A33, #FF8C33, #16478B)"
         },
         {
             "_id": "NZ",
@@ -70,7 +70,7 @@
             "_id": "OMA",
             "name": "Oman",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/oma.png",
-            "gradient": "linear-gradient(135deg, white, green, white)"
+            "gradient": "linear-gradient(135deg, #A80000, #D71A28, #009640)"
         },
         {
             "_id": "PAK",
@@ -82,13 +82,13 @@
             "_id": "SCO",
             "name": "Scotland",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/sco.png",
-            "gradient": "linear-gradient(135deg, blue, white, blue)"
+            "gradient": "linear-gradient(135deg, #0D0A2E, #5B1A8B, #C84BC4, #F0A0E8)"
         },
         {
             "_id": "SA",
             "name": "South Africa",
             "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/7.png?v=7",
-            "gradient": "linear-gradient(135deg, darkgreen, gold)"
+            "gradient": "linear-gradient(135deg, #E6B800, #FFD633, #2EA64B)"
         },
         {
             "_id": "SL",
@@ -100,25 +100,25 @@
             "_id": "USA",
             "name": "United States",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/usa.png",
-            "gradient": "linear-gradient(135deg, blue, white, red)"
+            "gradient": "linear-gradient(135deg, #021B3D, #0B3A6D, #C8102E)"
         },
         {
             "_id": "UAE",
             "name": "United Arab Emirates",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/uae.png",
-            "gradient": "linear-gradient(135deg, red, white, green)"
+            "gradient": "linear-gradient(135deg, #081B34, #14509C, #FFD700)"
         },
         {
             "_id": "WI",
             "name": "West Indies",
             "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/9.png?v=7",
-            "gradient": "linear-gradient(135deg, maroon, rgb(255, 235, 0))"
+            "gradient": "linear-gradient(135deg, #6A0D0D, #A52A2A, #FFD700)"
         },
         {
             "_id": "ZIM",
             "name": "Zimbabwe",
             "flag": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/zim.png",
-            "gradient": "linear-gradient(135deg, green, white, green)"
+            "gradient": "linear-gradient(135deg, #8B0000, #D71A28, #FFD700)"
         }
     ]
 }

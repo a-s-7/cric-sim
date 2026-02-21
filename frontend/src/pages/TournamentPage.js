@@ -21,7 +21,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
 
     const refreshMatchArea = async () => {
         await fetchMatches();
-        setMatchAreaKey(matchAreaKey + 1);
+        setMatchAreaKey(prevKey => prevKey + 1);
     }
 
     const handleRefresh = async () => {
@@ -117,6 +117,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
             <div className="flex flex-row w-full flex-1 overflow-hidden">
                 <div className="flex flex-col w-[55%] h-full overflow-auto">
                     <EventMatchDisplay
+                        key={matchAreaKey}
                         onMatchUpdate={refreshPointsTable}
                         matches={matchesData}
                         tournamentUrlTag={tournamentId}

@@ -92,8 +92,11 @@ function NewControlBar({
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
-            if (!response.ok) {
-                alert("Error: Response not ok");
+
+            if (response.ok) {
+                refreshFunction();
+            } else {
+                alert("Error: Response not ok")
             }
         } catch (error) {
             alert(error);
