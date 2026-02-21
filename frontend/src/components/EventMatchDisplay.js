@@ -2,11 +2,10 @@ import MatchCard from "./MatchCard";
 import MatchResultCard from "./MatchResultCard";
 
 
-function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient }) {
+function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tournamentId, tournamentName, tournamentEdition }) {
 
     const matchesArray = matches?.matches || [];
     const teamDictionary = matches?.teams?.[0] || {};
-    const tournamentDictionary = matches?.tournament?.[0] || {};
 
     const convertBallsToDecimalOvers = (balls) => {
         const overs = Math.floor(balls / 6);
@@ -31,8 +30,8 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient }) {
                             awaySeed={match.awaySeed}
                             homeConfirmed={match.homeConfirmed}
                             awayConfirmed={match.awayConfirmed}
-                            leagueName={tournamentDictionary?.name}
-                            edition={tournamentDictionary?.edition}
+                            tournamentName={tournamentName}
+                            tournamentEdition={tournamentEdition}
                             matchNum={match.matchNumber}
                             venue={match.venue}
                             date={match.date}
@@ -53,9 +52,9 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient }) {
                             awayTeamName={match.awayStageTeam}
                             homeTeamLogo={teamDictionary[match.homeStageTeam]?.logo}
                             awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
-                            leagueName={tournamentDictionary?.name}
-                            leagueID={tournamentDictionary?._id}
-                            edition={tournamentDictionary?.edition}
+                            tournamentName={tournamentName}
+                            tournamentID={tournamentId}
+                            tournamentEdition={tournamentEdition}
                             matchNum={match.matchNumber}
                             venue={match.venue}
                             date={match.date}

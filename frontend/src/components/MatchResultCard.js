@@ -2,7 +2,7 @@ import React from "react";
 
 function MatchResultCard({
     homeGradient, awayGradient, homeTeamName, awayTeamName, homeTeamLogo, awayTeamLogo,
-    leagueName, edition, matchNum, venue, date, matchResult, homeTeamRuns, homeTeamWickets, homeTeamOvers,
+    tournamentName, tournamentEdition, matchNum, venue, date, matchResult, homeTeamRuns, homeTeamWickets, homeTeamOvers,
     awayTeamRuns, awayTeamWickets, awayTeamOvers, neutralGradient, group, stage, homeSeed, awaySeed, homeConfirmed, awayConfirmed
 }) {
 

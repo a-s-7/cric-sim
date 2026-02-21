@@ -305,18 +305,6 @@ def get_tournaments_match_data(id):
     if not tournament:
         return jsonify({"error": "Tournament not found"}), 404
 
-    tournament_pipeline = [{
-        "$match": {"_id": id},
-    }, {
-        "$project": {
-            "_id": 1,
-            "name": 1,
-            "edition": 1
-        }
-    }]
-
-    tournament_data = list(tournaments_collection.aggregate(tournament_pipeline))
-
     teams_pipeline = [
     { "$match": { "tournamentId": id } },
 
@@ -455,7 +443,7 @@ def get_tournaments_match_data(id):
         
     filtered_matches = list(matches_collection.aggregate(pipeline))
 
-    return jsonify({"tournament": tournament_data, "teams": teams_data, "matches": filtered_matches})
+    return jsonify({"teams": teams_data, "matches": filtered_matches})
 
 @events_bp.route('/tournaments/<string:id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
 def update_tournament_match_result(id, match_num, result):

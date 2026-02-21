@@ -7,8 +7,9 @@ function MatchCard({
     homeTeamLogo,
     awayTeamName,
     awayTeamLogo,
-    leagueName,
-    leagueID,
+    tournamentName,
+    tournamentID,
+    tournamentEdition,
     matchNum,
     venue,
     date,
@@ -21,7 +22,6 @@ function MatchCard({
     awayTeamWickets,
     homeTeamWickets,
     neutralGradient,
-    leagueEdition,
     group,
     stage
 }) {
@@ -67,7 +67,7 @@ function MatchCard({
     const handleClick = async (result) => {
         setSelected(result);
         try {
-            const response = await fetch(`/tournaments/${leagueID}/match/${matchNum}/${result}`, {
+            const response = await fetch(`/tournaments/${tournamentID}/match/${matchNum}/${result}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -103,7 +103,7 @@ function MatchCard({
         const intPart = Number(parts[0]);
         const decPart = Number(parts[1] ?? 0);
 
-        const overBallLimit = leagueName === "THU" ? 4 : 5;
+        const overBallLimit = tournamentName === "THU" ? 4 : 5;
 
         if (decPart > overBallLimit) {
             value = intPart + 1.0;
@@ -136,7 +136,7 @@ function MatchCard({
 
         try {
             const scoreKey = `${homeRunsValue}/${homeWicketsValue}/${homeOversValue}/${awayRunsValue}/${awayWicketsValue}/${awayOversValue}`;
-            const response = await fetch(`/tournaments/${leagueID}/match/score/${matchNum}/${scoreKey}`, {
+            const response = await fetch(`/tournaments/${tournamentID}/match/score/${matchNum}/${scoreKey}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -155,7 +155,7 @@ function MatchCard({
             const params = new URLSearchParams();
             params.set("match_nums", [matchNum]);
 
-            const response = await fetch(`/tournaments/${leagueID}/match/clear?${params.toString()}`, {
+            const response = await fetch(`/tournaments/${tournamentID}/match/clear?${params.toString()}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });

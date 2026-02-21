@@ -120,7 +120,9 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                         key={matchAreaKey}
                         onMatchUpdate={refreshPointsTable}
                         matches={matchesData}
-                        tournamentUrlTag={tournamentId}
+                        tournamentId={tournamentId}
+                        tournamentName={tournamentName}
+                        tournamentEdition={tournamentEdition}
                         cardNeutralGradient={tournamentGradient} />
                 </div>
                 <div className="w-[45%] h-full overflow-auto flex flex-col">
