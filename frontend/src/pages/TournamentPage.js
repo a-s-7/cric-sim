@@ -111,7 +111,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                 name={tournamentName}
                 color={tournamentGradient}
                 edition={tournamentEdition}
-                matchesFiltered={[]}
+                matchesFiltered={matchesData?.matches || []}
             />
 
             <div className="flex flex-row w-full flex-1 overflow-hidden">

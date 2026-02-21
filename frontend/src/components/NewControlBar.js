@@ -76,34 +76,28 @@ function NewControlBar({
 
 
     const resetIncompleteMatches = async () => {
-        // let matchNums = "";
-
         // if (urlTag === "wtc") {
         //     matchNums = matchesFiltered.map(match => `${match.seriesID}.${match.matchNumber.charAt(0)}`).join("-");
         // } else {
         //     matchNums = matchesFiltered.map(match => match.MatchNumber).join("-")
         // }
 
-        // try {
-        //     let url = urlTag === "wtc" ? `/${urlTag}/${edition}` : `/leagues/${urlTag}/${edition}`;
+        try {
+            let matchNums = matchesFiltered.map(match => match.matchNumber)
 
-        //     const response = await fetch(`${url}/clear/${matchNums}`,
-        //         {
-        //             method: 'PATCH',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             }
-        //         });
+            const params = new URLSearchParams();
+            params.set("match_nums", matchNums);
 
-        //     if (response.ok) {
-        //         refreshFunction();
-        //     } else {
-        //         alert("Error: Response not ok")
-        //     }
-        // } catch (error) {
-        //     alert(error)
-        // }
-        alert("Reset coming soon")
+            const response = await fetch(`/tournaments/${urlTag}/match/clear?${params.toString()}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (!response.ok) {
+                alert("Error: Response not ok");
+            }
+        } catch (error) {
+            alert(error);
+        }
     };
 
     const randomlySimIncompleteMatches = async () => {

@@ -5,7 +5,7 @@ import random
 from flask import Blueprint, jsonify, request
 from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
-from tournamentsUtils import overs_to_balls
+from data.utils.tournamentsUtils import overs_to_balls
 
 if os.getenv("RENDER_STATUS") != "TRUE":
     from dotenv import load_dotenv
@@ -461,6 +461,7 @@ def update_tournament_match_result(id, match_num, result):
     if result not in ["Home-win", "Away-win", "No-result", "None"]:
         return jsonify({"error": "Invalid result value"}), 400
 
+
     try:
         match = matches_collection.find_one({"tournamentId": id, "matchNumber": match_num}) 
 
@@ -544,13 +545,11 @@ def update_tournament_match_result(id, match_num, result):
     return jsonify({"message": f"Tournament id {id} match #{match_num} updated successfully"})
     
         
-@events_bp.route('/tournaments/<string:id>/match/clear/<string:match_nums>', methods=['PATCH'])
-def clear_tournament_matches(id, match_nums):
-    match_nums = str(match_nums)
-
+@events_bp.route('/tournaments/<string:id>/match/clear', methods=['PATCH'])
+def clear_tournament_matches(id):
     try:
-        match_num_strings = match_nums.split(",")
-        match_numbers = list(map(int, match_num_strings))
+        match_nums = request.args.get("match_nums", "") 
+        match_numbers = list(map(int, match_nums.split(",")))
 
         matches = matches_collection.find(
             {"tournamentId": id, 
@@ -597,44 +596,42 @@ def clear_tournament_matches(id, match_nums):
 @events_bp.route('/tournaments/<string:id>/match/score/<int:match_num>/<int:home_runs>/<int:home_wickets>/<string:home_overs>/<int:away_runs>/<int:away_wickets>/<string:away_overs>', methods=['PATCH'])
 def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, away_runs, away_wickets, away_overs):
 
+    new_home_balls = overs_to_balls(home_overs)
+    new_away_balls = overs_to_balls(away_overs)
 
     try:
-        match = matches_collection.find_one(
-            {"tournamentId": id, "matchNumber": int(match_num)}
-        )
-        if not match:
-            raise ValueError("No match was found")
-
-        homeRunsDiff = int(home_runs) - match["homeTeamRuns"]
-        awayRunsDiff = int(away_runs) - match["awayTeamRuns"]
-
-        homeBallsDiff = overs_to_balls(home_overs) - match["homeTeamBalls"]
-        awayBallsDiff = overs_to_balls(away_overs) - match["awayTeamBalls"]
-
-        stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"runsScored": homeRunsDiff, "runsConceded": awayRunsDiff, "ballsBowled": awayBallsDiff,  "ballsFaced": homeBallsDiff}}
-            )
-
-        stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"runsScored": awayRunsDiff, "runsConceded": homeRunsDiff, "ballsBowled": homeBallsDiff,  "ballsFaced": awayBallsDiff}}
-         )
-
-        result = matches_collection.update_one(
+        old_match = matches_collection.find_one_and_update(
             {"tournamentId": id, "matchNumber": int(match_num)},
             {"$set": {
-                "homeTeamRuns": int(home_runs),
+                "homeTeamRuns":    int(home_runs),
                 "homeTeamWickets": int(home_wickets),
-                "homeTeamBalls": overs_to_balls(home_overs),
-                "awayTeamRuns": int(away_runs),
+                "homeTeamBalls":   new_home_balls,
+                "awayTeamRuns":    int(away_runs),
                 "awayTeamWickets": int(away_wickets),
-                "awayTeamBalls": overs_to_balls(away_overs)
-            }}
+                "awayTeamBalls":   new_away_balls,
+            }},
+            return_document=False  
         )
 
-        if result.matched_count == 0:
+        if not old_match:
             raise ValueError("No match was found")
+
+        homeRunsDiff  = int(home_runs)   - old_match["homeTeamRuns"]
+        awayRunsDiff  = int(away_runs)   - old_match["awayTeamRuns"]
+        homeBallsDiff = new_home_balls   - old_match["homeTeamBalls"]
+        awayBallsDiff = new_away_balls   - old_match["awayTeamBalls"]
+
+        stageTeams_collection.update_one(
+            {"_id": ObjectId(old_match["homeStageTeamId"])},
+            {"$inc": {"runsScored": homeRunsDiff, "runsConceded": awayRunsDiff,
+                      "ballsBowled": awayBallsDiff, "ballsFaced": homeBallsDiff}}
+        )
+
+        stageTeams_collection.update_one(
+            {"_id": ObjectId(old_match["awayStageTeamId"])},
+            {"$inc": {"runsScored": awayRunsDiff, "runsConceded": homeRunsDiff,
+                      "ballsBowled": homeBallsDiff, "ballsFaced": awayBallsDiff}}
+        )
 
     except ValueError as e:
         return jsonify(str(e)), 404
