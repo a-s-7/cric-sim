@@ -428,7 +428,8 @@ def get_tournaments_match_data(id):
         {
             "$set": {
                 "stage": "$stage.name",
-                "stageOrder": "$stage.order"
+                "stageOrder": "$stage.order",
+                "stageStatus": "$stage.status"
             }
         },
         {
@@ -474,7 +475,6 @@ def get_tournaments_match_data(id):
 def update_tournament_match_result(id, match_num, result):
     if result not in ["Home-win", "Away-win", "No-result"]:
         return jsonify({"error": "Invalid result value"}), 400
-
 
     try:
         match = matches_collection.find_one({"tournamentId": id, "matchNumber": match_num}) 
@@ -553,11 +553,33 @@ def update_tournament_match_result(id, match_num, result):
         if update_result.matched_count == 0:
             raise ValueError("No match was found")
 
+        not_finished_matches = list(matches_collection.find({
+            "tournamentId": id,
+            "stageId": ObjectId(match["stageId"]),
+            "result": "None"
+        }))
+
+        print(f"{len(not_finished_matches)} left")
+
+
+        if len(not_finished_matches) == 0:
+            current_stage = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
+
+            stages_collection.update_one(
+                {"tournamentId": id, "order": current_stage["order"] + 1},
+                {"$set": {"status": "active"}}
+            )
+            print("Stage {} for tournament {} is now active".format(current_stage["order"] + 1, id))
+
     except ValueError as e:
         return jsonify(str(e)), 404
 
     return jsonify({"message": f"Tournament id {id} match #{match_num} updated successfully"})
-    
+
+
+
+
+
         
 @events_bp.route('/tournaments/<string:id>/match/clear', methods=['PATCH'])
 def clear_tournament_matches(id):

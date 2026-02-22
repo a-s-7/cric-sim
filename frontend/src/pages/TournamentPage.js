@@ -120,7 +120,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                 <div className="flex flex-col w-[55%] h-full overflow-auto no-scrollbar">
                     <EventMatchDisplay
                         key={matchAreaKey}
-                        onMatchUpdate={refreshPointsTable}
+                        onMatchUpdate={handleRefresh}
                         matches={matchesData}
                         tournamentId={tournamentId}
                         tournamentName={tournamentName}
