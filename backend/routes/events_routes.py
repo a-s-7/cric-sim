@@ -561,7 +561,6 @@ def update_tournament_match_result(id, match_num, result):
 
         print(f"{len(not_finished_matches)} left")
 
-
         if len(not_finished_matches) == 0:
             current_stage = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
 
@@ -575,10 +574,6 @@ def update_tournament_match_result(id, match_num, result):
         return jsonify(str(e)), 404
 
     return jsonify({"message": f"Tournament id {id} match #{match_num} updated successfully"})
-
-
-
-
 
         
 @events_bp.route('/tournaments/<string:id>/match/clear', methods=['PATCH'])
@@ -655,6 +650,17 @@ def clear_tournament_matches(id):
 
         if result.matched_count == 0:
             raise ValueError("No matches were found")
+
+
+        current_stage = stages_collection.find_one({"_id": ObjectId(matches[0]["stageId"]) })
+
+        nextStage = stages_collection.find_one({"tournamentId": id, "order": current_stage["order"] + 1})
+
+        if nextStage["status"] == "active":
+            stages_collection.update_one(
+                {"_id": ObjectId(nextStage["_id"])},
+                {"$set": {"status": "locked"}}
+            )   
         
         print(result.matched_count, result.modified_count)
 
