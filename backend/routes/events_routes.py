@@ -7,7 +7,7 @@ from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
 from data.utils.tournamentsUtils import overs_to_balls
 from collections import defaultdict
-from utils import get_tournament_standings
+from utils import get_tournament_standings, confirmTeamsForStage
 
 
 if os.getenv("RENDER_STATUS") != "TRUE":
@@ -220,7 +220,7 @@ def get_tournaments_standings(id):
     groupStageOrders = stages_collection.find({"tournamentId": id, "type": "group"})
     groupStageOrders = [s["order"] for s in groupStageOrders]
 
-    return get_tournament_standings(id, groupStageOrders)
+    return jsonify(get_tournament_standings(id, groupStageOrders))
 
 @events_bp.route('/tournaments/<string:id>/matches', methods=['GET'])
 def get_tournaments_match_data(id):
@@ -475,12 +475,13 @@ def update_tournament_match_result(id, match_num, result):
             )
             print("Stage {} for tournament {} is now active".format(current_stage["order"] + 1, id))
 
+            confirmTeamsForStage(id, current_stage["order"] + 1)
+
     except ValueError as e:
         return jsonify(str(e)), 404
 
     return jsonify({"message": f"Tournament id {id} match #{match_num} updated successfully"})
 
-        
 @events_bp.route('/tournaments/<string:id>/match/clear', methods=['PATCH'])
 def clear_tournament_matches(id):
     try:
