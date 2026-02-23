@@ -9,6 +9,7 @@ from data.utils.tournamentsUtils import overs_to_balls
 from collections import defaultdict
 from utils import get_tournament_standings, confirmTeamsForStage
 
+verbose = False
 
 if os.getenv("RENDER_STATUS") != "TRUE":
     from dotenv import load_dotenv
@@ -464,16 +465,17 @@ def update_tournament_match_result(id, match_num, result):
             "result": "None"
         }))
 
-        print(f"{len(not_finished_matches)} left")
+        current_stage = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
 
-        if len(not_finished_matches) == 0:
-            current_stage = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
+        if len(not_finished_matches) == 0 and current_stage["order"] < 2:
 
             stages_collection.update_one(
                 {"tournamentId": id, "order": current_stage["order"] + 1},
                 {"$set": {"status": "active"}}
             )
-            print("Stage {} for tournament {} is now active".format(current_stage["order"] + 1, id))
+
+            if verbose:
+                print("Stage {} for tournament {} is now active".format(current_stage["order"] + 1, id))
 
             confirmTeamsForStage(id, current_stage["order"] + 1)
 
@@ -573,8 +575,6 @@ def clear_tournament_matches(id):
                 [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
             )          
                           
-        print(result.matched_count, result.modified_count)
-
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 

@@ -6,6 +6,8 @@ from flask import jsonify
 from dotenv import load_dotenv
 load_dotenv()
 
+verbose = False
+
 connection_string = os.getenv('MONGODB_URI')
 
 # Connect with MongoDB
@@ -157,11 +159,14 @@ def confirmTeamsForStage(tournamentId, stageOrder):
         qualifyingTeamIdsNotSeeded = qualifierIds - seededIds
         seededTeamIdsNotQualified = seededIds - qualifierIds
 
-        print(f"Group {groupName}: qualifiers are {firstPlaceTeam['teamId']} (1st) and {secondPlaceTeam['teamId']} (2nd)")
-        print(f"Group {groupName}: seeded teams are {seededIds}")
+        if verbose:
+            print(f"Group {groupName}: qualifiers are {firstPlaceTeam['teamId']} (1st) and {secondPlaceTeam['teamId']} (2nd)")
+            print(f"Group {groupName}: seeded teams are {seededIds}")
         
         if len(qualifyingTeamIdsNotSeeded) == 0:
-            print(f"Group {groupName}: both seeded teams qualified, confirming as-is")
+            if verbose:
+                print(f"Group {groupName}: both seeded teams qualified, confirming as-is")
+
             stageTeams_collection.update_many(
                 {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }},
                 {
@@ -173,7 +178,10 @@ def confirmTeamsForStage(tournamentId, stageOrder):
         elif len(qualifyingTeamIdsNotSeeded) == 1:
             replacing = seededTeamIdsNotQualified.copy().pop()
             replacement = qualifyingTeamIdsNotSeeded.copy().pop()
-            print(f"Group {groupName}: replacing {replacing} with {replacement}")
+
+            if verbose:
+                print(f"Group {groupName}: replacing {replacing} with {replacement}")
+
             stageTeamThatDidNotQualify = stageTeams_collection.find_one_and_update(
                 {"stageId": currentStage["_id"], "teamId": seededTeamIdsNotQualified.pop()},
                 {
@@ -194,8 +202,9 @@ def confirmTeamsForStage(tournamentId, stageOrder):
             s1 = groupName + "1"
             s2 = groupName + "2"
 
-            print(f"Group {groupName}: neither seeded team qualified. {s1} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s1][0]}) replaced by {firstPlaceTeam['teamId']} (1st place), {s2} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s2][0]}) replaced by {secondPlaceTeam['teamId']} (2nd place)")
-            
+            if verbose:
+                print(f"Group {groupName}: neither seeded team qualified. {s1} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s1][0]}) replaced by {firstPlaceTeam['teamId']} (1st place), {s2} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s2][0]}) replaced by {secondPlaceTeam['teamId']} (2nd place)")
+
             stageTeams_collection.update_one(
                 {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s1},
                 {
