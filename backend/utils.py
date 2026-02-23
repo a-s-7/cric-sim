@@ -124,9 +124,15 @@ def get_tournament_standings(id, stages):
         }
 
     return sorted_standings
+    
 
-def confirmTeamsForStage(tournamentId, stageOrder):
+def confirmTeamsForStage(tournamentId, stageOrder):    
     currentStage = stages_collection.find_one({"tournamentId": tournamentId, "order": stageOrder})
+
+    stageTeams_collection.update_many(
+        {"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])},
+        [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
+    )
 
     previousStageStandings = get_tournament_standings(tournamentId, [stageOrder - 1])
 
@@ -187,7 +193,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
             # print(f"Group {groupName}: neither seeded team qualified, replacing both. {firstPlaceTeam['teamId']} -> slot 1, {secondPlaceTeam['teamId']} -> slot 2")
             s1 = groupName + "1"
             s2 = groupName + "2"
-            
+
             print(f"Group {groupName}: neither seeded team qualified. {s1} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s1][0]}) replaced by {firstPlaceTeam['teamId']} (1st place), {s2} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s2][0]}) replaced by {secondPlaceTeam['teamId']} (2nd place)")
             
             stageTeams_collection.update_one(

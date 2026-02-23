@@ -566,8 +566,13 @@ def clear_tournament_matches(id):
             stages_collection.update_one(
                 {"_id": ObjectId(nextStage["_id"])},
                 {"$set": {"status": "locked"}}
-            )   
-        
+            )
+
+            stageTeams_collection.update_many(
+                {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
+                [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
+            )          
+                          
         print(result.matched_count, result.modified_count)
 
     except ValueError as e:
