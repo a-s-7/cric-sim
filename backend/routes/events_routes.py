@@ -302,7 +302,12 @@ def get_tournaments_match_data(id):
             "foreignField": "_id",
             "as": "homeStageTeam"
         }},
-        {"$unwind": "$homeStageTeam"},
+        {
+            "$unwind": {
+                "path": "$homeStageTeam",
+                "preserveNullAndEmptyArrays": True
+            }
+        },
         {
             "$set": {
                 "homeStageTeam": "$homeStageTeam.teamId",
@@ -316,7 +321,12 @@ def get_tournaments_match_data(id):
             "foreignField": "_id",
             "as": "awayStageTeam"
         }},
-        {"$unwind": "$awayStageTeam"},
+        {
+            "$unwind": {
+                "path": "$awayStageTeam",
+                "preserveNullAndEmptyArrays": True
+            }
+        },
         {
             "$set": {
                 "awayStageTeam": "$awayStageTeam.teamId",
