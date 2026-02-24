@@ -572,7 +572,14 @@ def clear_tournament_matches(id):
 
             stageTeams_collection.update_many(
                 {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
-                [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
+                [{"$set": {"teamId": "$preseededTeamId", "confirmed": False,
+                "matchesPlayed": 0, "points": 0, "won": 0, "lost": 0, "noResult": 0,
+                "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+            )
+
+            matches_collection.update_many(
+                {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
+                {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
             )          
                           
     except ValueError as e:

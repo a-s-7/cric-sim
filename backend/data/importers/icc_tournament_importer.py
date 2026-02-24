@@ -163,8 +163,10 @@ def main():
         match["venueId"] = venue_dict[match["venue"]]
         del match["venue"]
 
-        match["homeStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["homeStageTeamId"]]
-        match["awayStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["awayStageTeamId"]]
+        if match["homeStageTeamId"] is not None:
+            match["homeStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["homeStageTeamId"]]
+        if match["awayStageTeamId"] is not None:
+            match["awayStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["awayStageTeamId"]]
         
 
     try:
