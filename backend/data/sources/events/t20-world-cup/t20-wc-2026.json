@@ -547,6 +547,88 @@
             "ballsFaced": 0,
             "ballsBowled": 0,
             "points": 0
+        },
+        {
+            "tournamentId": "icc-mens-t20-world-cup-2026",
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G1-1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "1",
+            "teamFromStandingsPosition": 1,
+            "runsScored": 0,
+            "runsConceded": 0,
+            "ballsFaced": 0,
+            "ballsBowled": 0
+        },
+        {
+            "tournamentId": "icc-mens-t20-world-cup-2026",
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G2-2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "2",
+            "teamFromStandingsPosition": 2,
+            "runsScored": 0,
+            "runsConceded": 0,
+            "ballsFaced": 0,
+            "ballsBowled": 0
+        },
+        {
+            "tournamentId": "icc-mens-t20-world-cup-2026",
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G2-1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "2",
+            "teamFromStandingsPosition": 1,
+            "runsScored": 0,
+            "runsConceded": 0,
+            "ballsFaced": 0,
+            "ballsBowled": 0
+        },
+        {
+            "tournamentId": "icc-mens-t20-world-cup-2026",
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G1-2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "1",
+            "teamFromStandingsPosition": 2,
+            "runsScored": 0,
+            "runsConceded": 0,
+            "ballsFaced": 0,
+            "ballsBowled": 0
+        },
+        {
+            "tournamentId": "icc-mens-t20-world-cup-2026",
+            "stageOrder": 4,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "SF1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 53,
+            "runsScored": 0,
+            "runsConceded": 0,
+            "ballsFaced": 0,
+            "ballsBowled": 0
+        },
+        {
+            "tournamentId": "icc-mens-t20-world-cup-2026",
+            "stageOrder": 4,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "SF2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 54,
+            "runsScored": 0,
+            "runsConceded": 0,
+            "ballsFaced": 0,
+            "ballsBowled": 0
         }
     ],
     "stadiums": [
@@ -1502,11 +1584,8 @@
             "stageOrder": 3,
             "date": "2026-03-04 05:30:00",
             "venue": "Eden Gardens",
-            "teamsFromPreviousStage": "group-standing",
-            "homeTeamSeed": "1-1",
-            "awayTeamSeed": "2-2",
-            "homeStageTeamId": null,
-            "awayStageTeamId": null,
+            "homeStageTeamId": "G1-1",
+            "awayStageTeamId": "G2-2",
             "result": "None",
             "status": "incomplete",
             "homeTeamRuns": 0,
@@ -1514,7 +1593,8 @@
             "homeTeamBalls": 0,
             "awayTeamRuns": 0,
             "awayTeamWickets": 0,
-            "awayTeamBalls": 0
+            "awayTeamBalls": 0,
+            "description": "Semi-final 1"
         },
         {
             "tournamentId": "icc-mens-t20-world-cup-2026",
@@ -1522,11 +1602,8 @@
             "stageOrder": 3,
             "date": "2026-03-05 05:30:00",
             "venue": "Wankhede Stadium",
-            "teamsFromPreviousStage": "group-standing",
-            "homeTeamSeed": "1-2",
-            "awayTeamSeed": "2-1",
-            "homeStageTeamId": null,
-            "awayStageTeamId": null,
+            "homeStageTeamId": "G2-1",
+            "awayStageTeamId": "G1-2",
             "result": "None",
             "status": "incomplete",
             "homeTeamRuns": 0,
@@ -1534,19 +1611,17 @@
             "homeTeamBalls": 0,
             "awayTeamRuns": 0,
             "awayTeamWickets": 0,
-            "awayTeamBalls": 0
+            "awayTeamBalls": 0,
+            "description": "Semi-final 2"
         },
         {
             "tournamentId": "icc-mens-t20-world-cup-2026",
             "matchNumber": 55,
             "stageOrder": 4,
-            "date": "2026-03-08 05:30:00",
+            "date": "2026-03-08 06:30:00",
             "venue": "Narendra Modi Stadium",
-            "teamsFromPreviousStage": "match-winner",
-            "homeTeamSeed": 53,
-            "awayTeamSeed": 54,
-            "homeStageTeamId": null,
-            "awayStageTeamId": null,
+            "homeStageTeamId": "SF1",
+            "awayStageTeamId": "SF2",
             "result": "None",
             "status": "incomplete",
             "homeTeamRuns": 0,
@@ -1554,7 +1629,8 @@
             "homeTeamBalls": 0,
             "awayTeamRuns": 0,
             "awayTeamWickets": 0,
-            "awayTeamBalls": 0
+            "awayTeamBalls": 0,
+            "description": "Final"
         }
     ]
 }

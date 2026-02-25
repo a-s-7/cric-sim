@@ -98,7 +98,8 @@ def main():
     stage_teams_collection = db['stageTeams']
     stage_teams_collection.create_index(
         [("stageId", 1), ("teamId", 1)],
-        unique=True
+        unique=True,
+        partialFilterExpression={"teamId": {"$type": "objectId"}}
     )
 
     for s_team in stage_teams:

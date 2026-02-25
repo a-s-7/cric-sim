@@ -131,100 +131,152 @@ def get_tournament_standings(id, stages):
 def confirmTeamsForStage(tournamentId, stageOrder):    
     currentStage = stages_collection.find_one({"tournamentId": tournamentId, "order": stageOrder})
 
-    stageTeams_collection.update_many(
-        {"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])},
-        [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
-    )
+    if currentStage["type"] == "group":
+        stageTeams_collection.update_many(
+            {"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])},
+            [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
+        )
 
-    previousStageStandings = get_tournament_standings(tournamentId, [stageOrder - 1])
+        previousStageStandings = get_tournament_standings(tournamentId, [stageOrder - 1])
 
-    prevStageGroups = previousStageStandings[0]["groups"]
+        prevStageGroups = previousStageStandings[0]["groups"]
 
-    for key, val in prevStageGroups.items():
-        groupName = key 
-        teams = val
+        for key, val in prevStageGroups.items():
+            groupName = key 
+            teams = val
 
-        firstPlaceTeam = teams[0]
-        secondPlaceTeam = teams[1]
+            firstPlaceTeam = teams[0]
+            secondPlaceTeam = teams[1]
 
-        qualifierIds = {
-            firstPlaceTeam["teamId"],
-            secondPlaceTeam["teamId"]
-        }
+            qualifierIds = {
+                firstPlaceTeam["teamId"],
+                secondPlaceTeam["teamId"]
+            }
 
-        seededTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }}))
+            seededTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }}))
 
-        seededIds = {team["teamId"] for team in seededTeams}
+            seededIds = {team["teamId"] for team in seededTeams}
 
-        qualifyingTeamIdsNotSeeded = qualifierIds - seededIds
-        seededTeamIdsNotQualified = seededIds - qualifierIds
+            qualifyingTeamIdsNotSeeded = qualifierIds - seededIds
+            seededTeamIdsNotQualified = seededIds - qualifierIds
 
-        if verbose:
-            print(f"Group {groupName}: qualifiers are {firstPlaceTeam['teamId']} (1st) and {secondPlaceTeam['teamId']} (2nd)")
-            print(f"Group {groupName}: seeded teams are {seededIds}")
+            if verbose:
+                print(f"Group {groupName}: qualifiers are {firstPlaceTeam['teamId']} (1st) and {secondPlaceTeam['teamId']} (2nd)")
+                print(f"Group {groupName}: seeded teams are {seededIds}")
+            
+            if len(qualifyingTeamIdsNotSeeded) == 0:
+                if verbose:
+                    print(f"Group {groupName}: both seeded teams qualified, confirming as-is")
+
+                stageTeams_collection.update_many(
+                    {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }},
+                    {
+                        "$set": {
+                            "confirmed": True
+                        }
+                    })
+
+            elif len(qualifyingTeamIdsNotSeeded) == 1:
+                replacing = seededTeamIdsNotQualified.copy().pop()
+                replacement = qualifyingTeamIdsNotSeeded.copy().pop()
+
+                if verbose:
+                    print(f"Group {groupName}: replacing {replacing} with {replacement}")
+
+                stageTeamThatDidNotQualify = stageTeams_collection.find_one_and_update(
+                    {"stageId": currentStage["_id"], "teamId": seededTeamIdsNotQualified.pop()},
+                    {
+                        "$set": {
+                            "teamId": qualifyingTeamIdsNotSeeded.pop()
+                        }
+                    })
+
+                stageTeams_collection.update_many(
+                    {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }},
+                    {
+                        "$set": {
+                            "confirmed": True
+                        }
+                    })
+            else:
+                # print(f"Group {groupName}: neither seeded team qualified, replacing both. {firstPlaceTeam['teamId']} -> slot 1, {secondPlaceTeam['teamId']} -> slot 2")
+                s1 = groupName + "1"
+                s2 = groupName + "2"
+
+                if verbose:
+                    print(f"Group {groupName}: neither seeded team qualified. {s1} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s1][0]}) replaced by {firstPlaceTeam['teamId']} (1st place), {s2} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s2][0]}) replaced by {secondPlaceTeam['teamId']} (2nd place)")
+
+                stageTeams_collection.update_one(
+                    {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s1},
+                    {
+                        "$set": {
+                            "teamId": firstPlaceTeam["teamId"],
+                            "confirmed": True
+                        }
+                    }
+                )
+
+                stageTeams_collection.update_one(
+                    {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s2},
+                    {
+                        "$set": {
+                            "teamId": secondPlaceTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+   
+    else:   
+        stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])}))
+
+        if currentStage["name"] == "Semi-final":
+            standings = get_tournament_standings(tournamentId, [stageOrder - 1])
+            prevStageGroups = standings[0]["groups"]
+
+            for team in stageTeams:
+                standingsGroup = prevStageGroups[team["teamFromStandingsGroup"]]
+                standingsTeam = standingsGroup[team["teamFromStandingsPosition"] - 1]
+                
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(team["_id"])},
+                    {
+                        "$set": {
+                            "teamId": standingsTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+        elif currentStage["name"] == "Final":
+
+            for team in stageTeams:
+                match = matches_collection.find_one({"tournamentId": tournamentId, "matchNumber": team["teamFromMatchNumber"]})
+
+                id = None
+
+                if match["result"] == "Home-win":
+                    id = match["homeStageTeamId"]
+                else:
+                    id = match["awayStageTeamId"]
+                        
+
+                stageTeam = stageTeams_collection.find_one({"_id": ObjectId(id)})
+
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(team["_id"])},
+                    {
+                        "$set": {
+                            "teamId": stageTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+
+
         
-        if len(qualifyingTeamIdsNotSeeded) == 0:
-            if verbose:
-                print(f"Group {groupName}: both seeded teams qualified, confirming as-is")
 
-            stageTeams_collection.update_many(
-                {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }},
-                {
-                    "$set": {
-                        "confirmed": True
-                    }
-                })
-
-        elif len(qualifyingTeamIdsNotSeeded) == 1:
-            replacing = seededTeamIdsNotQualified.copy().pop()
-            replacement = qualifyingTeamIdsNotSeeded.copy().pop()
-
-            if verbose:
-                print(f"Group {groupName}: replacing {replacing} with {replacement}")
-
-            stageTeamThatDidNotQualify = stageTeams_collection.find_one_and_update(
-                {"stageId": currentStage["_id"], "teamId": seededTeamIdsNotQualified.pop()},
-                {
-                    "$set": {
-                        "teamId": qualifyingTeamIdsNotSeeded.pop()
-                    }
-                })
-
-            stageTeams_collection.update_many(
-                {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }},
-                {
-                    "$set": {
-                        "confirmed": True
-                    }
-                })
-        else:
-            # print(f"Group {groupName}: neither seeded team qualified, replacing both. {firstPlaceTeam['teamId']} -> slot 1, {secondPlaceTeam['teamId']} -> slot 2")
-            s1 = groupName + "1"
-            s2 = groupName + "2"
-
-            if verbose:
-                print(f"Group {groupName}: neither seeded team qualified. {s1} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s1][0]}) replaced by {firstPlaceTeam['teamId']} (1st place), {s2} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s2][0]}) replaced by {secondPlaceTeam['teamId']} (2nd place)")
-
-            stageTeams_collection.update_one(
-                {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s1},
-                {
-                    "$set": {
-                        "teamId": firstPlaceTeam["teamId"],
-                        "confirmed": True
-                    }
-                }
-            )
-
-            stageTeams_collection.update_one(
-                {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s2},
-                {
-                    "$set": {
-                        "teamId": secondPlaceTeam["teamId"],
-                        "confirmed": True
-                    }
-                })
-
+       
         
+                
+            
+            
+
         
         
 

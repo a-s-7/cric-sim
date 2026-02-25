@@ -9,7 +9,7 @@ from data.utils.tournamentsUtils import overs_to_balls
 from collections import defaultdict
 from utils import get_tournament_standings, confirmTeamsForStage
 
-verbose = False
+verbose = True
 
 if os.getenv("RENDER_STATUS") != "TRUE":
     from dotenv import load_dotenv
@@ -170,7 +170,8 @@ def get_tournaments_groups(id):
     groups = list(matches_collection.aggregate([
         {
             "$match": {
-                "tournamentId": id
+                "tournamentId": id,
+                "group": { "$exists": True}
             }
         },
         {
@@ -477,7 +478,7 @@ def update_tournament_match_result(id, match_num, result):
 
         current_stage = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
 
-        if len(not_finished_matches) == 0 and current_stage["order"] < 2:
+        if len(not_finished_matches) == 0:
 
             stages_collection.update_one(
                 {"tournamentId": id, "order": current_stage["order"] + 1},

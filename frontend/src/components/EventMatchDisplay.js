@@ -20,12 +20,12 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                 {matchesArray && matchesArray.map(match => (
                     <div key={`${match.matchNumber}`}>
                         {(match.stageStatus === "locked") ? <MatchResultCard
-                            homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
-                            awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
+                            homeGradient={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.gradient : ""}
+                            awayGradient={match.awayStageTeam ? teamDictionary[match.awayStageTeam]?.gradient : ""}
                             homeTeamName={match.homeStageTeam}
                             awayTeamName={match.awayStageTeam}
-                            homeTeamLogo={teamDictionary[match.homeStageTeam]?.logo}
-                            awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
+                            homeTeamLogo={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.logo : ""}
+                            awayTeamLogo={match.awayStageTeam ? teamDictionary[match.awayStageTeam]?.logo : ""}
                             homeSeed={match.homeSeed}
                             awaySeed={match.awaySeed}
                             homeConfirmed={match.homeConfirmed}
@@ -43,8 +43,8 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                             awayTeamWickets={match.awayTeamWickets}
                             awayTeamOvers={convertBallsToDecimalOvers(match.awayTeamBalls)}
                             neutralGradient={cardNeutralGradient}
-                            group={match.group}
-                            stage={match.stage}
+                            group={match.group ? match.group : ""}
+                            stage={match.description ? match.description : match.stage}
                         /> : <MatchCard
                             homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
                             awayGradient={teamDictionary[match.awayStageTeam]?.gradient}

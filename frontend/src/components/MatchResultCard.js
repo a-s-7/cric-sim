@@ -82,7 +82,7 @@ function MatchResultCard({
 
                         <div className="w-[36%] flex justify-center items-center p-[30px]">
                             <div className="relative w-full">
-                                <img className="box-content border border-zinc-300 w-full" style={{ filter: homeConfirmed === false ? 'blur(4px)' : 'none' }} src={homeTeamLogo} alt={`${homeTeamName} Logo`}></img>
+                                <img className="box-content border border-zinc-300 w-full" style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} alt={`${homeTeamName} Logo`}></img>
                                 {/* {!homeConfirmed && (
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <span className="text-black font-bold text-[2.5vh] font-['Reem_Kufi_Fun']">TBC</span>
@@ -102,7 +102,7 @@ function MatchResultCard({
 
                         <div className="w-[36%] flex justify-center items-center p-[30px]">
                             <div className="relative w-full">
-                                <img className="box-content border border-zinc-300 w-full" style={{ filter: awayConfirmed === false ? 'blur(4px)' : 'none' }} src={awayTeamLogo} alt={`${awayTeamName} Logo`}></img>
+                                <img className="box-content border border-zinc-300 w-full" style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} alt={`${awayTeamName} Logo`}></img>
                                 {/* {!awayConfirmed && (
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <span className="text-white font-bold text-[2.5vh] font-['Reem_Kufi_Fun']">TBC</span>
@@ -150,7 +150,7 @@ function MatchResultCard({
                 </div>
                 <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-white text-[0.9vw]">
                     <div className="flex justify-center items-center h-full flex-grow text-black">
-                        {`${stage} - Match ${matchNum} · Group ${group} ·  ${venue}`}
+                        {group ? `${stage} - Match ${matchNum} · Group ${group} ·  ${venue}` : `${stage} - Match ${matchNum} ·  ${venue}`}
                     </div>
 
                 </div>
