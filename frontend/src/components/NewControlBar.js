@@ -201,7 +201,7 @@ function NewControlBar({
                         styles={customStyles}
                         value={stages}
                         onChange={handleStageChange}
-                        placeholder="Select stages"
+                        placeholder="Stages"
                         noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
                     />
                 </div>
@@ -214,7 +214,7 @@ function NewControlBar({
                         styles={customStyles}
                         value={groups}
                         onChange={handleGroupChange}
-                        placeholder="Select groups"
+                        placeholder="Groups"
                         noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
                     />
                 </div>
@@ -226,7 +226,7 @@ function NewControlBar({
                         styles={customStyles}
                         value={teams}
                         onChange={handleTeamChange}
-                        placeholder="Select teams"
+                        placeholder="Teams"
                         noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
                     />
                 </div>
@@ -239,7 +239,7 @@ function NewControlBar({
                         styles={customStyles}
                         value={stadiums}
                         onChange={handleVenueChange}
-                        placeholder="Select venues"
+                        placeholder="Venues"
                         noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
                     />
                 </div>

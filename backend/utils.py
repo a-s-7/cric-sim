@@ -63,6 +63,7 @@ def get_tournament_standings(id, stages):
             "points": "$points",
             "stageName": "$stage.name",
             "stageOrder": "$stage.order",
+            "stageStatus": "$stage.status",
             "confirmed": "$confirmed",
             "seed": "$seed",
             "numQualifiers": "$stage.config.qualifiersPerGroup"
@@ -86,6 +87,7 @@ def get_tournament_standings(id, stages):
 
     for team in stageTeamsData:
         stageOrder = team["stageOrder"]
+        stageStatus = team["stageStatus"]
         stageName = team["stageName"]
         group = team["group"]
         numQualifiers = team["numQualifiers"]
@@ -93,6 +95,7 @@ def get_tournament_standings(id, stages):
         if stageOrder not in standings:
             standings[stageOrder] = {
                 "stageName": stageName,
+                "stageStatus": stageStatus,
                 "stageOrder": stageOrder,
                 "numQualifiers": numQualifiers,
                 "groups": {}

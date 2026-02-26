@@ -325,7 +325,7 @@ function MatchCard({
                         style={{
                             background: hoveredSection === "None" ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
                         }}>
-                        {`${stage} - Match ${matchNum} · Group ${group} ·  ${venue}`}
+                        {group ? `${stage} - Match ${matchNum} · Group ${group} ·  ${venue}` : `${stage} - Match ${matchNum} ·  ${venue}`}
                     </div>
                 </div>
             </div>

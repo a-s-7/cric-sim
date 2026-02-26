@@ -43,7 +43,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                             awayTeamWickets={match.awayTeamWickets}
                             awayTeamOvers={convertBallsToDecimalOvers(match.awayTeamBalls)}
                             neutralGradient={cardNeutralGradient}
-                            group={match.group ? match.group : ""}
+                            group={match.group}
                             stage={match.description ? match.description : match.stage}
                         /> : <MatchCard
                             homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
@@ -68,7 +68,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                             awayTeamOvers={convertBallsToDecimalOvers(match.awayTeamBalls)}
                             neutralGradient={cardNeutralGradient}
                             group={match.group}
-                            stage={match.stage}
+                            stage={match.description ? match.description : match.stage}
                         />
                         }
                     </div>

@@ -2,9 +2,27 @@ import React from "react";
 import PointsTable from "./PointsTable";
 
 function EventStandings({ standingsData, color }) {
-    const [activeStage, setActiveStage] = React.useState(0);
+    function getFarthestActiveIndex(stages) {
+        let farthest = 0;
+
+        stages.forEach((stage, index) => {
+            if (stage.stageStatus === "active") {
+                farthest = index;
+            }
+        });
+
+        console.log("Farthest active index:", farthest);
+
+        return farthest;
+    }
+
+    const [activeStage, setActiveStage] = React.useState(() =>
+        getFarthestActiveIndex(standingsData || [])
+    );
 
     if (!standingsData || !standingsData.length) return null;
+
+
 
     return (
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
@@ -31,7 +49,7 @@ function EventStandings({ standingsData, color }) {
             </div>
 
             {/* Main Standings Container */}
-            <div className="flex-1 flex flex-col bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden">
+            <div className="flex-1 flex flex-col bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden m-4">
                 {/* Content Area */}
                 <div className="flex-1 flex flex-col gap-8 p-4 overflow-y-auto no-scrollbar">
                     {Object.entries(standingsData[activeStage].groups).map(([groupName, teams]) => (

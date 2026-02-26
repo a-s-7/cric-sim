@@ -15,9 +15,11 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
     const [standingsData, setStandingsData] = useState([]);
 
     const [matchAreaKey, setMatchAreaKey] = useState(0);
+    const [standingsKey, setStandingsKey] = useState(0);
 
     const refreshPointsTable = async () => {
         await fetchStandings();
+        setStandingsKey(prevKey => prevKey + 1);
     }
 
     const refreshMatchArea = async () => {
@@ -128,7 +130,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                         cardNeutralGradient={tournamentGradient} />
                 </div>
                 <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
-                    <EventStandings standingsData={standingsData} color={tournamentPointsTableColor} />
+                    <EventStandings key={standingsKey} standingsData={standingsData} color={tournamentPointsTableColor} />
                 </div>
             </div>
         </div>

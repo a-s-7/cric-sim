@@ -34,12 +34,12 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers }) {
                     <th className="py-2 w-[60px]">POS</th>
                     <th className="py-2 w-[60px]"></th>
                     <th className="py-2 w-[240px] text-left">TEAM</th>
-                    <th className="py-2 w-[60px]">GP</th>
-                    <th className="py-2 w-[60px]">W</th>
-                    <th className="py-2 w-[60px]">L</th>
-                    <th className="py-2 w-[60px]">N/R</th>
-                    <th className="py-2 w-[90px]">NRR</th>
-                    <th className="py-2 w-[90px]">POINTS</th>
+                    <th className="py-2 w-[55px]">GP</th>
+                    <th className="py-2 w-[55px]">W</th>
+                    <th className="py-2 w-[55px]">L</th>
+                    <th className="py-2 w-[55px]">N/R</th>
+                    <th className="py-2 w-[80px]">NRR</th>
+                    <th className="py-2 w-[80px]">POINTS</th>
                     <th className="py-2 w-[110px]">FOR</th>
                     <th className="py-2 w-[110px]">AGAINST</th>
                 </tr>

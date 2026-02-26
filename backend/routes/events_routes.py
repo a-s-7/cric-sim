@@ -208,7 +208,7 @@ def get_tournaments_stages(id):
         return jsonify({"error": "Tournament not found"}), 404    
     
     stages = list(stages_collection.find(
-        {"tournamentId": id, "type": "group"},
+        {"tournamentId": id},
         {"_id": 0, "label": "$name", "value": "$order"}
     ))
 
@@ -395,72 +395,74 @@ def update_tournament_match_result(id, match_num, result):
 
     try:
         match = matches_collection.find_one({"tournamentId": id, "matchNumber": match_num}) 
+        matchStage = stages_collection.find_one({"_id": ObjectId(match["stageId"])})
 
-        if match["result"] == "Home-win":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
-            )
+        if matchStage["type"] == "group":
+            if match["result"] == "Home-win":
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["homeStageTeamId"])},
+                    {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
+                )
 
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"lost": -1, "matchesPlayed": -1}}
-            )
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["awayStageTeamId"])},
+                    {"$inc": {"lost": -1, "matchesPlayed": -1}}
+                )
 
-        elif match["result"] == "Away-win":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
-            )
+            elif match["result"] == "Away-win":
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["awayStageTeamId"])},
+                    {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
+                )
 
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"lost": -1, "matchesPlayed": -1}}
-            )
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["homeStageTeamId"])},
+                    {"$inc": {"lost": -1, "matchesPlayed": -1}}
+                )
 
-        elif match["result"] == "No-result":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
-            )
+            elif match["result"] == "No-result":
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["homeStageTeamId"])},
+                    {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
+                )
 
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
-            )
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["awayStageTeamId"])},
+                    {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
+                )
 
-        if result == "Home-win":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
-            )
+            if result == "Home-win":
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["homeStageTeamId"])},
+                    {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
+                )
 
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"lost": 1, "matchesPlayed": 1}}
-            )
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["awayStageTeamId"])},
+                    {"$inc": {"lost": 1, "matchesPlayed": 1}}
+                )
 
-        elif result == "Away-win":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
-            )
+            elif result == "Away-win":
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["awayStageTeamId"])},
+                    {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
+                )
 
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"lost": 1, "matchesPlayed": 1}}
-            )
-        
-        elif result == "No-result":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
-            )
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["homeStageTeamId"])},
+                    {"$inc": {"lost": 1, "matchesPlayed": 1}}
+                )
+            
+            elif result == "No-result":
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["homeStageTeamId"])},
+                    {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
+                )
 
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
-            )
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(match["awayStageTeamId"])},
+                    {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
+                )
     
         update_result = matches_collection.update_one(
             {"tournamentId": id, "matchNumber": match_num},
@@ -476,19 +478,29 @@ def update_tournament_match_result(id, match_num, result):
             "result": "None"
         }))
 
-        current_stage = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
+        stageOfChangedMatch = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
 
-        if len(not_finished_matches) == 0:
-
-            stages_collection.update_one(
-                {"tournamentId": id, "order": current_stage["order"] + 1},
-                {"$set": {"status": "active"}}
-            )
-
+        if len(not_finished_matches) > 0:
             if verbose:
-                print("Stage {} for tournament {} is now active".format(current_stage["order"] + 1, id))
+                print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageOfChangedMatch["name"]))
+        else:
+            if stageOfChangedMatch["name"] == "Final":
+                if verbose:
+                    print("Tournament {} has been simulated".format(id))
+            else:
+                stages_collection.update_one(
+                    {"tournamentId": id, "order": stageOfChangedMatch["order"] + 1},
+                    {"$set": {"status": "active"}}
+                )
 
-            confirmTeamsForStage(id, current_stage["order"] + 1)
+                if verbose:
+                    print("Stage {} for tournament {} is now active".format(stageOfChangedMatch["order"] + 1, id))
+
+                stage = stages_collection.find_one({"tournamentId": id, "order": stageOfChangedMatch["order"] + 1})
+
+                while stage and stage["status"] == "active":
+                    confirmTeamsForStage(id, stage["order"])
+                    stage = stages_collection.find_one({"tournamentId": id, "order": stage["order"] + 1})
 
     except ValueError as e:
         return jsonify(str(e)), 404
@@ -501,14 +513,34 @@ def clear_tournament_matches(id):
         match_nums = request.args.get("match_nums", "") 
         match_numbers = list(map(int, match_nums.split(",")))
 
-        matches = list(matches_collection.find(
-            {"tournamentId": id, 
-             "matchNumber": {"$in": match_numbers},
-             "status": "incomplete"}))
+        matches = list(matches_collection.aggregate([
+            {
+                "$match": {
+                    "tournamentId": id, 
+                    "matchNumber": {"$in": match_numbers},
+                    "status": "incomplete"
+                }
+            },
+            {
+                "$lookup": {
+                    "from": "stages",
+                    "localField": "stageId",
+                    "foreignField": "_id",
+                    "as": "stage"
+                }
+            },
+            {
+                "$unwind": "$stage"
+            },
+            {
+                "$set": {
+                    "stageType": "$stage.type",
+                }
+            }
+        ]))
 
         if len(matches) == 0:
             raise ValueError("No incomplete matches were found")
-
 
         team_acc = defaultdict(lambda: defaultdict(int))
 
@@ -526,30 +558,26 @@ def clear_tournament_matches(id):
             team_acc[away_id]["ballsBowled"] += -match["homeTeamBalls"]
             team_acc[away_id]["ballsFaced"] += -match["awayTeamBalls"]
 
-            if match["result"] == "Home-win":
-                team_acc[home_id]["won"] += -1
-                team_acc[home_id]["points"] += -2
-                team_acc[home_id]["matchesPlayed"] += -1
-
-                team_acc[away_id]["lost"] += -1
-                team_acc[away_id]["matchesPlayed"] += -1
-
-            elif match["result"] == "Away-win":
-                team_acc[away_id]["won"] += -1
-                team_acc[away_id]["points"] += -2
-                team_acc[away_id]["matchesPlayed"] += -1
-
-                team_acc[home_id]["lost"] += -1
-                team_acc[home_id]["matchesPlayed"] += -1
-
-            elif match["result"] == "No-result":
-                team_acc[home_id]["matchesPlayed"] += -1
-                team_acc[home_id]["points"] += -1
-                team_acc[home_id]["noResult"] += -1
-
-                team_acc[away_id]["matchesPlayed"] += -1
-                team_acc[away_id]["points"] += -1
-                team_acc[away_id]["noResult"] += -1
+            if match["stageType"] == "group":
+                if match["result"] == "Home-win":
+                    team_acc[home_id]["won"] += -1
+                    team_acc[home_id]["points"] += -2
+                    team_acc[home_id]["matchesPlayed"] += -1
+                    team_acc[away_id]["lost"] += -1
+                    team_acc[away_id]["matchesPlayed"] += -1
+                elif match["result"] == "Away-win":
+                    team_acc[away_id]["won"] += -1
+                    team_acc[away_id]["points"] += -2
+                    team_acc[away_id]["matchesPlayed"] += -1
+                    team_acc[home_id]["lost"] += -1
+                    team_acc[home_id]["matchesPlayed"] += -1
+                elif match["result"] == "No-result":
+                    team_acc[home_id]["matchesPlayed"] += -1
+                    team_acc[home_id]["points"] += -1
+                    team_acc[home_id]["noResult"] += -1
+                    team_acc[away_id]["matchesPlayed"] += -1
+                    team_acc[away_id]["points"] += -1
+                    team_acc[away_id]["noResult"] += -1
         
         operations = [
             UpdateOne(
@@ -571,27 +599,41 @@ def clear_tournament_matches(id):
             raise ValueError("No matches were found")
 
 
-        current_stage = stages_collection.find_one({"_id": ObjectId(matches[0]["stageId"]) })
+        firstMostRecentStage = stages_collection.find_one({"_id": ObjectId(matches[0]["stageId"]) })
 
-        nextStage = stages_collection.find_one({"tournamentId": id, "order": current_stage["order"] + 1})
+        if firstMostRecentStage["name"] == "Final":
+            if verbose:
+                print("Final has been reset")
+        else:
+            nextStage = stages_collection.find_one({"tournamentId": id, "order": firstMostRecentStage["order"] + 1})
 
-        if nextStage["status"] == "active":
-            stages_collection.update_one(
-                {"_id": ObjectId(nextStage["_id"])},
-                {"$set": {"status": "locked"}}
-            )
+            while nextStage and nextStage["status"] == "active":
+                stages_collection.update_one(
+                    {"_id": ObjectId(nextStage["_id"])},
+                    {"$set": {"status": "locked"}}
+                )
 
-            stageTeams_collection.update_many(
-                {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
-                [{"$set": {"teamId": "$preseededTeamId", "confirmed": False,
-                "matchesPlayed": 0, "points": 0, "won": 0, "lost": 0, "noResult": 0,
-                "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
-            )
+                if nextStage["type"] == "group":
+                    stageTeams_collection.update_many(
+                        {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
+                        [{"$set": {"teamId": "$preseededTeamId", "confirmed": False,
+                        "matchesPlayed": 0, "points": 0, "won": 0, "lost": 0, "noResult": 0,
+                        "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+                    )
+                else:
+                    stageTeams_collection.update_many(
+                        {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
+                        [{"$set": {"teamId": None, "confirmed": False,
+                        "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+                    )
+                    
 
-            matches_collection.update_many(
-                {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
-                {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
-            )          
+                matches_collection.update_many(
+                    {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
+                    {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
+                )          
+
+                nextStage = stages_collection.find_one({"tournamentId": id, "order": nextStage["order"] + 1})
                           
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
