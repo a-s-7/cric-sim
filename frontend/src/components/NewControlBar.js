@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRotateLeft, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRotateLeft, faShuffle, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../utils/selectStyles";
 
 function NewControlBar({
@@ -28,6 +28,8 @@ function NewControlBar({
     const [stadiumOptions, setStadiumOptions] = useState([]);
     const [groupOptions, setGroupOptions] = useState([]);
     const [stageOptions, setStageOptions] = useState([]);
+    const [isSimulating, setIsSimulating] = useState(false);
+    const [isResetting, setIsResetting] = useState(false);
 
     const fetchTeamOptions = async () => {
 
@@ -113,12 +115,7 @@ function NewControlBar({
 
 
     const resetIncompleteMatches = async () => {
-        // if (urlTag === "wtc") {
-        //     matchNums = matchesFiltered.map(match => `${match.seriesID}.${match.matchNumber.charAt(0)}`).join("-");
-        // } else {
-        //     matchNums = matchesFiltered.map(match => match.MatchNumber).join("-")
-        // }
-
+        setIsResetting(true);
         try {
             let matchNums = matchesFiltered.map(match => match.matchNumber)
 
@@ -137,22 +134,14 @@ function NewControlBar({
             }
         } catch (error) {
             alert(error);
+        } finally {
+            setIsResetting(false);
         }
     };
 
     const randomlySimIncompleteMatches = async () => {
-        // let matchNums = "";
-
-        // if (urlTag === "wtc") {
-        //     matchNums = matchesFiltered.map(match => `${match.seriesID}.${match.matchNumber.charAt(0)}`).join("-");
-        // } else {
-        //     matchNums = matchesFiltered.map(match => match.MatchNumber).join("-")
-        // }
-
+        setIsSimulating(true);
         try {
-
-            // let url = urlTag === "wtc" ? `/${urlTag}/${edition}` : `/leagues/${urlTag}/${edition}`;
-
             const response = await fetch(`/tournaments/${urlTag}/match/simulate`,
                 {
                     method: 'PATCH',
@@ -168,6 +157,8 @@ function NewControlBar({
             }
         } catch (error) {
             alert(error)
+        } finally {
+            setIsSimulating(false);
         }
     };
 
@@ -246,16 +237,18 @@ function NewControlBar({
 
             <div className="w-[18%] flex justify-center">
                 <button
-                    className="flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90"
+                    className={`flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90 ${isResetting ? 'cursor-not-allowed opacity-50' : ''}`}
                     onClick={resetIncompleteMatches}
+                    disabled={isResetting}
                 >
-                    <FontAwesomeIcon icon={faArrowRotateLeft} size="lg" />
+                    <FontAwesomeIcon icon={isResetting ? faSpinner : faArrowRotateLeft} size="lg" className={isResetting ? 'animate-spin' : ''} />
                 </button>
                 <button
-                    className="flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90"
+                    className={`flex-1 font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] m-[15px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90 ${isSimulating ? 'cursor-not-allowed opacity-50' : ''}`}
                     onClick={randomlySimIncompleteMatches}
+                    disabled={isSimulating}
                 >
-                    <FontAwesomeIcon icon={faShuffle} size="lg" />
+                    <FontAwesomeIcon icon={isSimulating ? faSpinner : faShuffle} size="lg" className={isSimulating ? 'animate-spin' : ''} />
                 </button>
             </div>
         </div >
