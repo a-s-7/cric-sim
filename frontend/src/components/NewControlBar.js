@@ -192,7 +192,7 @@ function NewControlBar({
             </div>
 
             <div className="flex justify-center items-center w-[57%]">
-                <div className="p-[5px] font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[20%] flex items-center min-w-0">
+                <div className="p-[5px] font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[25%] flex items-center min-w-0">
                     <Select
                         isMulti
                         borderRadius="10px"
