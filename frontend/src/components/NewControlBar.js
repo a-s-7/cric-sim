@@ -149,27 +149,26 @@ function NewControlBar({
         //     matchNums = matchesFiltered.map(match => match.MatchNumber).join("-")
         // }
 
-        // try {
+        try {
 
-        //     let url = urlTag === "wtc" ? `/${urlTag}/${edition}` : `/leagues/${urlTag}/${edition}`;
+            // let url = urlTag === "wtc" ? `/${urlTag}/${edition}` : `/leagues/${urlTag}/${edition}`;
 
-        //     const response = await fetch(`${url}/sim/${matchNums}`,
-        //         {
-        //             method: 'PATCH',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             }
-        //         });
+            const response = await fetch(`/tournaments/${urlTag}/match/simulate`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-        //     if (response.ok) {
-        //         refreshFunction();
-        //     } else {
-        //         alert("Error: Response not ok")
-        //     }
-        // } catch (error) {
-        //     alert(error)
-        // }
-        alert("Random simulation coming soon")
+            if (response.ok) {
+                refreshFunction();
+            } else {
+                alert("Error: Response not ok")
+            }
+        } catch (error) {
+            alert(error)
+        }
     };
 
     useEffect(() => {

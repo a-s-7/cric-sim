@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function MatchCard({
     homeGradient,
@@ -35,6 +35,16 @@ function MatchCard({
     const [homeRuns, setHomeRuns] = useState(homeTeamRuns);
     const [homeWickets, setHomeWickets] = useState(homeTeamWickets);
     const [homeOvers, setHomeOvers] = useState(homeTeamOvers);
+
+    useEffect(() => {
+        setSelected(matchResult);
+        setAwayRuns(awayTeamRuns);
+        setAwayWickets(awayTeamWickets);
+        setAwayOvers(awayTeamOvers);
+        setHomeRuns(homeTeamRuns);
+        setHomeWickets(homeTeamWickets);
+        setHomeOvers(homeTeamOvers);
+    }, [matchResult, awayTeamRuns, awayTeamWickets, awayTeamOvers, homeTeamRuns, homeTeamWickets, homeTeamOvers]);
 
     const formattedDateObj = new Date(date);
     const timeZone = "America/Los_Angeles";

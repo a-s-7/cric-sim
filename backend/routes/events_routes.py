@@ -685,3 +685,123 @@ def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, awa
         return jsonify(str(e)), 404
 
     return jsonify({"message": f"Tournament id {id} match #{match_num} score updated successfully"})
+
+
+@events_bp.route('/tournaments/<string:id>/match/simulate', methods=['PATCH'])
+def simulate_tournament_matches(id):
+    highestActiveStage = stages_collection.find_one(
+        {
+            "tournamentId": id,
+            "status": "active"
+        },
+        sort=[("order", -1)]
+    )
+
+    stage_id = ObjectId(highestActiveStage["_id"])
+    is_group_stage = highestActiveStage["type"] == "group"
+
+    matches = list(matches_collection.find({
+        "tournamentId": id,
+        "stageId": stage_id,
+        "status": "incomplete"
+    }))
+
+    team_updates = []
+    match_updates = []
+
+    for match in matches:
+        result = random.choices(
+            ["Home-win", "Away-win", "No-result"],
+            weights=[0.45, 0.45, 0.10]
+        )[0]
+
+        if is_group_stage:
+            home_id = ObjectId(match["homeStageTeamId"])
+            away_id = ObjectId(match["awayStageTeamId"])
+            old_result = match.get("result")
+
+            if old_result == "Home-win":
+                team_updates.append(UpdateOne(
+                    {"_id": home_id},
+                    {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
+                ))
+                team_updates.append(UpdateOne(
+                    {"_id": away_id},
+                    {"$inc": {"lost": -1, "matchesPlayed": -1}}
+                ))
+
+            elif old_result == "Away-win":
+                team_updates.append(UpdateOne(
+                    {"_id": away_id},
+                    {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
+                ))
+                team_updates.append(UpdateOne(
+                    {"_id": home_id},
+                    {"$inc": {"lost": -1, "matchesPlayed": -1}}
+                ))
+
+            elif old_result == "No-result":
+                team_updates.append(UpdateOne(
+                    {"_id": home_id},
+                    {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
+                ))
+                team_updates.append(UpdateOne(
+                    {"_id": away_id},
+                    {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
+                ))
+
+            if result == "Home-win":
+                team_updates.append(UpdateOne(
+                    {"_id": home_id},
+                    {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
+                ))
+                team_updates.append(UpdateOne(
+                    {"_id": away_id},
+                    {"$inc": {"lost": 1, "matchesPlayed": 1}}
+                ))
+
+            elif result == "Away-win":
+                team_updates.append(UpdateOne(
+                    {"_id": away_id},
+                    {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
+                ))
+                team_updates.append(UpdateOne(
+                    {"_id": home_id},
+                    {"$inc": {"lost": 1, "matchesPlayed": 1}}
+                ))
+
+            elif result == "No-result":
+                team_updates.append(UpdateOne(
+                    {"_id": home_id},
+                    {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
+                ))
+                team_updates.append(UpdateOne(
+                    {"_id": away_id},
+                    {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
+                ))
+
+        match_updates.append(UpdateOne(
+            {"_id": match["_id"]},
+            {"$set": {"result": result}}
+        ))
+
+    if team_updates:
+        stageTeams_collection.bulk_write(team_updates)
+
+    if match_updates:
+        matches_collection.bulk_write(match_updates)
+
+    if highestActiveStage["name"] != "Final":
+        stages_collection.update_one(
+            {"tournamentId": id, "order": highestActiveStage["order"] + 1},
+            {"$set": {"status": "active"}}
+        )
+
+        if verbose:
+            print(f"Stage {highestActiveStage['order'] + 1} for tournament {id} is now active")
+
+        confirmTeamsForStage(id, highestActiveStage["order"] + 1)
+
+    return jsonify({
+        "message": f"Tournament id {id} stage {highestActiveStage['name']} simulated successfully"
+    })
