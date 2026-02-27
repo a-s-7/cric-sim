@@ -205,10 +205,17 @@ def get_tournaments_stages(id):
     tournament = tournaments_collection.find_one({"_id": id})
 
     if not tournament:
-        return jsonify({"error": "Tournament not found"}), 404    
+        return jsonify({"error": "Tournament not found"}), 404
+
+    onlyActiveStages = request.args.get("onlyActiveStages", "")    
+
+    filter = {"tournamentId": id}
+
+    if onlyActiveStages:
+        filter["status"] = "active"
     
     stages = list(stages_collection.find(
-        {"tournamentId": id},
+        filter,
         {"_id": 0, "label": "$name", "value": "$order"}
     ))
 
@@ -510,37 +517,49 @@ def update_tournament_match_result(id, match_num, result):
 @events_bp.route('/tournaments/<string:id>/match/clear', methods=['PATCH'])
 def clear_tournament_matches(id):
     try:
-        match_nums = request.args.get("match_nums", "") 
-        match_numbers = list(map(int, match_nums.split(",")))
+        mode = request.args.get("mode", "") 
+
+        filter = {}
+
+        if mode == "all":
+            filter = {"tournamentId": id, "status": "incomplete"}
+        elif mode == "stage":
+            stage_order = request.args.get("stageOrder", type=int) 
+            stage = stages_collection.find_one({"tournamentId": id, "order": stage_order})
+            
+            if not stage:
+                return jsonify({"error": "Stage not found"}), 404
+            
+            filter = {"tournamentId": id, "stageId": ObjectId(stage["_id"]), "status": "incomplete"}
+        elif mode == "match-numbers":
+            match_nums = request.args.get("match_nums", "") 
+            
+            filter = {"tournamentId": id, "matchNumber": {"$in": list(map(int, match_nums.split(",")))}, "status": "incomplete"}
+
 
         matches = list(matches_collection.aggregate([
-            {
-                "$match": {
-                    "tournamentId": id, 
-                    "matchNumber": {"$in": match_numbers},
-                    "status": "incomplete"
+                {
+                    "$match": filter
+                },
+                {
+                    "$lookup": {
+                        "from": "stages",
+                        "localField": "stageId",
+                        "foreignField": "_id",
+                        "as": "stage"
+                    }
+                },
+                {
+                    "$unwind": "$stage"
+                },
+                {
+                    "$set": {
+                        "stageType": "$stage.type",
+                    }
                 }
-            },
-            {
-                "$lookup": {
-                    "from": "stages",
-                    "localField": "stageId",
-                    "foreignField": "_id",
-                    "as": "stage"
-                }
-            },
-            {
-                "$unwind": "$stage"
-            },
-            {
-                "$set": {
-                    "stageType": "$stage.type",
-                }
-            }
-        ]))
+            ]))
 
-        if len(matches) == 0:
-            raise ValueError("No incomplete matches were found")
+        match_numbers = list(map(lambda x: x["matchNumber"], matches))
 
         team_acc = defaultdict(lambda: defaultdict(int))
 
@@ -550,13 +569,15 @@ def clear_tournament_matches(id):
 
             team_acc[home_id]["runsScored"] += -match["homeTeamRuns"]
             team_acc[home_id]["runsConceded"] += -match["awayTeamRuns"]
-            team_acc[home_id]["ballsBowled"] += -match["awayTeamBalls"]
-            team_acc[home_id]["ballsFaced"] += -match["homeTeamBalls"]
+
+            team_acc[home_id]["ballsBowled"] += -(120 if match["awayTeamWickets"] == 10 else match["awayTeamBalls"])
+            team_acc[home_id]["ballsFaced"] += -(120 if match["homeTeamWickets"] == 10 else match["homeTeamBalls"])
 
             team_acc[away_id]["runsScored"] += -match["awayTeamRuns"]
             team_acc[away_id]["runsConceded"] += -match["homeTeamRuns"]
-            team_acc[away_id]["ballsBowled"] += -match["homeTeamBalls"]
-            team_acc[away_id]["ballsFaced"] += -match["awayTeamBalls"]
+
+            team_acc[away_id]["ballsBowled"] += -(120 if match["homeTeamWickets"] == 10 else match["homeTeamBalls"])
+            team_acc[away_id]["ballsFaced"] += -(120 if match["awayTeamWickets"] == 10 else match["awayTeamBalls"])
 
             if match["stageType"] == "group":
                 if match["result"] == "Home-win":
@@ -578,7 +599,7 @@ def clear_tournament_matches(id):
                     team_acc[away_id]["matchesPlayed"] += -1
                     team_acc[away_id]["points"] += -1
                     team_acc[away_id]["noResult"] += -1
-        
+            
         operations = [
             UpdateOne(
                 {"_id": ObjectId(team_id)},
@@ -598,8 +619,8 @@ def clear_tournament_matches(id):
         if result.matched_count == 0:
             raise ValueError("No matches were found")
 
-
-        firstMostRecentStage = stages_collection.find_one({"_id": ObjectId(matches[0]["stageId"]) })
+        firstMostRecentStage = stages_collection.find_one({"_id": ObjectId(matches[0]["stageId"])})
+        
 
         if firstMostRecentStage["name"] == "Final":
             if verbose:
@@ -626,7 +647,7 @@ def clear_tournament_matches(id):
                         [{"$set": {"teamId": None, "confirmed": False,
                         "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
                     )
-                    
+                        
 
                 matches_collection.update_many(
                     {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
@@ -664,21 +685,27 @@ def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, awa
         if not old_match:
             raise ValueError("No match was found")
 
-        homeRunsDiff  = int(home_runs)   - old_match["homeTeamRuns"]
-        awayRunsDiff  = int(away_runs)   - old_match["awayTeamRuns"]
-        homeBallsDiff = new_home_balls   - old_match["homeTeamBalls"]
-        awayBallsDiff = new_away_balls   - old_match["awayTeamBalls"]
+        hB = 120 if old_match["homeTeamWickets"] == 10 else old_match["homeTeamBalls"]
+        aB = 120 if old_match["awayTeamWickets"] == 10 else old_match["awayTeamBalls"]
 
         stageTeams_collection.update_one(
             {"_id": ObjectId(old_match["homeStageTeamId"])},
-            {"$inc": {"runsScored": homeRunsDiff, "runsConceded": awayRunsDiff,
-                      "ballsBowled": awayBallsDiff, "ballsFaced": homeBallsDiff}}
+            {"$inc": {
+                "runsScored":   int(home_runs)    - old_match["homeTeamRuns"],
+                "runsConceded":  int(away_runs)    - old_match["awayTeamRuns"],
+                "ballsBowled":  (120 if int(away_wickets) == 10 else new_away_balls) - aB,
+                "ballsFaced":   (120 if int(home_wickets) == 10 else new_home_balls) - hB,
+            }}
         )
 
         stageTeams_collection.update_one(
             {"_id": ObjectId(old_match["awayStageTeamId"])},
-            {"$inc": {"runsScored": awayRunsDiff, "runsConceded": homeRunsDiff,
-                      "ballsBowled": homeBallsDiff, "ballsFaced": awayBallsDiff}}
+            {"$inc": {
+                "runsScored":   int(away_runs)    - old_match["awayTeamRuns"],
+                "runsConceded":  int(home_runs)    - old_match["homeTeamRuns"],
+                "ballsBowled":  (120 if int(home_wickets) == 10 else new_home_balls) - hB,
+                "ballsFaced":   (120 if int(away_wickets) == 10 else new_away_balls) - aB,
+            }}
         )
 
     except ValueError as e:
@@ -689,12 +716,14 @@ def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, awa
 
 @events_bp.route('/tournaments/<string:id>/match/simulate', methods=['PATCH'])
 def simulate_tournament_matches(id):
+    stage_num = request.args.get("stage_num", type=int)
+    
     highestActiveStage = stages_collection.find_one(
         {
             "tournamentId": id,
-            "status": "active"
-        },
-        sort=[("order", -1)]
+            "status": "active",
+            "order": stage_num
+        }
     )
 
     stage_id = ObjectId(highestActiveStage["_id"])
@@ -792,6 +821,7 @@ def simulate_tournament_matches(id):
         matches_collection.bulk_write(match_updates)
 
     if highestActiveStage["name"] != "Final":
+
         stages_collection.update_one(
             {"tournamentId": id, "order": highestActiveStage["order"] + 1},
             {"$set": {"status": "active"}}
@@ -800,7 +830,17 @@ def simulate_tournament_matches(id):
         if verbose:
             print(f"Stage {highestActiveStage['order'] + 1} for tournament {id} is now active")
 
-        confirmTeamsForStage(id, highestActiveStage["order"] + 1)
+
+        nextStage = stages_collection.find_one({"tournamentId": id, "order": highestActiveStage["order"] + 1})
+
+        while nextStage and nextStage["status"] == "active":
+            confirmTeamsForStage(id, nextStage["order"])
+            nextStage = stages_collection.find_one(
+                {
+                    "tournamentId": id,
+                    "order": nextStage["order"] + 1
+                }
+            )
 
     return jsonify({
         "message": f"Tournament id {id} stage {highestActiveStage['name']} simulated successfully"

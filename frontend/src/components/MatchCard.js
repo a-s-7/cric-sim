@@ -123,33 +123,51 @@ function MatchCard({
     };
 
     const computeWicketValue = (val) => {
+        if (val === '' || val === null || val === undefined) return '';
         let value = parseFloat(val);
+        if (isNaN(value)) return '';
         if (value > 10) value = 10;
         return value;
     };
 
     const handleNRRChange = async (overrides = {}) => {
-        const homeRunsValue = parseFloat(overrides.homeRuns ?? homeRuns);
-        const awayRunsValue = parseFloat(overrides.awayRuns ?? awayRuns);
-        const homeOversValue = parseFloat(overrides.homeOvers ?? homeOvers);
-        const awayOversValue = parseFloat(overrides.awayOvers ?? awayOvers);
-        const homeWicketsValue = parseFloat(overrides.homeWickets ?? homeWickets);
-        const awayWicketsValue = parseFloat(overrides.awayWickets ?? awayWickets);
+        const getValue = (overrideVal, stateVal) => {
+            const raw = overrideVal ?? stateVal;
+
+            if (raw === '' || raw === null || raw === undefined) return null;
+
+            const parsed = parseFloat(raw);
+            return isNaN(parsed) ? null : parsed;
+        };
+
+        const homeRunsValue = getValue(overrides.homeRuns, homeRuns);
+        const awayRunsValue = getValue(overrides.awayRuns, awayRuns);
+        const homeOversValue = getValue(overrides.homeOvers, homeOvers);
+        const awayOversValue = getValue(overrides.awayOvers, awayOvers);
+        const homeWicketsValue = getValue(overrides.homeWickets, homeWickets);
+        const awayWicketsValue = getValue(overrides.awayWickets, awayWickets);
 
         const allValid =
-            !isNaN(homeRunsValue) && !isNaN(awayRunsValue) &&
-            !isNaN(homeWicketsValue) && !isNaN(awayWicketsValue) &&
-            !isNaN(homeOversValue) && homeOversValue !== 0 &&
-            !isNaN(awayOversValue) && awayOversValue !== 0;
+            homeRunsValue != null && homeRunsValue >= 0 &&
+            awayRunsValue != null && awayRunsValue >= 0 &&
+            homeWicketsValue != null && homeWicketsValue >= 0 &&
+            awayWicketsValue != null && awayWicketsValue >= 0 &&
+            homeOversValue != null && homeOversValue > 0 &&
+            awayOversValue != null && awayOversValue > 0;
 
         if (!allValid) return;
 
         try {
             const scoreKey = `${homeRunsValue}/${homeWicketsValue}/${homeOversValue}/${awayRunsValue}/${awayWicketsValue}/${awayOversValue}`;
-            const response = await fetch(`/tournaments/${tournamentID}/match/score/${matchNum}/${scoreKey}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' }
-            });
+
+            const response = await fetch(
+                `/tournaments/${tournamentID}/match/score/${matchNum}/${scoreKey}`,
+                {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+
             if (response.ok) {
                 onMatchUpdate();
             } else {
@@ -165,7 +183,7 @@ function MatchCard({
             const params = new URLSearchParams();
             params.set("match_nums", [matchNum]);
 
-            const response = await fetch(`/tournaments/${tournamentID}/match/clear?${params.toString()}`, {
+            const response = await fetch(`/tournaments/${tournamentID}/match/clear?mode=match-numbers&${params.toString()}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -190,10 +208,10 @@ function MatchCard({
     };
 
     return (
-        <div className="shadow-md rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto">
+        <div className="shadow-lg rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto">
             <div className="h-[170px] w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-[135px]">
-                    <div className='flex flex-row w-2/5 font-["Reem_Kufi_Fun"] uppercase'
+                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase'
                         onClick={() => handleClick('Home-win')}
                         onMouseEnter={() => setHoveredSection("Home-win")}
                         onMouseLeave={() => setHoveredSection(null)}
@@ -210,7 +228,7 @@ function MatchCard({
                                         setHomeRuns(newVal);
                                         handleNRRChange({ homeRuns: newVal });
                                     }}
-                                    value={homeRuns ? homeRuns : ''}
+                                    value={selected === 'None' ? '' : (homeRuns ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Home-win" || selected !== "Home-win" ? "black" : "white" }} />
 
@@ -225,7 +243,7 @@ function MatchCard({
                                         setHomeWickets(newVal);
                                         handleNRRChange({ homeWickets: newVal });
                                     }}
-                                    value={homeWickets ? homeWickets : ''}
+                                    value={selected === 'None' ? '' : (homeWickets ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Home-win" || selected !== "Home-win" ? "black" : "white" }} />
                             </div>
@@ -240,7 +258,7 @@ function MatchCard({
                                         setHomeOvers(newVal);
                                         handleNRRChange({ homeOvers: newVal });
                                     }}
-                                    value={homeOvers ? homeOvers : ''}
+                                    value={selected === 'None' ? '' : (homeOvers ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Home-win" || selected !== "Home-win" ? "black" : "white" }} />
                             </div>
@@ -255,7 +273,7 @@ function MatchCard({
                         </div>
                     </div>
 
-                    <div className='flex flex-col border-l border-r border-gray-100 w-1/5'
+                    <div className='flex flex-col border-l border-r border-gray-100 w-[25%]'
                         onClick={() => handleClick('No-result')}
                         onMouseEnter={() => setHoveredSection("No-result")}
                         onMouseLeave={() => setHoveredSection(null)}
@@ -263,9 +281,10 @@ function MatchCard({
                         <div className="w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw]">{formattedDate}</div>
                         <div className="w-full h-2/5 flex items-center justify-center text-[1.2vw] font-bold">VS</div>
                         <div className="w-full h-[30%] flex items-center justify-center text-[0.75vw]">{formattedTime} your time</div>
+
                     </div>
 
-                    <div className='flex flex-row w-2/5 font-["Reem_Kufi_Fun"] uppercase'
+                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase'
                         onClick={() => handleClick('Away-win')}
                         onMouseEnter={() => setHoveredSection('Away-win')}
                         onMouseLeave={() => setHoveredSection(null)}
@@ -290,7 +309,7 @@ function MatchCard({
                                         setAwayRuns(newVal);
                                         handleNRRChange({ awayRuns: newVal });
                                     }}
-                                    value={awayRuns ? awayRuns : ''}
+                                    value={selected === 'None' ? '' : (awayRuns ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Away-win" || selected !== "Away-win" ? "black" : "white" }} />
                                 <h2>/</h2>
@@ -304,7 +323,7 @@ function MatchCard({
                                         setAwayWickets(newVal);
                                         handleNRRChange({ awayWickets: newVal });
                                     }}
-                                    value={awayWickets ? awayWickets : ''}
+                                    value={selected === 'None' ? '' : (awayWickets ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Away-win" || selected !== "Away-win" ? "black" : "white" }} />
                             </div>
@@ -319,7 +338,7 @@ function MatchCard({
                                         setAwayOvers(newVal);
                                         handleNRRChange({ awayOvers: newVal });
                                     }}
-                                    value={awayOvers ? awayOvers : ''}
+                                    value={selected === 'None' ? '' : (awayOvers ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Away-win" || selected !== "Away-win" ? "black" : "white" }} />
                             </div>
@@ -327,7 +346,7 @@ function MatchCard({
                     </div>
                 </div>
 
-                <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-white text-[0.9vw]">
+                <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-white/80 text-[0.9vw]">
                     <div className="flex justify-center items-center h-full flex-grow text-black"
                         onClick={() => resetMatch('None')}
                         onMouseEnter={() => setHoveredSection("None")}

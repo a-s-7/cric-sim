@@ -18,7 +18,7 @@ export const customStyles = {
             ? '0 0 0 2px rgba(255, 255, 255, 0.25)'
             : '0 2px 6px rgba(0, 0, 0, 0.08)',
         borderRadius: '12px',
-        minHeight: '38px',
+        minHeight: '42px',
         maxWidth: '100%',
         overflow: 'hidden',
         cursor: state.isDisabled ? 'not-allowed' : 'pointer',
