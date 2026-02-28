@@ -113,6 +113,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                 matchesFiltered={matchesData?.matches || []}
             />
 
+
             <div className="flex flex-row w-full flex-1 overflow-hidden">
                 <div className="flex flex-col w-[55%] h-full overflow-auto no-scrollbar">
                     <EventMatchDisplay

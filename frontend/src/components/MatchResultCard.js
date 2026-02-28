@@ -39,7 +39,7 @@ function MatchResultCard({
     });
 
     return (
-        <div className="shadow-md rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto">
+        <div className="shadow-md rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto" style={stage === "Final" ? { border: `2px solid gold` } : {}}>
             <div className="h-[170px] w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-[135px]">
                     <div className='flex flex-row w-2/5 font-["Reem_Kufi_Fun"] uppercase'
@@ -150,7 +150,7 @@ function MatchResultCard({
                 </div>
                 <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-white text-[0.9vw]">
                     <div className="flex justify-center items-center h-full flex-grow text-black">
-                        {group ? `${stage} - Match ${matchNum} · Group ${group} ·  ${venue}` : `${stage} - Match ${matchNum} ·  ${venue}`}
+                        {group ? `${stage} · Group ${group} · Match ${matchNum} · ${venue}` : `${stage} · Match ${matchNum} · ${venue}`}
                     </div>
 
                 </div>

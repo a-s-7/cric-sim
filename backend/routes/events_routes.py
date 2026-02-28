@@ -393,7 +393,16 @@ def get_tournaments_match_data(id):
         
     filtered_matches = list(matches_collection.aggregate(pipeline))
 
-    return jsonify({"teams": teams_data, "matches": filtered_matches})
+    final_match = matches_collection.find().sort("matchNumber", -1).limit(1)[0]
+    
+    winner = ""
+    if final_match["result"] != "None":
+        if final_match["result"] == "Home-win":
+            winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
+        else:
+            winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
+
+    return jsonify({"teams": teams_data, "matches": filtered_matches, "winner": winner})
 
 @events_bp.route('/tournaments/<string:id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
 def update_tournament_match_result(id, match_num, result):
