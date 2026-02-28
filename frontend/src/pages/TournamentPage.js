@@ -14,6 +14,9 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
     const [matchesData, setMatchesData] = useState([]);
     const [standingsData, setStandingsData] = useState([]);
 
+    // const winner = matchesData?.winner;
+    // const gradient = matchesData?.teams?.[0]?.[winner]?.gradient || tournamentGradient;
+
     const refreshPointsTable = async () => {
         await fetchStandings();
     }

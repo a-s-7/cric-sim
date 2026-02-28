@@ -39,7 +39,7 @@ function MatchResultCard({
     });
 
     return (
-        <div className="shadow-md rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto" style={stage === "Final" ? { border: `2px solid gold` } : {}}>
+        <div className="shadow-md rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto">
             <div className="h-[170px] w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-[135px]">
                     <div className='flex flex-row w-2/5 font-["Reem_Kufi_Fun"] uppercase'
