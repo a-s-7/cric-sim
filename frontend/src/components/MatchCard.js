@@ -36,6 +36,9 @@ function MatchCard({
     const [homeWickets, setHomeWickets] = useState(homeTeamWickets);
     const [homeOvers, setHomeOvers] = useState(homeTeamOvers);
 
+    const [battingFirstToggle, setBattingFirstToggle] = useState(false);
+    const [tossWinner, setTossWinner] = useState('Home');
+
     useEffect(() => {
         setSelected(matchResult);
         setAwayRuns(awayTeamRuns);
@@ -207,11 +210,46 @@ function MatchCard({
         onMatchUpdate();
     };
 
+    const getIconSpan = (type, section, isTossWinner) => {
+        const isColored = selected === section && hoveredSection !== section;
+        const coinSrc = "https://static.thenounproject.com/png/151124-200.png";
+        const roleSrc = type === 'bat'
+            ? "https://static.thenounproject.com/png/2005489-200.png"
+            : "https://static.thenounproject.com/png/2485180-200.png";
+
+        if (!isTossWinner) return null;
+
+        return (
+            <span className="relative inline-block" style={{ color: isColored ? 'white' : 'black' }}>
+                <img
+                    src={coinSrc}
+                    alt="Toss Coin"
+                    className="w-[2vh] h-[2vh] cursor-pointer"
+                    style={{ filter: isColored ? 'invert(1)' : 'none' }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setTossWinner(tossWinner === 'Home' ? 'Away' : 'Home');
+                    }}
+                />
+                <img
+                    src={roleSrc}
+                    alt={type}
+                    className="absolute bottom-[-0.6vh] right-[-0.8vh] w-[1.2vh] h-[1.2vh] cursor-pointer"
+                    style={{ filter: isColored ? 'invert(1)' : 'none' }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setBattingFirstToggle(!battingFirstToggle);
+                    }}
+                />
+            </span>
+        );
+    };
+
     return (
         <div className="shadow-lg rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto">
             <div className="h-[170px] w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-[135px]">
-                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase'
+                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         onClick={() => handleClick('Home-win')}
                         onMouseEnter={() => setHoveredSection("Home-win")}
                         onMouseLeave={() => setHoveredSection(null)}
@@ -264,8 +302,14 @@ function MatchCard({
                             </div>
                         </div>
 
-                        <div className="flex items-center text-[2vh] w-1/5 justify-end">
-                            {homeTeamName}
+                        <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
+                            {/* Centered name */}
+                            <span>{homeTeamName}</span>
+
+                            {/* Bottom-anchored element */}
+                            {selected !== 'None' && <span className="absolute bottom-6 right-0 w-[2vh] h-[2vh]">
+                                {getIconSpan(battingFirstToggle ? 'bowl' : 'bat', 'Home-win', tossWinner === 'Home')}</span>
+                            }
                         </div>
 
                         <div className="w-[36%] flex justify-center items-center p-[30px]">
@@ -273,18 +317,18 @@ function MatchCard({
                         </div>
                     </div>
 
-                    <div className='flex flex-col border-l border-r border-gray-100 w-[25%]'
+                    <div className='flex flex-col border-l border-r border-gray-100 w-[25%] cursor-pointer'
                         onClick={() => handleClick('No-result')}
                         onMouseEnter={() => setHoveredSection("No-result")}
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle("No-result", 1)}>
                         <div className="w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw]">{formattedDate}</div>
-                        <div className="w-full h-2/5 flex items-center justify-center text-[1.2vw] font-bold">VS</div>
+                        <div className="w-full h-2/5 flex items-center justify-center text-[1vw] font-bold">VS</div>
                         <div className="w-full h-[30%] flex items-center justify-center text-[0.75vw]">{formattedTime} your time</div>
 
                     </div>
 
-                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase'
+                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         onClick={() => handleClick('Away-win')}
                         onMouseEnter={() => setHoveredSection('Away-win')}
                         onMouseLeave={() => setHoveredSection(null)}
@@ -294,8 +338,15 @@ function MatchCard({
                             <img className="box-content border border-zinc-200 w-full" src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
                         </div>
 
-                        <div className="flex items-center text-[2vh] w-1/5 justify-start">
-                            {awayTeamName}
+                        <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">
+                            {/* Centered name */}
+                            <span>{awayTeamName}</span>
+
+                            {/* Bottom-anchored element */}
+
+                            {selected !== 'None' && <span className="absolute bottom-6 left-0 w-[2vh] h-[2vh]">
+                                {getIconSpan(battingFirstToggle ? 'bowl' : 'bat', 'Away-win', tossWinner === 'Away')}</span>
+                            }
                         </div>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5">
@@ -347,7 +398,7 @@ function MatchCard({
                 </div>
 
                 <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-white/80 text-[0.9vw]">
-                    <div className="flex justify-center items-center h-full flex-grow text-black"
+                    <div className="flex justify-center items-center h-full flex-grow text-black cursor-pointer"
                         onClick={() => resetMatch('None')}
                         onMouseEnter={() => setHoveredSection("None")}
                         onMouseLeave={() => setHoveredSection(null)}
@@ -358,7 +409,7 @@ function MatchCard({
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
