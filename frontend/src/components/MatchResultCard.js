@@ -42,7 +42,7 @@ function MatchResultCard({
         <div className="shadow-md rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto">
             <div className="h-[170px] w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-[135px]">
-                    <div className='flex flex-row w-2/5 font-["Reem_Kufi_Fun"] uppercase'
+                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase'
                         style={getStyle("Home-win", 0)}>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5">
@@ -91,13 +91,13 @@ function MatchResultCard({
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-col border-l border-r border-gray-100 w-1/5'
+                    <div className='flex flex-col border-l border-r border-gray-100 w-[25%]'
                         style={getStyle("No-result", 1)}>
                         <div className="w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw]">{formattedDate}</div>
                         <div className="w-full h-2/5 flex items-center justify-center text-[1.2vw] font-bold">VS</div>
                         <div className="w-full h-[30%] flex items-center justify-center text-[0.75vw]">{formattedTime} your time</div>
                     </div>
-                    <div className='flex flex-row w-2/5 font-["Reem_Kufi_Fun"] uppercase'
+                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase'
                         style={getStyle('Away-win', 2)}>
 
                         <div className="w-[36%] flex justify-center items-center p-[30px]">
