@@ -104,6 +104,8 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                 neutralGradient={cardNeutralGradient}
                                 group={match.group}
                                 stage={match.description ? match.description : match.stage}
+                                tossResult={match.tossResult}
+                                tossDecision={match.tossDecision}
                             />
                             }
                         </div>

@@ -23,7 +23,9 @@ function MatchCard({
     homeTeamWickets,
     neutralGradient,
     group,
-    stage
+    stage,
+    tossResult,
+    tossDecision
 }) {
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
@@ -36,8 +38,8 @@ function MatchCard({
     const [homeWickets, setHomeWickets] = useState(homeTeamWickets);
     const [homeOvers, setHomeOvers] = useState(homeTeamOvers);
 
-    const [battingFirstToggle, setBattingFirstToggle] = useState(false);
-    const [tossWinner, setTossWinner] = useState('Home');
+    const [battingFirstToggle, setBattingFirstToggle] = useState(tossDecision === "bat");
+    const [tossResultState, setTossResultState] = useState(tossResult);
 
     useEffect(() => {
         setSelected(matchResult);
@@ -84,11 +86,13 @@ function MatchCard({
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
+
             if (response.ok) {
                 onMatchUpdate();
             } else {
                 alert("Error: Response not ok");
             }
+
         } catch (error) {
             alert(error);
         }
@@ -133,12 +137,12 @@ function MatchCard({
         return value;
     };
 
-    const handleNRRChange = async (overrides = {}) => {
+    const validateAndParseScores = (overrides, currentValues) => {
+        const { homeRuns, awayRuns, homeOvers, awayOvers, homeWickets, awayWickets } = currentValues;
+
         const getValue = (overrideVal, stateVal) => {
             const raw = overrideVal ?? stateVal;
-
             if (raw === '' || raw === null || raw === undefined) return null;
-
             const parsed = parseFloat(raw);
             return isNaN(parsed) ? null : parsed;
         };
@@ -158,7 +162,33 @@ function MatchCard({
             homeOversValue != null && homeOversValue > 0 &&
             awayOversValue != null && awayOversValue > 0;
 
-        if (!allValid) return;
+        if (!allValid) return null;
+
+        return {
+            homeRunsValue,
+            awayRunsValue,
+            homeOversValue,
+            awayOversValue,
+            homeWicketsValue,
+            awayWicketsValue
+        };
+    };
+
+    const handleNRRChange = async (overrides = {}) => {
+        const parsedScores = validateAndParseScores(overrides, {
+            homeRuns, awayRuns, homeOvers, awayOvers, homeWickets, awayWickets
+        });
+
+        if (!parsedScores) return;
+
+        const {
+            homeRunsValue,
+            awayRunsValue,
+            homeOversValue,
+            awayOversValue,
+            homeWicketsValue,
+            awayWicketsValue
+        } = parsedScores;
 
         try {
             const scoreKey = `${homeRunsValue}/${homeWicketsValue}/${homeOversValue}/${awayRunsValue}/${awayWicketsValue}/${awayOversValue}`;
@@ -190,7 +220,9 @@ function MatchCard({
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
-            if (!response.ok) {
+            if (response.ok) {
+                onMatchUpdate();
+            } else {
                 alert("Error: Response not ok");
             }
         } catch (error) {
@@ -210,7 +242,103 @@ function MatchCard({
         onMatchUpdate();
     };
 
-    const getIconSpan = (type, section, isTossWinner) => {
+    const handleTossResultChange = async (result) => {
+        setTossResultState(result);
+
+        try {
+            const response = await fetch(
+                `/tournaments/${tournamentID}/match/toss-result/${matchNum}/${result}`,
+                {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+            if (!response.ok) {
+                alert("Error: Response not ok");
+            }
+        } catch (error) {
+            alert(error);
+        }
+    };
+
+    const handleTossDecisionChange = async (battingFirst) => {
+        setBattingFirstToggle(battingFirst);
+
+        try {
+            const response = await fetch(
+                `/tournaments/${tournamentID}/match/toss-decision/${matchNum}/${battingFirst ? 'bat' : 'bowl'}`,
+                {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+            if (!response.ok) {
+                alert("Error: Response not ok");
+            }
+        } catch (error) {
+            alert(error);
+        }
+    };
+
+    const getWinningMargin = () => {
+        const parsedScores = validateAndParseScores({}, {
+            homeRuns, awayRuns, homeOvers, awayOvers, homeWickets, awayWickets
+        });
+
+        if (!parsedScores) {
+            return selected == "Home-win" ? `${homeTeamName} won` : `${awayTeamName} won`;
+        }
+
+        const {
+            homeRunsValue,
+            awayRunsValue,
+            homeOversValue,
+            awayOversValue,
+            homeWicketsValue,
+            awayWicketsValue
+        } = parsedScores;
+
+        const scores = {
+            "Home": {
+                runs: homeRunsValue,
+                wickets: homeWicketsValue,
+                overs: homeOversValue,
+                name: homeTeamName
+            }, "Away": {
+                runs: awayRunsValue,
+                wickets: awayWicketsValue,
+                overs: awayOversValue,
+                name: awayTeamName
+            }
+        }
+
+        const homeBattedFirst = (tossResultState === 'Home-win' && battingFirstToggle) ||
+            (tossResultState === 'Away-win' && !battingFirstToggle);
+
+        const teamBattingFirst = homeBattedFirst ? "Home" : "Away";
+        const teamBattingSecond = homeBattedFirst ? "Away" : "Home";
+
+        if (scores[teamBattingSecond].runs > scores[teamBattingFirst].runs) {
+            return `${scores[teamBattingSecond].name} won by ${10 - scores[teamBattingSecond].wickets} wickets`;
+        } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
+            return `${scores[teamBattingFirst].name} won by ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs} runs`;
+        } else {
+            return `${selected == "Home-win" ? scores[teamBattingFirst].name : scores[teamBattingSecond].name} won the Super Over`;
+        }
+
+    }
+
+    const getMatchResult = () => {
+        if (selected === 'None') {
+            return 'VS';
+        } else if (selected === "No-result") {
+            return 'No Result';
+        } else {
+            return getWinningMargin()
+        }
+    }
+
+    const getTossSpan = (type, section, isTossWinner) => {
         const isColored = selected === section && hoveredSection !== section;
         const coinSrc = "https://static.thenounproject.com/png/151124-200.png";
         const roleSrc = type === 'bat'
@@ -228,7 +356,7 @@ function MatchCard({
                     style={{ filter: isColored ? 'invert(1)' : 'none' }}
                     onClick={(e) => {
                         e.stopPropagation();
-                        setTossWinner(tossWinner === 'Home' ? 'Away' : 'Home');
+                        handleTossResultChange(tossResultState === 'Home-win' ? 'Away-win' : 'Home-win');
                     }}
                 />
                 <img
@@ -238,7 +366,7 @@ function MatchCard({
                     style={{ filter: isColored ? 'invert(1)' : 'none' }}
                     onClick={(e) => {
                         e.stopPropagation();
-                        setBattingFirstToggle(!battingFirstToggle);
+                        handleTossDecisionChange(!battingFirstToggle);
                     }}
                 />
             </span>
@@ -256,7 +384,7 @@ function MatchCard({
                         style={getStyle("Home-win", 0)}>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5">
-                            <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
+                            {selected !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
                                 <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent w-[35%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
@@ -266,11 +394,11 @@ function MatchCard({
                                         setHomeRuns(newVal);
                                         handleNRRChange({ homeRuns: newVal });
                                     }}
-                                    value={selected === 'None' ? '' : (homeRuns ?? '')}
+                                    value={homeRuns === 0 ? '' : (homeRuns ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Home-win" || selected !== "Home-win" ? "black" : "white" }} />
 
-                                <h2>/</h2>
+                                {(homeRuns !== 0 || homeWickets !== 0) && <h2>/</h2>}
                                 <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent text-[2.5vh] w-1/5 h-full ml-[2px] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
@@ -281,11 +409,11 @@ function MatchCard({
                                         setHomeWickets(newVal);
                                         handleNRRChange({ homeWickets: newVal });
                                     }}
-                                    value={selected === 'None' ? '' : (homeWickets ?? '')}
+                                    value={homeWickets === 0 ? '' : (homeWickets ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Home-win" || selected !== "Home-win" ? "black" : "white" }} />
-                            </div>
-                            <div className="flex justify-end">
+                            </div>}
+                            {selected !== 'None' && <div className="flex justify-end">
                                 <input className="border-[0.5px] border-gray-300 text-[1.75vh] rounded-[5px] bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0.0"
@@ -296,10 +424,11 @@ function MatchCard({
                                         setHomeOvers(newVal);
                                         handleNRRChange({ homeOvers: newVal });
                                     }}
-                                    value={selected === 'None' ? '' : (homeOvers ?? '')}
+                                    value={homeOvers === 0 ? '' : (homeOvers ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Home-win" || selected !== "Home-win" ? "black" : "white" }} />
-                            </div>
+                            </div>}
+
                         </div>
 
                         <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
@@ -308,7 +437,7 @@ function MatchCard({
 
                             {/* Bottom-anchored element */}
                             {selected !== 'None' && <span className="absolute bottom-6 right-0 w-[2vh] h-[2vh]">
-                                {getIconSpan(battingFirstToggle ? 'bowl' : 'bat', 'Home-win', tossWinner === 'Home')}</span>
+                                {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Home-win', tossResultState === 'Home-win')}</span>
                             }
                         </div>
 
@@ -323,7 +452,8 @@ function MatchCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle("No-result", 1)}>
                         <div className="w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw]">{formattedDate}</div>
-                        <div className="w-full h-2/5 flex items-center justify-center text-[1vw] font-bold">VS</div>
+
+                        <div className="w-full h-2/5 flex items-center justify-center text-[1vw] font-bold">{getMatchResult()}</div>
                         <div className="w-full h-[30%] flex items-center justify-center text-[0.75vw]">{formattedTime} your time</div>
 
                     </div>
@@ -345,12 +475,12 @@ function MatchCard({
                             {/* Bottom-anchored element */}
 
                             {selected !== 'None' && <span className="absolute bottom-6 left-0 w-[2vh] h-[2vh]">
-                                {getIconSpan(battingFirstToggle ? 'bowl' : 'bat', 'Away-win', tossWinner === 'Away')}</span>
+                                {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Away-win', tossResultState === 'Away-win')}</span>
                             }
                         </div>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5">
-                            <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
+                            {selected !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
                                 <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent w-[35%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
@@ -360,10 +490,10 @@ function MatchCard({
                                         setAwayRuns(newVal);
                                         handleNRRChange({ awayRuns: newVal });
                                     }}
-                                    value={selected === 'None' ? '' : (awayRuns ?? '')}
+                                    value={awayRuns === 0 ? '' : (awayRuns ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Away-win" || selected !== "Away-win" ? "black" : "white" }} />
-                                <h2>/</h2>
+                                {(awayRuns !== 0 || awayWickets !== 0) && <h2>/</h2>}
                                 <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent text-[2.5vh] w-1/5 h-full ml-[2px] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
@@ -374,11 +504,11 @@ function MatchCard({
                                         setAwayWickets(newVal);
                                         handleNRRChange({ awayWickets: newVal });
                                     }}
-                                    value={selected === 'None' ? '' : (awayWickets ?? '')}
+                                    value={awayWickets === 0 ? '' : (awayWickets ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Away-win" || selected !== "Away-win" ? "black" : "white" }} />
-                            </div>
-                            <div className="flex justify-start">
+                            </div>}
+                            {selected !== 'None' && <div className="flex justify-start">
                                 <input className="border-[0.5px] border-gray-300 text-[1.75vh] rounded-[5px] bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0.0"
@@ -389,10 +519,10 @@ function MatchCard({
                                         setAwayOvers(newVal);
                                         handleNRRChange({ awayOvers: newVal });
                                     }}
-                                    value={selected === 'None' ? '' : (awayOvers ?? '')}
+                                    value={awayOvers === 0 ? '' : (awayOvers ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Away-win" || selected !== "Away-win" ? "black" : "white" }} />
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 </div>

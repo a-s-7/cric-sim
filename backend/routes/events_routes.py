@@ -531,7 +531,7 @@ def clear_tournament_matches(id):
         filter = {}
 
         if mode == "all":
-            filter = {"tournamentId": id, "status": "incomplete"}
+            filter = {"tournamentId": id}
         elif mode == "stage":
             stage_order = request.args.get("stageOrder", type=int) 
             stage = stages_collection.find_one({"tournamentId": id, "order": stage_order})
@@ -539,11 +539,11 @@ def clear_tournament_matches(id):
             if not stage:
                 return jsonify({"error": "Stage not found"}), 404
             
-            filter = {"tournamentId": id, "stageId": ObjectId(stage["_id"]), "status": "incomplete"}
+            filter = {"tournamentId": id, "stageId": ObjectId(stage["_id"])}
         elif mode == "match-numbers":
             match_nums = request.args.get("match_nums", "") 
             
-            filter = {"tournamentId": id, "matchNumber": {"$in": list(map(int, match_nums.split(",")))}, "status": "incomplete"}
+            filter = {"tournamentId": id, "matchNumber": {"$in": list(map(int, match_nums.split(",")))}}
 
 
         matches = list(matches_collection.aggregate([
@@ -614,21 +614,28 @@ def clear_tournament_matches(id):
                 {"_id": ObjectId(team_id)},
                 {"$inc": dict(inc_fields)}
             )
-            for team_id, inc_fields in team_acc.items()
+            for team_id, inc_fields in team_acc.items() if team_id is not None
         ]
 
         if operations:
             stageTeams_collection.bulk_write(operations)
 
         result = matches_collection.update_many(
-            {"tournamentId": id, "matchNumber": {"$in": match_numbers}, "status": "incomplete"},
+            {"tournamentId": id, "matchNumber": {"$in": match_numbers}},
             {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
         )
 
         if result.matched_count == 0:
             raise ValueError("No matches were found")
 
-        firstMostRecentStage = stages_collection.find_one({"_id": ObjectId(matches[0]["stageId"])})
+        # Find the earliest stage among cleared matches to reset subsequent stages
+        all_stage_ids = {ObjectId(m["stageId"]) for m in matches}
+        stages_info = list(stages_collection.find({"_id": {"$in": list(all_stage_ids)}}))
+        if not stages_info:
+            raise ValueError("No stages found for cleared matches")
+            
+        earliest_stage = min(stages_info, key=lambda x: x["order"])
+        firstMostRecentStage = earliest_stage
         
 
         if firstMostRecentStage["name"] == "Final":
@@ -740,8 +747,7 @@ def simulate_tournament_matches(id):
 
     matches = list(matches_collection.find({
         "tournamentId": id,
-        "stageId": stage_id,
-        "status": "incomplete"
+        "stageId": stage_id
     }))
 
     team_updates = []
@@ -853,4 +859,36 @@ def simulate_tournament_matches(id):
 
     return jsonify({
         "message": f"Tournament id {id} stage {highestActiveStage['name']} simulated successfully"
+    })
+
+@events_bp.route('/tournaments/<string:id>/match/toss-result/<int:match_num>/<string:toss_result>', methods=['PATCH'])
+def set_match_toss_result(id, match_num, toss_result):
+    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
+
+    if not match:
+        return jsonify({"error": "Match not found"}), 404
+
+    matches_collection.update_one(
+        {"_id": ObjectId(match["_id"])},
+        {"$set": {"tossResult": toss_result}}
+    )
+
+    return jsonify({
+        "message": f"Match {match_num} for tournament {id} toss result set successfully"
+    })
+
+@events_bp.route('/tournaments/<string:id>/match/toss-decision/<int:match_num>/<string:toss_decision>', methods=['PATCH'])
+def set_match_toss_decision(id, match_num, toss_decision):
+    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
+
+    if not match:
+        return jsonify({"error": "Match not found"}), 404
+
+    matches_collection.update_one(
+        {"_id": ObjectId(match["_id"])},
+        {"$set": {"tossDecision": toss_decision}}
+    )
+
+    return jsonify({
+        "message": f"Match {match_num} for tournament {id} toss decision set successfully"
     })

@@ -169,6 +169,8 @@ def main():
         if match["awayStageTeamId"] is not None:
             match["awayStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["awayStageTeamId"]]
         
+        match["tossResult"] = "Home-win"
+        match["tossDecision"] = "bat"
 
     try:
         result = matches_collection.insert_many(matches, ordered=True)
