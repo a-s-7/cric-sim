@@ -398,7 +398,7 @@ function MatchCard({
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Home-win" || selected !== "Home-win" ? "black" : "white" }} />
 
-                                {(homeRuns !== 0 || homeWickets !== 0) && <h2>/</h2>}
+                                <h2>/</h2>
                                 <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent text-[2.5vh] w-1/5 h-full ml-[2px] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
@@ -493,7 +493,7 @@ function MatchCard({
                                     value={awayRuns === 0 ? '' : (awayRuns ?? '')}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: hoveredSection === "Away-win" || selected !== "Away-win" ? "black" : "white" }} />
-                                {(awayRuns !== 0 || awayWickets !== 0) && <h2>/</h2>}
+                                <h2>/</h2>
                                 <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent text-[2.5vh] w-1/5 h-full ml-[2px] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
