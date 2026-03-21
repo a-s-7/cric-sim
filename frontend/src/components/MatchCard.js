@@ -286,7 +286,7 @@ function MatchCard({
         });
 
         if (!parsedScores) {
-            return selected == "Home-win" ? `${homeTeamName} won` : `${awayTeamName} won`;
+            return selected === "Home-win" ? `${homeTeamName} won` : `${awayTeamName} won`;
         }
 
         const {
@@ -323,7 +323,7 @@ function MatchCard({
         } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
             return `${scores[teamBattingFirst].name} won by ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs} runs`;
         } else {
-            return `${selected == "Home-win" ? scores[teamBattingFirst].name : scores[teamBattingSecond].name} won the Super Over`;
+            return `${selected === "Home-win" ? scores[teamBattingFirst].name : scores[teamBattingSecond].name} won the Super Over`;
         }
 
     }
