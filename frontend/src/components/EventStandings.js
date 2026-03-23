@@ -32,16 +32,25 @@ function EventStandings({ standingsData, color }) {
                 <h3 className={`text-3xl font-bold tracking-tight text-black font-['Kanit']`}>STANDINGS</h3>
 
 
-                <div className="flex rounded-2xl w-[65%] border border-zinc-200 shadow-inner p-1.5 bg-zinc-50/50">
+                <div className="relative flex rounded-full w-[65%] border border-zinc-200 shadow-inner bg-zinc-100/50 h-11 p-1 items-center">
+                    {/* Sliding Background - Pill Style */}
+                    <div
+                        className="absolute transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full shadow-md"
+                        style={{
+                            width: `calc((100% - 8px) / ${standingsData.length})`,
+                            left: `calc(4px + ${activeStage} * (100% - 8px) / ${standingsData.length})`,
+                            height: 'calc(100% - 8px)',
+                            background: color || '#000',
+                        }}
+                    />
                     {standingsData.map((stage, index) => (
                         <button
                             key={stage.stageOrder}
                             onClick={() => setActiveStage(index)}
-                            className={`flex-1 py-1.5 px-4 rounded-xl text-[14px] font-bold uppercase tracking-wider transition-all duration-300 font-['Reem_Kufi_Fun'] ${activeStage === index
-                                ? "text-white shadow-md transform scale-[1.02]"
-                                : "text-zinc-500 hover:text-zinc-800 hover:bg-white/50"
+                            className={`relative z-10 flex-1 h-full text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 font-['Reem_Kufi_Fun'] ${activeStage === index
+                                ? "text-white"
+                                : "text-zinc-500 hover:text-zinc-800"
                                 }`}
-                            style={activeStage === index ? { background: color || '#000' } : {}}
                         >
                             {stage.stageName}
                         </button>

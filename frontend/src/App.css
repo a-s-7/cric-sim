@@ -732,59 +732,6 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 0.75vw;
 }
 
-.navContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 8%;
-    font-family: "Nunito Sans", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    background-color: whitesmoke;
-    position: relative;
-}
-
-.appModeArea {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    padding: 10px;
-    gap: 10px;
-}
-
-.appModeArea a {
-    display: flex;
-    align-items: center;
-    color: black;
-    font-family: "Reem Kufi Fun", sans-serif;
-    text-decoration: none;
-    padding: 10px;
-    font-size: 1.75vh;
-}
-
-.appModeArea a:hover {
-    color: grey;
-}
-
-.logoArea {
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-}
-
-.logoArea a {
-    font-size: 3vw;
-    color: black;
-    font-family: "Reem Kufi Fun", sans-serif;
-    text-decoration: none;
-}
-
 .leagueLandingPage {
     display: flex;
     height: 92%;

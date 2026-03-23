@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRotateLeft, faLayerGroup, faShuffle, faSpinner, faThumbTack } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../utils/selectStyles";
 
 function NewControlBar({
@@ -212,150 +212,149 @@ function NewControlBar({
     }, [matchesFiltered]);
 
     return (
-        <div className="flex h-[8%] m-2 rounded-3xl" style={{ background: color }}>
-            <div className="flex items-center justify-center w-[13%]">
-                <img className="w-[90%] h-[80%] object-contain" src={logo} alt={`${name} Logo`}></img>
-            </div>
+        <div className="flex h-[8%] m-2 rounded-3xl overflow-hidden" style={{ background: color }}>
+            <div className="flex row w-[22%]">
+                <div className="flex items-center justify-center w-[62%] flex-shrink-0">
+                    <img className="w-[90%] h-[80%] object-contain" src={logo} alt={`${name} Logo`}></img>
+                </div>
 
-            <div className="flex justify-center items-center w-[7%] font-['Reem_Kufi_Fun'] uppercase text-white">
-                {matchCount + " MATCHES"}
-            </div>
-
-            <div className="flex justify-center items-center flex-1 pl-2 pr-2">
-                <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[20%] flex items-center min-w-0">
-                    <Select
-                        isMulti
-                        borderRadius="10px"
-                        menuPosition="fixed"
-                        options={stageOptions}
-                        styles={customStyles}
-                        value={stages}
-                        onChange={handleStageChange}
-                        placeholder="Stages"
-                        noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
-                    />
-                </div>
-                <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[15%] flex items-center min-w-0">
-                    <Select
-                        isMulti
-                        borderRadius="10px"
-                        menuPosition="fixed"
-                        options={groupOptions}
-                        styles={customStyles}
-                        value={groups}
-                        onChange={handleGroupChange}
-                        placeholder="Groups"
-                        noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
-                    />
-                </div>
-                <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] flex-1 flex items-center min-w-0">
-                    <Select
-                        isMulti
-                        menuPosition="fixed"
-                        options={teamOptions}
-                        styles={customStyles}
-                        value={teams}
-                        onChange={handleTeamChange}
-                        placeholder="Teams"
-                        noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
-                    />
-                </div>
-                <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] flex-1 flex items-center min-w-0">
-                    <Select
-                        isMulti
-                        borderRadius="10px"
-                        menuPosition="fixed"
-                        options={stadiumOptions}
-                        styles={customStyles}
-                        value={stadiums}
-                        onChange={handleVenueChange}
-                        placeholder="Venues"
-                        noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
-                    />
+                <div className="flex justify-center items-center w-[38%] font-['Reem_Kufi_Fun'] uppercase text-white flex-shrink-0">
+                    {matchCount + " MATCHES"}
                 </div>
             </div>
 
-            <div className="flex justify-end items-center gap-2 pl-2 pr-2">
-                <div className="flex items-center rounded-[15px] bg-white/10 p-1">
-                    <button
-                        className={`w-[60px] h-[42px] font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90 ${isResetting ? 'cursor-not-allowed opacity-50' : ''}`}
-                        onClick={resetIncompleteMatches}
-                        disabled={isResetting}
-                    >
-                        <FontAwesomeIcon icon={isResetting ? faSpinner : faArrowRotateLeft} size="lg" className={isResetting ? 'animate-spin' : ''} />
-                    </button>
-
-                    <button
-                        onClick={() => setIsClearAllMode(!isClearAllMode)}
-                        className={`w-[36px] h-[42px] flex-shrink-0 flex items-center justify-center 
-                                text-white text-[12px] rounded-[10px] transition-all ml-1
-                                ${isClearAllMode ? 'bg-white/20 hover:bg-white/40' : 'bg-transparent hover:bg-white/15'}`}
-                        title={isClearAllMode ? "Mode: Clear All Filtered" : "Mode: Clear Stage Only"}
-                    >
-                        <FontAwesomeIcon icon={faLayerGroup} />
-                    </button>
-                </div>
-
-                <div className="flex items-center rounded-[15px] bg-white/10 p-1">
-                    <button
-                        className={`w-[60px] h-[42px] font-['Nunito_Sans'] text-[1vw] border border-transparent rounded-[10px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90 ${isSimulating ? 'cursor-not-allowed opacity-50' : ''}`}
-                        onClick={randomlySimIncompleteMatches}
-                        disabled={isSimulating}
-                    >
-                        <FontAwesomeIcon icon={isSimulating ? faSpinner : faShuffle} size="lg" className={isSimulating ? 'animate-spin' : ''} />
-                    </button>
-                </div>
-
-                <div className="flex items-center rounded-[15px] bg-white/10 p-1 pl-3 pr-1">
-                    <div className="flex items-center justify-center gap-1 h-[42px]">
-                        {/* Left Arrow */}
-                        <button
-                            onClick={() =>
-                                stageValues.length > 0 && setActiveStageIndex((prev) =>
-                                    prev === 0 ? stageValues.length - 1 : prev - 1
-                                )
-                            }
-                            className="w-[28px] h-[28px] flex items-center justify-center 
-                    text-white text-sm rounded-md
-                    hover:bg-white/20 active:scale-90 transition-all"
-                        >
-                            ◀
-                        </button>
-
-                        {/* Stage Text */}
-                        <h1 className="font-['Reem_Kufi_Fun'] uppercase text-[0.85vw] text-white 
-                    w-[7.5vw] text-center leading-none">
-                            {stageValues.length > 0 ? stageValues[activeStageIndex]?.label || "" : ""}
-                        </h1>
-
-                        {/* Right Arrow */}
-                        <button
-                            onClick={() =>
-                                stageValues.length > 0 && setActiveStageIndex((prev) =>
-                                    prev === stageValues.length - 1 ? 0 : prev + 1
-                                )
-                            }
-                            className="w-[28px] h-[28px] flex items-center justify-center 
-                    text-white text-sm rounded-md
-                    hover:bg-white/20 active:scale-90 transition-all"
-                        >
-                            ▶
-                        </button>
-
-                        {/* Auto-jump Toggle */}
-                        <button
-                            onClick={() => setAutoJumpToLatest(!autoJumpToLatest)}
-                            className={`ml-1 w-[36px] h-[42px] flex items-center justify-center 
-                                    text-white text-[12px] rounded-[10px] transition-all
-                                    ${autoJumpToLatest ? 'bg-white/5 hover:bg-white/15' : 'bg-white/20 hover:bg-white/40'}`}
-                            title={autoJumpToLatest ? "Auto-jump to latest stage is ON" : "Auto-jump to latest stage is OFF"}
-                        >
-                            <FontAwesomeIcon icon={faThumbTack} className={autoJumpToLatest ? "rotate-45" : ""} />
-                        </button>
+            <div className="flex row w-[56%]">
+                <div className="flex-1 flex justify-center items-center min-w-0">
+                    <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[21%] flex items-center min-w-0">
+                        <Select
+                            isMulti
+                            borderRadius="10px"
+                            menuPosition="fixed"
+                            menuPortalTarget={document.body}
+                            options={stageOptions}
+                            styles={customStyles}
+                            value={stages}
+                            onChange={handleStageChange}
+                            placeholder="Stages"
+                            noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
+                        />
+                    </div>
+                    <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[14%] flex items-center min-w-0">
+                        <Select
+                            isMulti
+                            borderRadius="10px"
+                            menuPosition="fixed"
+                            menuPortalTarget={document.body}
+                            options={groupOptions}
+                            styles={customStyles}
+                            value={groups}
+                            onChange={handleGroupChange}
+                            placeholder="Groups"
+                            noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
+                        />
+                    </div>
+                    <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[27%] flex items-center min-w-0">
+                        <Select
+                            isMulti
+                            menuPosition="fixed"
+                            menuPortalTarget={document.body}
+                            options={teamOptions}
+                            styles={customStyles}
+                            value={teams}
+                            onChange={handleTeamChange}
+                            placeholder="Teams"
+                            noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
+                        />
+                    </div>
+                    <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[38%] flex items-center min-w-0">
+                        <Select
+                            isMulti
+                            borderRadius="10px"
+                            menuPosition="fixed"
+                            menuPortalTarget={document.body}
+                            options={stadiumOptions}
+                            styles={customStyles}
+                            value={stadiums}
+                            onChange={handleVenueChange}
+                            placeholder="Venues"
+                            noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
+                        />
                     </div>
                 </div>
             </div>
 
+            <div className="flex row w-[22%] ">
+                <div className="flex items-center w-full gap-1.5 pl-1 pr-2">
+                    <div className="flex items-center rounded-[15px] bg-white/10 p-1 w-[28%] h-[65%]">
+                        <button
+                            className={`w-[65%] h-[100%]  font-['Nunito_Sans'] text-[0.9vw] border border-transparent rounded-[10px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90 ${isResetting ? 'cursor-not-allowed opacity-50' : ''}`}
+                            onClick={resetIncompleteMatches}
+                            disabled={isResetting}
+                        >
+                            <FontAwesomeIcon icon={isResetting ? faCircleNotch : faArrowRotateLeft} size="lg" className={isResetting ? 'animate-spin' : ''} />
+                        </button>
+
+                        <button
+                            onClick={() => setIsClearAllMode(!isClearAllMode)}
+                            className={`w-[35%] h-[100%] flex-shrink-0 flex items-center justify-center text-[0.9vw] rounded-[10px] transition-all duration-300 ml-1 active:scale-90 ${isClearAllMode ? 'bg-white/25 hover:bg-white/30 ring-1 ring-white/20 text-white' : 'bg-transparent hover:bg-white/10 text-white/60 hover:text-white'}`}
+                            title={isClearAllMode ? "Mode: Clear All Filtered" : "Mode: Clear Stage Only"}
+                        >
+                            <FontAwesomeIcon icon={faLayerGroup} />
+                        </button>
+                    </div>
+
+                    <div className="flex items-center rounded-[15px] bg-white/10 p-1 w-[18%]  h-[65%]">
+                        <button
+                            className={`w-[100%] h-[100%] font-['Nunito_Sans'] text-[0.9vw] border border-transparent rounded-[10px] bg-transparent text-white transition-all duration-200 hover:text-white hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)] hover:backdrop-blur-[4px] hover:border-white/30 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.3)] active:scale-90 ${isSimulating ? 'cursor-not-allowed opacity-50' : ''}`}
+                            onClick={randomlySimIncompleteMatches}
+                            disabled={isSimulating}
+                        >
+                            <FontAwesomeIcon icon={isSimulating ? faCircleNotch : faShuffle} size="lg" className={isSimulating ? 'animate-spin' : ''} />
+                        </button>
+                    </div>
+
+                    <div className="flex items-center rounded-[15px] bg-white/10 p-1 pl-2 pr-1 w-[54%] h-[65%]">
+                        <div className="flex items-center justify-center gap-0.5 w-[100%] h-[100%]">
+                            {/* Left Arrow */}
+                            <button
+                                onClick={() =>
+                                    stageValues.length > 0 && setActiveStageIndex((prev) =>
+                                        prev === 0 ? stageValues.length - 1 : prev - 1
+                                    )
+                                }
+                                className="w-[15%] h-[100%] flex items-center justify-center text-white text-[0.8vw] rounded-md hover:bg-white/20 active:scale-90 transition-all"
+                            >
+                                ◀
+                            </button>
+
+                            <h1 className="font-['Reem_Kufi_Fun'] uppercase text-[0.7vw] text-white w-[50%] text-center leading-none truncate">
+                                {stageValues.length > 0 ? stageValues[activeStageIndex]?.label || "" : ""}
+                            </h1>
+
+                            {/* Right Arrow */}
+                            <button
+                                onClick={() =>
+                                    stageValues.length > 0 && setActiveStageIndex((prev) =>
+                                        prev === stageValues.length - 1 ? 0 : prev + 1
+                                    )
+                                }
+                                className="w-[15%] h-[100%] flex items-center justify-center text-white text-[0.8vw] rounded-md hover:bg-white/20 active:scale-90 transition-all"
+                            >
+                                ▶
+                            </button>
+
+                            {/* Auto-jump Toggle */}
+                            <button
+                                onClick={() => setAutoJumpToLatest(!autoJumpToLatest)}
+                                className={`ml-0.5 w-[20%] h-[100%] flex items-center justify-center text-[0.9vw] rounded-[10px] transition-all duration-300 active:scale-90 ${autoJumpToLatest ? 'bg-white/25 hover:bg-white/30 ring-1 ring-white/20 text-white' : 'bg-transparent hover:bg-white/10 text-white/60 hover:text-white'}`}
+                                title={autoJumpToLatest ? "Auto-jump to latest stage is ON" : "Auto-jump to latest stage is OFF"}
+                            >
+                                <FontAwesomeIcon icon={faThumbTack} className={`transition-transform duration-300 ${autoJumpToLatest ? "rotate-45" : ""}`} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div >
     );
 }

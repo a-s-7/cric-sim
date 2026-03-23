@@ -133,6 +133,13 @@ export const customStyles = {
         zIndex: 50,
     }),
 
+    menuPortal: (base) => ({
+        ...base,
+        zIndex: 9999,
+        fontFamily: "'Reem Kufi Fun', sans-serif",
+        textTransform: 'uppercase',
+    }),
+
     menuList: (base) => ({
         ...base,
         padding: '6px',
@@ -141,6 +148,7 @@ export const customStyles = {
     option: (base, state) => ({
         ...base,
         borderRadius: '8px',
+        fontSize: '13px',
         padding: '10px 12px',
         backgroundColor: state.isSelected
             ? 'rgba(0, 0, 0, 0.12)'
