@@ -74,13 +74,12 @@ function MatchCard({
         const isHovered = hoveredSection === section;
         const isLoser = selected !== 'None' && selected !== 'No-result' && !isSelected && section !== 'No-result' && section !== 'None';
 
-        const background = isSelected ? gradients[num] : 'transparent';
-        const color = isSelected ? 'white' : (isLoser ? '#959595' : 'black');
+        const background = isHovered ? 'rgba(0, 0, 0, 0.05)' : (isSelected ? gradients[num] : 'transparent');
+        const color = isHovered ? 'black' : (isSelected ? 'white' : (isLoser ? '#959595' : 'black'));
 
         return {
-            background: isHovered ? 'whitesmoke' : background,
-            color: isHovered ? 'black' : color,
-            transition: 'all 0.3s ease'
+            background: background,
+            color: color
         };
     };
 
@@ -236,6 +235,7 @@ function MatchCard({
     };
 
     const resetMatch = async (result) => {
+        setSelected(result);
         setHomeRuns('');
         setHomeWickets('');
         setHomeOvers('');
@@ -243,7 +243,6 @@ function MatchCard({
         setAwayWickets('');
         setAwayOvers('');
         await resetMatchData();
-        setSelected(result);
         onMatchUpdate();
     };
 
@@ -344,51 +343,53 @@ function MatchCard({
     }
 
     const getTossSpan = (type, section, isTossWinner) => {
-        const isColored = selected === section && hoveredSection !== section;
         const roleSrc = type === 'bat'
             ? "https://static.thenounproject.com/png/2005489-200.png"
             : "https://static.thenounproject.com/png/2485180-200.png";
 
-        if (!isTossWinner) return null;
+        const isLoser = selected !== 'None' && selected !== 'No-result' && selected !== section;
 
         // Using solid neutral grey and white ring
         const baseColor = "bg-[#d1d5db]";
         const innerColor = "bg-[#d1d5db]";
-        const ringGradient = section === 'Home-win' ? homeGradient : awayGradient;
 
         return (
             <div
                 onClick={(e) => {
+                    if (!isTossWinner) return;
                     e.stopPropagation();
                     handleTossResultChange(tossResultState === 'Home-win' ? 'Away-win' : 'Home-win');
                 }}
-                className={`flex items-center justify-center rounded-full transition-colors duration-200 border-[0.5px] border-white/20 ${baseColor}`}
+                className={`flex items-center justify-center rounded-full transition-all duration-500 ease-in-out border-[0.5px] border-white/20 hover:border-gray-300 ${baseColor} group/coin hover:bg-white has-[.inner-toss:hover]:bg-[#d1d5db]`}
                 style={{
-                    width: "3.2vh",
-                    height: "3.2vh",
-                    cursor: "pointer",
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
+                    width: "3vh",
+                    height: "3vh",
+                    cursor: isTossWinner ? "pointer" : "default",
+                    boxShadow: isTossWinner && !isLoser ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
+                    opacity: isTossWinner ? (isLoser ? 0.4 : 1) : 0,
+                    transform: isTossWinner ? 'scale(1)' : 'scale(0.4)',
+                    pointerEvents: isTossWinner ? 'auto' : 'none'
                 }}
             >
                 {/* The Ring is now solid white */}
-                <div className="flex items-center justify-center rounded-full w-[2.6vh] h-[2.6vh] bg-white shadow-sm">
+                <div className="flex items-center justify-center rounded-full w-[2.6vh] h-[2.6vh] bg-white shadow-sm transition-colors duration-200 group-hover/coin:bg-gray-700 has-[.inner-toss:hover]:bg-white">
                     <div
                         onClick={(e) => {
+                            if (!isTossWinner) return;
                             e.stopPropagation();
                             handleTossDecisionChange(!battingFirstToggle);
                         }}
-                        className={`flex items-center justify-center rounded-full transition-colors duration-200 ${innerColor}`}
+                        className={`inner-toss group/inner-hover flex items-center justify-center rounded-full transition-colors duration-200 ${innerColor} hover:bg-gray-700`}
                         style={{
-                            width: "2.1vh",
-                            height: "2.1vh",
+                            width: "2vh",
+                            height: "2vh",
                             cursor: "pointer",
                         }}
                     >
                         <img
                             src={roleSrc}
                             alt={type}
-                            className="w-[1.3vh] h-[1.3vh] opacity-60"
-                            style={{ filter: 'none' }}
+                            className="w-[1.4vh] h-[1.4vh] opacity-60 transition-all duration-200 group-hover/inner-hover:invert group-hover/inner-hover:opacity-100 filter-none"
                         />
                     </div>
                 </div>
@@ -396,8 +397,18 @@ function MatchCard({
         );
     };
 
+    const goldGlow = "border-[1px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.8)]";
+    const silverGlow = "border-[1px] border-[#BFC1C2] shadow-[0_0_20px_rgba(191,193,194,0.9)]";
+
+    const getBorderClass = () => {
+        if (!stage) return "border-[#cec7c7]";
+        if (stage === "Final") return goldGlow;
+        if (stage.includes("Semi-final")) return silverGlow;
+        return "border-[#cec7c7]";
+    };
+
     return (
-        <div className="shadow-lg rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto">
+        <div className={`shadow-lg rounded-[32px] border ${getBorderClass()} overflow-hidden flex w-auto`}>
             <div className="h-[170px] w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-[135px]">
                     <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
@@ -459,7 +470,7 @@ function MatchCard({
                             <span>{homeTeamName}</span>
 
                             {/* Bottom-anchored element */}
-                            {selected !== 'None' && <span className="absolute bottom-4 right-0">
+                            {selected !== 'None' && <span className="absolute bottom-3 right-0">
                                 {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Home-win', tossResultState === 'Home-win')}</span>
                             }
                         </div>
@@ -476,7 +487,7 @@ function MatchCard({
                         style={getStyle("No-result", 1)}>
                         <div className={`w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedDate}</div>
                         <div className="w-full h-2/5 flex items-center justify-center">
-                            <div className={`uppercase text-inherit text-center px-1 tracking-[0.02em] ${selected === 'None' ? 'text-[1.2vw] font-bold' : 'text-[0.95vw] font-black'}`}>
+                            <div className={`uppercase text-inherit text-center px-2 ${selected === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.95vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: selected !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {selected === 'None' ? 'VS' : getMatchResult()}
                             </div>
                         </div>
@@ -500,7 +511,7 @@ function MatchCard({
 
                             {/* Bottom-anchored element */}
 
-                            {selected !== 'None' && <span className="absolute bottom-4 left-0">
+                            {selected !== 'None' && <span className="absolute bottom-3 left-0">
                                 {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Away-win', tossResultState === 'Away-win')}</span>
                             }
                         </div>
@@ -554,7 +565,7 @@ function MatchCard({
                 </div>
 
                 <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-gray-300/20 text-[0.9vw]">
-                    <div className="flex justify-center items-center h-full flex-grow text-black cursor-pointer"
+                    <div className={`flex justify-center items-center h-full flex-grow text-black cursor-pointer ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}
                         onClick={() => resetMatch('None')}
                         onMouseEnter={() => setHoveredSection("None")}
                         onMouseLeave={() => setHoveredSection(null)}

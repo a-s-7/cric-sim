@@ -39,6 +39,51 @@
             "stadium": "Pallekele International Cricket Stadium",
             "city": "Kandy",
             "country": "Sri Lanka"
+        },
+        {
+            "stadium": "Sir Vivian Richards Stadium",
+            "city": "North Sound",
+            "country": "Antigua & Barbuda"
+        },
+        {
+            "stadium": "Kensington Oval",
+            "city": "Bridgetown",
+            "country": "Barbados"
+        },
+        {
+            "stadium": "Providence Stadium",
+            "city": "Georgetown",
+            "country": "Guyana"
+        },
+        {
+            "stadium": "Daren Sammy Cricket Ground",
+            "city": "Gros Islet",
+            "country": "Saint Lucia"
+        },
+        {
+            "stadium": "Arnos Vale Stadium",
+            "city": "Kingstown",
+            "country": "St. Vincent & the Grenadines"
+        },
+        {
+            "stadium": "Brian Lara Cricket Academy",
+            "city": "Tarouba",
+            "country": "Trinidad & Tobago"
+        },
+        {
+            "stadium": "Central Broward Park",
+            "city": "Lauderhill",
+            "country": "United States"
+        },
+        {
+            "stadium": "Nassau County Stadium",
+            "city": "New York",
+            "country": "United States"
+        },
+        {
+            "stadium": "Grand Prairie Stadium",
+            "city": "Grand Prairie",
+            "country": "United States"
         }
     ]
 }

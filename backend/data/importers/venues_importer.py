@@ -36,20 +36,18 @@ def main():
         print("─" * 100)
     except BulkWriteError as e:
         write_errors = e.details.get('writeErrors', [])
-
+        failed_indices = {err['index'] for err in write_errors}
         failed_stadiums = []
+        inserted_stadiums = []
 
-        for err in write_errors:
-            venue = json_info["venues"][err['index']]
-            failed_stadiums.append(venue['stadium'])
+        for i, venue in enumerate(json_info["venues"]):
+            if i in failed_indices:
+                failed_stadiums.append(venue['stadium'])
+            else:
+                inserted_stadiums.append(venue['stadium'])
 
-        inserted_count = len(json_info["venues"]) - len(failed_stadiums)
-        print(f"\n✅ {inserted_count} venues were successfully inserted.")
-        if failed_stadiums:
-            print(f"⏩ Skipped {len(failed_stadiums)} existing venues:")
-            for stadium in failed_stadiums:
-                print(f"   - {stadium}")
-        print()
+        print(f"\nINSERTED {len(inserted_stadiums)} VENUES: {inserted_stadiums}")
+        print(f"SKIPPED {len(failed_stadiums)} VENUES: {failed_stadiums}\n")
 
 if __name__ == "__main__":
     main()

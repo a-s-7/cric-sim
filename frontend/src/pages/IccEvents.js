@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function IccEvents() {
+    const navigate = useNavigate();
 
     const [tournaments, setTournaments] = useState([]);
 
@@ -34,7 +36,7 @@ function IccEvents() {
                         </h2>
                         <div className="flex flex-wrap gap-4">
                             {tournamentList.map((tournament) => (
-                                <div
+                                <div onClick={() => navigate("/tournaments/" + tournament.id)}
                                     key={tournament.id}
                                     className="bg-white rounded-3xl border border-gray-300 
                                     shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500

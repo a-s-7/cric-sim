@@ -346,7 +346,7 @@ function NewControlBar({
                             {/* Auto-jump Toggle */}
                             <button
                                 onClick={() => setAutoJumpToLatest(!autoJumpToLatest)}
-                                className={`ml-0.5 w-[20%] h-[100%] flex items-center justify-center text-[0.9vw] rounded-[10px] transition-all duration-300 active:scale-90 ${autoJumpToLatest ? 'bg-white/25 hover:bg-white/30 ring-1 ring-white/20 text-white' : 'bg-transparent hover:bg-white/10 text-white/60 hover:text-white'}`}
+                                className={`ml-0.5 w-[20%] h-[100%] flex items-center justify-center text-[0.9vw] rounded-[10px] transition-all duration-300 active:scale-90 ${!autoJumpToLatest ? 'bg-white/25 hover:bg-white/30 ring-1 ring-white/20 text-white' : 'bg-transparent hover:bg-white/10 text-white/60 hover:text-white'}`}
                                 title={autoJumpToLatest ? "Auto-jump to latest stage is ON" : "Auto-jump to latest stage is OFF"}
                             >
                                 <FontAwesomeIcon icon={faThumbTack} className={`transition-transform duration-300 ${autoJumpToLatest ? "rotate-45" : ""}`} />

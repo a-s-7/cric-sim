@@ -38,15 +38,25 @@ function MatchResultCard({
         hour12: true
     });
 
+    const goldGlow = "border-[1px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.8)]";
+    const silverGlow = "border-[1px] border-[#BFC1C2] shadow-[0_0_20px_rgba(191,193,194,0.9)]";
+
+    const getBorderClass = () => {
+        if (!stage) return "border-[#cec7c7]";
+        if (stage === "Final") return goldGlow;
+        if (stage.includes("Semi-final")) return silverGlow;
+        return "border-[#cec7c7]";
+    };
+
     return (
-        <div className="shadow-md rounded-[32px] border border-[#cec7c7] overflow-hidden flex w-auto">
+        <div className={`shadow-md rounded-[32px] border ${getBorderClass()} overflow-hidden flex w-auto`}>
             <div className="h-[170px] w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-[135px]">
                     <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase'
                         style={getStyle("Home-win", 0)}>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5">
-                            <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
+                            {matchResult !== "None" && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
                                 <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent w-[35%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type={"number"}
                                     min="0"
@@ -63,8 +73,8 @@ function MatchResultCard({
                                     value={homeTeamWickets || ''}
                                     readOnly
                                     style={{ color: matchResult === "Home-win" ? "white" : "black" }} />
-                            </div>
-                            <div className="flex justify-end">
+                            </div>}
+                            {matchResult !== "None" && <div className="flex justify-end">
                                 <input className="border-[0.5px] border-gray-300 text-[1.75vh] rounded-[5px] bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type={"number"}
                                     min="0.0"
@@ -73,7 +83,7 @@ function MatchResultCard({
                                     value={homeTeamOvers || ''}
                                     readOnly
                                     style={{ color: matchResult === "Home-win" ? "white" : "black" }} />
-                            </div>
+                            </div>}
                         </div>
 
                         <div className="flex items-center text-[2vh] w-1/5 justify-end">
@@ -93,9 +103,9 @@ function MatchResultCard({
                     </div>
                     <div className='flex flex-col border-l border-r border-gray-100 w-[25%]'
                         style={getStyle("No-result", 1)}>
-                        <div className="w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw]">{formattedDate}</div>
-                        <div className="w-full h-2/5 flex items-center justify-center text-[1.2vw] font-bold">VS</div>
-                        <div className="w-full h-[30%] flex items-center justify-center text-[0.75vw]">{formattedTime} your time</div>
+                        <div className={`w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedDate}</div>
+                        <div className="w-full h-2/5 flex items-center justify-center text-[1.3vw] font-['Reem_Kufi_Fun'] font-medium tracking-wide opacity-80 uppercase text-center px-2">VS</div>
+                        <div className={`w-full h-[30%] flex items-center justify-center text-[0.75vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedTime} your time</div>
                     </div>
                     <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase'
                         style={getStyle('Away-win', 2)}>
@@ -116,7 +126,7 @@ function MatchResultCard({
                         </div>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5">
-                            <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
+                            {matchResult !== "None" && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
                                 <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent w-[35%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type={"number"}
                                     min="0"
@@ -133,8 +143,8 @@ function MatchResultCard({
                                     value={awayTeamWickets || ''}
                                     readOnly
                                     style={{ color: matchResult === "Away-win" ? "white" : "black" }} />
-                            </div>
-                            <div className="flex justify-start">
+                            </div>}
+                            {matchResult !== "None" && <div className="flex justify-start">
                                 <input className="border-[0.5px] border-gray-300 text-[1.75vh] rounded-[5px] bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type={"number"}
                                     min="0.0"
@@ -143,13 +153,13 @@ function MatchResultCard({
                                     value={awayTeamOvers || ''}
                                     readOnly
                                     style={{ color: matchResult === "Away-win" ? "white" : "black" }} />
-                            </div>
+                            </div>}
                         </div>
 
                     </div>
                 </div>
                 <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-white text-[0.9vw]">
-                    <div className="flex justify-center items-center h-full flex-grow text-black">
+                    <div className={`flex justify-center items-center h-full flex-grow text-black ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>
                         {group ? `${stage} · Group ${group} · Match ${matchNum} · ${venue}` : `${stage} · Match ${matchNum} · ${venue}`}
                     </div>
 

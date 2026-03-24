@@ -38,15 +38,18 @@ def main():
     except BulkWriteError as e:
         write_errors = e.details.get('writeErrors', [])
 
+        failed_indices = {err['index'] for err in write_errors}
         failed_acronyms = []
+        inserted_acronyms = []
 
-        for err in write_errors:
-            team = json_info["teams"][err['index']]
-            failed_acronyms.append(team['acronym'])
+        for i, team in enumerate(json_info["teams"]):
+            if i in failed_indices:
+                failed_acronyms.append(team['_id'])
+            else:
+                inserted_acronyms.append(team['_id'])
 
-        inserted_count = len(json_info["teams"]) - len(failed_acronyms)
-        print(f"Inserted {inserted_count} teams")
-        print("Skipped duplicates:", failed_acronyms)
+        print(f"\nINSERTED {len(inserted_acronyms)} TEAMS: {inserted_acronyms}")
+        print(f"SKIPPED {len(failed_acronyms)} TEAMS: {failed_acronyms}\n")
 
 if __name__ == "__main__":
     main()
