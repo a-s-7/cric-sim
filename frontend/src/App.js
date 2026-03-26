@@ -4,7 +4,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import T20LeaguePage from "./pages/T20LeaguePage";
 import LeagueLandingPage from "./pages/LeagueLandingPage";
-import EventsLandingPage from "./pages/EventsLandingPage";
 import TournamentPage from "./pages/TournamentPage";
 import React, { useEffect, useState } from "react";
 import WTCPage from "./pages/WTCPage";
@@ -76,7 +75,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/leagues" element={<LeagueLandingPage />} />
-                <Route path="/events" element={<EventsLandingPage />} />
                 <Route path="/icc_events" element={<IccEvents />} />
 
                 {leagues.map(league => (

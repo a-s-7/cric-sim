@@ -21,18 +21,11 @@ function NavBar() {
                     LEAGUES
                 </NavLink>
                 <NavLink
-                    to="/events"
-                    className={`flex items-center text-black font-['Reem_Kufi_Fun',_sans-serif] no-underline p-[10px] text-[1.75vh] hover:text-gray-500 ${path === "/events" ? "border-b border-black" : "border-b border-transparent"
-                        }`}
-                >
-                    EVENTS
-                </NavLink>
-                <NavLink
                     to="/icc_events"
                     className={`flex items-center text-black font-['Reem_Kufi_Fun',_sans-serif] no-underline p-[10px] text-[1.75vh] hover:text-gray-500 ${path === "/icc_events" ? "border-b border-black" : "border-b border-transparent"
                         }`}
                 >
-                    ICC EVENTS
+                    EVENTS
                 </NavLink>
             </div>
         </div>
