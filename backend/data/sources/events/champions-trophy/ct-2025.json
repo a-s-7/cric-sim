@@ -1,0 +1,370 @@
+{
+    "tournament": {
+        "_id": "icc-mens-ct-2025",
+        "format": "ODI",
+        "name": "ICC Men's Champions Trophy",
+        "edition": 2025,
+        "status": "upcoming",
+        "startDate": "2025-02-19",
+        "endDate": "2025-03-09",
+        "structure": "groups",
+        "hostTeamIds": [
+            "PAK",
+            "UAE"
+        ],
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, #0034EB, #0034EB, #66DA44)",
+        "mainLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1732772791/prd/assets/tournaments/champions-trophy-2025/2025/champions-trophy-2025-logo.svg",
+        "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1732772791/prd/assets/tournaments/champions-trophy-2025/2025/champions-trophy-2025-logo.svg",
+        "pointsTableColor": "#66DA44"
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numGroups": 2,
+                "teamsPerGroup": 4,
+                "matchesPerTeam": 3,
+                "qualifiersPerGroup": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Semi-final",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 3,
+            "name": "Final",
+            "status": "locked",
+            "config": {
+                "numTeams": 2,
+                "numMatches": 1
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "IND",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "PAK",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "BAN",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NZ",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "AUS",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "ENG",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SA",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "AFG",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "GA-1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "A",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "GB-2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "B",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "GB-1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "B",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "GA-2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "A",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "SF1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 13
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "SF2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 14
+        }
+    ],
+    "stadiums": [
+        "National Stadium",
+        "Dubai International Stadium",
+        "Gaddafi Stadium",
+        "Rawalpindi Cricket Stadium"
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2025-02-19 01:30:00",
+            "venue": "National Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2025-02-20 01:30:00",
+            "venue": "Dubai International Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "IND",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2025-02-21 01:30:00",
+            "venue": "National Stadium",
+            "homeStageTeamId": "AFG",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2025-02-22 01:30:00",
+            "venue": "Gaddafi Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "ENG",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2025-02-23 01:30:00",
+            "venue": "Dubai International Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "IND",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2025-02-24 01:30:00",
+            "venue": "Rawalpindi Cricket Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2025-02-25 01:30:00",
+            "venue": "Rawalpindi Cricket Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2025-02-26 01:30:00",
+            "venue": "Gaddafi Stadium",
+            "homeStageTeamId": "AFG",
+            "awayStageTeamId": "ENG",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2025-02-27 01:30:00",
+            "venue": "Rawalpindi Cricket Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2025-02-28 01:30:00",
+            "venue": "Gaddafi Stadium",
+            "homeStageTeamId": "AFG",
+            "awayStageTeamId": "AUS",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2025-03-01 01:30:00",
+            "venue": "National Stadium",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "ENG",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2025-03-02 01:30:00",
+            "venue": "Dubai International Stadium",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "IND",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 2,
+            "date": "2025-03-04 01:30:00",
+            "venue": "Dubai International Stadium",
+            "homeStageTeamId": "GA-1",
+            "awayStageTeamId": "GB-2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Semi-final 1"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 2,
+            "date": "2025-03-05 01:30:00",
+            "venue": "Gaddafi Stadium",
+            "homeStageTeamId": "GB-1",
+            "awayStageTeamId": "GA-2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Semi-final 2"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 3,
+            "date": "2025-03-08 01:30:00",
+            "venue": "Dubai International Stadium",
+            "homeStageTeamId": "SF1",
+            "awayStageTeamId": "SF2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

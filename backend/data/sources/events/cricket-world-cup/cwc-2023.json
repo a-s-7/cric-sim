@@ -1,0 +1,701 @@
+{
+    "tournament": {
+        "_id": "icc-mens-cwc-2023",
+        "format": "ODI",
+        "name": "ICC Men's Cricket World Cup",
+        "edition": 2023,
+        "status": "completed",
+        "startDate": "2023-10-05",
+        "endDate": "2023-11-19",
+        "structure": "league",
+        "hostTeamIds": [
+            "IND"
+        ],
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, #30156E, #30156E, #EA3BA0)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/e/eb/2023_CWC_Logo.svg",
+        "horizontalLogo": "https://images.icc-cricket.com/icc-web/image/private/t_q-best/v1699648100/prd/assets/tournaments/cricketworldcup/extended-logo_gjruxa_zrvjhh.svg",
+        "pointsTableColor": "#30156E"
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numGroups": 1,
+                "teamsPerGroup": 10,
+                "matchesPerTeam": 9,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Semi-final",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 3,
+            "name": "Final",
+            "status": "locked",
+            "config": {
+                "numTeams": 2,
+                "numMatches": 1
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "IND",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "PAK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "BAN",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NZ",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "AUS",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "ENG",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SA",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "AFG",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SL",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NED",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "SF1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 46
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "SF2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 47
+        }
+    ],
+    "stadiums": [
+        "Wankhede Stadium",
+        "Narendra Modi Stadium",
+        "MA Chidambaram Stadium",
+        "Eden Gardens",
+        "Arun Jaitley Stadium",
+        "Rajiv Gandhi Stadium",
+        "MCA International Stadium",
+        "M. Chinnaswamy Stadium",
+        "HPCA Stadium",
+        "BRSABVE Cricket Stadium"
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2023-10-05 14:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2023-10-06 14:00:00",
+            "venue": "Rajiv Gandhi Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2023-10-06 14:00:00",
+            "venue": "HPCA Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2023-10-07 14:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2023-10-08 14:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "AUS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2023-10-09 14:00:00",
+            "venue": "Rajiv Gandhi Stadium",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2023-10-09 14:00:00",
+            "venue": "HPCA Stadium",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2023-10-10 14:00:00",
+            "venue": "Rajiv Gandhi Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2023-10-11 14:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2023-10-12 14:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2023-10-13 14:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2023-10-14 14:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2023-10-15 14:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2023-10-16 14:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2023-10-17 14:00:00",
+            "venue": "HPCA Stadium",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2023-10-18 14:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2023-10-19 14:00:00",
+            "venue": "MCA International Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2023-10-20 14:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2023-10-20 14:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "NED",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2023-10-21 14:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2023-10-22 14:00:00",
+            "venue": "HPCA Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2023-10-23 14:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2023-10-24 14:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2023-10-25 14:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2023-10-26 14:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2023-10-27 14:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2023-10-27 14:00:00",
+            "venue": "HPCA Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2023-10-28 14:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "NED",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2023-10-29 14:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "ENG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2023-10-30 14:00:00",
+            "venue": "MCA International Stadium",
+            "homeStageTeamId": "AFG",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 1,
+            "date": "2023-10-31 14:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 1,
+            "date": "2023-11-01 14:00:00",
+            "venue": "MCA International Stadium",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 1,
+            "date": "2023-11-02 14:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 1,
+            "date": "2023-11-03 14:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "NED",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 35,
+            "stageOrder": 1,
+            "date": "2023-11-03 14:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 36,
+            "stageOrder": 1,
+            "date": "2023-11-04 14:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "AUS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 37,
+            "stageOrder": 1,
+            "date": "2023-11-05 14:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 38,
+            "stageOrder": 1,
+            "date": "2023-11-06 14:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 39,
+            "stageOrder": 1,
+            "date": "2023-11-07 14:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 40,
+            "stageOrder": 1,
+            "date": "2023-11-08 14:00:00",
+            "venue": "MCA International Stadium",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 41,
+            "stageOrder": 1,
+            "date": "2023-11-09 14:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 42,
+            "stageOrder": 1,
+            "date": "2023-11-10 14:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 43,
+            "stageOrder": 1,
+            "date": "2023-11-10 14:00:00",
+            "venue": "MCA International Stadium",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 44,
+            "stageOrder": 1,
+            "date": "2023-11-11 14:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 45,
+            "stageOrder": 1,
+            "date": "2023-11-12 14:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 46,
+            "stageOrder": 2,
+            "date": "2023-11-15 14:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "T1",
+            "awayStageTeamId": "T4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Semi-final 1"
+        },
+        {
+            "matchNumber": 47,
+            "stageOrder": 2,
+            "date": "2023-11-16 14:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "T2",
+            "awayStageTeamId": "T3",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Semi-final 2"
+        },
+        {
+            "matchNumber": 48,
+            "stageOrder": 3,
+            "date": "2023-11-19 14:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "SF1",
+            "awayStageTeamId": "SF2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

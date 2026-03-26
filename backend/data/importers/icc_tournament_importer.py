@@ -6,7 +6,10 @@ from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from bson import ObjectId
 
-def main():
+def main(event_folder, file_name):
+    if not event_folder or not file_name:
+        raise ValueError("event_folder and file_name must be provided")
+
     if os.getenv("RENDER_STATUS") != "TRUE":
         from dotenv import load_dotenv
         load_dotenv()
@@ -22,10 +25,6 @@ def main():
     ################################################################ (TOURNAMENTS COLLECTION)
 
     # Load tournament info as JSON
-
-    event_folder = "t20-world-cup"
-    file_name = "t20-wc-2026.json"
-
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     file_path = os.path.join(base_dir, "sources", "events", event_folder, file_name)
 
@@ -63,6 +62,7 @@ def main():
     stages = json_info["stages"]
 
     stages_collection = db['stages']
+    
     stages_collection.create_index(
         [("tournamentId", 1), ("order", 1)],
         unique=True
@@ -71,6 +71,9 @@ def main():
     DB_STAGE_ORDER_TO_ID = {}
 
     try:
+        for stage in stages:
+            stage["tournamentId"] = tournament["_id"]
+
         result = stages_collection.insert_many(stages, ordered=True)
         print(f"\nINSERTED {len(result.inserted_ids)} STAGES\n")
         print(f"{'STAGE':<20} {'ID':<50}")
@@ -96,6 +99,7 @@ def main():
     stage_teams = json_info["stageTeams"]
 
     stage_teams_collection = db['stageTeams']
+
     stage_teams_collection.create_index(
         [("stageId", 1), ("teamId", 1)],
         unique=True,
@@ -105,6 +109,11 @@ def main():
     for s_team in stage_teams:
         s_team["stageId"] = DB_STAGE_ORDER_TO_ID[s_team["stageOrder"]]
         del s_team["stageOrder"]
+        s_team["tournamentId"] = tournament["_id"]
+        s_team["runsScored"] = 0
+        s_team["runsConceded"] = 0
+        s_team["ballsFaced"] = 0
+        s_team["ballsBowled"] = 0
 
 
     DB_NAME_OR_SEED_TO_ID = {}
@@ -171,6 +180,13 @@ def main():
         
         match["tossResult"] = "Home-win"
         match["tossDecision"] = "bat"
+        match["homeTeamRuns"] = 0
+        match["homeTeamWickets"] = 0
+        match["homeTeamBalls"] = 0
+        match["awayTeamRuns"] = 0
+        match["awayTeamWickets"] = 0
+        match["awayTeamBalls"] = 0
+        match["tournamentId"] = tournament["_id"]
 
     try:
         result = matches_collection.insert_many(matches, ordered=True)

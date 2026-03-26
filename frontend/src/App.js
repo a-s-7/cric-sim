@@ -113,7 +113,8 @@ function App() {
                             tournamentEdition={tournament["edition"]}
                             tournamentLogo={tournament["horizontalLogo"]}
                             tournamentGradient={tournament["gradient"]}
-                            tournamentPointsTableColor={tournament["pointsTableColor"]} />}>
+                            tournamentPointsTableColor={tournament["pointsTableColor"]}
+                            tournamentStructure={tournament["structure"]} />}>
                     </Route>
                 ))}
             </Routes>

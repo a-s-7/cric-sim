@@ -9,19 +9,18 @@ function NewControlBar({
     matchCount,
     teams,
     stadiums,
-    stages,
     groups,
+    stages,
     setSelectedTeams,
     setSelectedStadiums,
     setSelectedGroups,
     setSelectedStages,
     urlTag,
-    edition,
     logo,
     name,
     color,
     matchesFiltered,
-    setGroups
+    structure
 }) {
 
     const [teamOptions, setTeamOptions] = useState([]);
@@ -36,6 +35,33 @@ function NewControlBar({
     const [activeStageIndex, setActiveStageIndex] = React.useState(0);
     const [autoJumpToLatest, setAutoJumpToLatest] = useState(true);
     const [isClearAllMode, setIsClearAllMode] = useState(true);
+    const [smartScale, setSmartScale] = useState(70);
+    const [scaleReady, setScaleReady] = useState(false);
+
+    useEffect(() => {
+        if (!logo) return;
+        setScaleReady(false);
+        const img = new Image();
+        img.onload = () => {
+            const ratio = img.width / img.height;
+            console.log(`[Logo Debug] ${logo} — ${img.width}x${img.height}, ratio: ${ratio.toFixed(3)}`);
+            let scale;
+
+            if (ratio < 3.2) {
+                // Moderately wide (T20 World Cup style)
+                scale = 65;
+            } else if (ratio < 3.6) {
+                // Slightly wide (T20 World Cup style)
+                scale = 80;
+            } else {
+                scale = 55;
+            }
+
+            setSmartScale(scale);
+            setScaleReady(true);
+        };
+        img.src = logo;
+    }, [logo]);
 
     const fetchTeamOptions = async () => {
 
@@ -215,7 +241,17 @@ function NewControlBar({
         <div className="flex h-[8%] m-2 rounded-3xl overflow-hidden" style={{ background: color }}>
             <div className="flex row w-[22%]">
                 <div className="flex items-center justify-center w-[62%] flex-shrink-0">
-                    <img className="w-[90%] h-[80%] object-contain" src={logo} alt={`${name} Logo`}></img>
+                    <img
+                        className="object-contain"
+                        style={{
+                            height: `${smartScale}%`,
+                            width: 'auto',
+                            opacity: scaleReady ? 1 : 0,
+                            transition: 'opacity 0.3s ease-out',
+                        }}
+                        src={logo}
+                        alt={`${name} Logo`}
+                    />
                 </div>
 
                 <div className="flex justify-center items-center w-[38%] font-['Reem_Kufi_Fun'] uppercase text-white flex-shrink-0">
@@ -225,7 +261,7 @@ function NewControlBar({
 
             <div className="flex row w-[56%]">
                 <div className="flex-1 flex justify-center items-center min-w-0">
-                    <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[21%] flex items-center min-w-0">
+                    <div className={`p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] ${structure === "groups" ? "w-[21%]" : "w-[24.4%]"} flex items-center min-w-0`}>
                         <Select
                             isMulti
                             borderRadius="10px"
@@ -239,7 +275,7 @@ function NewControlBar({
                             noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
                         />
                     </div>
-                    <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[14%] flex items-center min-w-0">
+                    {structure === "groups" && <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[14%] flex items-center min-w-0">
                         <Select
                             isMulti
                             borderRadius="10px"
@@ -252,8 +288,8 @@ function NewControlBar({
                             placeholder="Groups"
                             noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
                         />
-                    </div>
-                    <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[27%] flex items-center min-w-0">
+                    </div>}
+                    <div className={`p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] ${structure === "groups" ? "w-[27%]" : "w-[31.4%]"} flex items-center min-w-0`}>
                         <Select
                             isMulti
                             menuPosition="fixed"
@@ -266,7 +302,7 @@ function NewControlBar({
                             noOptionsMessage={({ inputValue }) => `No result found for "${inputValue}"`}
                         />
                     </div>
-                    <div className="p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] w-[38%] flex items-center min-w-0">
+                    <div className={`p-1 font-['Reem_Kufi_Fun'] uppercase text-[1.4vh] ${structure === "groups" ? "w-[38%]" : "w-[44.2%]"} flex items-center min-w-0`}>
                         <Select
                             isMulti
                             borderRadius="10px"

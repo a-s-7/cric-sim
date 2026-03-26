@@ -5,7 +5,15 @@ import EventMatchDisplay from "../components/EventMatchDisplay";
 import { calculateStandingsMovement } from "../utils/standingsUtils";
 
 
-function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tournamentLogo, tournamentGradient, tournamentPointsTableColor }) {
+function TournamentPage({
+    tournamentId,
+    tournamentName,
+    tournamentEdition,
+    tournamentLogo,
+    tournamentGradient,
+    tournamentPointsTableColor,
+    tournamentStructure
+}) {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [selectedStadiums, setSelectedStadiums] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
@@ -13,9 +21,6 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
 
     const [matchesData, setMatchesData] = useState([]);
     const [standingsData, setStandingsData] = useState([]);
-
-    // const winner = matchesData?.winner;
-    // const gradient = matchesData?.teams?.[0]?.[winner]?.gradient || tournamentGradient;
 
     const refreshPointsTable = async () => {
         await fetchStandings();
@@ -104,6 +109,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                 teams={selectedTeams}
                 stadiums={selectedStadiums}
                 groups={selectedGroups}
+                stages={selectedStages}
                 setSelectedTeams={setSelectedTeams}
                 setSelectedStadiums={setSelectedStadiums}
                 setSelectedGroups={setSelectedGroups}
@@ -112,7 +118,7 @@ function TournamentPage({ tournamentId, tournamentName, tournamentEdition, tourn
                 logo={tournamentLogo}
                 name={tournamentName}
                 color={tournamentGradient}
-                edition={tournamentEdition}
+                structure={tournamentStructure}
                 matchesFiltered={matchesData?.matches || []}
             />
 

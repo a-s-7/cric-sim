@@ -84,6 +84,51 @@
             "stadium": "Grand Prairie Stadium",
             "city": "Grand Prairie",
             "country": "United States"
+        },
+        {
+            "stadium": "Dubai International Stadium",
+            "city": "Dubai",
+            "country": "UAE"
+        },
+        {
+            "stadium": "Gaddafi Stadium",
+            "city": "Lahore",
+            "country": "Pakistan"
+        },
+        {
+            "stadium": "National Stadium",
+            "city": "Karachi",
+            "country": "Pakistan"
+        },
+        {
+            "stadium": "Rawalpindi Cricket Stadium",
+            "city": "Rawalpindi",
+            "country": "Pakistan"
+        },
+        {
+            "stadium": "Rajiv Gandhi Stadium",
+            "city": "Hyderabad",
+            "country": "India"
+        },
+        {
+            "stadium": "MCA International Stadium",
+            "city": "Pune",
+            "country": "India"
+        },
+        {
+            "stadium": "M. Chinnaswamy Stadium",
+            "city": "Bengaluru",
+            "country": "India"
+        },
+        {
+            "stadium": "HPCA Stadium",
+            "city": "Dharamshala",
+            "country": "India"
+        },
+        {
+            "stadium": "BRSABVE Cricket Stadium",
+            "city": "Lucknow",
+            "country": "India"
         }
     ]
 }

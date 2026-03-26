@@ -44,6 +44,7 @@ def get_tournaments_info():
                   "startDate": tournament["startDate"].isoformat(),
                   "endDate": tournament["endDate"].isoformat(),
                   "currentStageId": tournament["currentStageId"],
+                  "structure": tournament["structure"],
                   "gradient": tournament["gradient"],
                   "mainLogo": tournament["mainLogo"],
                   "horizontalLogo": tournament["horizontalLogo"],
@@ -393,7 +394,7 @@ def get_tournaments_match_data(id):
         
     filtered_matches = list(matches_collection.aggregate(pipeline))
 
-    final_match = matches_collection.find().sort("matchNumber", -1).limit(1)[0]
+    final_match = matches_collection.find({"tournamentId": id}).sort("matchNumber", -1).limit(1)[0]
     
     winner = ""
     if final_match["result"] != "None":
