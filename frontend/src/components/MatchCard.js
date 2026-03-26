@@ -25,7 +25,9 @@ function MatchCard({
     group,
     stage,
     tossResult,
-    tossDecision
+    tossDecision,
+    city,
+    format
 }) {
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
@@ -117,7 +119,8 @@ function MatchCard({
         let value = parseFloat(val);
         if (isNaN(value)) return '';
 
-        if (value > 20) value = 20;
+        const maxOvers = format === "T20" ? 20 : 50;
+        if (value > maxOvers) value = maxOvers;
 
         value = parseFloat(value.toFixed(1));
         const parts = value.toString().split('.');
@@ -572,7 +575,7 @@ function MatchCard({
                         style={{
                             background: hoveredSection === "None" ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
                         }}>
-                        {group ? `${stage} · Group ${group} · Match ${matchNum} · ${venue}` : `${stage} · Match ${matchNum} · ${venue}`}
+                        {group ? `${stage} · Group ${group} · Match ${matchNum} · ${venue}, ${city}` : `${stage} · Match ${matchNum} · ${venue}, ${city}`}
                     </div>
                 </div>
             </div>

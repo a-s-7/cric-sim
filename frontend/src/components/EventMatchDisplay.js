@@ -7,6 +7,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
     const matchesArray = matches?.matches || [];
     const teamDictionary = matches?.teams?.[0] || {};
     const winner = matches?.winner || "";
+    const format = matches?.format || "";
 
     const convertBallsToDecimalOvers = (balls) => {
         const overs = Math.floor(balls / 6);
@@ -80,6 +81,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                 neutralGradient={cardNeutralGradient}
                                 group={match.group}
                                 stage={match.description ? match.description : match.stage}
+                                city={match.city}
                             /> : <MatchCard
                                 homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
                                 awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
@@ -106,6 +108,8 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                 stage={match.description ? match.description : match.stage}
                                 tossResult={match.tossResult}
                                 tossDecision={match.tossDecision}
+                                city={match.city}
+                                format={format}
                             />
                             }
                         </div>

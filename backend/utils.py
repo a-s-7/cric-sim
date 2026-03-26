@@ -89,7 +89,7 @@ def get_tournament_standings(id, stages):
         stageOrder = team["stageOrder"]
         stageStatus = team["stageStatus"]
         stageName = team["stageName"]
-        group = team["group"]
+        group = team.get("group") or "LEAGUE"
         numQualifiers = team["numQualifiers"]
 
         if stageOrder not in standings:
@@ -236,8 +236,9 @@ def confirmTeamsForStage(tournamentId, stageOrder):
             prevStageGroups = standings[0]["groups"]
 
             for team in stageTeams:
-                standingsGroup = prevStageGroups[team["teamFromStandingsGroup"]]
-                standingsTeam = standingsGroup[team["teamFromStandingsPosition"] - 1]
+                group_name = team.get("teamFromStandingsGroup") or "LEAGUE"
+                standingsGroup = prevStageGroups[group_name]
+                standingsTeam = standingsGroup[team.get("teamFromStandingsPosition", 1) - 1]
                 
                 stageTeams_collection.update_one(
                     {"_id": ObjectId(team["_id"])},

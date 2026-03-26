@@ -302,7 +302,8 @@ def get_tournaments_match_data(id):
         {"$unwind": "$venue"},
         {
             "$set": {
-                "venue": "$venue.stadium"
+                "venue": "$venue.stadium",
+                "city": "$venue.city"
             }
         },
         {"$lookup": {
@@ -402,8 +403,10 @@ def get_tournaments_match_data(id):
             winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
         else:
             winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
+    
 
-    return jsonify({"teams": teams_data, "matches": filtered_matches, "winner": winner})
+
+    return jsonify({"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"]})
 
 @events_bp.route('/tournaments/<string:id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
 def update_tournament_match_result(id, match_num, result):
@@ -682,6 +685,8 @@ def clear_tournament_matches(id):
 @events_bp.route('/tournaments/<string:id>/match/score/<int:match_num>/<int:home_runs>/<int:home_wickets>/<string:home_overs>/<int:away_runs>/<int:away_wickets>/<string:away_overs>', methods=['PATCH'])
 def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, away_runs, away_wickets, away_overs):
 
+    tournament = tournaments_collection.find_one({"_id": id})
+
     new_home_balls = overs_to_balls(home_overs)
     new_away_balls = overs_to_balls(away_overs)
 
@@ -702,16 +707,22 @@ def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, awa
         if not old_match:
             raise ValueError("No match was found")
 
-        hB = 120 if old_match["homeTeamWickets"] == 10 else old_match["homeTeamBalls"]
-        aB = 120 if old_match["awayTeamWickets"] == 10 else old_match["awayTeamBalls"]
+        
+        if tournament["format"] == "T20":
+            max_balls = 120
+        else:
+            max_balls = 300
+
+        hB = max_balls if old_match["homeTeamWickets"] == 10 else old_match["homeTeamBalls"]
+        aB = max_balls if old_match["awayTeamWickets"] == 10 else old_match["awayTeamBalls"]
 
         stageTeams_collection.update_one(
             {"_id": ObjectId(old_match["homeStageTeamId"])},
             {"$inc": {
                 "runsScored":   int(home_runs)    - old_match["homeTeamRuns"],
                 "runsConceded":  int(away_runs)    - old_match["awayTeamRuns"],
-                "ballsBowled":  (120 if int(away_wickets) == 10 else new_away_balls) - aB,
-                "ballsFaced":   (120 if int(home_wickets) == 10 else new_home_balls) - hB,
+                "ballsBowled":  (max_balls if int(away_wickets) == 10 else new_away_balls) - aB,
+                "ballsFaced":   (max_balls if int(home_wickets) == 10 else new_home_balls) - hB,
             }}
         )
 
@@ -720,8 +731,8 @@ def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, awa
             {"$inc": {
                 "runsScored":   int(away_runs)    - old_match["awayTeamRuns"],
                 "runsConceded":  int(home_runs)    - old_match["homeTeamRuns"],
-                "ballsBowled":  (120 if int(home_wickets) == 10 else new_home_balls) - hB,
-                "ballsFaced":   (120 if int(away_wickets) == 10 else new_away_balls) - aB,
+                "ballsBowled":  (max_balls if int(home_wickets) == 10 else new_home_balls) - hB,
+                "ballsFaced":   (max_balls if int(away_wickets) == 10 else new_away_balls) - aB,
             }}
         )
 

@@ -1,9 +1,32 @@
 import React from "react";
 
 function MatchResultCard({
-    homeGradient, awayGradient, homeTeamName, awayTeamName, homeTeamLogo, awayTeamLogo,
-    tournamentName, tournamentEdition, matchNum, venue, date, matchResult, homeTeamRuns, homeTeamWickets, homeTeamOvers,
-    awayTeamRuns, awayTeamWickets, awayTeamOvers, neutralGradient, group, stage, homeSeed, awaySeed, homeConfirmed, awayConfirmed
+    homeGradient,
+    awayGradient,
+    homeTeamName,
+    awayTeamName,
+    homeTeamLogo,
+    awayTeamLogo,
+    tournamentName,
+    tournamentEdition,
+    matchNum,
+    venue,
+    date,
+    matchResult,
+    homeTeamRuns,
+    homeTeamWickets,
+    homeTeamOvers,
+    awayTeamRuns,
+    awayTeamWickets,
+    awayTeamOvers,
+    neutralGradient,
+    group,
+    stage,
+    homeSeed,
+    awaySeed,
+    homeConfirmed,
+    awayConfirmed,
+    city
 }) {
 
     const getStyle = (section, num) => {
@@ -160,7 +183,7 @@ function MatchResultCard({
                 </div>
                 <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-white text-[0.9vw]">
                     <div className={`flex justify-center items-center h-full flex-grow text-black ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>
-                        {group ? `${stage} · Group ${group} · Match ${matchNum} · ${venue}` : `${stage} · Match ${matchNum} · ${venue}`}
+                        {group ? `${stage} · Group ${group} · Match ${matchNum} · ${venue}, ${city}` : `${stage} · Match ${matchNum} · ${venue}, ${city}`}
                     </div>
 
                 </div>

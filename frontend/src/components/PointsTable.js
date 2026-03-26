@@ -2,7 +2,7 @@ import React from 'react';
 import { faCaretUp, faCaretDown, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers }) {
+function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingleTable }) {
     const getDiffDisplay = (diff) => {
         if (diff > 0) {
             return (
@@ -28,7 +28,7 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers }) {
     }
 
     return (
-        <table className="w-full border-separate border-spacing-0 bg-white rounded-[10px] shadow-[0_4px_8px_rgba(0,0,0,0.2)] border border-zinc-200 overflow-hidden table-fixed">
+        <table className={`w-full border-separate border-spacing-0 bg-white rounded-[10px] shadow-[0_4px_8px_rgba(0,0,0,0.2)] border border-zinc-200 overflow-hidden table-fixed ${isSingleTable ? 'h-full' : ''}`}>
             <thead style={{ background: headerColor }} className="font-['Reem_Kufi_Fun'] text-white text-center text-[1.5vh] whitespace-nowrap">
                 <tr>
                     <th className="py-2 w-[60px]">POS</th>
