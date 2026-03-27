@@ -14,6 +14,7 @@
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/8/89/2024_ICC_Men%27s_T20_World_Cup_logo.svg",
         "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1706276260/prd/assets/tournaments/t20worldcup/2024/t20-logo-horizontal-light.svg",
         "pointsTableColor": "darkblue",
+        "tileBackgroundColor": "#FFE8F4",
         "teams": [
             "IND",
             "USA",

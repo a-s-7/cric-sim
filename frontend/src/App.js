@@ -14,10 +14,14 @@ function App() {
     const [tournaments, setTournaments] = useState([]);
 
     const fetchTournaments = async () => {
-        let url = `/tournaments?grouped=false`;
+        let url = `/tournaments`;
+
+        const params = new URLSearchParams();
+        params.set("category", "all");
+        params.set("grouped", "false");
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(url + "?" + params.toString());
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }

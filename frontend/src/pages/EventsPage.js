@@ -9,9 +9,11 @@ function EventsPage() {
 
     const fetchTournaments = async () => {
         let url = '/tournaments';
+        const params = new URLSearchParams();
+        params.set("category", "international");
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(url + "?" + params.toString());
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }
@@ -56,11 +58,12 @@ function EventsPage() {
                             {tournamentList.map((tournament) => (
                                 <div onClick={() => navigate("/tournaments/" + tournament.id)}
                                     key={tournament.id}
-                                    className="bg-white rounded-3xl border border-gray-300 
+                                    className="rounded-[36px] border border-gray-300 
                                     shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500
                                     hover:scale-105
                                     transition-all duration-300 
-                                    cursor-pointer w-48 h-48 flex items-center justify-center">
+                                    cursor-pointer w-48 h-48 flex items-center justify-center"
+                                    style={{ backgroundColor: tournament.tileBackgroundColor }}>
                                     <img
                                         src={tournament.mainLogo}
                                         alt={tournament.name}
@@ -80,7 +83,7 @@ function EventsPage() {
                             {wtcs.map((wtc) => (
                                 <div onClick={() => navigate("/" + wtc.acronym + "/" + wtc.edition)}
                                     key={wtc._id || wtc.edition}
-                                    className="bg-black rounded-3xl border border-gray-300 
+                                    className="bg-black rounded-[36px] border border-gray-300 
                                     shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500
                                     hover:scale-105
                                     transition-all duration-300 
@@ -90,9 +93,9 @@ function EventsPage() {
                                         alt={wtc.name}
                                         className="h-[65%] w-[65%] object-contain mb-2"
                                     />
-                                    <span className="absolute bottom-4 text-white font-semibold text-sm tracking-widest opacity-90">
+                                    <div className="absolute font-['Outfit'] bottom-4 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
                                         {wtc.edition}-{wtc.edition + 2}
-                                    </span>
+                                    </div>
                                 </div>
                             ))}
                         </div>

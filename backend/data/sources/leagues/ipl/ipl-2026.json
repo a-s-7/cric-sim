@@ -15,6 +15,7 @@
         "mainLogo": "https://documents.iplt20.com//ipl/assets/images/ipl-logo-new-old.png",
         "horizontalLogo": "https://documents.iplt20.com//ipl/assets/images/ipl-logo-new-old.png",
         "pointsTableColor": "darkblue",
+        "tileBackgroundColor": "#00008B",
         "teams": [
             "CSK",
             "MI",

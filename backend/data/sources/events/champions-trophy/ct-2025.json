@@ -14,6 +14,7 @@
         "mainLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1732772791/prd/assets/tournaments/champions-trophy-2025/2025/champions-trophy-2025-logo.svg",
         "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1732772791/prd/assets/tournaments/champions-trophy-2025/2025/champions-trophy-2025-logo.svg",
         "pointsTableColor": "#0034EB",
+        "tileBackgroundColor": "#0034EB",
         "teams": [
             "IND",
             "PAK",

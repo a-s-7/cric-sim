@@ -32,10 +32,15 @@ events_bp = Blueprint('events_bp', __name__)
 @events_bp.route('/tournaments', methods=['GET'])
 def get_tournaments_info():
     group_results = request.args.get('grouped', 'true').lower() == 'true'
+    category = request.args.get('category', 'franchise').lower()
     
     output = [] if not group_results else {}
 
-    for tournament in tournaments_collection.find():
+    filter = {}
+    if category != "all":
+        filter["category"] = category
+
+    for tournament in tournaments_collection.find(filter):
         t_data = {"id": str(tournament["_id"]),
                   "format": tournament["format"],
                   "name": tournament["name"],
@@ -48,13 +53,21 @@ def get_tournaments_info():
                   "gradient": tournament["gradient"],
                   "mainLogo": tournament["mainLogo"],
                   "horizontalLogo": tournament["horizontalLogo"],
-                  "pointsTableColor": tournament["pointsTableColor"]}
+                  "pointsTableColor": tournament["pointsTableColor"],
+                  "tileBackgroundColor": tournament["tileBackgroundColor"]}
         
         if group_results:
-            fmt = tournament["format"]
-            if fmt not in output:
-                output[fmt] = []
-            output[fmt].append(t_data)
+
+            if category == "franchise":
+                ac = tournament["acronym"]
+                if ac not in output:
+                    output[ac] = []
+                output[ac].append(t_data)
+            else:
+                fmt = tournament["format"]
+                if fmt not in output:
+                    output[fmt] = []
+                output[fmt].append(t_data)
         else:
             output.append(t_data)
     
