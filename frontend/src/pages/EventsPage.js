@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function IccEvents() {
+function EventsPage() {
     const navigate = useNavigate();
 
     const [wtcs, setWtcs] = useState([]);
@@ -103,4 +103,4 @@ function IccEvents() {
     );
 }
 
-export default IccEvents;
+export default EventsPage;

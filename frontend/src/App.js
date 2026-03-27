@@ -1,13 +1,13 @@
 import './App.css';
 import NavBar from "./components/NavBar";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 import T20LeaguePage from "./pages/T20LeaguePage";
-import LeagueLandingPage from "./pages/LeagueLandingPage";
+import LeaguePage from "./pages/LeaguePage";
 import TournamentPage from "./pages/TournamentPage";
 import React, { useEffect, useState } from "react";
 import WTCPage from "./pages/WTCPage";
-import IccEvents from "./pages/IccEvents";
+import EventsPage from "./pages/EventsPage";
 
 // const DEV_ON = false;
 // export const BASE_URL = DEV_ON === true ? "http://127.0.0.1:5000" : "";
@@ -73,9 +73,9 @@ function App() {
         <div className="App">
             <NavBar></NavBar>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/leagues" element={<LeagueLandingPage />} />
-                <Route path="/icc_events" element={<IccEvents />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/leagues" element={<LeaguePage />} />
+                <Route path="/icc_events" element={<EventsPage />} />
 
                 {leagues.map(league => (
                     <Route path={"/" + league["acronym"] + "/" + league["edition"]}

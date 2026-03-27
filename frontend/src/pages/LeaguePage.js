@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {NavLink} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
-function LeagueLandingPage() {
+function LeaguePage() {
     const [leagues, setLeagues] = useState([]);
 
     const fetchLeagues = async () => {
@@ -28,7 +28,7 @@ function LeagueLandingPage() {
         <div className="leagueLandingPage">
             {leagues.map(league => (
                 <NavLink to={"/" + league["acronym"] + "/" + league["edition"]}
-                         key={league["acronym"] + "-" + league["edition"]}>
+                    key={league["acronym"] + "-" + league["edition"]}>
                     {league["name"] + " - " + league["edition"]}
                 </NavLink>
             ))}
@@ -36,4 +36,4 @@ function LeagueLandingPage() {
     );
 }
 
-export default LeagueLandingPage;
+export default LeaguePage;
