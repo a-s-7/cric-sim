@@ -2,18 +2,13 @@ import './App.css';
 import NavBar from "./components/NavBar";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import T20LeaguePage from "./pages/T20LeaguePage";
-import LeaguePage from "./pages/LeaguePage";
+import LeaguePage from "./pages/LeaguesPage";
 import TournamentPage from "./pages/TournamentPage";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import WTCPage from "./pages/WTCPage";
 import EventsPage from "./pages/EventsPage";
 
-// const DEV_ON = false;
-// export const BASE_URL = DEV_ON === true ? "http://127.0.0.1:5000" : "";
-
 function App() {
-    const [leagues, setLeagues] = useState([]);
     const [wtcs, setWtcs] = useState([]);
 
     const [tournaments, setTournaments] = useState([]);
@@ -28,21 +23,6 @@ function App() {
             }
             const result = await response.json();
             setTournaments(result);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
-
-    const fetchLeagues = async () => {
-        let url = `/leagues/info`;
-
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Response was not ok");
-            }
-            const result = await response.json();
-            setLeagues(result);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -64,7 +44,6 @@ function App() {
     };
 
     useEffect(() => {
-        fetchLeagues();
         fetchWtcs();
         fetchTournaments();
     }, []);
@@ -76,19 +55,6 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/leagues" element={<LeaguePage />} />
                 <Route path="/icc_events" element={<EventsPage />} />
-
-                {leagues.map(league => (
-                    <Route path={"/" + league["acronym"] + "/" + league["edition"]}
-                        key={league["acronym"] + "-" + league["edition"]}
-                        element={<T20LeaguePage leagueEdition={league["edition"]}
-                            leagueUrlTag={league["acronym"]}
-                            leagueName={league["name"]}
-                            leagueLogo={league["logo"]}
-                            leagueGradient={league["gradient"]}
-                            leaguePointsTableColor={league["pointsTableColor"]} />
-                        }>
-                    </Route>))
-                }
 
                 {wtcs.map(wtc => (
                     <Route path={"/" + wtc["acronym"] + "/" + wtc["edition"]}
