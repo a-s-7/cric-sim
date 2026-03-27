@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "icc-mens-cwc-2023",
+        "category": "international",
         "format": "ODI",
         "name": "ICC Men's Cricket World Cup",
         "edition": 2023,
@@ -8,14 +9,35 @@
         "startDate": "2023-10-05",
         "endDate": "2023-11-19",
         "structure": "league",
-        "hostTeamIds": [
-            "IND"
-        ],
         "currentStageId": null,
         "gradient": "linear-gradient(135deg, #30156E, #30156E, #EA3BA0)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/e/eb/2023_CWC_Logo.svg",
         "horizontalLogo": "https://images.icc-cricket.com/icc-web/image/private/t_q-best/v1699648100/prd/assets/tournaments/cricketworldcup/extended-logo_gjruxa_zrvjhh.svg",
-        "pointsTableColor": "#30156E"
+        "pointsTableColor": "#30156E",
+        "teams": [
+            "IND",
+            "PAK",
+            "BAN",
+            "NZ",
+            "AUS",
+            "ENG",
+            "SA",
+            "AFG",
+            "SL",
+            "NED"
+        ],
+        "stadiums": [
+            "Wankhede Stadium",
+            "Narendra Modi Stadium",
+            "MA Chidambaram Stadium",
+            "Eden Gardens",
+            "Arun Jaitley Stadium",
+            "Rajiv Gandhi Stadium",
+            "MCA International Stadium",
+            "M. Chinnaswamy Stadium",
+            "HPCA Stadium",
+            "BRSABVE Cricket Stadium"
+        ]
     },
     "stages": [
         {
@@ -200,18 +222,6 @@
             "teamFromPreviousStage": "match-winner",
             "teamFromMatchNumber": 47
         }
-    ],
-    "stadiums": [
-        "Wankhede Stadium",
-        "Narendra Modi Stadium",
-        "MA Chidambaram Stadium",
-        "Eden Gardens",
-        "Arun Jaitley Stadium",
-        "Rajiv Gandhi Stadium",
-        "MCA International Stadium",
-        "M. Chinnaswamy Stadium",
-        "HPCA Stadium",
-        "BRSABVE Cricket Stadium"
     ],
     "matches": [
         {

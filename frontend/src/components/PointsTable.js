@@ -2,7 +2,7 @@ import React from 'react';
 import { faCaretUp, faCaretDown, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingleTable }) {
+function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingleTable, category }) {
     const getDiffDisplay = (diff) => {
         if (diff > 0) {
             return (
@@ -33,7 +33,7 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                 <tr>
                     <th className="py-2 w-[60px]">POS</th>
                     <th className="py-2 w-[60px]"></th>
-                    <th className="py-2 w-[240px] text-left">TEAM</th>
+                    <th className={`py-2 ${category === "franchise" ? 'w-[140px]' : 'w-[240px]'} text-left`}>TEAM</th>
                     <th className="py-2 w-[55px]">GP</th>
                     <th className="py-2 w-[55px]">W</th>
                     <th className="py-2 w-[55px]">L</th>
@@ -63,8 +63,10 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                             </td>
                             <td className="py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] uppercase text-black whitespace-nowrap">
                                 <div className="flex flex-row items-center">
-                                    <img src={team.flag} alt={team.name + "Flag"} className="w-[3.5vh] mr-3 border border-zinc-200" style={{ filter: team.confirmed === false ? 'blur(2px)' : 'none' }} />
-                                    {team.confirmed === false ? team.seed : team.name}
+                                    <img src={team.logo} alt={team.name + "Logo"} className={`${category === "franchise" ? "w-[4.25vh]" : "w-[3.5vh] border border-zinc-200"} mr-3`} style={{ filter: team.confirmed === false ? 'blur(2px)' : 'none' }} />
+                                    <span className={category === "franchise" ? "text-[1.75vh]" : "text-[1.5vh]"}>
+                                        {team.confirmed === false ? team.seed : category === "franchise" ? team.teamId : team.name}
+                                    </span>
                                 </div>
                             </td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.played}</td>

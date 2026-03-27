@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "icc-mens-t20-wc-2024",
+        "category": "international",
         "format": "T20",
         "name": "ICC Men's T20 World Cup",
         "edition": 2024,
@@ -8,15 +9,44 @@
         "startDate": "2024-06-01",
         "endDate": "2024-06-29",
         "structure": "groups",
-        "hostTeamIds": [
-            "USA",
-            "WI"
-        ],
         "currentStageId": null,
         "gradient": "linear-gradient(135deg, darkblue, darkblue, hotpink)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/8/89/2024_ICC_Men%27s_T20_World_Cup_logo.svg",
         "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1706276260/prd/assets/tournaments/t20worldcup/2024/t20-logo-horizontal-light.svg",
-        "pointsTableColor": "darkblue"
+        "pointsTableColor": "darkblue",
+        "teams": [
+            "IND",
+            "USA",
+            "PAK",
+            "CAN",
+            "IRE",
+            "AUS",
+            "ENG",
+            "SCO",
+            "NAM",
+            "OMA",
+            "WI",
+            "AFG",
+            "NZ",
+            "UGA",
+            "PNG",
+            "SA",
+            "BAN",
+            "SL",
+            "NED",
+            "NEP"
+        ],
+        "stadiums": [
+            "Sir Vivian Richards Stadium",
+            "Kensington Oval",
+            "Providence Stadium",
+            "Daren Sammy Cricket Ground",
+            "Arnos Vale Stadium",
+            "Brian Lara Cricket Academy",
+            "Central Broward Park",
+            "Nassau County Stadium",
+            "Grand Prairie Stadium"
+        ]
     },
     "stages": [
         {
@@ -457,17 +487,6 @@
             "teamFromPreviousStage": "match-winner",
             "teamFromMatchNumber": 54
         }
-    ],
-    "stadiums": [
-        "Sir Vivian Richards Stadium",
-        "Kensington Oval",
-        "Providence Stadium",
-        "Daren Sammy Cricket Ground",
-        "Arnos Vale Stadium",
-        "Brian Lara Cricket Academy",
-        "Central Broward Park",
-        "Nassau County Stadium",
-        "Grand Prairie Stadium"
     ],
     "matches": [
         {

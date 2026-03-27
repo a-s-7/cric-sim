@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "icc-mens-t20-wc-2026",
+        "category": "international",
         "format": "T20",
         "name": "ICC Men's T20 World Cup",
         "edition": 2026,
@@ -8,15 +9,43 @@
         "startDate": "2026-02-06",
         "endDate": "2026-03-08",
         "structure": "groups",
-        "hostTeamIds": [
-            "IND",
-            "SL"
-        ],
         "currentStageId": null,
         "gradient": "linear-gradient(135deg, darkblue, darkblue, orange)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/2026_ICC_Men%27s_T20_World_Cup_logo.svg/1280px-2026_ICC_Men%27s_T20_World_Cup_logo.svg.png",
         "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1761065042/prd/assets/tournaments/mens-t20-world-cup-2026/alternate-small-m-t20wc-2026-logo.svg",
-        "pointsTableColor": "darkblue"
+        "pointsTableColor": "darkblue",
+        "teams": [
+            "IND",
+            "PAK",
+            "USA",
+            "NAM",
+            "NED",
+            "AUS",
+            "SL",
+            "ZIM",
+            "IRE",
+            "OMA",
+            "ENG",
+            "WI",
+            "ITA",
+            "SCO",
+            "NEP",
+            "SA",
+            "NZ",
+            "AFG",
+            "CAN",
+            "UAE"
+        ],
+        "stadiums": [
+            "Narendra Modi Stadium",
+            "MA Chidambaram Stadium",
+            "Arun Jaitley Stadium",
+            "Wankhede Stadium",
+            "Eden Gardens",
+            "R. Premadasa Stadium",
+            "Sinhalese Sports Club Cricket Ground",
+            "Pallekele International Cricket Stadium"
+        ]
     },
     "stages": [
         {
@@ -457,16 +486,6 @@
             "teamFromPreviousStage": "match-winner",
             "teamFromMatchNumber": 54
         }
-    ],
-    "stadiums": [
-        "Narendra Modi Stadium",
-        "MA Chidambaram Stadium",
-        "Arun Jaitley Stadium",
-        "Wankhede Stadium",
-        "Eden Gardens",
-        "R. Premadasa Stadium",
-        "Sinhalese Sports Club Cricket Ground",
-        "Pallekele International Cricket Stadium"
     ],
     "matches": [
         {

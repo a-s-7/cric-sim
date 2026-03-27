@@ -50,7 +50,7 @@ def get_tournament_standings(id, stages):
             "_id": 0,
             "teamId": "$team._id",
             "name": "$team.name",
-            "flag": "$team.flag",
+            "logo": "$team.logo",
             "group": "$group",
             "played": "$matchesPlayed",
             "won": "$won",
@@ -128,7 +128,7 @@ def get_tournament_standings(id, stages):
             for group_key in sorted_group_keys
         }
 
-    return sorted_standings
+    return {"standings": sorted_standings, "category": tournament["category"]}
     
 
 def confirmTeamsForStage(tournamentId, stageOrder):    

@@ -1,11 +1,11 @@
-import venues_importer
-import icc_teams_importer
-import icc_events_importer
+import import_venues
+import import_teams
+import import_events_leagues
 
 def main():
-    venues_importer.main()
-    icc_teams_importer.main()
-    icc_events_importer.main()
+    import_venues.main()
+    import_teams.main()
+    import_events_leagues.main()
 
 if __name__ == "__main__":
     main()

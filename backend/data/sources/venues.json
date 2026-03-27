@@ -129,6 +129,31 @@
             "stadium": "BRSABVE Cricket Stadium",
             "city": "Lucknow",
             "country": "India"
+        },
+        {
+            "stadium": "ACA Stadium",
+            "city": "Guwahati",
+            "country": "India"
+        },
+        {
+            "stadium": "New International Cricket Stadium",
+            "city": "New Chandigarh",
+            "country": "India"
+        },
+        {
+            "stadium": "Rajiv Gandhi International Stadium",
+            "city": "Hyderabad",
+            "country": "India"
+        },
+        {
+            "stadium": "Sawai Mansingh Stadium",
+            "city": "Jaipur",
+            "country": "India"
+        },
+        {
+            "stadium": "Shaheed Veer Narayan Singh International Cricket Stadium",
+            "city": "Raipur",
+            "country": "India"
         }
     ]
 }

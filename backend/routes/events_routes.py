@@ -259,7 +259,7 @@ def get_tournaments_match_data(id):
             "acronym": "$team._id",
             "gradient": "$team.gradient",
             "name": "$team.name",
-            "logo": "$team.flag"
+            "logo": "$team.logo"
         }
     },
 
@@ -406,7 +406,7 @@ def get_tournaments_match_data(id):
     
 
 
-    return jsonify({"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"]})
+    return jsonify({"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"]})
 
 @events_bp.route('/tournaments/<string:id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
 def update_tournament_match_result(id, match_num, result):

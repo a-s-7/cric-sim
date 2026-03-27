@@ -27,7 +27,8 @@ function MatchCard({
     tossResult,
     tossDecision,
     city,
-    format
+    format,
+    category
 }) {
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
@@ -363,7 +364,7 @@ function MatchCard({
                     e.stopPropagation();
                     handleTossResultChange(tossResultState === 'Home-win' ? 'Away-win' : 'Home-win');
                 }}
-                className={`flex items-center justify-center rounded-full transition-all duration-500 ease-in-out border-[0.5px] border-white/20 hover:border-gray-300 ${baseColor} group/coin hover:bg-white has-[.inner-toss:hover]:bg-[#d1d5db]`}
+                className={`flex items-center justify-center rounded-full transition-all duration-500 ease-in-out border border-white/20 hover:border-gray-300 ${baseColor} group/coin hover:bg-white has-[.inner-toss:hover]:bg-[#d1d5db]`}
                 style={{
                     width: "3vh",
                     height: "3vh",
@@ -400,8 +401,8 @@ function MatchCard({
         );
     };
 
-    const goldGlow = "border-[1px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.8)]";
-    const silverGlow = "border-[1px] border-[#BFC1C2] shadow-[0_0_20px_rgba(191,193,194,0.9)]";
+    const goldGlow = "border border-[#D4AF37] shadow-[0_0_1.25rem_rgba(212,175,55,0.8)]";
+    const silverGlow = "border border-[#BFC1C2] shadow-[0_0_1.25rem_rgba(191,193,194,0.9)]";
 
     const getBorderClass = () => {
         if (!stage) return "border-[#cec7c7]";
@@ -411,9 +412,9 @@ function MatchCard({
     };
 
     return (
-        <div className={`shadow-lg rounded-[32px] border ${getBorderClass()} overflow-hidden flex w-auto`}>
-            <div className="h-[170px] w-full flex flex-col bg-white font-['Nunito_Sans']">
-                <div className="flex flex-row h-[135px]">
+        <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex w-auto`}>
+            <div className="h-44 w-full flex flex-col bg-white font-['Nunito_Sans']">
+                <div className="flex flex-row h-36">
                     <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         onClick={() => handleClick('Home-win')}
                         onMouseEnter={() => setHoveredSection("Home-win")}
@@ -421,8 +422,8 @@ function MatchCard({
                         style={getStyle("Home-win", 0)}>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5">
-                            {selected !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
-                                <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            {selected !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
+                                <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
                                     step="1"
@@ -436,7 +437,7 @@ function MatchCard({
                                     style={{ color: 'inherit' }} />
 
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
-                                <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent text-[2.5vh] w-[25%] h-full text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent text-[2.5vh] w-[25%] h-full text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
                                     max="10"
@@ -451,7 +452,7 @@ function MatchCard({
                                     style={{ color: 'inherit' }} />
                             </div>}
                             {selected !== 'None' && <div className="flex justify-end">
-                                <input className="border-[0.5px] border-gray-300 text-[1.75vh] rounded-[5px] bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0.0"
                                     max="20.0"
@@ -478,8 +479,8 @@ function MatchCard({
                             }
                         </div>
 
-                        <div className="w-[36%] flex justify-center items-center p-[30px]">
-                            <img className="box-content border border-zinc-200 w-full" src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
+                        <div className={`w-[36%] flex justify-center items-center ${category === "franchise" ? "p-5" : "p-6"}`}>
+                            <img className={`box-content w-full ${category === "franchise" ? "" : "border border-zinc-200"}`} src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
                         </div>
                     </div>
 
@@ -504,8 +505,8 @@ function MatchCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle('Away-win', 2)}>
 
-                        <div className="w-[36%] flex justify-center items-center p-[30px]">
-                            <img className="box-content border border-zinc-200 w-full" src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
+                        <div className={`w-[36%] flex justify-center items-center ${category === "franchise" ? "p-5" : "p-6"}`}>
+                            <img className={`box-content w-full ${category === "franchise" ? "" : "border border-zinc-200"}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">
@@ -520,8 +521,8 @@ function MatchCard({
                         </div>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5">
-                            {selected !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded-[5px] text-left h-1/5 mb-[5px]">
-                                <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            {selected !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
+                                <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
                                     step="1"
@@ -534,7 +535,7 @@ function MatchCard({
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: 'inherit' }} />
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
-                                <input className="font-['Reem_Kufi_Fun'] rounded-[5px] border-[0.5px] border-gray-300 bg-transparent text-[2.5vh] w-[25%] h-full text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent text-[2.5vh] w-[25%] h-full text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0"
                                     max="10"
@@ -549,7 +550,7 @@ function MatchCard({
                                     style={{ color: 'inherit' }} />
                             </div>}
                             {selected !== 'None' && <div className="flex justify-start">
-                                <input className="border-[0.5px] border-gray-300 text-[1.75vh] rounded-[5px] bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
                                     min="0.0"
                                     max="20.0"
@@ -567,7 +568,7 @@ function MatchCard({
                     </div>
                 </div>
 
-                <div className="border-t border-gray-100 h-[35px] flex flex-row items-center justify-between bg-gray-300/20 text-[0.9vw]">
+                <div className="border-t border-gray-100 h-8 flex flex-row items-center justify-between bg-gray-300/20 text-[0.9vw]">
                     <div className={`flex justify-center items-center h-full flex-grow text-black cursor-pointer ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}
                         onClick={() => resetMatch('None')}
                         onMouseEnter={() => setHoveredSection("None")}

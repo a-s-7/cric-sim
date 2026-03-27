@@ -20,7 +20,7 @@ function TournamentPage({
     const [selectedStages, setSelectedStages] = useState([]);
 
     const [matchesData, setMatchesData] = useState([]);
-    const [standingsData, setStandingsData] = useState([]);
+    const [standingsData, setStandingsData] = useState({ standings: [], category: "" });
 
     const refreshPointsTable = async () => {
         await fetchStandings();
@@ -67,11 +67,12 @@ function TournamentPage({
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }
-            const newStandingsData = await response.json();
+            const result = await response.json();
+            const { standings, category } = result;
 
             // Calculate the position changes (movement) compared to what we saw last
-            const updatedStandings = calculateStandingsMovement(standingsData, newStandingsData);
-            setStandingsData(updatedStandings);
+            const updatedStandings = calculateStandingsMovement(standingsData.standings || [], standings);
+            setStandingsData({ standings: updatedStandings, category });
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -84,7 +85,7 @@ function TournamentPage({
         await setSelectedStages([]);
 
         await setMatchesData([]);
-        await setStandingsData([]);
+        await setStandingsData({ standings: [], category: "" });
 
     }
 
@@ -135,7 +136,7 @@ function TournamentPage({
                         cardNeutralGradient={tournamentGradient} />
                 </div>
                 <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
-                    <EventStandings key={tournamentId} standingsData={standingsData} color={tournamentPointsTableColor} />
+                    <EventStandings key={tournamentId} standingsData={standingsData.standings} category={standingsData.category} color={tournamentPointsTableColor} />
                 </div>
             </div>
         </div>

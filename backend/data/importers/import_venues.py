@@ -20,20 +20,32 @@ def main():
     venues_collection.create_index("stadium", unique=True)
 
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    file_path = os.path.join(base_dir, "sources", "events", "venues.json")
+    file_path = os.path.join(base_dir, "sources", "venues.json")
 
     with open(file_path, 'r') as file:
         json_info = json.load(file)
 
+    # ANSI escape codes for colored terminal output
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    BOLD = '\033[1m'
+    CYAN = '\033[96m'
+    ENDC = '\033[0m'
+
+    print(f"\n{CYAN}{BOLD}{'='*80}{ENDC}")
+    print(f"{CYAN}{BOLD}VENUE IMPORT{ENDC}")
+    print(f"{CYAN}{BOLD}{'='*80}{ENDC}")
+
     try:
         result = venues_collection.insert_many(json_info["venues"], ordered=False)
-        print(f"\nINSERTED {len(result.inserted_ids)} VENUES\n")
-        print(f"{'STADIUM':<50} {'ID':<50}")
-        print("─" * 100)
+        print(f"\n{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} VENUES{ENDC}\n")
+        print(f"{BLUE}{BOLD}{'STADIUM':<65} {'ID':<50}{ENDC}")
+        print("─" * 115)
         for i, id in enumerate(result.inserted_ids):
             stadium = json_info['venues'][i]['stadium']
-            print(f"{stadium:<50} {str(id):<50}")
-        print("─" * 100)
+            print(f"{stadium:<65} {str(id):<50}")
+        print("─" * 115 + "\n")
     except BulkWriteError as e:
         write_errors = e.details.get('writeErrors', [])
         failed_indices = {err['index'] for err in write_errors}
@@ -46,8 +58,16 @@ def main():
             else:
                 inserted_stadiums.append(venue['stadium'])
 
-        print(f"\nINSERTED {len(inserted_stadiums)} VENUES: {inserted_stadiums}")
-        print(f"SKIPPED {len(failed_stadiums)} VENUES: {failed_stadiums}\n")
+        if inserted_stadiums:
+            print(f"{GREEN}{BOLD}✓ INSERTED {len(inserted_stadiums)} VENUES:{ENDC}")
+            for stadium in sorted(inserted_stadiums):
+                print(f"  {GREEN}+ {stadium}{ENDC}")
+        
+        if failed_stadiums:
+            print(f"{YELLOW}{BOLD}ℹ SKIPPED {len(failed_stadiums)} EXISTING VENUES:{ENDC}")
+            for stadium in sorted(failed_stadiums):
+                print(f"  {YELLOW}• {stadium}{ENDC}")
+        print()
 
 if __name__ == "__main__":
     main()

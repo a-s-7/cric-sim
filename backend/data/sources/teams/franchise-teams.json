@@ -1,0 +1,84 @@
+{
+    "teams": [
+        {
+            "_id": "CSK",
+            "name": "Chennai Super Kings",
+            "logo": "https://documents.iplt20.com/ipl/CSK/logos/Logooutline/CSKoutline.png",
+            "gradient": "linear-gradient(135deg, #FFC300, #FFC300, #192B6D)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "MI",
+            "name": "Mumbai Indians",
+            "logo": "https://documents.iplt20.com/ipl/MI/Logos/Logooutline/MIoutline.png",
+            "gradient": "linear-gradient(135deg, #003580, #003580, #F5C542)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "RCB",
+            "name": "Royal Challengers Bengaluru",
+            "logo": "https://documents.iplt20.com/ipl/RCB/Logos/Logooutline/RCBoutline.png",
+            "gradient": "linear-gradient(135deg, #D50000, #D50000, black)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "KKR",
+            "name": "Kolkata Knight Riders",
+            "logo": "https://documents.iplt20.com/ipl/KKR/Logos/Logooutline/KKRoutline.png",
+            "gradient": "linear-gradient(135deg, #3B1E5C, #3B1E5C, #D4AF37)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "DC",
+            "name": "Delhi Capitals",
+            "logo": "https://documents.iplt20.com/ipl/DC/Logos/LogoOutline/DCoutline.png",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #E4002B)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "SRH",
+            "name": "Sunrisers Hyderabad",
+            "logo": "https://documents.iplt20.com/ipl/SRH/Logos/Logooutline/SRHoutline.png",
+            "gradient": "linear-gradient(135deg, #000000, #D35400, #FFB400)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "RR",
+            "name": "Rajasthan Royals",
+            "logo": "https://documents.iplt20.com/ipl/RR/Logos/Logooutline/RRoutline.png",
+            "gradient": "linear-gradient(135deg, #8AB8FF, #FF3D8A, #FF2D7A)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "PBKS",
+            "name": "Punjab Kings",
+            "logo": "https://documents.iplt20.com/ipl/PBKS/Logos/Logooutline/PBKSoutline.png",
+            "gradient": "linear-gradient(135deg, #990000, #CC0000, #FFD700)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "LSG",
+            "name": "Lucknow Super Giants",
+            "logo": "https://documents.iplt20.com/ipl/LSG/Logos/Logooutline/LSGoutline.png",
+            "gradient": "linear-gradient(135deg, #D10005, #D10005, darkblue)",
+            "type": "franchise",
+            "league": "IPL"
+        },
+        {
+            "_id": "GT",
+            "name": "Gujarat Titans",
+            "logo": "https://documents.iplt20.com/ipl/GT/Logos/Logooutline/GToutline.png",
+            "gradient": "linear-gradient(135deg, #041E42, #041E42, #FFCC00)",
+            "type": "franchise",
+            "league": "IPL"
+        }
+    ]
+}
