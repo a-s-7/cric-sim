@@ -305,6 +305,55 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                             "confirmed": True
                         }
                     })
+            
+            #Q2
+            matches = list(matches_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])}).sort("matchNumber", 1))
+            q2 = matches[2]
+            q1 = matches[0]
+            elim = matches[1]
+
+            if matches[0]["result"] != "None":
+                
+                # Resolve homeStageTeam (loser of Q1)
+                homeStageTeam = stageTeams_collection.find_one({
+                    "stageId": ObjectId(currentStage["_id"]),
+                    "_id": ObjectId(q2["homeStageTeamId"])
+                })
+                
+                loserStageTeamId = q1["awayStageTeamId"] if q1["result"] == "Home-win" else q1["homeStageTeamId"]
+                loserStageTeam = stageTeams_collection.find_one({"_id": ObjectId(loserStageTeamId)})
+
+                stageTeams_collection.update_one(
+                    {"stageId": ObjectId(currentStage["_id"]), "_id": homeStageTeam["_id"]},
+                    {
+                        "$set": {
+                            "teamId": loserStageTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+
+            if matches[1]["result"] != "None":
+                # Resolve awayStageTeam (winner of Eliminator)
+                awayStageTeam = stageTeams_collection.find_one({
+                    "stageId": ObjectId(currentStage["_id"]),
+                    "_id": ObjectId(q2["awayStageTeamId"])
+                })
+                
+                winnerStageTeamId = elim["homeStageTeamId"] if elim["result"] == "Home-win" else elim["awayStageTeamId"]
+                winnerStageTeam = stageTeams_collection.find_one({"_id": ObjectId(winnerStageTeamId)})
+
+                stageTeams_collection.update_one(
+                    {"stageId": ObjectId(currentStage["_id"]), "_id": awayStageTeam["_id"]},
+                    {
+                        "$set": {
+                            "teamId": winnerStageTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+
+
+                
+            
     
 
         

@@ -513,7 +513,7 @@ def update_tournament_match_result(id, match_num, result):
 
         stageOfChangedMatch = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
 
-        if len(not_finished_matches) > 0:
+        if len(not_finished_matches) > 0 and not (stageOfChangedMatch["name"] == "Playoffs"):
             if verbose:
                 print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageOfChangedMatch["name"]))
         else:
@@ -521,15 +521,19 @@ def update_tournament_match_result(id, match_num, result):
                 if verbose:
                     print("Tournament {} has been simulated".format(id))
             else:
-                stages_collection.update_one(
-                    {"tournamentId": id, "order": stageOfChangedMatch["order"] + 1},
-                    {"$set": {"status": "active"}}
-                )
+                if stageOfChangedMatch["name"] != "Playoffs":
+                    stages_collection.update_one(
+                        {"tournamentId": id, "order": stageOfChangedMatch["order"] + 1},
+                        {"$set": {"status": "active"}}
+                    )
 
-                if verbose:
-                    print("Stage {} for tournament {} is now active".format(stageOfChangedMatch["order"] + 1, id))
+                    if verbose:
+                        print("Stage {} for tournament {} is now active".format(stageOfChangedMatch["order"] + 1, id))
 
-                stage = stages_collection.find_one({"tournamentId": id, "order": stageOfChangedMatch["order"] + 1})
+                if stageOfChangedMatch["name"] == "Playoffs":
+                    stage = stages_collection.find_one({"tournamentId": id, "order": stageOfChangedMatch["order"]})
+                else:
+                    stage = stages_collection.find_one({"tournamentId": id, "order": stageOfChangedMatch["order"] + 1})
 
                 while stage and stage["status"] == "active":
                     confirmTeamsForStage(id, stage["order"])

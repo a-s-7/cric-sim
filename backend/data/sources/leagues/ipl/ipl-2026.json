@@ -200,6 +200,22 @@
             "seed": "T4",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q1",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 71
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 72
         }
     ],
     "matches": [
@@ -918,12 +934,23 @@
             "matchNumber": 72,
             "stageOrder": 2,
             "date": "2026-05-27 07:00:00",
-            "venue": "Wankhede Stadium",
+            "venue": "Eden Gardens",
             "homeStageTeamId": "T3",
             "awayStageTeamId": "T4",
             "result": "None",
             "status": "incomplete",
             "description": "Eliminator"
+        },
+        {
+            "matchNumber": 73,
+            "stageOrder": 2,
+            "date": "2026-05-27 07:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "L-Q1",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 2"
         }
     ]
 }
