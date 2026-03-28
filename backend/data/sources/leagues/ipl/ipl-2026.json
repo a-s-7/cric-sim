@@ -216,6 +216,22 @@
             "seed": "W-E",
             "teamFromPreviousStage": "match-winner",
             "teamFromMatchNumber": 72
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 71
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 73
         }
     ],
     "matches": [
@@ -944,13 +960,24 @@
         {
             "matchNumber": 73,
             "stageOrder": 2,
-            "date": "2026-05-27 07:00:00",
+            "date": "2026-05-29 07:00:00",
             "venue": "Wankhede Stadium",
             "homeStageTeamId": "L-Q1",
             "awayStageTeamId": "W-E",
             "result": "None",
             "status": "incomplete",
             "description": "Qualifier 2"
+        },
+        {
+            "matchNumber": 74,
+            "stageOrder": 2,
+            "date": "2026-05-31 07:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "W-Q1",
+            "awayStageTeamId": "W-Q2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
         }
     ]
 }
