@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function TournamentsPage() {
     const navigate = useNavigate();
 
-    const [wtcs, setWtcs] = useState([]);
+    // const [wtcs, setWtcs] = useState([]);
     const [tournaments, setTournaments] = useState({ grouped: false, tournaments: [] });
     const [activeView, setActiveView] = useState(0);
 
@@ -29,21 +29,21 @@ function TournamentsPage() {
         }
     };
 
-    const fetchWtcs = async () => {
-        let url = '/wtc/info';
+    // const fetchWtcs = async () => {
+    //     let url = '/wtc/info';
 
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Response was not ok");
-            }
-            const result = await response.json();
-            setWtcs(result);
-            console.log(result);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
+    //     try {
+    //         const response = await fetch(url);
+    //         if (!response.ok) {
+    //             throw new Error("Response was not ok");
+    //         }
+    //         const result = await response.json();
+    //         setWtcs(result);
+    //         console.log(result);
+    //     } catch (error) {
+    //         console.error("Error fetching data:", error);
+    //     }
+    // };
 
     const updateTournaments = async (index) => {
         setActiveView(index);
