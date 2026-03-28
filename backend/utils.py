@@ -231,7 +231,86 @@ def confirmTeamsForStage(tournamentId, stageOrder):
     else:   
         stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])}))
 
-        if currentStage["name"] == "Semi-final":
+        if currentStage["name"] == "Playoffs":
+            standings = get_tournament_standings(tournamentId, [stageOrder - 1])
+            prevStageGroups = standings["standings"][0]["groups"]
+
+            matches = list(matches_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])}).sort("matchNumber", 1))
+            
+            standingsGroup = prevStageGroups["LEAGUE"]
+
+            #Q1
+            q1 = matches[0]
+
+            homeStageTeam = stageTeams_collection.find_one({
+                "stageId": ObjectId(currentStage["_id"]),
+                "_id": ObjectId(q1["homeStageTeamId"])
+            })
+            standingsTeam = standingsGroup[homeStageTeam.get("teamFromStandingsPosition", 1) - 1]
+
+            stageTeams_collection.update_one(
+                    {"stageId": ObjectId(currentStage["_id"]), "_id": homeStageTeam["_id"]},
+                    {
+                        "$set": {
+                            "teamId": standingsTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+
+            awayStageTeam = stageTeams_collection.find_one({
+                "stageId": ObjectId(currentStage["_id"]),
+                "_id": ObjectId(q1["awayStageTeamId"])
+            })
+            standingsTeam = standingsGroup[awayStageTeam.get("teamFromStandingsPosition", 1) - 1]
+
+            stageTeams_collection.update_one(
+                    {"stageId": ObjectId(currentStage["_id"]), "_id": awayStageTeam["_id"]},
+                    {
+                        "$set": {
+                            "teamId": standingsTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+
+            #ELIM
+
+            elim = matches[1]
+
+            homeStageTeam = stageTeams_collection.find_one({
+                "stageId": ObjectId(currentStage["_id"]),
+                "_id": ObjectId(elim["homeStageTeamId"])
+            })
+            standingsTeam = standingsGroup[homeStageTeam.get("teamFromStandingsPosition", 1) - 1]
+
+            stageTeams_collection.update_one(
+                    {"stageId": ObjectId(currentStage["_id"]), "_id": homeStageTeam["_id"]},
+                    {
+                        "$set": {
+                            "teamId": standingsTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+
+            awayStageTeam = stageTeams_collection.find_one({
+                "stageId": ObjectId(currentStage["_id"]),
+                "_id": ObjectId(elim["awayStageTeamId"])
+            })
+            standingsTeam = standingsGroup[awayStageTeam.get("teamFromStandingsPosition", 1) - 1]
+
+            stageTeams_collection.update_one(
+                    {"stageId": ObjectId(currentStage["_id"]), "_id": awayStageTeam["_id"]},
+                    {
+                        "$set": {
+                            "teamId": standingsTeam["teamId"],
+                            "confirmed": True
+                        }
+                    })
+    
+
+        
+                        
+                
+        elif currentStage["name"] == "Semi-final":
             standings = get_tournament_standings(tournamentId, [stageOrder - 1])
             prevStageGroups = standings["standings"][0]["groups"]
 
