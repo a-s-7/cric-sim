@@ -75,7 +75,7 @@ function TournamentsPage() {
 
     useEffect(() => {
         fetchTournaments();
-        fetchWtcs();
+        // fetchWtcs();
     }, []);
 
     return (
