@@ -56,6 +56,16 @@
                 "matchesPerTeam": 14,
                 "qualifiersPerGroup": 4
             }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
         }
     ],
     "stageTeams": [
@@ -158,6 +168,38 @@
             "noResult": 0,
             "tied": 0,
             "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
         }
     ],
     "matches": [
@@ -860,6 +902,28 @@
             "awayStageTeamId": "DC",
             "result": "None",
             "status": "incomplete"
+        },
+        {
+            "matchNumber": 71,
+            "stageOrder": 2,
+            "date": "2026-05-26 07:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "T1",
+            "awayStageTeamId": "T2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 1"
+        },
+        {
+            "matchNumber": 72,
+            "stageOrder": 2,
+            "date": "2026-05-27 07:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "T3",
+            "awayStageTeamId": "T4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 2"
         }
     ]
 }

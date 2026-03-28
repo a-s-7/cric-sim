@@ -142,7 +142,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
 
         previousStageStandings = get_tournament_standings(tournamentId, [stageOrder - 1])
 
-        prevStageGroups = previousStageStandings[0]["groups"]
+        prevStageGroups = previousStageStandings["standings"][0]["groups"]
 
         for key, val in prevStageGroups.items():
             groupName = key 
@@ -233,7 +233,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
 
         if currentStage["name"] == "Semi-final":
             standings = get_tournament_standings(tournamentId, [stageOrder - 1])
-            prevStageGroups = standings[0]["groups"]
+            prevStageGroups = standings["standings"][0]["groups"]
 
             for team in stageTeams:
                 group_name = team.get("teamFromStandingsGroup") or "LEAGUE"

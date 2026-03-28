@@ -14,18 +14,11 @@ function NavBar() {
             </div>
             <div className="flex flex-row justify-center absolute left-1/2 -translate-x-1/2 h-full p-[10px] gap-[10px]">
                 <NavLink
-                    to="/leagues"
-                    className={`flex items-center text-black font-['Reem_Kufi_Fun',_sans-serif] no-underline p-[10px] text-[1.75vh] hover:text-gray-500 ${path === "/leagues" ? "border-b border-black" : "border-b border-transparent"
+                    to="/tournaments"
+                    className={`flex items-center text-black font-['Reem_Kufi_Fun',_sans-serif] no-underline p-[10px] text-[1.75vh] hover:text-gray-500 ${path === "/tournaments" ? "border-b border-black" : "border-b border-transparent"
                         }`}
                 >
-                    LEAGUES
-                </NavLink>
-                <NavLink
-                    to="/icc_events"
-                    className={`flex items-center text-black font-['Reem_Kufi_Fun',_sans-serif] no-underline p-[10px] text-[1.75vh] hover:text-gray-500 ${path === "/icc_events" ? "border-b border-black" : "border-b border-transparent"
-                        }`}
-                >
-                    EVENTS
+                    TOURNAMENTS
                 </NavLink>
             </div>
         </div>

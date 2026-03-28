@@ -2,16 +2,15 @@ import './App.css';
 import NavBar from "./components/NavBar";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import LeaguePage from "./pages/LeaguesPage";
 import TournamentPage from "./pages/TournamentPage";
 import { useEffect, useState } from "react";
 import WTCPage from "./pages/WTCPage";
-import EventsPage from "./pages/EventsPage";
+import TournamentsPage from "./pages/TournamentsPage";
 
 function App() {
     const [wtcs, setWtcs] = useState([]);
 
-    const [tournaments, setTournaments] = useState([]);
+    const [tournaments, setTournaments] = useState({ "grouped": false, "tournaments": [] });
 
     const fetchTournaments = async () => {
         let url = `/tournaments`;
@@ -57,8 +56,7 @@ function App() {
             <NavBar></NavBar>
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/leagues" element={<LeaguePage />} />
-                <Route path="/icc_events" element={<EventsPage />} />
+                <Route path="/tournaments" element={<TournamentsPage />} />
 
                 {wtcs.map(wtc => (
                     <Route path={"/" + wtc["acronym"] + "/" + wtc["edition"]}
@@ -73,7 +71,7 @@ function App() {
                     </Route>
                 ))}
 
-                {tournaments.map(tournament => (
+                {tournaments["tournaments"].map(tournament => (
                     <Route path={"/tournaments/" + tournament["id"]}
                         key={tournament["id"]}
                         element={<TournamentPage tournamentId={tournament["id"]}

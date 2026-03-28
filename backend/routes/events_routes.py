@@ -40,7 +40,7 @@ def get_tournaments_info():
     if category != "all":
         filter["category"] = category
 
-    for tournament in tournaments_collection.find(filter):
+    for tournament in tournaments_collection.find(filter).sort("startDate", -1):
         t_data = {"id": str(tournament["_id"]),
                   "format": tournament["format"],
                   "name": tournament["name"],
@@ -54,10 +54,10 @@ def get_tournaments_info():
                   "mainLogo": tournament["mainLogo"],
                   "horizontalLogo": tournament["horizontalLogo"],
                   "pointsTableColor": tournament["pointsTableColor"],
-                  "tileBackgroundColor": tournament["tileBackgroundColor"]}
+                  "tileBackgroundColor": tournament["tileBackgroundColor"],
+                  "category": tournament["category"]}
         
         if group_results:
-
             if category == "franchise":
                 ac = tournament["acronym"]
                 if ac not in output:
@@ -71,7 +71,7 @@ def get_tournaments_info():
         else:
             output.append(t_data)
     
-    return jsonify(output)
+    return {"tournaments": output, "grouped": group_results}
 
 @events_bp.route('/tournaments/<string:id>/teams', methods=['GET'])
 def get_tournaments_teams(id):
