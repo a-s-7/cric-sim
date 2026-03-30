@@ -6,7 +6,7 @@ from flask import jsonify
 from dotenv import load_dotenv
 load_dotenv()
 
-verbose = False
+verbose = True
 
 connection_string = os.getenv('MONGODB_URI')
 
@@ -251,7 +251,6 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                         }
                     })
         elif currentStage["name"] == "Final":
-
             for team in stageTeams:
                 match = matches_collection.find_one({"tournamentId": tournamentId, "matchNumber": team["teamFromMatchNumber"]})
 
@@ -259,9 +258,27 @@ def confirmTeamsForStage(tournamentId, stageOrder):
 
                 if match["result"] == "Home-win":
                     id = match["homeStageTeamId"]
+                elif match["result"] == "No-result":
+                    hT = stageTeams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
+                    aT = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
+
+                    if verbose:
+                        print(f"Deciding Finalist for 'No-result' in Semi-final {match.get('matchNumber', 'N/A')}: {hT['teamId']} (Pos {hT.get('teamFromStandingsPosition')}) vs {aT['teamId']} (Pos {aT.get('teamFromStandingsPosition')})")
+
+                    # Note: Comparing teamFromStandingsPosition works for 1st vs 2nd crossover semi-finals.
+                    # For 1st vs 1st matches, standings data (points/NRR) would be needed for a proper tie-break.
+                    if hT["teamFromStandingsPosition"] < aT["teamFromStandingsPosition"]:
+                        id = match["homeStageTeamId"]
+                    else:
+                        id = match["awayStageTeamId"]
+
+                    if verbose:
+                        chosen = hT if id == match["homeStageTeamId"] else aT
+                        print(f"  -> {chosen['teamId']} progresses as the higher-ranked seed.")
+
                 else:
                     id = match["awayStageTeamId"]
-                        
+
 
                 stageTeam = stageTeams_collection.find_one({"_id": ObjectId(id)})
 
@@ -323,10 +340,15 @@ def decide_playoff_no_result(source_match, winner=True, standings=[]):
     homeSt = stageTeams_collection.find_one({"_id": ObjectId(source_match["homeStageTeamId"])}) 
     awaySt = stageTeams_collection.find_one({"_id": ObjectId(source_match["awayStageTeamId"])}) 
 
+    if verbose:
+        print(f"Deciding playoff progression for 'No-result' in match {source_match.get('matchNumber', 'N/A')}: {homeSt['teamId']} vs {awaySt['teamId']}")
+
     for team in standings:
         if team["teamId"] == homeSt["teamId"]:
+            if verbose: print(f"  -> {homeSt['teamId']} is higher in standings than {awaySt['teamId']}. Choosing {homeSt['teamId'] if winner else awaySt['teamId']} as {'winner' if winner else 'loser'}.")
             return homeSt if winner else awaySt
         elif team["teamId"] == awaySt["teamId"]:
+            if verbose: print(f"  -> {awaySt['teamId']} is higher in standings than {homeSt['teamId']}. Choosing {awaySt['teamId'] if winner else homeSt['teamId']} as {'winner' if winner else 'loser'}.")
             return awaySt if winner else homeSt
 
     return None        

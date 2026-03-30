@@ -412,15 +412,23 @@ def get_tournaments_match_data(id):
     
     winner = ""
     if final_match["result"] != "None":
+        # Determine final winner
+
         if final_match["result"] == "Home-win":
             winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
         elif final_match["result"] == "No-result":
+
+            # If final is no result in a franchise tournament, determine winner based on league standings (Higher-seeded team is champion)
             if tournament["category"] == "franchise":
                 last_stage = stages_collection.find({"tournamentId": id}).sort("order", -1).limit(1)[0]
                 standings = get_tournament_standings(id, [last_stage["order"] - 1])
                 standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
+            else:
+                winner1 = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
+                winner2 = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
 
-                winner = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]
+                winner = winner1 + "#" + winner2
+
         else:
             winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
     

@@ -28,7 +28,11 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                 {winner && (
                     <div
                         className="absolute right-0 top-0 bottom-0 w-[100%] transition-opacity duration-1000"
-                        style={{ background: teamDictionary[winner]?.gradient }}
+                        style={{ 
+                            background: winner.includes("#") 
+                                ? `linear-gradient(to right, ${teamDictionary[winner.split("#")[0]]?.gradient?.split(',')[1]?.split(')')[0] || "#333"}, ${teamDictionary[winner.split("#")[1]]?.gradient?.split(',')[1]?.split(')')[0] || "#666"})`
+                                : teamDictionary[winner]?.gradient 
+                        }}
                     />
                 )}
 
@@ -36,17 +40,27 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                     <div className="relative z-10 flex flex-row items-center gap-3">
                         <div className="flex flex-col items-end">
                             <span className="text-[9px] uppercase font-black tracking-[0.4em] text-white/80 leading-none mb-1 drop-shadow-sm">
-                                Champions
+                                {winner.includes("#") ? "Joint Champions" : "Champions"}
                             </span>
-                            <h3 className="text-2xl font-black tracking-widest text-white font-['Kanit'] uppercase leading-none drop-shadow-xl">
-                                {teamDictionary[winner]?.name || winner}
-                            </h3>
+                            <div className="flex flex-row items-center gap-2">
+                                {winner.split("#").map((w, index, arr) => (
+                                    <h3 key={w} className={`${arr.length > 1 ? "text-lg" : "text-2xl"} font-black tracking-widest text-white font-['Kanit'] uppercase leading-none drop-shadow-xl flex items-center`}>
+                                        {teamDictionary[w]?.name || w}
+                                        {index === 0 && arr.length > 1 && <span className="mx-2 text-white/50 text-xs">&</span>}
+                                    </h3>
+                                ))}
+                            </div>
                         </div>
-                        <img
-                            src={teamDictionary[winner]?.logo}
-                            alt={teamDictionary[winner]?.name}
-                            className="w-12 h-12 object-contain drop-shadow-lg"
-                        />
+                        <div className="flex flex-row items-center gap-4">
+                            {winner.split("#").map((w) => (
+                                <img
+                                    key={w}
+                                    src={teamDictionary[w]?.logo}
+                                    alt={teamDictionary[w]?.name}
+                                    className="w-12 h-12 object-contain drop-shadow-lg"
+                                />
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>
