@@ -28,10 +28,10 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                 {winner && (
                     <div
                         className="absolute right-0 top-0 bottom-0 w-[100%] transition-opacity duration-1000"
-                        style={{ 
-                            background: winner.includes("#") 
+                        style={{
+                            background: winner.includes("#")
                                 ? `linear-gradient(to right, ${teamDictionary[winner.split("#")[0]]?.gradient?.split(',')[1]?.split(')')[0] || "#333"}, ${teamDictionary[winner.split("#")[1]]?.gradient?.split(',')[1]?.split(')')[0] || "#666"})`
-                                : teamDictionary[winner]?.gradient 
+                                : teamDictionary[winner]?.gradient
                         }}
                     />
                 )}
@@ -70,7 +70,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                 <div className="flex-1 flex flex-col gap-8 px-2 pt-0 pb-2 overflow-y-auto no-scrollbar mt-2">
                     {matchesArray && matchesArray.map(match => (
                         <div key={`${match.matchNumber}`}>
-                            {(match.stageStatus === "locked" ? true : match.stage === "Playoffs" ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ? <MatchResultCard
+                            {(match.stageStatus === "locked" ? true : match.stage === "Playoffs" || match.stage === "Final" ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ? <MatchResultCard
                                 homeGradient={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.gradient : ""}
                                 awayGradient={match.awayStageTeam ? teamDictionary[match.awayStageTeam]?.gradient : ""}
                                 homeTeamName={match.homeStageTeam}

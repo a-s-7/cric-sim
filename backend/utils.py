@@ -276,13 +276,14 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                         chosen = hT if id == match["homeStageTeamId"] else aT
                         print(f"  -> {chosen['teamId']} progresses as the higher-ranked seed.")
 
-                else:
+                elif match["result"] == "Away-win":
                     id = match["awayStageTeamId"]
 
 
-                stageTeam = stageTeams_collection.find_one({"_id": ObjectId(id)})
+                if id:
+                    stageTeam = stageTeams_collection.find_one({"_id": ObjectId(id)})
 
-                stageTeams_collection.update_one(
+                    stageTeams_collection.update_one(
                     {"_id": ObjectId(team["_id"])},
                     {
                         "$set": {

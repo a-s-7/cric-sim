@@ -528,7 +528,7 @@ def update_tournament_match_result(id, match_num, result):
 
         stageOfChangedMatch = stages_collection.find_one({"_id": ObjectId(match["stageId"]) })
 
-        if len(not_finished_matches) > 0 and not (stageOfChangedMatch["name"] == "Playoffs"):
+        if len(not_finished_matches) > 0 and not (stageOfChangedMatch["name"] in ["Playoffs", "Semi-final"]):
             if verbose:
                 print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageOfChangedMatch["name"]))
         else:
