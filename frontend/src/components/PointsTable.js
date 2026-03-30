@@ -73,8 +73,8 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.won}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.lost}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.noResult}</td>
-                            <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[1.8vh] font-bold text-black">{team.netRunRate > 0 ? "+" : ""}{team.netRunRate.toFixed(3)}</td>
-                            <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[1.8vh] font-bold text-black">{team.points}</td>
+                            <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[1.9vh] font-bold text-black">{team.netRunRate > 0 ? "+" : ""}{team.netRunRate.toFixed(3)}</td>
+                            <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[2.3vh] font-bold">{team.points}</td>
                             <td className="text-center py-4 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsScored + "/" + (Math.floor(team.ballsFaced / 6) + "." + (team.ballsFaced % 6))}</td>
                             <td className="text-center py-4 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsConceded + "/" + (Math.floor(team.ballsBowled / 6) + "." + (team.ballsBowled % 6))}</td>
                         </tr>
