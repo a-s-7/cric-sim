@@ -327,7 +327,12 @@ function MatchCard({
         const teamBattingSecond = homeBattedFirst ? "Away" : "Home";
 
         if (scores[teamBattingSecond].runs > scores[teamBattingFirst].runs) {
-            return `${scores[teamBattingSecond].name} won by ${10 - scores[teamBattingSecond].wickets} ${10 - scores[teamBattingSecond].wickets === 1 ? 'wicket' : 'wickets'}`;
+            const wicketsRemaining = 10 - scores[teamBattingSecond].wickets;
+
+            const [overs, balls = 0] = scores[teamBattingSecond].overs.toString().split('.');
+            const ballsRemaining = parseInt(balls) + (parseInt(overs) * 6);
+
+            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${format === "T20" ? 120 - ballsRemaining : 300 - ballsRemaining} balls left)`;
         } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
             return `${scores[teamBattingFirst].name} won by ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs} ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs === 1 ? 'run' : 'runs'}`;
         } else {
@@ -491,8 +496,10 @@ function MatchCard({
                         style={getStyle("No-result", 1)}>
                         <div className={`w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedDate}</div>
                         <div className="w-full h-2/5 flex items-center justify-center">
-                            <div className={`uppercase text-inherit text-center px-2 ${selected === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.95vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: selected !== 'None' ? '0.5px currentColor' : '0' }}>
-                                {selected === 'None' ? 'VS' : getMatchResult()}
+                            <div className={`uppercase text-inherit text-center px-2 ${selected === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: selected !== 'None' ? '0.5px currentColor' : '0' }}>
+                                {selected === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
+                                    <div key={i} className={i !== 0 ? "text-gray-500" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.7vw' }}>{line}</div>
+                                ))}
                             </div>
                         </div>
                         <div className={`w-full h-[30%] flex items-center justify-center text-[0.75vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedTime} your time</div>
