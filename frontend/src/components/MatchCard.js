@@ -475,10 +475,8 @@ function MatchCard({
                         </div>
 
                         <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
-                            {/* Centered name */}
                             <span>{homeTeamName}</span>
 
-                            {/* Bottom-anchored element */}
                             {selected !== 'None' && <span className="absolute bottom-3 right-0">
                                 {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Home-win', tossResultState === 'Home-win')}</span>
                             }
@@ -498,7 +496,7 @@ function MatchCard({
                         <div className="w-full h-2/5 flex items-center justify-center">
                             <div className={`uppercase text-inherit text-center px-2 ${selected === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: selected !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {selected === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
-                                    <div key={i} className={i !== 0 ? "text-gray-500" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.7vw' }}>{line}</div>
+                                    <div key={i} className={i !== 0 ? "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.75vw' }}>{line}</div>
                                 ))}
                             </div>
                         </div>
@@ -517,10 +515,7 @@ function MatchCard({
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">
-                            {/* Centered name */}
                             <span>{awayTeamName}</span>
-
-                            {/* Bottom-anchored element */}
 
                             {selected !== 'None' && <span className="absolute bottom-3 left-0">
                                 {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Away-win', tossResultState === 'Away-win')}</span>
