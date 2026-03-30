@@ -291,6 +291,15 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                             "confirmed": True
                         }
                     })
+                else:
+                    stageTeams_collection.update_one(
+                        {"_id": ObjectId(team["_id"])},
+                        {
+                            "$set": {
+                                "teamId": None,
+                                "confirmed": False
+                            }
+                        })
 
 
 def confirmTeamsForPlayoffs(tournamentId, stageOrder, stageTeams, currentStage):

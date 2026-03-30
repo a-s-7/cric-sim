@@ -679,27 +679,35 @@ def clear_tournament_matches(id):
             if verbose:
                 print("Final has been reset")
         else:
-            nextStage = stages_collection.find_one({"tournamentId": id, "order": firstMostRecentStage["order"] + 1})
+            # Fetch ALL future stages to ensure a deep and consistent reset
+            future_stages = list(stages_collection.find({"tournamentId": id, "order": {"$gt": firstMostRecentStage["order"]}}).sort("order", 1))
 
-            while nextStage and nextStage["status"] == "active":
+            isFirstNextStage = True
+            for nextStage in future_stages:
+                # Always lock future stages when clearing preceding matches
                 stages_collection.update_one(
                     {"_id": ObjectId(nextStage["_id"])},
                     {"$set": {"status": "locked"}}
                 )
 
-                if nextStage["type"] == "group":
-                    stageTeams_collection.update_many(
-                        {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
-                        [{"$set": {"teamId": "$preseededTeamId", "confirmed": False,
-                        "matchesPlayed": 0, "points": 0, "won": 0, "lost": 0, "noResult": 0,
-                        "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
-                    )
+                # Only use partial confirmation (ripple) if clearing a knockout match and updating its immediate follower (e.g. SF -> Final)
+                # If clearing a group/league stage, we want to wipe everything in the following stages for a clean reset
+                if firstMostRecentStage["type"] != "group" and isFirstNextStage:
+                    confirmTeamsForStage(id, nextStage["order"])
                 else:
-                    stageTeams_collection.update_many(
-                        {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
-                        [{"$set": {"teamId": None, "confirmed": False,
-                        "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
-                    )
+                    if nextStage["type"] == "group":
+                        stageTeams_collection.update_many(
+                            {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
+                            [{"$set": {"teamId": "$preseededTeamId", "confirmed": False,
+                            "matchesPlayed": 0, "points": 0, "won": 0, "lost": 0, "noResult": 0,
+                            "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+                        )
+                    else:
+                        stageTeams_collection.update_many(
+                            {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
+                            [{"$set": {"teamId": None, "confirmed": False,
+                            "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+                        )
                         
 
                 matches_collection.update_many(
@@ -707,7 +715,7 @@ def clear_tournament_matches(id):
                     {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
                 )          
 
-                nextStage = stages_collection.find_one({"tournamentId": id, "order": nextStage["order"] + 1})
+                isFirstNextStage = False
                           
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
