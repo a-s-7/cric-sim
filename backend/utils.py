@@ -338,12 +338,42 @@ def confirmTeamsForPlayoffs(tournamentId, stageOrder, stageTeams, currentStage):
     if q1["result"] != "None":
         update_from_result(q2["homeStageTeamId"], q1, winner=False)  # Q1 Loser
         update_from_result(final["homeStageTeamId"], q1, winner=True) # Q1 Winner
+    else:
+        stageTeams_collection.update_many(
+            {"_id": {"$in": [ObjectId(q2["homeStageTeamId"]), ObjectId(final["homeStageTeamId"])]}},
+            {"$set": {"teamId": None, "confirmed": False}}
+        )
+
+    # Reset Q2 and Final matches if dependencies are not met (ripple effect for clearing)
+    if q1["result"] == "None" or elim["result"] == "None":
+        matches_collection.update_one(
+            {"_id": q2["_id"]},
+            {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
+        )
+        q2["result"] = "None"
+
+    if q1["result"] == "None" or q2["result"] == "None":
+        matches_collection.update_one(
+            {"_id": final["_id"]},
+            {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
+        )
+        final["result"] = "None"
 
     if elim["result"] != "None":
         update_from_result(q2["awayStageTeamId"], elim, winner=True)  # Elim Winner
+    else:
+        stageTeams_collection.update_one(
+            {"_id": ObjectId(q2["awayStageTeamId"])},
+            {"$set": {"teamId": None, "confirmed": False}}
+        )
 
     if q2["result"] != "None":
         update_from_result(final["awayStageTeamId"], q2, winner=True) # Q2 Winner
+    else:
+        stageTeams_collection.update_one(
+            {"_id": ObjectId(final["awayStageTeamId"])},
+            {"$set": {"teamId": None, "confirmed": False}}
+        )
 
        
 def decide_playoff_no_result(source_match, winner=True, standings=[]):

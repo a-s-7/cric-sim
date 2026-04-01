@@ -564,7 +564,7 @@ def update_tournament_match_result(id, match_num, result):
 @events_bp.route('/tournaments/<string:id>/match/clear', methods=['PATCH'])
 def clear_tournament_matches(id):
     try:
-        tournament = tournaments_collection.find_one({"_id": ObjectId(id)})
+        tournament = tournaments_collection.find_one({"_id": id})
 
         if not tournament:
             return jsonify({"error": "Tournament not found"}), 404
@@ -689,6 +689,9 @@ def clear_tournament_matches(id):
             if verbose:
                 print("Final has been reset")
         else:
+            if firstMostRecentStage["name"] == "Playoffs":
+                confirmTeamsForStage(id, firstMostRecentStage["order"])
+
             # Fetch ALL future stages to ensure a deep and consistent reset
             future_stages = list(stages_collection.find({"tournamentId": id, "order": {"$gt": firstMostRecentStage["order"]}}).sort("order", 1))
 
