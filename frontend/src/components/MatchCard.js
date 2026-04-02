@@ -420,7 +420,7 @@ function MatchCard({
         <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex w-auto`}>
             <div className="h-44 w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-36">
-                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
+                    <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         onClick={() => handleClick('Home-win')}
                         onMouseEnter={() => setHoveredSection("Home-win")}
                         onMouseLeave={() => setHoveredSection(null)}
@@ -487,7 +487,7 @@ function MatchCard({
                         </div>
                     </div>
 
-                    <div className='flex flex-col border-l border-r border-gray-100 w-[25%] cursor-pointer'
+                    <div className='flex flex-col border-l border-r border-gray-100 w-[27%] cursor-pointer'
                         onClick={() => handleClick('No-result')}
                         onMouseEnter={() => setHoveredSection("No-result")}
                         onMouseLeave={() => setHoveredSection(null)}
@@ -504,7 +504,7 @@ function MatchCard({
 
                     </div>
 
-                    <div className='flex flex-row w-[37.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
+                    <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         onClick={() => handleClick('Away-win')}
                         onMouseEnter={() => setHoveredSection('Away-win')}
                         onMouseLeave={() => setHoveredSection(null)}
