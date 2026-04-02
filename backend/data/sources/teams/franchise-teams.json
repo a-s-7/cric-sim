@@ -79,6 +79,54 @@
             "gradient": "linear-gradient(135deg, #041E42, #041E42, #FFCC00)",
             "type": "franchise",
             "league": "IPL"
+        },
+        {
+            "_id": "MINY",
+            "name": "MI New York",
+            "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/mi-newyork.png",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #ffd700)",
+            "type": "franchise",
+            "league": "MLC"
+        },
+        {
+            "_id": "SFU",
+            "name": "San Francisco Unicorns",
+            "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/unicorns.png",
+            "gradient": "linear-gradient(135deg, lightblue, lightblue, orangered)",
+            "type": "franchise",
+            "league": "MLC"
+        },
+        {
+            "_id": "WF",
+            "name": "Washington Freedom",
+            "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/freedom_primary.png",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #E4002B)",
+            "type": "franchise",
+            "league": "MLC"
+        },
+        {
+            "_id": "TSK",
+            "name": "Texas Super Kings",
+            "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/tsk.png",
+            "gradient": "linear-gradient(135deg, gold, gold, orange)",
+            "type": "franchise",
+            "league": "MLC"
+        },
+        {
+            "_id": "LAKR",
+            "name": "Los Angeles Knight Riders",
+            "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/lakr.png",
+            "gradient": "linear-gradient(135deg, #5A2D81, #5A2D81, gold)",
+            "type": "franchise",
+            "league": "MLC"
+        },
+        {
+            "_id": "SEA",
+            "name": "Seattle Orcas",
+            "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/orcas.png",
+            "gradient": "linear-gradient(135deg, black, green, green)",
+            "type": "franchise",
+            "league": "MLC"
         }
     ]
 }

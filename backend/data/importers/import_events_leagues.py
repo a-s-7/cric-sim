@@ -6,6 +6,7 @@ TOURNAMENTS = {
     3: {"category": "events", "folder": "champions-trophy", "name": "ct-2025.json"},
     4: {"category": "events", "folder": "t20-world-cup", "name": "t20-wc-2026.json"},
     5: {"category": "leagues", "folder": "ipl", "name": "ipl-2026.json"},
+    6: {"category": "leagues", "folder": "mlc", "name": "mlc-2026.json"},
 }
 
 def main(selected_ids="All"):

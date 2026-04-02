@@ -82,7 +82,7 @@
         },
         {
             "stadium": "Grand Prairie Stadium",
-            "city": "Grand Prairie",
+            "city": "Dallas",
             "country": "United States"
         },
         {
@@ -154,6 +154,16 @@
             "stadium": "Shaheed Veer Narayan Singh International Cricket Stadium",
             "city": "Raipur",
             "country": "India"
+        },
+        {
+            "stadium": "Oakland Coliseum",
+            "city": "Oakland",
+            "country": "United States"
+        },
+        {
+            "stadium": "Fairplex",
+            "city": "Pomona",
+            "country": "United States"
         }
     ]
 }

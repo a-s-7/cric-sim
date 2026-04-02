@@ -121,9 +121,9 @@ function TournamentsPage() {
                                 <img
                                     src={tournament.mainLogo}
                                     alt={tournament.name}
-                                    className="h-[65%] w-[65%] object-contain"
+                                    className={`${tournament.category === "franchise" ? "h-[55%] w-[55%]" : "h-[65%] w-[65%]"} object-contain`}
                                 />
-                                {tournament.category === "franchise" && <div className="absolute font-['Outfit'] bottom-4 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
+                                {tournament.category === "franchise" && <div className="absolute font-['Outfit'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
                                     {tournament.edition}
                                 </div>}
                             </div>

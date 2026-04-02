@@ -1,0 +1,529 @@
+{
+    "tournament": {
+        "_id": "mlc-2026",
+        "category": "franchise",
+        "format": "T20",
+        "name": "Major League Cricket",
+        "acronym": "MLC",
+        "edition": 2026,
+        "status": "upcoming",
+        "startDate": "2026-06-18",
+        "endDate": "2026-07-18",
+        "structure": "league",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, red, red, darkblue)",
+        "mainLogo": "https://www.majorleaguecricket.com/assets/images/MLC_Logo_RGB_Foooter.png",
+        "horizontalLogo": "https://www.majorleaguecricket.com/assets/images/MLC_Logo_RGB_Foooter.png",
+        "pointsTableColor": "red",
+        "tileBackgroundColor": "white",
+        "teams": [
+            "MINY",
+            "SFU",
+            "WF",
+            "TSK",
+            "LAKR",
+            "SEA"
+        ],
+        "stadiums": [
+            "Fairplex",
+            "Grand Prairie Stadium",
+            "Oakland Coliseum"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numGroups": 1,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 10,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "SEA",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "MINY",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "TSK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "LAKR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "WF",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SFU",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 31
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 32
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 31
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-C",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 33
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2026-06-18 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "TSK",
+            "awayStageTeamId": "SEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2026-06-19 15:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2026-06-19 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2026-06-20 15:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "TSK",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2026-06-20 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2026-06-21 15:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "LAKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2026-06-21 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "TSK",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2026-06-24 18:30:00",
+            "venue": "Oakland Coliseum",
+            "homeStageTeamId": "SFU",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2026-06-25 18:30:00",
+            "venue": "Oakland Coliseum",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "SEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2026-06-26 14:30:00",
+            "venue": "Oakland Coliseum",
+            "homeStageTeamId": "MINY",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2026-06-26 18:30:00",
+            "venue": "Oakland Coliseum",
+            "homeStageTeamId": "SFU",
+            "awayStageTeamId": "SEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2026-06-27 14:30:00",
+            "venue": "Oakland Coliseum",
+            "homeStageTeamId": "MINY",
+            "awayStageTeamId": "LAKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2026-06-27 18:30:00",
+            "venue": "Oakland Coliseum",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2026-06-28 14:30:00",
+            "venue": "Oakland Coliseum",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "SEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2026-06-28 18:30:00",
+            "venue": "Oakland Coliseum",
+            "homeStageTeamId": "SFU",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2026-07-01 18:30:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2026-07-02 18:30:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2026-07-03 18:30:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2026-07-04 14:30:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2026-07-04 18:30:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2026-07-05 14:30:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2026-07-05 18:30:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "SFU",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2026-07-08 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "MINY",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2026-07-09 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "LAKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2026-07-10 15:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "MINY",
+            "awayStageTeamId": "SEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2026-07-10 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "SFU",
+            "awayStageTeamId": "LAKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2026-07-11 15:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "TSK",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2026-07-11 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2026-07-12 15:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "MINY",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2026-07-12 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "TSK",
+            "awayStageTeamId": "LAKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 2,
+            "date": "2026-07-15 14:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "T1",
+            "awayStageTeamId": "T2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 2,
+            "date": "2026-07-15 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "T3",
+            "awayStageTeamId": "T4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Eliminator"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 2,
+            "date": "2026-07-16 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "L-Q",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Challenger"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 2,
+            "date": "2026-07-18 19:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "W-Q",
+            "awayStageTeamId": "W-C",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}
