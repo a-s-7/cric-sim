@@ -58,6 +58,7 @@ function MatchCard({
     const timeZone = "America/Los_Angeles";
 
     const formattedDate = formattedDateObj.toLocaleDateString("en-US", {
+        weekday: "short",
         timeZone: timeZone,
         month: "short",
         day: "numeric",
@@ -69,7 +70,7 @@ function MatchCard({
         hour: "2-digit",
         minute: "2-digit",
         hour12: true
-    });
+    }).replace("AM", "a.m.").replace("PM", "p.m.");
 
     const getStyle = (section, num) => {
         const gradients = [homeGradient, neutralGradient, awayGradient];
@@ -500,7 +501,7 @@ function MatchCard({
                                 ))}
                             </div>
                         </div>
-                        <div className={`w-full h-[30%] flex items-center justify-center text-[0.75vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedTime} your time</div>
+                        <div className={`w-full h-[30%] flex items-center justify-center text-[0.75vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedTime}</div>
 
                     </div>
 
