@@ -7,7 +7,7 @@ from collections import defaultdict
 from utils import confirmTeamsForStage, get_tournament_standings, decide_playoff_no_result
 from data.utils.tournamentsUtils import overs_to_balls
 
-verbose = True
+verbose = False
 
 if os.getenv("RENDER_STATUS") != "TRUE":
     from dotenv import load_dotenv
@@ -179,33 +179,34 @@ def update_score(id, match_num, home_runs, home_wickets, home_overs, away_runs, 
     if not old_match:
         raise ValueError("No match was found")
 
-    if tournament["format"] == "T20":
-        max_balls = 120
-    else:
-        max_balls = 300
+    if old_match["result"] != "No-result":
+        if tournament["format"] == "T20":
+            max_balls = 120
+        else:
+            max_balls = 300
 
-    hB = max_balls if old_match["homeTeamWickets"] == 10 else old_match["homeTeamBalls"]
-    aB = max_balls if old_match["awayTeamWickets"] == 10 else old_match["awayTeamBalls"]
+        hB = max_balls if old_match["homeTeamWickets"] == 10 else old_match["homeTeamBalls"]
+        aB = max_balls if old_match["awayTeamWickets"] == 10 else old_match["awayTeamBalls"]
 
-    stageTeams_collection.update_one(
-        {"_id": ObjectId(old_match["homeStageTeamId"])},
-        {"$inc": {
-            "runsScored":   int(home_runs)    - old_match["homeTeamRuns"],
-            "runsConceded":  int(away_runs)    - old_match["awayTeamRuns"],
-            "ballsBowled":  (max_balls if int(away_wickets) == 10 else new_away_balls) - aB,
-            "ballsFaced":   (max_balls if int(home_wickets) == 10 else new_home_balls) - hB,
-        }}
-    )
+        stageTeams_collection.update_one(
+            {"_id": ObjectId(old_match["homeStageTeamId"])},
+            {"$inc": {
+                "runsScored":   int(home_runs)    - old_match["homeTeamRuns"],
+                "runsConceded":  int(away_runs)    - old_match["awayTeamRuns"],
+                "ballsBowled":  (max_balls if int(away_wickets) == 10 else new_away_balls) - aB,
+                "ballsFaced":   (max_balls if int(home_wickets) == 10 else new_home_balls) - hB,
+            }}
+        )
 
-    stageTeams_collection.update_one(
-        {"_id": ObjectId(old_match["awayStageTeamId"])},
-        {"$inc": {
-            "runsScored":   int(away_runs)    - old_match["awayTeamRuns"],
-            "runsConceded":  int(home_runs)    - old_match["homeTeamRuns"],
-            "ballsBowled":  (max_balls if int(home_wickets) == 10 else new_home_balls) - hB,
-            "ballsFaced":   (max_balls if int(away_wickets) == 10 else new_away_balls) - aB,
-        }}
-    )
+        stageTeams_collection.update_one(
+            {"_id": ObjectId(old_match["awayStageTeamId"])},
+            {"$inc": {
+                "runsScored":   int(away_runs)    - old_match["awayTeamRuns"],
+                "runsConceded":  int(home_runs)    - old_match["homeTeamRuns"],
+                "ballsBowled":  (max_balls if int(home_wickets) == 10 else new_home_balls) - hB,
+                "ballsFaced":   (max_balls if int(away_wickets) == 10 else new_away_balls) - aB,
+            }}
+        )
 
 
 def clear_tournament_matches(id, mode, stage_order, match_nums):

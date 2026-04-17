@@ -1,6 +1,7 @@
 from pipeline import run
 
 # Use a real match _id from your database
-match_id = "69e178d2537cf3ec1d9c6be5"
+tournament_id = "ipl-2026"
+match_number = 14
 
-run(match_id)
+run(tournament_id, match_number)

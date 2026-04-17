@@ -2,7 +2,7 @@ from fetch import get_match_context
 from search import get_match_result
 from update import update_match
 
-def run(match_id):
+def run(tournament_id, match_number):
     """
     Runs the full agent pipeline for a single match:
       1. Fetch match context from the database
@@ -11,8 +11,8 @@ def run(match_id):
     """
 
     # Step 1 — Fetch
-    print(f"[1/3] Fetching match context for {match_id}...")
-    context = get_match_context(match_id)
+    print(f"[1/3] Fetching match context for {tournament_id} - Match #{match_number}...")
+    context = get_match_context(tournament_id, match_number)
     print(f"       {context['home_team_name']} vs {context['away_team_name']} on {context['date']}")
 
     # Step 2 — AI
@@ -23,7 +23,7 @@ def run(match_id):
         print(f"[!] AI could not find a result: {result['error']}")
         return None
 
-    print(f"       Result: {result['result']}")
+    print(f"       Result: {result}")
 
     # Step 3 — Update
     print(f"[3/3] Updating match in database...")

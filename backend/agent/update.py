@@ -1,3 +1,5 @@
+from services import match_service
+
 def balls_to_overs(balls):
     """Convert balls (e.g. 111) to overs string (e.g. '18.3')."""
     full_overs = balls // 6
@@ -15,8 +17,6 @@ def update_match(context, match_result):
       3. update_toss_decision
       4. update_score (updates NRR)
     """
-    import services.match_service as match_service
-
     tournament_id = context["tournament_id"]
     match_num = context["match_number"]
     result = match_result["result"]
