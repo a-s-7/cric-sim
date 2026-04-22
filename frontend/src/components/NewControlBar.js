@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack, faMicrochip, faGlobe, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack, faGlobe, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../utils/selectStyles";
 
 function NewControlBar({

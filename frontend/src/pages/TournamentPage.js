@@ -45,7 +45,7 @@ function TournamentPage({
         params.set("venues", selectedStadiums.map(stadium => stadium.value).join(","));
         params.set("stages", selectedStages.map(stage => stage.value).join(","));
 
-        let url = `/tournaments/${mode == "real-world" ? tournamentRWID : tournamentPSID}/matches?${params.toString()}`;
+        let url = `/tournaments/${mode === "real-world" ? tournamentRWID : tournamentPSID}/matches?${params.toString()}`;
 
         try {
             const response = await fetch(url);
@@ -61,7 +61,7 @@ function TournamentPage({
     };
 
     const fetchStandings = async () => {
-        let url = `/tournaments/${mode == "real-world" ? tournamentRWID : tournamentPSID}/standings`;
+        let url = `/tournaments/${mode === "real-world" ? tournamentRWID : tournamentPSID}/standings`;
 
         try {
             const response = await fetch(url);
@@ -117,7 +117,7 @@ function TournamentPage({
                 setSelectedStadiums={setSelectedStadiums}
                 setSelectedGroups={setSelectedGroups}
                 setSelectedStages={setSelectedStages}
-                urlTag={mode == "real-world" ? tournamentRWID : tournamentPSID}
+                urlTag={mode === "real-world" ? tournamentRWID : tournamentPSID}
                 logo={tournamentLogo}
                 name={tournamentName}
                 color={tournamentGradient}
@@ -131,16 +131,16 @@ function TournamentPage({
             <div className="flex flex-row w-full flex-1 overflow-hidden">
                 <div className="flex flex-col w-[55%] h-full overflow-auto no-scrollbar">
                     <EventMatchDisplay
-                        key={mode == "real-world" ? tournamentRWID : tournamentPSID}
+                        key={mode === "real-world" ? tournamentRWID : tournamentPSID}
                         onMatchUpdate={handleRefresh}
                         matches={matchesData}
-                        tournamentId={mode == "real-world" ? tournamentRWID : tournamentPSID}
+                        tournamentId={mode === "real-world" ? tournamentRWID : tournamentPSID}
                         tournamentName={tournamentName}
                         tournamentEdition={tournamentEdition}
                         cardNeutralGradient={tournamentGradient} />
                 </div>
                 <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
-                    <EventStandings key={mode == "real-world" ? tournamentRWID : tournamentPSID} standingsData={standingsData.standings} category={standingsData.category} color={tournamentPointsTableColor} />
+                    <EventStandings key={mode === "real-world" ? tournamentRWID : tournamentPSID} standingsData={standingsData.standings} category={standingsData.category} color={tournamentPointsTableColor} />
                 </div>
             </div>
         </div>
