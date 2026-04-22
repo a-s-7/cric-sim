@@ -6,7 +6,8 @@ import { calculateStandingsMovement } from "../utils/standingsUtils";
 
 
 function TournamentPage({
-    tournamentId,
+    tournamentRWID,
+    tournamentPSID,
     tournamentName,
     tournamentEdition,
     tournamentLogo,
@@ -21,6 +22,7 @@ function TournamentPage({
 
     const [matchesData, setMatchesData] = useState([]);
     const [standingsData, setStandingsData] = useState({ standings: [], category: "" });
+    const [mode, setMode] = useState("real-world");
 
     const refreshPointsTable = async () => {
         await fetchStandings();
@@ -43,7 +45,7 @@ function TournamentPage({
         params.set("venues", selectedStadiums.map(stadium => stadium.value).join(","));
         params.set("stages", selectedStages.map(stage => stage.value).join(","));
 
-        let url = `/tournaments/${tournamentId}/matches?${params.toString()}`;
+        let url = `/tournaments/${mode == "real-world" ? tournamentRWID : tournamentPSID}/matches?${params.toString()}`;
 
         try {
             const response = await fetch(url);
@@ -59,7 +61,7 @@ function TournamentPage({
     };
 
     const fetchStandings = async () => {
-        let url = `/tournaments/${tournamentId}/standings`;
+        let url = `/tournaments/${mode == "real-world" ? tournamentRWID : tournamentPSID}/standings`;
 
         try {
             const response = await fetch(url);
@@ -99,7 +101,7 @@ function TournamentPage({
         resetState();
         handleRefresh();
         // eslint-disable-next-line
-    }, [tournamentId]);
+    }, [mode]);
 
 
     return (
@@ -115,28 +117,30 @@ function TournamentPage({
                 setSelectedStadiums={setSelectedStadiums}
                 setSelectedGroups={setSelectedGroups}
                 setSelectedStages={setSelectedStages}
-                urlTag={tournamentId}
+                urlTag={mode == "real-world" ? tournamentRWID : tournamentPSID}
                 logo={tournamentLogo}
                 name={tournamentName}
                 color={tournamentGradient}
                 structure={tournamentStructure}
                 matchesFiltered={matchesData?.matches || []}
+                mode={mode}
+                setMode={setMode}
             />
 
 
             <div className="flex flex-row w-full flex-1 overflow-hidden">
                 <div className="flex flex-col w-[55%] h-full overflow-auto no-scrollbar">
                     <EventMatchDisplay
-                        key={tournamentId}
+                        key={mode == "real-world" ? tournamentRWID : tournamentPSID}
                         onMatchUpdate={handleRefresh}
                         matches={matchesData}
-                        tournamentId={tournamentId}
+                        tournamentId={mode == "real-world" ? tournamentRWID : tournamentPSID}
                         tournamentName={tournamentName}
                         tournamentEdition={tournamentEdition}
                         cardNeutralGradient={tournamentGradient} />
                 </div>
                 <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
-                    <EventStandings key={tournamentId} standingsData={standingsData.standings} category={standingsData.category} color={tournamentPointsTableColor} />
+                    <EventStandings key={mode == "real-world" ? tournamentRWID : tournamentPSID} standingsData={standingsData.standings} category={standingsData.category} color={tournamentPointsTableColor} />
                 </div>
             </div>
         </div>

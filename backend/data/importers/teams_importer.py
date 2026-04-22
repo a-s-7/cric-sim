@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 

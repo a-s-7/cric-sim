@@ -20,42 +20,56 @@ matches_collection = db['matches']
 stages_collection = db["stages"]
 
 def get_tournaments_info(group_results, category):
-    output = [] if not group_results else {}
-
-    filter = {}
+    query = {}
     if category != "all":
-        filter["category"] = category
+        query["category"] = category
 
-    for tournament in tournaments_collection.find(filter).sort("startDate", -1):
-        t_data = {"id": str(tournament["_id"]),
-                  "format": tournament["format"],
-                  "name": tournament["name"],
-                  "edition": tournament["edition"],
-                  "status": tournament["status"],
-                  "startDate": tournament["startDate"].isoformat(),
-                  "endDate": tournament["endDate"].isoformat(),
-                  "currentStageId": tournament["currentStageId"],
-                  "structure": tournament["structure"],
-                  "gradient": tournament["gradient"],
-                  "mainLogo": tournament["mainLogo"],
-                  "horizontalLogo": tournament["horizontalLogo"],
-                  "pointsTableColor": tournament["pointsTableColor"],
-                  "tileBackgroundColor": tournament["tileBackgroundColor"],
-                  "category": tournament["category"]}
+    # Fetch all tournaments within the category to pair real-world and what-if modes
+    tournaments = list(tournaments_collection.find(query).sort("startDate", -1))
+
+    paired = {}
+
+    for tournament in tournaments:
+        key = (tournament["name"], tournament["edition"])
+
+        if key not in paired:
+            paired[key] = {
+                "rw_id": None,
+                "ps_id": None,
+                "format": tournament["format"],
+                "name": tournament["name"],
+                "edition": tournament["edition"],
+                "startDate": tournament["startDate"].isoformat(),
+                "endDate": tournament["endDate"].isoformat(),
+                "structure": tournament["structure"],
+                "gradient": tournament["gradient"],
+                "mainLogo": tournament["mainLogo"],
+                "horizontalLogo": tournament["horizontalLogo"],
+                "pointsTableColor": tournament["pointsTableColor"],
+                "tileBackgroundColor": tournament["tileBackgroundColor"],
+                "category": tournament["category"],
+            }
         
-        if group_results:
-            if category == "franchise":
-                ac = tournament["acronym"]
-                if ac not in output:
-                    output[ac] = []
-                output[ac].append(t_data)
-            else:
-                fmt = tournament["format"]
-                if fmt not in output:
-                    output[fmt] = []
-                output[fmt].append(t_data)
+        if tournament.get("mode") == "real-world":
+            paired[key]["rw_id"] = str(tournament["_id"])
         else:
-            output.append(t_data)
+            paired[key]["ps_id"] = str(tournament["_id"])
+
+    # # If grouped results are requested, organize by franchise (acronym) or format
+    # if group_results:
+    #     output = {}
+    #     for item in paired.values():
+    #         if category == "franchise":
+    #             group_key = item.get("acronym", "Other")
+    #         else:
+    #             group_key = item.get("format", "Other")
+            
+    #         if group_key not in output:
+    #             output[group_key] = []
+    #         output[group_key].append(item)
+    # else:
+    
+    output = list(paired.values())
 
     return {"tournaments": output, "grouped": group_results}
 

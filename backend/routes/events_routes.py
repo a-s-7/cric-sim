@@ -8,8 +8,8 @@ events_bp = Blueprint('events_bp', __name__)
 
 @events_bp.route('/tournaments', methods=['GET'])
 def get_tournaments_info():
-    group_results = request.args.get('grouped', 'true').lower() == 'true'
-    category = request.args.get('category', 'franchise').lower()
+    group_results = request.args.get('grouped', 'false').lower() == 'true'
+    category = request.args.get('category', 'all').lower()
     return ts.get_tournaments_info(group_results, category)
 
 

@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from bson import ObjectId
 
-def main(category, folder, file_name):
+def main(category, folder, file_name, auto_update=False, realWorld=False):
     # ANSI escape codes for colored terminal output
     GREEN = '\033[92m'
     RED = '\033[91m'
@@ -14,6 +14,7 @@ def main(category, folder, file_name):
     BOLD = '\033[1m'
     CYAN = '\033[96m'
     ENDC = '\033[0m'
+    YELLOW = '\033[93m'
     
     ######################################### Load tournament information from a JSON file
     if not folder or not file_name:
@@ -110,6 +111,13 @@ def main(category, folder, file_name):
     # Add tournament to DB
 
     tournaments_collection = db['tournaments']
+
+    if realWorld:
+        tournament["_id"] = tournament["_id"] + "-rw"
+    else:
+        tournament["_id"] = tournament["_id"] + "-ps"
+
+    tournament["mode"] = "real-world" if realWorld else "pure-simulation"
 
     try:
         result = tournaments_collection.insert_one(tournament)
@@ -249,6 +257,7 @@ def main(category, folder, file_name):
         match["awayTeamRuns"] = 0
         match["awayTeamWickets"] = 0
         match["awayTeamBalls"] = 0
+        match["autoUpdate"] = auto_update
         match["tournamentId"] = tournament["_id"]
 
     try:
@@ -269,7 +278,9 @@ def main(category, folder, file_name):
         print(f"{RED}Error: Stopped inserting matches at match {first_error_index + 1}{ENDC}")
 
 if __name__ == "__main__":
-    main()
+    # Example usage:
+    # main("leagues", "ipl", "ipl-2026.json", auto_update=True, realWorld=True)
+    pass
 
 
     

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack, faMicrochip, faGlobe, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../utils/selectStyles";
 
 function NewControlBar({
@@ -20,7 +20,9 @@ function NewControlBar({
     name,
     color,
     matchesFiltered,
-    structure
+    structure,
+    mode,
+    setMode
 }) {
 
     const [teamOptions, setTeamOptions] = useState([]);
@@ -240,7 +242,7 @@ function NewControlBar({
     return (
         <div className="flex h-[8%] m-2 rounded-3xl overflow-hidden" style={{ background: color }}>
             <div className="flex row w-[22%]">
-                <div className="flex items-center justify-center w-[62%] flex-shrink-0">
+                <div className="flex items-center justify-center w-[50%] flex-shrink-0 p-1">
                     <img
                         className="object-contain"
                         style={{
@@ -254,9 +256,20 @@ function NewControlBar({
                     />
                 </div>
 
-                <div className="flex justify-center items-center w-[38%] font-['Reem_Kufi_Fun'] uppercase text-white flex-shrink-0">
+                <div className="flex justify-center items-center w-[35%] font-['Reem_Kufi_Fun'] uppercase text-white flex-shrink-0">
                     {matchCount + " MATCHES"}
                 </div>
+
+                <div className="flex items-center justify-center w-[15%] flex-shrink-0 h-full">
+                    <button
+                        onClick={() => setMode(mode === "real-world" ? "pure-simulation" : "real-world")}
+                        className="flex items-center justify-center text-[1.2vw] text-white/60 hover:text-white transition-all duration-300 active:scale-90"
+                        title={mode === "real-world" ? "Mode: Real-World" : "Mode: Pure Simulation"}
+                    >
+                        <FontAwesomeIcon icon={mode === "real-world" ? faGlobe : faCircleNodes} />
+                    </button>
+                </div>
+
             </div>
 
             <div className="flex row w-[56%]">

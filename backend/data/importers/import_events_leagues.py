@@ -1,4 +1,4 @@
-import tournament_importer
+import tournament_importer 
 
 TOURNAMENTS = {
     1: {"category": "events", "folder": "cricket-world-cup", "name": "cwc-2023.json"},
@@ -20,7 +20,12 @@ def main(selected_ids="All"):
             print(f"Warning: Tournament ID {t_id} not found. Skipping...")
             continue
         t_info = TOURNAMENTS[t_id]
-        tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"])
+
+        # 1. Add the real-world copy
+        tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=True, realWorld = True)
+
+        # 2. Add the pure simulation copy
+        tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=False, realWorld = False)
 
 if __name__ == "__main__":
     main()

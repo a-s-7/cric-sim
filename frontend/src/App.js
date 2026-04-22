@@ -72,9 +72,11 @@ function App() {
                 ))}
 
                 {tournaments["tournaments"].map(tournament => (
-                    <Route path={"/tournaments/" + tournament["id"]}
+                    <Route path={"/tournaments/" + tournament["name"] + "-" + tournament["edition"]}
                         key={tournament["id"]}
-                        element={<TournamentPage tournamentId={tournament["id"]}
+                        element={<TournamentPage
+                            tournamentRWID={tournament["rw_id"]}
+                            tournamentPSID={tournament["ps_id"]}
                             tournamentName={tournament["name"]}
                             tournamentEdition={tournament["edition"]}
                             tournamentLogo={tournament["horizontalLogo"]}
