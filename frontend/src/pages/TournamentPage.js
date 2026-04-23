@@ -80,33 +80,24 @@ function TournamentPage({
         }
     };
 
-    const resetState = async () => {
-        await setSelectedTeams([]);
-        await setSelectedStadiums([]);
-        await setSelectedGroups([]);
-        await setSelectedStages([]);
-
-        await setMatchesData([]);
-        await setStandingsData({ standings: [], category: "" });
-
+    const resetState = () => {
+        setSelectedTeams([]);
+        setSelectedStadiums([]);
+        setSelectedGroups([]);
+        setSelectedStages([]);
+        setMatchesData([]);
+        setStandingsData({ standings: [], category: "" });
     }
 
-
     useEffect(() => {
         handleRefresh();
         // eslint-disable-next-line
-    }, [selectedTeams, selectedStadiums, selectedGroups, selectedStages]);
-
-    useEffect(() => {
-        resetState();
-        handleRefresh();
-        // eslint-disable-next-line
-    }, [mode]);
-
+    }, [mode, selectedTeams, selectedStadiums, selectedGroups, selectedStages]);
 
     return (
         <div className="T20LeaguePage flex flex-col">
             <NewControlBar
+                resetState={resetState}
                 refreshFunction={handleRefresh}
                 matchCount={matchesData?.matches?.length || 0}
                 teams={selectedTeams}

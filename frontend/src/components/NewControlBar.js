@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack, faGlobe, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
@@ -6,6 +6,7 @@ import { customStyles } from "../utils/selectStyles";
 
 function NewControlBar({
     refreshFunction,
+    resetState,
     matchCount,
     teams,
     stadiums,
@@ -39,6 +40,7 @@ function NewControlBar({
     const [isClearAllMode, setIsClearAllMode] = useState(true);
     const [smartScale, setSmartScale] = useState(70);
     const [scaleReady, setScaleReady] = useState(false);
+    const hasMounted = useRef(false);
 
     useEffect(() => {
         if (!logo) return;
@@ -225,16 +227,22 @@ function NewControlBar({
     };
 
     useEffect(() => {
+        hasMounted.current = false;
         fetchTeamOptions();
         fetchVenueOptions();
-        fetchGroupOptions();
+        if (structure === "groups") {
+            fetchGroupOptions();
+        }
         fetchStageOptions();
-        fetchActiveStages(true);
+        fetchActiveStages(true).then(() => {
+            hasMounted.current = true;
+        });
         // eslint-disable-next-line
     }, [urlTag]);
 
 
     useEffect(() => {
+        if (!hasMounted.current) return;
         fetchActiveStages(false);
         // eslint-disable-next-line
     }, [matchesFiltered]);
@@ -262,9 +270,13 @@ function NewControlBar({
 
                 <div className="flex items-center justify-center w-[15%] flex-shrink-0 h-full">
                     <button
-                        onClick={() => setMode(mode === "real-world" ? "pure-simulation" : "real-world")}
-                        className="flex items-center justify-center text-[1.2vw] text-white/60 hover:text-white transition-all duration-300 active:scale-90"
-                        title={mode === "real-world" ? "Mode: Real-World" : "Mode: Pure Simulation"}
+                        onClick={() => {
+                            resetState();
+                            setMode(mode === "real-world" ? "pure-simulation" : "real-world");
+                        }}
+                        disabled={isSimulating || isResetting}
+                        className={`flex items-center justify-center text-[1.2vw] transition-all duration-300 ${isSimulating || isResetting ? "cursor-not-allowed opacity-30 text-white/20" : "text-white/60 hover:text-white active:scale-90"}`}
+                        title={isSimulating || isResetting ? "Mode switch disabled during simulation" : (mode === "real-world" ? "Mode: Real-World" : "Mode: Pure Simulation")}
                     >
                         <FontAwesomeIcon icon={mode === "real-world" ? faGlobe : faCircleNodes} />
                     </button>

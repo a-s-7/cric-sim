@@ -418,3 +418,10 @@ def simulate_tournament_matches(id, stage_num):
             stage = stages_collection.find_one({"tournamentId": id, "order": stage["order"] + 1})
 
     return {"message": f"Tournament id {id} stage {stageToSim['name']} simulated successfully"}
+
+def update_match_status(id, match_num, status):
+    matches_collection.update_one(
+        {"tournamentId": id, "matchNumber": int(match_num)},
+        {"$set": {"status": status}}
+    )
+    return {"message": f"Match {match_num} for tournament {id} updated successfully"}

@@ -18,6 +18,11 @@ matches_collection = db['matches']
 stages_collection = db["stages"]
 
 def get_match_context(tournament_id, match_number):
+    # Step 0: fetch the tournament
+    tournament = tournaments_collection.find_one({"_id": tournament_id})
+    if not tournament:
+        raise ValueError(f"Tournament not found: {tournament_id}")
+
     # Step 1: fetch the match
     match = matches_collection.find_one({"tournamentId": tournament_id, "matchNumber": match_number})
     if not match:
@@ -34,7 +39,9 @@ def get_match_context(tournament_id, match_number):
     return {
         "match_number": match["matchNumber"],
         "date": match["date"].strftime("%Y-%m-%d"),
-        "tournament_id": match["tournamentId"],
+        "tournament_name": tournament["name"],
+        "tournament_edition": tournament["edition"],
+        "tournament_id": tournament["_id"],
         "home_team_name": home_team["name"],
         "home_team_acronym": home_team["_id"],
         "away_team_name": away_team["name"],

@@ -31,4 +31,3 @@ def run(tournament_id, match_number):
     print(f"       ✓ Match #{context['match_number']} updated successfully.")
 
     return result
-

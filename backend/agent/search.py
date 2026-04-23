@@ -18,7 +18,7 @@ def get_match_result(context):
     - Home Team: {context['home_team_name']} ({context['home_team_acronym']})
     - Away Team: {context['away_team_name']} ({context['away_team_acronym']})
     - Date: {context['date']}
-    - Tournament: {context['tournament_id']}
+    - Tournament/League: {context['tournament_name']} {context['tournament_edition']}
 
     Using this context, search the web and find the result of this specific match.
     The home and away team designations in your response must correspond exactly to the
@@ -35,7 +35,8 @@ def get_match_result(context):
         "homeTeamBalls": number,
         "awayTeamRuns": number,
         "awayTeamWickets": number,
-        "awayTeamBalls": number
+        "awayTeamBalls": number,
+        "status": "complete"
     }}
 
     Rules:
