@@ -225,6 +225,8 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
     elif mode == "match-numbers":
         filter_query = {"tournamentId": id, "matchNumber": {"$in": list(map(int, match_nums.split(",")))}}
 
+    filter_query["status"] = "incomplete"
+
     matches = list(matches_collection.aggregate([
         {"$match": filter_query},
         {"$lookup": {"from": "stages", "localField": "stageId", "foreignField": "_id", "as": "stage"}},
@@ -351,6 +353,7 @@ def simulate_tournament_matches(id, stage_num):
 
     matches = list(matches_collection.find({
         "tournamentId": id,
+        "status" : "incomplete",
         "stageId": ObjectId(stageToSim["_id"])
     }))
 
