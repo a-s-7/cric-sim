@@ -9,7 +9,7 @@ function NavBar() {
         <div className="flex justify-between items-center h-[7%] font-['Nunito_Sans',_sans-serif] font-normal bg-[#f5f5f5] relative">
             <div className="p-[10px] flex flex-row items-center h-full">
                 <NavLink to="/" className="text-[3vw] text-black font-['Reem_Kufi_Fun',_sans-serif] no-underline">
-                    CRIC SIM
+                    CRICSIM
                 </NavLink>
             </div>
             <div className="flex flex-row justify-center absolute left-1/2 -translate-x-1/2 h-full p-[10px] gap-[10px]">

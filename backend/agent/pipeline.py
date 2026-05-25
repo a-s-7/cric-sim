@@ -1,6 +1,6 @@
-from fetch import get_match_context
-from search import get_match_result
-from update import update_match
+from agent.fetch import get_match_context
+from agent.search import get_match_result
+from agent.update import update_match
 
 def run(tournament_id, match_number):
     """
@@ -21,7 +21,7 @@ def run(tournament_id, match_number):
 
     if "error" in result:
         print(f"[!] AI could not find a result: {result['error']}")
-        return None
+        raise Exception("AI could not find a result")
 
     print(f"       Result: {result}")
 

@@ -6,6 +6,7 @@ from collections import defaultdict
 
 from utils import confirmTeamsForStage, get_tournament_standings, decide_playoff_no_result
 from data.utils.tournamentsUtils import overs_to_balls
+from agent.pipeline import run
 
 verbose = False
 
@@ -428,3 +429,13 @@ def update_match_status(id, match_num, status):
         {"$set": {"status": status}}
     )
     return {"message": f"Match {match_num} for tournament {id} updated successfully"}
+
+def run_match_update(tournament_id, match_num):
+    try:
+        run(tournament_id, match_num)
+        return {"message": f"Match {match_num} for tournament {tournament_id} updated successfully"}
+    except Exception as e:
+        return {"error": str(e)}
+    
+
+    

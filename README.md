@@ -28,20 +28,18 @@ Whether its international events or franchise leagues, CRICsim supports a wide a
 - Caribbean Premier League (CPL)
 - International League T20 (ILT20)
 
-## Features
+## Event Features
 
 ### ICC T20 World Cup
 
-- **Match and Standings View**: View matches and standings side-by-side in a single panel with immediate updates.
-- **Match Result & Score Controls**: Adjust match results and scores for Net Run Rate (NRR) updates.
-- **Multi-Select Search**: Easily find fixtures using multi-select search by stages, groups, teams and venues.
-- **Clear & Simulate Matches**: Clear matches individually or by stage and simulate matches in a stage randomly.
-- **Dynamic Standings**: Dynamically view standings as you simulate across each stage.
-- **Real-World Simulation Mode**: View results of completed matches that get updated automatically in real-time, with the ability to simulate the remaining matches.
-- **What-If Simulation Mode**: Predict the outcome of any match to instantly see how it shifts team placements.
+- **Dynamic Match and Standings View**: View matches and standings side-by-side with instant updates.
+- **Match Result & Score Controls**: Edit match results and scores to automatically recalculate Net Run Rate (NRR) and refresh standings in real time.
+- **Multi-Select Search & Filters**: Quickly find fixtures using multi-select filters for stages, groups, teams, and venues.
+- **Clear & Simulate Matches**: Clear matches individually or by stage, and instantly simulate entire stages with randomized results.
+- **Real-World Simulation Mode**: Follow automatically updated real-world match results while simulating the remaining fixtures and tournament outcomes.
+- **What-If Simulation Mode**: Predict any match result and instantly see how standings, qualification scenarios, and team placements change.
 - **Super 8 Stage Progression**: Dynamically updates team movements from the group stages into the Super 8s.
-- **Knockout Bracket Tracking**: Dynamically progress teams into the semi-finals and final based on group-stage and Super 8 results.
-
+- **Knockout Bracket Tracking**: Automatically advance teams through the semi-finals and final based on Group stage and Super 8 results.
 
 ### ICC World Test Championship
 - **Interactive Match Control**: Predict outcomes (Win, Loss, Draw, or Tie) for all remaining matches in the 2025-2027 edition.
@@ -50,21 +48,11 @@ Whether its international events or franchise leagues, CRICsim supports a wide a
 - **Bulk Simulation**: Reset or randomly simulate selected matches for custom prediction scenarios.
 - **Penalty Deductions**: Factor in slow overrate penalty point deductions for realistic simulation.
 
-### Franchise Leagues
-- **Scorecard Control**: Input custom scores (runs, wickets, overs) for each team to dictate match outcomes.
-- **Net Run Rate (NRR) Tracking**: Instantly calculate the precise Net Run Rate impact on the standings.
-- **Detailed Standings**: View comprehensive, dynamically updated points tables reflecting simulated scorecards.
-- **Flexible Controls**: Enjoy match filtering, resetting, and random simulation capabilities across global leagues like the IPL, BBL, SA20, MLC, ILT20, and The Hundred.
-
 ### ICC Cricket World Cup
 - **Group Stage Simulation**: Predict and simulate round-robin group matches of elite ODI teams.
 - **Dynamic NRR Calculation**: Control custom run chases to watch Net Run Rate fluctuate and determine top-4 semi-finalists.
 - **Knockout Bracket Tracking**: Watch the tournament bracket update dynamically as teams advance from the group stage to the semi-finals and final.
 
-### ICC T20 World Cup
-- **Multi-Group Format**: Simulate complex multi-group configurations featuring up to 20 global teams.
-- **Super 8s Stage Progression**: Track team movements and qualification scenarios from the initial groups into the Super 8s.
-- **Scorecard Customization**: Adjust quick-fire T20 scores and overs to simulate nail-biting finishes and NRR tie-breaker outcomes.
 
 ### ICC Champions Trophy
 - **Elite Tournament Bracket**: Simulate the competitive 8-team ODI group stage and high-stakes knockout rounds.
@@ -75,6 +63,12 @@ Whether its international events or franchise leagues, CRICsim supports a wide a
 - **Super Four Progression**: Simulate the unique group stage followed by the competitive Super Four round-robin.
 - **Dynamic Qualification**: Instantly recalculate standings and run rates to identify the two finalists.
 - **Match Control & Scoring**: Input match scores to see how different margins of victory impact continental supremacy.
+
+### Franchise Leagues
+- **Scorecard Control**: Input custom scores (runs, wickets, overs) for each team to dictate match outcomes.
+- **Net Run Rate (NRR) Tracking**: Instantly calculate the precise Net Run Rate impact on the standings.
+- **Detailed Standings**: View comprehensive, dynamically updated points tables reflecting simulated scorecards.
+- **Flexible Controls**: Enjoy match filtering, resetting, and random simulation capabilities across global leagues like the IPL, BBL, SA20, MLC, ILT20, and The Hundred.
 
 ## Project Structure
 ```
