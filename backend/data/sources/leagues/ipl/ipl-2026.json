@@ -243,7 +243,7 @@
             "homeStageTeamId": "RCB",
             "awayStageTeamId": "SRH",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 2,
@@ -253,7 +253,7 @@
             "homeStageTeamId": "MI",
             "awayStageTeamId": "KKR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 3,
@@ -263,7 +263,7 @@
             "homeStageTeamId": "RR",
             "awayStageTeamId": "CSK",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 4,
@@ -273,7 +273,7 @@
             "homeStageTeamId": "PBKS",
             "awayStageTeamId": "GT",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 5,
@@ -283,7 +283,7 @@
             "homeStageTeamId": "LSG",
             "awayStageTeamId": "DC",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 6,
@@ -293,7 +293,7 @@
             "homeStageTeamId": "KKR",
             "awayStageTeamId": "SRH",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 7,
@@ -303,7 +303,7 @@
             "homeStageTeamId": "CSK",
             "awayStageTeamId": "PBKS",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 8,
@@ -313,7 +313,7 @@
             "homeStageTeamId": "DC",
             "awayStageTeamId": "MI",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 9,
@@ -323,7 +323,7 @@
             "homeStageTeamId": "GT",
             "awayStageTeamId": "RR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 10,
@@ -333,7 +333,7 @@
             "homeStageTeamId": "SRH",
             "awayStageTeamId": "LSG",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 11,
@@ -343,7 +343,7 @@
             "homeStageTeamId": "RCB",
             "awayStageTeamId": "CSK",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 12,
@@ -353,7 +353,7 @@
             "homeStageTeamId": "KKR",
             "awayStageTeamId": "PBKS",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 13,
@@ -363,7 +363,7 @@
             "homeStageTeamId": "RR",
             "awayStageTeamId": "MI",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 14,
@@ -373,7 +373,7 @@
             "homeStageTeamId": "DC",
             "awayStageTeamId": "GT",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 15,
@@ -383,7 +383,7 @@
             "homeStageTeamId": "KKR",
             "awayStageTeamId": "LSG",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 16,
@@ -393,7 +393,7 @@
             "homeStageTeamId": "RR",
             "awayStageTeamId": "RCB",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 17,
@@ -403,7 +403,7 @@
             "homeStageTeamId": "PBKS",
             "awayStageTeamId": "SRH",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 18,
@@ -413,7 +413,7 @@
             "homeStageTeamId": "CSK",
             "awayStageTeamId": "DC",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 19,
@@ -423,7 +423,7 @@
             "homeStageTeamId": "LSG",
             "awayStageTeamId": "GT",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 20,
@@ -433,7 +433,7 @@
             "homeStageTeamId": "MI",
             "awayStageTeamId": "RCB",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 21,
@@ -443,7 +443,7 @@
             "homeStageTeamId": "SRH",
             "awayStageTeamId": "RR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 22,
@@ -453,7 +453,7 @@
             "homeStageTeamId": "CSK",
             "awayStageTeamId": "KKR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 23,
@@ -463,7 +463,7 @@
             "homeStageTeamId": "RCB",
             "awayStageTeamId": "LSG",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 24,
@@ -473,7 +473,7 @@
             "homeStageTeamId": "MI",
             "awayStageTeamId": "PBKS",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 25,
@@ -483,7 +483,7 @@
             "homeStageTeamId": "GT",
             "awayStageTeamId": "KKR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 26,
@@ -493,7 +493,7 @@
             "homeStageTeamId": "RCB",
             "awayStageTeamId": "DC",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 27,
@@ -503,7 +503,7 @@
             "homeStageTeamId": "SRH",
             "awayStageTeamId": "CSK",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 28,
@@ -513,7 +513,7 @@
             "homeStageTeamId": "KKR",
             "awayStageTeamId": "RR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 29,
@@ -523,7 +523,7 @@
             "homeStageTeamId": "PBKS",
             "awayStageTeamId": "LSG",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 30,
@@ -533,7 +533,7 @@
             "homeStageTeamId": "GT",
             "awayStageTeamId": "MI",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 31,
@@ -543,7 +543,7 @@
             "homeStageTeamId": "SRH",
             "awayStageTeamId": "DC",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 32,
@@ -553,7 +553,7 @@
             "homeStageTeamId": "LSG",
             "awayStageTeamId": "RR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 33,
@@ -563,7 +563,7 @@
             "homeStageTeamId": "MI",
             "awayStageTeamId": "CSK",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 34,
@@ -573,7 +573,7 @@
             "homeStageTeamId": "RCB",
             "awayStageTeamId": "GT",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 35,
@@ -583,7 +583,7 @@
             "homeStageTeamId": "DC",
             "awayStageTeamId": "PBKS",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 36,
@@ -593,7 +593,7 @@
             "homeStageTeamId": "RR",
             "awayStageTeamId": "SRH",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 37,
@@ -603,7 +603,7 @@
             "homeStageTeamId": "GT",
             "awayStageTeamId": "CSK",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 38,
@@ -613,7 +613,7 @@
             "homeStageTeamId": "LSG",
             "awayStageTeamId": "KKR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 39,
@@ -623,7 +623,7 @@
             "homeStageTeamId": "DC",
             "awayStageTeamId": "RCB",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 40,
@@ -633,7 +633,7 @@
             "homeStageTeamId": "PBKS",
             "awayStageTeamId": "RR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 41,
@@ -643,7 +643,7 @@
             "homeStageTeamId": "MI",
             "awayStageTeamId": "SRH",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 42,
@@ -653,7 +653,7 @@
             "homeStageTeamId": "GT",
             "awayStageTeamId": "RCB",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 43,
@@ -663,7 +663,7 @@
             "homeStageTeamId": "RR",
             "awayStageTeamId": "DC",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 44,
@@ -673,7 +673,7 @@
             "homeStageTeamId": "CSK",
             "awayStageTeamId": "MI",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 45,
@@ -683,7 +683,7 @@
             "homeStageTeamId": "SRH",
             "awayStageTeamId": "KKR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 46,
@@ -693,7 +693,7 @@
             "homeStageTeamId": "GT",
             "awayStageTeamId": "PBKS",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 47,
@@ -703,7 +703,7 @@
             "homeStageTeamId": "MI",
             "awayStageTeamId": "LSG",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 48,
@@ -713,7 +713,7 @@
             "homeStageTeamId": "DC",
             "awayStageTeamId": "CSK",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 49,
@@ -723,7 +723,7 @@
             "homeStageTeamId": "SRH",
             "awayStageTeamId": "PBKS",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 50,
@@ -733,7 +733,7 @@
             "homeStageTeamId": "LSG",
             "awayStageTeamId": "RCB",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 51,
@@ -743,7 +743,7 @@
             "homeStageTeamId": "DC",
             "awayStageTeamId": "KKR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 52,
@@ -753,7 +753,7 @@
             "homeStageTeamId": "RR",
             "awayStageTeamId": "GT",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 53,
@@ -763,7 +763,7 @@
             "homeStageTeamId": "CSK",
             "awayStageTeamId": "LSG",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 54,
@@ -773,7 +773,7 @@
             "homeStageTeamId": "RCB",
             "awayStageTeamId": "MI",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 55,
@@ -783,7 +783,7 @@
             "homeStageTeamId": "PBKS",
             "awayStageTeamId": "DC",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 56,
@@ -793,7 +793,7 @@
             "homeStageTeamId": "GT",
             "awayStageTeamId": "SRH",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 57,
@@ -803,7 +803,7 @@
             "homeStageTeamId": "RCB",
             "awayStageTeamId": "KKR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 58,
@@ -813,7 +813,7 @@
             "homeStageTeamId": "PBKS",
             "awayStageTeamId": "MI",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 59,
@@ -823,7 +823,7 @@
             "homeStageTeamId": "LSG",
             "awayStageTeamId": "CSK",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 60,
@@ -833,7 +833,7 @@
             "homeStageTeamId": "KKR",
             "awayStageTeamId": "GT",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 61,
@@ -843,7 +843,7 @@
             "homeStageTeamId": "PBKS",
             "awayStageTeamId": "RCB",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 62,
@@ -853,7 +853,7 @@
             "homeStageTeamId": "DC",
             "awayStageTeamId": "RR",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 63,
@@ -863,7 +863,7 @@
             "homeStageTeamId": "CSK",
             "awayStageTeamId": "SRH",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 64,
@@ -873,7 +873,7 @@
             "homeStageTeamId": "RR",
             "awayStageTeamId": "LSG",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 65,
@@ -883,7 +883,7 @@
             "homeStageTeamId": "KKR",
             "awayStageTeamId": "MI",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 66,
@@ -893,7 +893,7 @@
             "homeStageTeamId": "CSK",
             "awayStageTeamId": "GT",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 67,
@@ -903,7 +903,7 @@
             "homeStageTeamId": "SRH",
             "awayStageTeamId": "RCB",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 68,
@@ -913,7 +913,7 @@
             "homeStageTeamId": "LSG",
             "awayStageTeamId": "PBKS",
             "result": "None",
-            "status": "incomplete"
+            "status": "complete"
         },
         {
             "matchNumber": 69,

@@ -1,0 +1,21 @@
+name: Match Update Agent
+
+on:
+  schedule:
+    - cron: '0 2,7,12,16,21 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Trigger match update and wait
+        run: |
+          curl --max-time 300 \
+               --retry 2 \
+               --retry-delay 10 \
+               -X POST \
+               -f \
+               https://your-render-app.onrender.com/run-agent
