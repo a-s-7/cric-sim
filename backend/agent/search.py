@@ -43,7 +43,7 @@ def get_match_result(context):
     - homeTeamRuns, homeTeamWickets, homeTeamBalls refer to {context['home_team_name']}'s innings
     - awayTeamRuns, awayTeamWickets, awayTeamBalls refer to {context['away_team_name']}'s innings
     - For balls: convert overs to balls (e.g. 20 overs = 120 balls, 18.3 overs = 111 balls)
-    - If no result is found, return 
+    - If the match is still live or hasn't finished, or no result is found, return:
     {{
         "error": "No result found"
     }}
