@@ -1,3 +1,4 @@
+from datetime import timedelta
 import json
 import os
 from pymongo import MongoClient
@@ -235,11 +236,20 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     for match in matches:
 
         match["stageId"] = DB_STAGE_ORDER_TO_ID[match["stageOrder"]]
-        del match["stageOrder"]    
+        del match["stageOrder"]   
 
-        dt = datetime.fromisoformat(match["date"])
-        dt_pst = dt.replace(tzinfo=zone)
-        match["date"] = dt_pst.astimezone(timezone.utc)
+        formats_to_delay = {
+            "ODI": timedelta(hours=8),
+            "T20": timedelta(hours=4),
+        } 
+
+        start_dt = datetime.fromisoformat(match["date"])
+        
+        start_dt_pst = start_dt.replace(tzinfo=zone)
+        end_dt_pst = start_dt_pst + formats_to_delay[tournament["format"]]
+
+        match["date"] = start_dt_pst.astimezone(timezone.utc)
+        match["endDate"] = end_dt_pst.astimezone(timezone.utc)
 
         match["venueId"] = venue_dict[match["venue"]]
         del match["venue"]

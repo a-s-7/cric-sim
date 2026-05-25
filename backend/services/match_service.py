@@ -1,3 +1,5 @@
+from datetime import timezone
+from asyncio import mixins
 import os
 from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
@@ -7,6 +9,8 @@ from collections import defaultdict
 from utils import confirmTeamsForStage, get_tournament_standings, decide_playoff_no_result
 from data.utils.tournamentsUtils import overs_to_balls
 from agent.pipeline import run
+from datetime import datetime, timedelta
+
 
 verbose = False
 
@@ -430,12 +434,28 @@ def update_match_status(id, match_num, status):
     )
     return {"message": f"Match {match_num} for tournament {id} updated successfully"}
 
-def run_match_update(tournament_id, match_num):
-    try:
-        run(tournament_id, match_num)
-        return {"message": f"Match {match_num} for tournament {tournament_id} updated successfully"}
-    except Exception as e:
-        return {"error": str(e)}
+def run_match_update():
+    # Find all real-world tournaments
+    rw_tournaments = tournaments_collection.find({"mode": "real-world"})
+    rw_tournament_ids = [t["_id"] for t in rw_tournaments]
+
+    matches = matches_collection.find({
+        "tournamentId": {"$in": rw_tournament_ids},
+        "endDate": {"$lt": datetime.now(timezone.utc)},
+        "status": "incomplete"
+    })
+
+    result = []
+    
+    for match in matches:
+        try:
+            res = run(match["tournamentId"], match["matchNumber"])
+            result.append(res)
+        except Exception as e:
+            pass
+            # result.append({"error": str(e)})
+
+    return result
     
 
     

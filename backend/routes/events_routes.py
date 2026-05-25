@@ -1,14 +1,9 @@
 import os
 from flask import Blueprint, jsonify, request
-from qstash import Receiver
-
 import services.tournament_service as ts
 import services.match_service as ms
+from datetime import datetime, timedelta
 
-# receiver = Receiver(
-#     current_signing_key=os.environ["QSTASH_CURRENT_SIGNING_KEY"],
-#     next_signing_key=os.environ["QSTASH_NEXT_SIGNING_KEY"]
-# )
 
 events_bp = Blueprint('events_bp', __name__)
 
@@ -127,24 +122,9 @@ def set_match_toss_decision(id, match_num, toss_decision):
 
 @events_bp.route("/run-match-update", methods=["POST"])
 def run_match_update():
-    # try:
-    #     receiver.verify(
-    #         body=request.get_data(as_text=True),
-    #         signature=request.headers.get("Upstash-Signature", ""),
-    #         url="https://your-render-app.com/run-match-update"  # exact public URL
-    #     )
-    # except Exception as e:
-    #     return {"error": "Unauthorized"}, 401
+    try:
+        result = ms.run_match_update()
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
 
-    tournament_id = request.json.get("tournamentId")
-    match_num = request.json.get("matchNumber")
-    
-    if not tournament_id or not match_num:
-        return {"error": "No tournamentId or matchNumber"}, 400
-
-    result = ms.run_match_update(tournament_id, match_num)
-    
-    if "error" in result:
-        return result, 500
-
-    return result, 200
+    return jsonify({"message": f"{len(result)} matches updated successfully"})
