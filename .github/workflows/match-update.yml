@@ -2,7 +2,7 @@ name: Match Update Agent
 
 on:
   schedule:
-    - cron: '0 2,7,12,16,21 * * *'
+    - cron: '0 0,5,10,15,20 * * *'
   workflow_dispatch:
 
 jobs:
