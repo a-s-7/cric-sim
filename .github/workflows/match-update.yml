@@ -18,4 +18,4 @@ jobs:
                --retry-delay 10 \
                -X POST \
                -f \
-               https://your-render-app.onrender.com/run-agent
+               https://cric-sim.onrender.com/run-match-update
