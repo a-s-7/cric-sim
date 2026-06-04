@@ -11,10 +11,10 @@
         "endDate": "2026-07-18",
         "structure": "league",
         "currentStageId": null,
-        "gradient": "linear-gradient(135deg, red, red, darkblue)",
+        "gradient": "linear-gradient(135deg, #ece8e8, red, darkblue)",
         "mainLogo": "https://www.majorleaguecricket.com/assets/images/MLC_Logo_RGB_Foooter.png",
         "horizontalLogo": "https://www.majorleaguecricket.com/assets/images/MLC_Logo_RGB_Foooter.png",
-        "pointsTableColor": "red",
+        "pointsTableColor": "#e60a12",
         "tileBackgroundColor": "white",
         "teams": [
             "MINY",

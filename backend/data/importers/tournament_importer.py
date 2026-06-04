@@ -126,6 +126,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         
     except DuplicateKeyError:
         print(f"{RED}Tournament with ID '{tournament['_id']}' already exists{ENDC}")
+        return
 
     ######################################### Insert stages data
 

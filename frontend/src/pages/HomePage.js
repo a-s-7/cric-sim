@@ -2,7 +2,7 @@ import React from "react";
 
 function HomePage() {
     return (
-        <div className="HomePage">
+        <div className="flex flex-col h-[93%]">
             <div className="welcomeMessageContainer">
                 <div className="taglineContainer">
                     <h1>PREDICT. SET. GO.</h1>

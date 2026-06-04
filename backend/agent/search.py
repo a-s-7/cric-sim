@@ -24,7 +24,9 @@ def get_match_result(context):
     The home and away team designations in your response must correspond exactly to the
     home and away teams provided above.
 
-    Return ONLY a valid JSON object with no extra text, no markdown, no explanation.
+    Return ONLY a valid JSON object with no extra text, no markdown, no explanation. 
+    Ensure that the result provided is fully correct. Check and validate every single field.
+
     The JSON must have exactly these fields:
     {{
         "result": "Home-win" or "Away-win" or "No-result",
@@ -35,17 +37,20 @@ def get_match_result(context):
         "homeTeamBalls": number,
         "awayTeamRuns": number,
         "awayTeamWickets": number,
-        "awayTeamBalls": number,
-        "status": "complete"
+        "awayTeamBalls": number
     }}
 
     Rules:
     - homeTeamRuns, homeTeamWickets, homeTeamBalls refer to {context['home_team_name']}'s innings
     - awayTeamRuns, awayTeamWickets, awayTeamBalls refer to {context['away_team_name']}'s innings
     - For balls: convert overs to balls (e.g. 20 overs = 120 balls, 18.3 overs = 111 balls)
-    - If the match is still live or hasn't finished, or no result is found, return:
+    - If the match hasn't finished, return:
     {{
-        "error": "No result found"
+        "error": "Match has not finished"
+    }}
+    - If the match result is not found or there is any other error preventing you from finding the result, return:
+    {{
+        "error": "Could not find match result"
     }}
     """
 
@@ -62,4 +67,8 @@ def get_match_result(context):
     raw = response.text.strip()
     raw = re.sub(r"```json|```", "", raw).strip()
 
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError as e:
+        print(f"[!] Failed to parse model response: {e}\nRaw output: {raw}")
+        return {"error": f"Invalid JSON from model: {e}"}

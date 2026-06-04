@@ -102,7 +102,7 @@ function WTCPage({wtcUrlTag, wtcName, wtcEdition, wtcControlBarColor, wtcLogo, w
 
 
     return (
-        <div className="WTC">
+        <div className="flex flex-col bg-white w-full h-[93%]">
             <ControlBar refreshFunction={handleRefresh}
                         matchCount={Array.isArray(matchesData[2]) ? matchesData[2].length : 0}
                         teams={selectedTeams}

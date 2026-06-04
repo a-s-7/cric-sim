@@ -16,13 +16,6 @@ body,
     height: 100%;
     flex-direction: column;
 }
-
-.HomePage {
-    display: flex;
-    flex-direction: column;
-    height: 92%;
-}
-
 .welcomeMessageContainer {
     display: flex;
     flex-direction: column;
@@ -60,11 +53,6 @@ body,
     background: linear-gradient(135deg, red 10%, black 50%, white 100%);
     height: 70%;
 }
-
-.T20LeaguePage {
-    height: 92%;
-}
-
 .element::-webkit-scrollbar {
     display: none;
 }
@@ -78,15 +66,6 @@ body,
     justify-content: center;
     align-items: center;
 }
-
-.WTC {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    width: 100%;
-    height: 92%;
-}
-
 .matchArea {
     width: 100%;
     height: 92%;
@@ -730,10 +709,4 @@ input[type="number"]::-webkit-inner-spin-button {
     align-items: center;
     justify-content: center;
     font-size: 0.75vw;
-}
-
-.leagueLandingPage {
-    display: flex;
-    height: 92%;
-    flex-direction: column;
 }

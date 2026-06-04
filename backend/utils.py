@@ -3,6 +3,20 @@ from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
 from flask import jsonify
 
+try:
+    from google.genai.errors import ClientError as GenaiClientError
+except ImportError:
+    GenaiClientError = None
+
+def is_gemini_quota_error(e):
+    """
+    Check if the given exception is a Gemini Quota/Rate Limit (429/RESOURCE_EXHAUSTED) error.
+    """
+    if GenaiClientError and isinstance(e, GenaiClientError) and getattr(e, 'status_code', None) == 429:
+        return True
+    err_str = str(e)
+    return "RESOURCE_EXHAUSTED" in err_str or "429" in err_str
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -227,7 +241,6 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                             "confirmed": True
                         }
                     })
-   
     else:   
         stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])}))
 

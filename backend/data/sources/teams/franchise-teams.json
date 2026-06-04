@@ -4,7 +4,7 @@
             "_id": "CSK",
             "name": "Chennai Super Kings",
             "logo": "https://documents.iplt20.com/ipl/CSK/logos/Logooutline/CSKoutline.png",
-            "gradient": "linear-gradient(135deg, #FFC300, #FFC300, #192B6D)",
+            "gradient": "linear-gradient(135deg, gold, gold, orange)",
             "type": "franchise",
             "league": "IPL"
         },
@@ -12,7 +12,7 @@
             "_id": "MI",
             "name": "Mumbai Indians",
             "logo": "https://documents.iplt20.com/ipl/MI/Logos/Logooutline/MIoutline.png",
-            "gradient": "linear-gradient(135deg, #003580, #003580, #F5C542)",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #ffd700)",
             "type": "franchise",
             "league": "IPL"
         },
@@ -91,8 +91,8 @@
         {
             "_id": "SFU",
             "name": "San Francisco Unicorns",
-            "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/unicorns.png",
-            "gradient": "linear-gradient(135deg, lightblue, lightblue, orangered)",
+            "logo": "https://i.namu.wiki/i/pyr0g_CQZJ73mO3fJ-nkcZSg50wbpHgkvOM7CjlCkY2joMQVWqu15qjHjSuBr4rxb9S53Sz2Xq6Gez7IHq3MFQ.webp",
+            "gradient": "linear-gradient(135deg, lightblue, lightblue, #ff9f7d)",
             "type": "franchise",
             "league": "MLC"
         },
@@ -116,7 +116,7 @@
             "_id": "LAKR",
             "name": "Los Angeles Knight Riders",
             "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/lakr.png",
-            "gradient": "linear-gradient(135deg, #5A2D81, #5A2D81, gold)",
+            "gradient": "linear-gradient(135deg, #3B1E5C, #3B1E5C, #D4AF37)",
             "type": "franchise",
             "league": "MLC"
         },
@@ -124,7 +124,7 @@
             "_id": "SEA",
             "name": "Seattle Orcas",
             "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/orcas.png",
-            "gradient": "linear-gradient(135deg, black, green, green)",
+            "gradient": "linear-gradient(135deg, lightgreen, green, darkgreen)",
             "type": "franchise",
             "league": "MLC"
         }

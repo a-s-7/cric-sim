@@ -70,7 +70,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                 <div className="flex-1 flex flex-col gap-8 px-2 pt-0 pb-2 overflow-y-auto no-scrollbar mt-2">
                     {matchesArray && matchesArray.map(match => (
                         <div key={`${match.matchNumber}`}>
-                            {((match.stageStatus === "locked" || match.status === "complete") ? true : match.stage === "Playoffs" || match.stage === "Final" ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
+                            {((match.stageStatus === "locked" || match.status === "complete") ? true : (match.stage === "Playoffs" || match.stage === "Final") ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
                                 <MatchResultCard
                                     homeGradient={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.gradient : ""}
                                     awayGradient={match.awayStageTeam ? teamDictionary[match.awayStageTeam]?.gradient : ""}
@@ -83,11 +83,13 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     homeConfirmed={match.homeConfirmed ?? true}
                                     awayConfirmed={match.awayConfirmed ?? true}
                                     tournamentName={tournamentName}
+                                    tournamentID={tournamentId}
                                     tournamentEdition={tournamentEdition}
                                     matchNum={match.matchNumber}
                                     venue={match.venue}
                                     date={match.date}
                                     matchResult={match.result}
+                                    onMatchUpdate={onMatchUpdate}
                                     homeTeamRuns={match.homeTeamRuns}
                                     homeTeamWickets={match.homeTeamWickets}
                                     homeTeamOvers={convertBallsToDecimalOvers(match.homeTeamBalls)}

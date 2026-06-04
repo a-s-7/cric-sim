@@ -29,15 +29,15 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
 
     return (
         <table className={`w-full border-separate border-spacing-0 bg-white rounded-[10px] shadow-[0_4px_8px_rgba(0,0,0,0.2)] border border-zinc-200 overflow-hidden table-fixed ${isSingleTable ? 'h-full' : ''}`}>
-            <thead style={{ background: headerColor }} className="font-['Reem_Kufi_Fun'] text-white text-center text-[1.5vh] whitespace-nowrap">
+            <thead style={{ background: headerColor }} className="font-['Reem_Kufi_Fun'] text-white text-center text-[1.75vh] whitespace-nowrap">
                 <tr>
                     <th className="py-2 w-[60px]">POS</th>
                     <th className="py-2 w-[60px]"></th>
                     <th className={`py-2 ${category === "franchise" ? 'w-[140px]' : 'w-[240px]'} text-left`}>TEAM</th>
-                    <th className="py-2 w-[55px]">GP</th>
-                    <th className="py-2 w-[55px]">W</th>
-                    <th className="py-2 w-[55px]">L</th>
-                    <th className="py-2 w-[55px]">N/R</th>
+                    <th className="py-2 w-[60px]">GP</th>
+                    <th className="py-2 w-[60px]">W</th>
+                    <th className="py-2 w-[60px]">L</th>
+                    <th className="py-2 w-[60px]">N/R</th>
                     <th className="py-2 w-[80px]">NRR</th>
                     <th className="py-2 w-[80px]">POINTS</th>
                     <th className="py-2 w-[110px]">FOR</th>
@@ -61,9 +61,9 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                             <td className="text-center py-3 px-2 border-b border-zinc-200 italic">
                                 {getDiffDisplay(team.diff)}
                             </td>
-                            <td className="py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] uppercase text-black whitespace-nowrap">
-                                <div className="flex flex-row items-center">
-                                    <img src={team.logo} alt={team.name + "Logo"} className={`${category === "franchise" ? "w-[4.25vh]" : "w-[3.5vh] border border-zinc-200"} mr-3`} style={{ filter: team.confirmed === false ? 'blur(2px)' : 'none' }} />
+                            <td className="py-1 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] uppercase text-black whitespace-nowrap">
+                                <div className="flex flex-row items-center h-[5vh]">
+                                    <img src={team.logo} alt={team.name + "Logo"} className={`${category === "franchise" ? "w-[4.5vh] h-[4.5vh]" : "w-[3.75vh] h-[3.75vh] border border-zinc-200"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false ? 'blur(2px)' : 'none' }} />
                                     <span className={category === "franchise" ? "text-[1.75vh]" : "text-[1.5vh]"}>
                                         {team.confirmed === false ? team.seed : category === "franchise" ? team.teamId : team.name}
                                     </span>
@@ -73,10 +73,10 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.won}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.lost}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.noResult}</td>
-                            <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[1.9vh] font-bold text-black">{team.netRunRate > 0 ? "+" : ""}{team.netRunRate.toFixed(3)}</td>
-                            <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[2.3vh] font-bold">{team.points}</td>
-                            <td className="text-center py-4 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsScored + "/" + (Math.floor(team.ballsFaced / 6) + "." + (team.ballsFaced % 6))}</td>
-                            <td className="text-center py-4 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsConceded + "/" + (Math.floor(team.ballsBowled / 6) + "." + (team.ballsBowled % 6))}</td>
+                            <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[2.25vh] font-bold text-black">{team.netRunRate > 0 ? "+" : ""}{team.netRunRate.toFixed(3)}</td>
+                            <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[2.5vh] font-bold">{team.points}</td>
+                            <td className="text-center py-3 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsScored + "/" + (Math.floor(team.ballsFaced / 6) + "." + (team.ballsFaced % 6))}</td>
+                            <td className="text-center py-3 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsConceded + "/" + (Math.floor(team.ballsBowled / 6) + "." + (team.ballsBowled % 6))}</td>
                         </tr>
                     );
                 })}

@@ -23,7 +23,7 @@ def update_match(context, match_result):
     result = match_result["result"]
     toss_result = match_result["tossResult"]
     toss_decision = match_result["tossDecision"]
-    status = match_result["status"]
+    status = "complete"
 
     try:
         # Step 1: Update result

@@ -6,7 +6,7 @@ from bson import ObjectId
 import random
 from collections import defaultdict
 
-from utils import confirmTeamsForStage, get_tournament_standings, decide_playoff_no_result
+from utils import confirmTeamsForStage, get_tournament_standings, decide_playoff_no_result, is_gemini_quota_error
 from data.utils.tournamentsUtils import overs_to_balls
 from agent.pipeline import run
 from datetime import datetime, timedelta
@@ -160,6 +160,16 @@ def update_toss_decision(id, match_num, toss_decision):
     )
 
 
+def update_status(id, match_num, status):
+    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
+    if not match:
+        raise ValueError("Match not found")
+
+    matches_collection.update_one(
+        {"_id": ObjectId(match["_id"])},
+        {"$set": {"status": status}}
+    )
+
 def update_score(id, match_num, home_runs, home_wickets, home_overs, away_runs, away_wickets, away_overs):
     tournament = tournaments_collection.find_one({"_id": id})
     if not tournament:
@@ -238,6 +248,9 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
         {"$unwind": "$stage"},
         {"$set": {"stageType": "$stage.type"}}
     ]))
+
+    if len(matches) == 0:
+        return {"message": "No matches found"}
 
     match_numbers = list(map(lambda x: x["matchNumber"], matches))
     team_acc = defaultdict(lambda: defaultdict(int))
@@ -404,26 +417,36 @@ def simulate_tournament_matches(id, stage_num):
     if match_updates:
         matches_collection.bulk_write(match_updates)    
 
-    if stageToSim["name"] == "Final":
+    not_finished_matches = list(matches_collection.find({
+        "tournamentId": id,
+        "stageId": ObjectId(stageToSim["_id"]),
+        "result": "None"
+    }))
+
+    if len(not_finished_matches) > 0 and not (stageToSim["name"] in ["Playoffs", "Semi-final"]):
         if verbose:
-            print("Tournament {} has been simulated".format(id))
+            print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageToSim["name"]))
     else:
-        if stageToSim["name"] != "Playoffs":
-            stages_collection.update_one(
-                {"tournamentId": id, "order": stageToSim["order"] + 1},
-                {"$set": {"status": "active"}}
-            )
+        if stageToSim["name"] == "Final":
             if verbose:
-                print("Stage {} for tournament {} is now active".format(stageToSim["order"] + 1, id))
-
-        if stageToSim["name"] == "Playoffs":
-            stage = stages_collection.find_one({"tournamentId": id, "order": stageToSim["order"]})
+                print("Tournament {} has been simulated".format(id))
         else:
-            stage = stages_collection.find_one({"tournamentId": id, "order": stageToSim["order"] + 1})
+            if stageToSim["name"] != "Playoffs":
+                stages_collection.update_one(
+                    {"tournamentId": id, "order": stageToSim["order"] + 1},
+                    {"$set": {"status": "active"}}
+                )
+                if verbose:
+                    print("Stage {} for tournament {} is now active".format(stageToSim["order"] + 1, id))
 
-        while stage and stage["status"] == "active":
-            confirmTeamsForStage(id, stage["order"])
-            stage = stages_collection.find_one({"tournamentId": id, "order": stage["order"] + 1})
+            if stageToSim["name"] == "Playoffs":
+                stage = stages_collection.find_one({"tournamentId": id, "order": stageToSim["order"]})
+            else:
+                stage = stages_collection.find_one({"tournamentId": id, "order": stageToSim["order"] + 1})
+
+            while stage and stage["status"] == "active":
+                confirmTeamsForStage(id, stage["order"])
+                stage = stages_collection.find_one({"tournamentId": id, "order": stage["order"] + 1})
 
     return {"message": f"Tournament id {id} stage {stageToSim['name']} simulated successfully"}
 
@@ -434,26 +457,36 @@ def update_match_status(id, match_num, status):
     )
     return {"message": f"Match {match_num} for tournament {id} updated successfully"}
 
-def run_match_update():
-    # Find all real-world tournaments
-    rw_tournaments = tournaments_collection.find({"mode": "real-world"})
-    rw_tournament_ids = [t["_id"] for t in rw_tournaments]
+def run_match_update(tournament_id=None, match_num=None):
+    if tournament_id is not None and match_num is not None:
+        matches = [matches_collection.find_one({
+            "tournamentId": tournament_id,
+            "matchNumber": int(match_num)
+        })]
+    else:
+        # Find all real-world tournaments
+        rw_tournaments = tournaments_collection.find({"mode": "real-world"})
+        rw_tournament_ids = [t["_id"] for t in rw_tournaments]
 
-    matches = matches_collection.find({
-        "tournamentId": {"$in": rw_tournament_ids},
-        "endDate": {"$lt": datetime.now(timezone.utc)},
-        "status": "incomplete"
-    })
+        matches = matches_collection.find({
+            "tournamentId": {"$in": rw_tournament_ids},
+            "endDate": {"$lt": datetime.now(timezone.utc)},
+            "status": "incomplete"
+        }).sort("endDate", 1)
 
     result = []
-    
+
     for match in matches:
         try:
             res = run(match["tournamentId"], match["matchNumber"])
             result.append(res)
         except Exception as e:
-            pass
-            # result.append({"error": str(e)})
+            if tournament_id is not None and match_num is not None:
+                raise
+            # In batch mode, only propagate quota errors; skip other per-match failures.
+            if is_gemini_quota_error(e):
+                raise
+            result.append({"error": str(e)})
 
     return result
     

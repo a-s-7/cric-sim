@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request
 import services.tournament_service as ts
 import services.match_service as ms
 from datetime import datetime, timedelta
+from utils import is_gemini_quota_error
 
 
 events_bp = Blueprint('events_bp', __name__)
@@ -120,11 +121,27 @@ def set_match_toss_decision(id, match_num, toss_decision):
         return jsonify({"error": str(e)}), 404
     return jsonify({"message": f"Match {match_num} for tournament {id} toss decision set successfully"})
 
+
+@events_bp.route('/tournaments/<string:id>/match/status/<int:match_num>/<string:status>', methods=['PATCH'])
+def set_match_status(id, match_num, status):
+    try:
+        ms.update_status(id, match_num, status)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    return jsonify({"message": f"Match {match_num} for tournament {id} status set successfully"})
+
+    
 @events_bp.route("/run-match-update", methods=["POST"])
 def run_match_update():
     try:
-        result = ms.run_match_update()
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
+        tournament_id = request.args.get("tournament_id", None) 
+        match_num = request.args.get("match_num", None, type=int)
+        
+        result = ms.run_match_update(tournament_id, match_num)
+    except Exception as e:
+        if is_gemini_quota_error(e):
+            return jsonify({"error": "Gemini quota exhausted", "detail": str(e)}), 429
+        return jsonify({"error": str(e)}), 500
 
     return jsonify({"message": f"{len(result)} matches updated successfully"})
+

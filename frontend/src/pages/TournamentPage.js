@@ -95,7 +95,7 @@ function TournamentPage({
     }, [mode, selectedTeams, selectedStadiums, selectedGroups, selectedStages]);
 
     return (
-        <div className="T20LeaguePage flex flex-col">
+        <div className="h-[93%] flex flex-col" style={{ backgroundColor: tournamentGradient }}>
             <NewControlBar
                 resetState={resetState}
                 refreshFunction={handleRefresh}

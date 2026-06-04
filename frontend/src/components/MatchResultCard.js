@@ -1,4 +1,7 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+
 
 function MatchResultCard({
     homeGradient,
@@ -9,13 +12,14 @@ function MatchResultCard({
     awayTeamLogo,
     homeConfirmed,
     awayConfirmed,
+    tournamentID,
     tournamentName,
     tournamentEdition,
+    onMatchUpdate,
     matchNum,
     venue,
     date,
     matchResult,
-    onMatchUpdate,
     homeTeamRuns,
     homeTeamOvers,
     awayTeamRuns,
@@ -34,6 +38,9 @@ function MatchResultCard({
     category
 }) {
     const battingFirstToggle = tossDecision === "bat";
+
+    const homeLost = matchResult === 'Away-win';
+    const awayLost = matchResult === 'Home-win';
 
     const formattedDateObj = new Date(date);
     const timeZone = "America/Los_Angeles";
@@ -58,7 +65,9 @@ function MatchResultCard({
         let color = 'black';
         const gradients = [homeGradient, neutralGradient, awayGradient];
 
-        background = matchResult === section ? gradients[num] : '#e8e8e8';
+        background = matchResult === section ? gradients[num] : '#f0ededff';
+
+
         color = matchResult === section ? 'white' : 'black';
 
         return {
@@ -66,6 +75,25 @@ function MatchResultCard({
             color: color
         };
     }
+
+    const handleMatchUnlock = async (e) => {
+        try {
+            const response = await fetch(
+                `/tournaments/${tournamentID}/match/status/${matchNum}/${'incomplete'}`,
+                {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+            if (response.ok) {
+                onMatchUpdate();
+            } else {
+                alert("Failed to update match status.");
+            }
+        } catch (error) {
+            alert("Error updating match status: " + error.message);
+        }
+    };
 
 
     const getWinningMargin = () => {
@@ -83,6 +111,12 @@ function MatchResultCard({
             }
         }
 
+
+        if (homeTeamOvers === 0 && awayTeamOvers === 0) {
+            return matchResult === "Home-win" ? `${homeTeamName} won` : `${awayTeamName} won`;
+        }
+
+
         const homeBattedFirst = (tossResult === 'Home-win' && battingFirstToggle) ||
             (tossResult === 'Away-win' && !battingFirstToggle);
 
@@ -93,13 +127,17 @@ function MatchResultCard({
             const wicketsRemaining = 10 - scores[teamBattingSecond].wickets;
 
             const [overs, balls = 0] = scores[teamBattingSecond].overs.toString().split('.');
-            const ballsRemaining = parseInt(balls) + (parseInt(overs) * 6);
+            const ballsPlayed = parseInt(balls) + (parseInt(overs) * 6);
 
-            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${format === "T20" ? 120 - ballsRemaining : 300 - ballsRemaining} balls left)`;
+            const ballsLeft = format === "T20" ? 120 - ballsPlayed : 300 - ballsPlayed;
+
+            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${ballsLeft} ${ballsLeft === 1 ? 'ball' : 'balls'} left)`;
         } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
-            return `${scores[teamBattingFirst].name} won by ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs} ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs === 1 ? 'run' : 'runs'}`;
+            const runsMargin = scores[teamBattingFirst].runs - scores[teamBattingSecond].runs;
+
+            return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}`;
         } else {
-            return `${matchResult === "Home-win" ? scores[teamBattingFirst].name : scores[teamBattingSecond].name} won the Super Over`;
+            return `${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the Super Over`;
         }
 
     }
@@ -166,13 +204,14 @@ function MatchResultCard({
     };
 
     return (
-        <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex w-auto`}>
-            <div className="h-44 w-full flex flex-col bg-white font-['Nunito_Sans']">
-                <div className="flex flex-row h-36">
+        <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex`}>
+            <div className="h-42 w-full flex flex-col bg-white font-['Nunito_Sans']">
+                <div className="flex flex-row h-34">
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         style={getStyle("Home-win", 0)}>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5"
+                            style={{ opacity: homeLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
@@ -204,48 +243,62 @@ function MatchResultCard({
                         </div>
 
                         <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
-                            <span> {homeConfirmed ? homeTeamName : homeSeed}</span>
+                            <span style={{ opacity: homeLost ? 0.4 : 1 }}> {homeConfirmed ? homeTeamName : homeSeed}</span>
 
                             {matchResult !== 'None' && <span className="absolute bottom-3 right-0">
                                 {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Home-win', tossResult === 'Home-win')}</span>
                             }
                         </div>
 
-                        <div className={`w-[36%] flex justify-center items-center ${category === "franchise" ? "p-5" : "p-6"}`}>
-                            <img className={`box-content w-full ${category === "franchise" ? "" : "border border-zinc-200"}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
+                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
                         </div>
                     </div>
 
                     <div className='flex flex-col border-l border-r border-gray-100 w-[27%] cursor-pointer'
                         style={getStyle("No-result", 1)}>
-                        <div className={`w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedDate}</div>
-                        <div className="w-full h-2/5 flex items-center justify-center">
+                        <div className={`w-full h-[31%] flex font-bold items-center justify-center text-[0.9vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedDate}</div>
+                        <div className="w-full h-[38%] h-2/5 flex items-center justify-center">
                             <div className={`uppercase text-inherit text-center px-2 ${matchResult === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: matchResult !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {matchResult === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
-                                    <div key={i} className={i !== 0 ? "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.75vw' }}>{line}</div>
+                                    <div key={i} className={i !== 0 ? "text-gray-500" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.75vw' }}>{line}</div>
                                 ))}
                             </div>
                         </div>
-                        <div className={`w-full h-[30%] flex items-center justify-center text-[0.75vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedTime}</div>
+                        <div className={`w-full h-[31%] flex flex-col items-center justify-end text-[0.75vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>
+                            <div><span>{formattedTime}</span></div>
+                            <div className='w-full flex justify-center items-center py-1 min-h-[1.8vh]'>
+                                {tournamentID.slice(-2) === 'ps' && homeConfirmed && awayConfirmed && (
+                                    <button
+                                        className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                        onClick={handleMatchUnlock}
+                                        title={"Unlock match"}
+                                    >
+                                        <FontAwesomeIcon icon={faLock} size="lg" style={{ fontSize: '0.9vh' }} />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
 
                     </div>
 
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         style={getStyle('Away-win', 2)}>
 
-                        <div className={`w-[36%] flex justify-center items-center ${category === "franchise" ? "p-5" : "p-6"}`}>
-                            <img className={`box-content w-full ${category === "franchise" ? "" : "border border-zinc-200"}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
+                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">
-                            <span>{awayConfirmed ? awayTeamName : awaySeed}</span>
+                            <span style={{ opacity: awayLost ? 0.4 : 1 }}>{awayConfirmed ? awayTeamName : awaySeed}</span>
 
                             {matchResult !== 'None' && <span className="absolute bottom-3 left-0">
                                 {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Away-win', tossResult === 'Away-win')}</span>
                             }
                         </div>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5"
+                            style={{ opacity: awayLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"

@@ -53,7 +53,7 @@ function NewControlBar({
 
             if (ratio < 3.2) {
                 // Moderately wide (T20 World Cup style)
-                scale = 65;
+                scale = 87;
             } else if (ratio < 3.6) {
                 // Slightly wide (T20 World Cup style)
                 scale = 80;

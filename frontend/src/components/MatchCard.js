@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 function MatchCard({
     homeGradient,
@@ -43,6 +45,12 @@ function MatchCard({
 
     const [battingFirstToggle, setBattingFirstToggle] = useState(tossDecision === "bat");
     const [tossResultState, setTossResultState] = useState(tossResult);
+
+    const [isFetching, setIsFetching] = useState(false);
+    const [showRateLimit, setShowRateLimit] = useState(false);
+    const rateLimitTimer = useRef(null);
+    const [showGenericError, setShowGenericError] = useState(false);
+    const genericErrorTimer = useRef(null);
 
     useEffect(() => {
         setSelected(matchResult);
@@ -251,6 +259,56 @@ function MatchCard({
         onMatchUpdate();
     };
 
+    const triggerGenericError = () => {
+        if (genericErrorTimer.current) clearTimeout(genericErrorTimer.current);
+        setShowGenericError(true);
+        genericErrorTimer.current = setTimeout(() => setShowGenericError(false), 10000);
+    };
+
+    const handleFetchUpdate = async (e) => {
+        e.stopPropagation();
+        setIsFetching(true);
+        try {
+            const response = await fetch(`/run-match-update?tournament_id=${tournamentID}&match_num=${matchNum}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                onMatchUpdate();
+            } else if (response.status === 429) {
+                if (rateLimitTimer.current) clearTimeout(rateLimitTimer.current);
+                setShowRateLimit(true);
+                rateLimitTimer.current = setTimeout(() => setShowRateLimit(false), 10000);
+            } else {
+                triggerGenericError();
+            }
+        } catch (error) {
+            triggerGenericError();
+        }
+        setIsFetching(false);
+    };
+
+    const handleMatchLock = async (e) => {
+        e.stopPropagation(); // Prevents setting the match to "No-result" on click
+
+        try {
+            const response = await fetch(
+                `/tournaments/${tournamentID}/match/status/${matchNum}/${'complete'}`,
+                {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+            if (response.ok) {
+                onMatchUpdate();
+            } else {
+                alert("Failed to update match status.");
+            }
+        } catch (error) {
+            alert("Error updating match status: " + error.message);
+        }
+    };
+
     const handleTossResultChange = async (result) => {
         setTossResultState(result);
 
@@ -331,13 +389,15 @@ function MatchCard({
             const wicketsRemaining = 10 - scores[teamBattingSecond].wickets;
 
             const [overs, balls = 0] = scores[teamBattingSecond].overs.toString().split('.');
-            const ballsRemaining = parseInt(balls) + (parseInt(overs) * 6);
+            const ballsPlayed = parseInt(balls) + (parseInt(overs) * 6);
 
-            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${format === "T20" ? 120 - ballsRemaining : 300 - ballsRemaining} balls left)`;
+            const ballsLeft = format === "T20" ? 120 - ballsPlayed : 300 - ballsPlayed;
+
+            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${ballsLeft} ${ballsLeft === 1 ? 'ball' : 'balls'} left)`;
         } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
             return `${scores[teamBattingFirst].name} won by ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs} ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs === 1 ? 'run' : 'runs'}`;
         } else {
-            return `${selected === "Home-win" ? scores[teamBattingFirst].name : scores[teamBattingSecond].name} won the Super Over`;
+            return `${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the Super Over`;
         }
 
     }
@@ -418,9 +478,9 @@ function MatchCard({
     };
 
     return (
-        <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex w-auto`}>
-            <div className="h-44 w-full flex flex-col bg-white font-['Nunito_Sans']">
-                <div className="flex flex-row h-36">
+        <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex`}>
+            <div className="h-42 w-full flex flex-col bg-white font-['Nunito_Sans']">
+                <div className="flex flex-row h-34">
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         onClick={() => handleClick('Home-win')}
                         onMouseEnter={() => setHoveredSection("Home-win")}
@@ -483,8 +543,8 @@ function MatchCard({
                             }
                         </div>
 
-                        <div className={`w-[36%] flex justify-center items-center ${category === "franchise" ? "p-5" : "p-6"}`}>
-                            <img className={`box-content w-full ${category === "franchise" ? "" : "border border-zinc-200"}`} src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
+                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
                         </div>
                     </div>
 
@@ -493,15 +553,94 @@ function MatchCard({
                         onMouseEnter={() => setHoveredSection("No-result")}
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle("No-result", 1)}>
-                        <div className={`w-full h-[30%] flex font-bold items-center justify-center text-[0.9vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedDate}</div>
-                        <div className="w-full h-2/5 flex items-center justify-center">
+                        <div className={`w-full h-[31%] flex font-bold items-center justify-center text-[0.9vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedDate}</div>
+                        <div className="w-full h-[38%] flex items-center justify-center">
                             <div className={`uppercase text-inherit text-center px-2 ${selected === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: selected !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {selected === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
                                     <div key={i} className={i !== 0 ? "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.75vw' }}>{line}</div>
                                 ))}
                             </div>
                         </div>
-                        <div className={`w-full h-[30%] flex items-center justify-center text-[0.75vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedTime}</div>
+                        <div className={`w-full h-[31%] flex flex-col items-center justify-end text-[0.75vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>
+                            <div>
+                                <span>{formattedTime}</span>
+                            </div>
+                            <div className='w-full flex justify-center items-center py-1 min-h-[1.8vh]'>
+                                {formattedDateObj < new Date() && (tournamentID.slice(-2) === 'rw') && (
+                                    <div className="relative flex items-center justify-center w-[1.8vh] h-[1.8vh]">
+
+                                        {/* Rate-limit icon (red bolt) — quota exhausted */}
+                                        <button
+                                            className="absolute inset-0 flex items-center justify-center rounded-full bg-red-500 border border-red-400 shadow-sm"
+                                            title="Gemini quota exhausted — please wait"
+                                            onClick={(e) => e.stopPropagation()}
+                                            style={{
+                                                opacity: showRateLimit ? 1 : 0,
+                                                transform: showRateLimit ? 'scale(1)' : 'scale(0.5)',
+                                                transition: 'opacity 0.4s ease, transform 0.4s ease',
+                                                pointerEvents: showRateLimit ? 'auto' : 'none',
+                                                animation: showRateLimit ? 'rateLimitPulse 1.2s ease-in-out infinite' : 'none',
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faBolt} style={{ fontSize: '0.85vh', color: 'white' }} />
+                                        </button>
+
+                                        {/* Generic error icon (amber triangle) — any other failure */}
+                                        <button
+                                            className="absolute inset-0 flex items-center justify-center rounded-full border shadow-sm"
+                                            title="Update failed — please try again"
+                                            onClick={(e) => e.stopPropagation()}
+                                            style={{
+                                                backgroundColor: '#f59e0b',
+                                                borderColor: '#d97706',
+                                                opacity: showGenericError ? 1 : 0,
+                                                transform: showGenericError ? 'scale(1)' : 'scale(0.5)',
+                                                transition: 'opacity 0.4s ease, transform 0.4s ease',
+                                                pointerEvents: showGenericError ? 'auto' : 'none',
+                                                animation: showGenericError ? 'genericErrorPulse 1.2s ease-in-out infinite' : 'none',
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faTriangleExclamation} style={{ fontSize: '0.85vh', color: 'white' }} />
+                                        </button>
+
+                                        {/* Wand button — default state */}
+                                        <button
+                                            className="absolute inset-0 bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                            onClick={handleFetchUpdate}
+                                            title="Fetch match update"
+                                            style={{
+                                                opacity: (showRateLimit || showGenericError) ? 0 : 1,
+                                                transform: (showRateLimit || showGenericError) ? 'scale(0.5)' : 'scale(1)',
+                                                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                pointerEvents: (showRateLimit || showGenericError) ? 'none' : 'auto',
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={isFetching ? faCircleNotch : faWandMagicSparkles} size="lg" className={isFetching ? 'animate-spin' : ''} style={{ fontSize: '0.9vh' }} />
+                                        </button>
+
+                                        <style>{`
+                            @keyframes rateLimitPulse {
+                                0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); }
+                                50% { box-shadow: 0 0 0 4px rgba(239,68,68,0); }
+                            }
+                            @keyframes genericErrorPulse {
+                                0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.7); }
+                                50% { box-shadow: 0 0 0 4px rgba(245,158,11,0); }
+                            }
+                        `}</style>
+                                    </div>
+                                )}
+                                {tournamentID.slice(-2) === 'ps' && (
+                                    <button
+                                        className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                        onClick={(e) => handleMatchLock(e)}
+                                        title={"Lock match"}
+                                    >
+                                        <FontAwesomeIcon icon={faUnlock} size="lg" style={{ fontSize: '0.9vh' }} />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
 
                     </div>
 
@@ -511,8 +650,8 @@ function MatchCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle('Away-win', 2)}>
 
-                        <div className={`w-[36%] flex justify-center items-center ${category === "franchise" ? "p-5" : "p-6"}`}>
-                            <img className={`box-content w-full ${category === "franchise" ? "" : "border border-zinc-200"}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
+                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">

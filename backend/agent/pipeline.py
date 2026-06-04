@@ -21,7 +21,7 @@ def run(tournament_id, match_number):
 
     if "error" in result:
         print(f"[!] AI could not find a result: {result['error']}")
-        raise Exception("AI could not find a result")
+        raise Exception(result["error"])
 
     print(f"       Result: {result}")
 
