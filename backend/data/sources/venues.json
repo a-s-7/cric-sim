@@ -164,6 +164,41 @@
             "stadium": "Fairplex",
             "city": "Pomona",
             "country": "United States"
+        },
+        {
+            "stadium": "Edgbaston",
+            "city": "Birmingham",
+            "country": "England"
+        },
+        {
+            "stadium": "Old Trafford Cricket Ground",
+            "city": "Manchester",
+            "country": "England"
+        },
+        {
+            "stadium": "Hampshire Bowl",
+            "city": "Southampton",
+            "country": "England"
+        },
+        {
+            "stadium": "Headingley",
+            "city": "Leeds",
+            "country": "England"
+        },
+        {
+            "stadium": "Bristol County Ground",
+            "city": "Bristol",
+            "country": "England"
+        },
+        {
+            "stadium": "Lord's Cricket Ground",
+            "city": "London",
+            "country": "England"
+        },
+        {
+            "stadium": "The Oval",
+            "city": "London",
+            "country": "England"
         }
     ]
 }

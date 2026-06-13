@@ -1,0 +1,627 @@
+{
+    "tournament": {
+        "_id": "icc-womens-t20-wc-2026",
+        "category": "international",
+        "format": "T20",
+        "name": "ICC Women's T20 World Cup",
+        "edition": 2026,
+        "status": "upcoming",
+        "startDate": "2026-06-12",
+        "endDate": "2026-07-05",
+        "structure": "groups",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, darkblue, darkblue, purple)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/8/87/2026_ICC_Women%27s_T20_World_Cup_Logo.svg",
+        "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1779181709/prd/assets/tournaments/ICC%20Women's%20T20%20World%20Cup,%202026/womens-t20-wc-2026-logo%20(1)%20(1).svg",
+        "pointsTableColor": "darkblue",
+        "tileBackgroundColor": "#FFE4D8",
+        "teams": [
+            "AUS",
+            "BAN",
+            "IND",
+            "NED",
+            "PAK",
+            "SA",
+            "ENG",
+            "IRE",
+            "NZ",
+            "SCO",
+            "SL",
+            "WI"
+        ],
+        "stadiums": [
+            "Edgbaston",
+            "Old Trafford Cricket Ground",
+            "Hampshire Bowl",
+            "Headingley",
+            "Bristol County Ground",
+            "Lord's Cricket Ground",
+            "The Oval"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numGroups": 2,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 5,
+                "qualifiersPerGroup": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Semi-final",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 3,
+            "name": "Final",
+            "status": "locked",
+            "config": {
+                "numTeams": 2,
+                "numMatches": 1
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "AUS",
+            "group": "1",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "BAN",
+            "group": "1",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NED",
+            "group": "1",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "IND",
+            "group": "1",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "PAK",
+            "group": "1",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SA",
+            "group": "1",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "ENG",
+            "group": "2",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "IRE",
+            "group": "2",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NZ",
+            "group": "2",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SL",
+            "group": "2",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SCO",
+            "group": "2",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "WI",
+            "group": "2",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G1-1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "1",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G2-2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "2",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G2-1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "2",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G1-2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "1",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "SF1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 31
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "SF2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 32
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2026-06-12 10:30:00",
+            "venue": "Edgbaston",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2026-06-13 02:30:00",
+            "venue": "Old Trafford Cricket Ground",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "IRE",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2026-06-13 06:30:00",
+            "venue": "Old Trafford Cricket Ground",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2026-06-13 10:30:00",
+            "venue": "Hampshire Bowl",
+            "homeStageTeamId": "WI",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2026-06-14 02:30:00",
+            "venue": "Edgbaston",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2026-06-14 06:30:00",
+            "venue": "Edgbaston",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2026-06-16 06:30:00",
+            "venue": "Hampshire Bowl",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2026-06-16 10:30:00",
+            "venue": "Hampshire Bowl",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "IRE",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2026-06-17 02:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2026-06-17 06:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2026-06-17 10:30:00",
+            "venue": "Edgbaston",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2026-06-18 10:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "WI",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2026-06-19 10:30:00",
+            "venue": "Hampshire Bowl",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "IRE",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2026-06-20 02:30:00",
+            "venue": "Hampshire Bowl",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2026-06-20 06:30:00",
+            "venue": "Hampshire Bowl",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2026-06-20 10:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2026-06-21 02:30:00",
+            "venue": "Bristol County Ground",
+            "homeStageTeamId": "WI",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2026-06-21 06:30:00",
+            "venue": "Old Trafford Cricket Ground",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "IND",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2026-06-23 02:30:00",
+            "venue": "Bristol County Ground",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2026-06-23 06:30:00",
+            "venue": "Bristol County Ground",
+            "homeStageTeamId": "SL",
+            "awayStageTeamId": "IRE",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2026-06-23 10:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2026-06-24 10:30:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "WI",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2026-06-25 06:30:00",
+            "venue": "Old Trafford Cricket Ground",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2026-06-25 10:30:00",
+            "venue": "Bristol County Ground",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2026-06-26 10:30:00",
+            "venue": "Old Trafford Cricket Ground",
+            "homeStageTeamId": "SL",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2026-06-27 02:30:00",
+            "venue": "Bristol County Ground",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2026-06-27 06:30:00",
+            "venue": "Bristol County Ground",
+            "homeStageTeamId": "WI",
+            "awayStageTeamId": "IRE",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2026-06-27 10:30:00",
+            "venue": "The Oval",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete",
+            "group": "2"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2026-06-28 02:30:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2026-06-28 06:30:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "IND",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 2,
+            "date": "2026-06-30 06:30:00",
+            "venue": "The Oval",
+            "homeStageTeamId": "G1-1",
+            "awayStageTeamId": "G2-2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Semi-final 1"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 2,
+            "date": "2026-07-02 10:30:00",
+            "venue": "The Oval",
+            "homeStageTeamId": "G2-1",
+            "awayStageTeamId": "G1-2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Semi-final 2"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 3,
+            "date": "2026-07-05 07:30:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "SF1",
+            "awayStageTeamId": "SF2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

@@ -7,6 +7,7 @@ TOURNAMENTS = {
     4: {"category": "events", "folder": "t20-world-cup", "name": "t20-wc-2026.json"},
     5: {"category": "leagues", "folder": "ipl", "name": "ipl-2026.json"},
     6: {"category": "leagues", "folder": "mlc", "name": "mlc-2026.json"},
+    7: {"category": "events", "folder": "t20-world-cup", "name": "w-t20-wc-2026.json"}
 }
 
 def main(selected_ids="All"):
@@ -28,4 +29,4 @@ def main(selected_ids="All"):
         tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=False, realWorld = False)
 
 if __name__ == "__main__":
-    main(selected_ids=[6])
+    main(selected_ids=[7])

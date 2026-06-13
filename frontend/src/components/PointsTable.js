@@ -63,7 +63,7 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                             </td>
                             <td className="py-1 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] uppercase text-black whitespace-nowrap">
                                 <div className="flex flex-row items-center h-[5vh]">
-                                    <img src={team.logo} alt={team.name + "Logo"} className={`${category === "franchise" ? "w-[4.5vh] h-[4.5vh]" : "w-[3.75vh] h-[3.75vh] border border-zinc-200"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false ? 'blur(2px)' : 'none' }} />
+                                    <img src={team.logo} alt={team.name + "Logo"} className={`${category === "franchise" ? "w-[4.5vh]" : "w-[3.75vh] border border-zinc-200 bg-red-500"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false ? 'blur(2px)' : 'none' }} />
                                     <span className={category === "franchise" ? "text-[1.75vh]" : "text-[1.5vh]"}>
                                         {team.confirmed === false ? team.seed : category === "franchise" ? team.teamId : team.name}
                                     </span>
