@@ -185,7 +185,7 @@
         {
             "matchNumber": 1,
             "stageOrder": 1,
-            "date": "2026-06-18 19:30:00",
+            "date": "2026-06-18 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "TSK",
             "awayStageTeamId": "SEA",
@@ -195,7 +195,7 @@
         {
             "matchNumber": 2,
             "stageOrder": 1,
-            "date": "2026-06-19 15:30:00",
+            "date": "2026-06-19 13:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "LAKR",
             "awayStageTeamId": "SFU",
@@ -205,7 +205,7 @@
         {
             "matchNumber": 3,
             "stageOrder": 1,
-            "date": "2026-06-19 19:30:00",
+            "date": "2026-06-19 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "SEA",
             "awayStageTeamId": "WF",
@@ -215,7 +215,7 @@
         {
             "matchNumber": 4,
             "stageOrder": 1,
-            "date": "2026-06-20 15:30:00",
+            "date": "2026-06-20 13:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "TSK",
             "awayStageTeamId": "SFU",
@@ -225,7 +225,7 @@
         {
             "matchNumber": 5,
             "stageOrder": 1,
-            "date": "2026-06-20 19:30:00",
+            "date": "2026-06-20 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "WF",
             "awayStageTeamId": "MINY",
@@ -235,7 +235,7 @@
         {
             "matchNumber": 6,
             "stageOrder": 1,
-            "date": "2026-06-21 15:30:00",
+            "date": "2026-06-21 13:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "SEA",
             "awayStageTeamId": "LAKR",
@@ -245,7 +245,7 @@
         {
             "matchNumber": 7,
             "stageOrder": 1,
-            "date": "2026-06-21 19:30:00",
+            "date": "2026-06-21 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "TSK",
             "awayStageTeamId": "MINY",
@@ -405,7 +405,7 @@
         {
             "matchNumber": 23,
             "stageOrder": 1,
-            "date": "2026-07-08 19:30:00",
+            "date": "2026-07-08 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "MINY",
             "awayStageTeamId": "SFU",
@@ -415,7 +415,7 @@
         {
             "matchNumber": 24,
             "stageOrder": 1,
-            "date": "2026-07-09 19:30:00",
+            "date": "2026-07-09 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "WF",
             "awayStageTeamId": "LAKR",
@@ -425,7 +425,7 @@
         {
             "matchNumber": 25,
             "stageOrder": 1,
-            "date": "2026-07-10 15:30:00",
+            "date": "2026-07-10 13:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "MINY",
             "awayStageTeamId": "SEA",
@@ -435,7 +435,7 @@
         {
             "matchNumber": 26,
             "stageOrder": 1,
-            "date": "2026-07-10 19:30:00",
+            "date": "2026-07-10 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "SFU",
             "awayStageTeamId": "LAKR",
@@ -445,7 +445,7 @@
         {
             "matchNumber": 27,
             "stageOrder": 1,
-            "date": "2026-07-11 15:30:00",
+            "date": "2026-07-11 13:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "TSK",
             "awayStageTeamId": "WF",
@@ -455,7 +455,7 @@
         {
             "matchNumber": 28,
             "stageOrder": 1,
-            "date": "2026-07-11 19:30:00",
+            "date": "2026-07-11 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "SEA",
             "awayStageTeamId": "SFU",
@@ -465,7 +465,7 @@
         {
             "matchNumber": 29,
             "stageOrder": 1,
-            "date": "2026-07-12 15:30:00",
+            "date": "2026-07-12 13:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "MINY",
             "awayStageTeamId": "WF",
@@ -475,7 +475,7 @@
         {
             "matchNumber": 30,
             "stageOrder": 1,
-            "date": "2026-07-12 19:30:00",
+            "date": "2026-07-12 17:30:00",
             "venue": "Grand Prairie Stadium",
             "homeStageTeamId": "TSK",
             "awayStageTeamId": "LAKR",
@@ -486,7 +486,7 @@
             "matchNumber": 31,
             "stageOrder": 2,
             "date": "2026-07-15 14:30:00",
-            "venue": "Grand Prairie Stadium",
+            "venue": "Oakland Coliseum",
             "homeStageTeamId": "T1",
             "awayStageTeamId": "T2",
             "result": "None",
@@ -496,8 +496,8 @@
         {
             "matchNumber": 32,
             "stageOrder": 2,
-            "date": "2026-07-15 19:30:00",
-            "venue": "Grand Prairie Stadium",
+            "date": "2026-07-15 18:30:00",
+            "venue": "Oakland Coliseum",
             "homeStageTeamId": "T3",
             "awayStageTeamId": "T4",
             "result": "None",
@@ -507,8 +507,8 @@
         {
             "matchNumber": 33,
             "stageOrder": 2,
-            "date": "2026-07-16 19:30:00",
-            "venue": "Grand Prairie Stadium",
+            "date": "2026-07-16 18:30:00",
+            "venue": "Oakland Coliseum",
             "homeStageTeamId": "L-Q",
             "awayStageTeamId": "W-E",
             "result": "None",
@@ -518,8 +518,8 @@
         {
             "matchNumber": 34,
             "stageOrder": 2,
-            "date": "2026-07-18 19:30:00",
-            "venue": "Grand Prairie Stadium",
+            "date": "2026-07-18 16:30:00",
+            "venue": "Oakland Coliseum",
             "homeStageTeamId": "W-Q",
             "awayStageTeamId": "W-C",
             "result": "None",

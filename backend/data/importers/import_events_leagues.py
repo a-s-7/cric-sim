@@ -29,4 +29,4 @@ def main(selected_ids="All"):
         tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=False, realWorld = False)
 
 if __name__ == "__main__":
-    main(selected_ids=[7])
+    main(selected_ids=[6])
