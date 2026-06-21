@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "ipl-2026",
+        "division": "mens",
         "category": "franchise",
         "format": "T20",
         "name": "Indian Premier League",

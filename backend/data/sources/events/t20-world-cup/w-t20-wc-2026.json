@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "icc-womens-t20-wc-2026",
+        "division": "womens",
         "category": "international",
         "format": "T20",
         "name": "ICC Women's T20 World Cup",

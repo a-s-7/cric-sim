@@ -6,9 +6,12 @@ function TournamentsPage() {
 
     // const [wtcs, setWtcs] = useState([]);
     const [tournaments, setTournaments] = useState({ grouped: false, tournaments: [] });
+
     const [activeView, setActiveView] = useState(0);
+    const [activeGender, setActiveGender] = useState(0);
 
     const views = ["All", "Events", "Leagues"];
+    const genders = ["All", "Mens", "Womens"];
 
     const fetchTournaments = async () => {
         let url = '/tournaments';
@@ -45,19 +48,28 @@ function TournamentsPage() {
     //     }
     // };
 
-    const updateTournaments = async (index) => {
-        setActiveView(index);
+    const updateTournaments = async (viewIndex, genderIndex) => {
+        setActiveView(viewIndex);
+        setActiveGender(genderIndex);
 
         let url = '/tournaments';
         const params = new URLSearchParams();
         params.set("grouped", "false");
 
-        if (index === 0) {
+        if (viewIndex === 0) {
             params.set("category", "all");
-        } else if (index === 1) {
+        } else if (viewIndex === 1) {
             params.set("category", "international");
-        } else if (index === 2) {
+        } else {
             params.set("category", "franchise");
+        }
+
+        if (genderIndex === 0) {
+            params.set("division", "all");
+        } else if (genderIndex === 1) {
+            params.set("division", "mens");
+        } else {
+            params.set("division", "womens");
         }
 
         try {
@@ -81,8 +93,31 @@ function TournamentsPage() {
     return (
         <div className="min-h-screen p-4 bg-gray-50 font-['Reem_Kufi_Fun']">
             <div className="space-y-4">
-                <div className="flex items-center justify-center h-16">
-                    <div className="relative flex rounded-full w-[400px] border border-gray-200 shadow-inner bg-gray-100/50 h-12 p-1 items-center">
+                <div className="relative items-center h-16">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex rounded-full w-[400px] border border-gray-200 shadow-inner bg-gray-100/50 h-12 p-1 items-center ">
+                        <div
+                            className="absolute transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full shadow-md"
+                            style={{
+                                width: `calc((100% - 8px) / 3)`,
+                                left: `calc(4px + ${activeGender} * (100% - 8px) / 3)`,
+                                height: 'calc(100% - 8px)',
+                                background: 'black',
+                            }}
+                        />
+                        {genders.map((gender, indexG) => (
+                            <button
+                                key={gender}
+                                onClick={() => updateTournaments(activeView, indexG)}
+                                className={`relative z-10 flex-1 h-full text-[13px] font-bold uppercase tracking-widest transition-colors duration-300 ${activeGender === indexG
+                                    ? "text-white"
+                                    : "text-gray-500 hover:text-gray-800"
+                                    }`}
+                            >
+                                {gender}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex rounded-full w-[400px] border border-gray-200 shadow-inner bg-gray-100/50 h-12 p-1 items-center ">
                         <div
                             className="absolute transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full shadow-md"
                             style={{
@@ -95,7 +130,7 @@ function TournamentsPage() {
                         {views.map((view, index) => (
                             <button
                                 key={view}
-                                onClick={() => updateTournaments(index)}
+                                onClick={() => updateTournaments(index, activeGender)}
                                 className={`relative z-10 flex-1 h-full text-[13px] font-bold uppercase tracking-widest transition-colors duration-300 ${activeView === index
                                     ? "text-white"
                                     : "text-gray-500 hover:text-gray-800"

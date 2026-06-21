@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "mlc-2026",
+        "division": "mens",
         "category": "franchise",
         "format": "T20",
         "name": "Major League Cricket",

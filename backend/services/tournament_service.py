@@ -19,10 +19,12 @@ stageTeams_collection = db['stageTeams']
 matches_collection = db['matches']
 stages_collection = db["stages"]
 
-def get_tournaments_info(group_results, category):
+def get_tournaments_info(group_results, category, division):
     query = {}
     if category != "all":
         query["category"] = category
+    if division != "all":
+        query["division"] = division
 
     # Fetch all tournaments within the category to pair real-world and what-if modes
     tournaments = list(tournaments_collection.find(query).sort("startDate", -1))
