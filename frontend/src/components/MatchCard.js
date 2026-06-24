@@ -48,7 +48,7 @@ function MatchCard({
     const [battingFirstToggle, setBattingFirstToggle] = useState(tossDecision === "bat");
     const [tossResultState, setTossResultState] = useState(tossResult);
 
-    const [matchTimeChange, setMatchTimeChange] = useState(homeMaxOversValue != 20 || awayMaxOversValue != 20);
+    const [matchTimeChange, setMatchTimeChange] = useState(homeMaxOversValue !== 20 || awayMaxOversValue !== 20);
 
     const [homeMaxOvers, setHomeMaxOvers] = useState(homeMaxOversValue);
     const [awayMaxOvers, setAwayMaxOvers] = useState(awayMaxOversValue);

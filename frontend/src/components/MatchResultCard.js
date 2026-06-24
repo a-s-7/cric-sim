@@ -239,7 +239,7 @@ function MatchResultCard({
                                     style={{ color: 'inherit' }} />
                             </div>}
                             {matchResult !== 'None' && <div className="flex flex-row items-center justify-end w-full">
-                                {(homeMaxOversValue != 20 || awayMaxOversValue != 20) && (
+                                {(homeMaxOversValue !== 20 || awayMaxOversValue !== 20) && (
                                     <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
                                         <span className="mr-0.5">(</span>
                                         <input className="border border-gray-300 rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3ch] h-[2.2vh] py-0 outline-none focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
@@ -347,7 +347,7 @@ function MatchResultCard({
                                         value={awayTeamOvers === 0 ? '' : (awayTeamOvers ?? '')}
                                         style={{ color: 'inherit' }} />
                                 </div>
-                                {(homeMaxOversValue != 20 || awayMaxOversValue != 20) && (
+                                {(homeMaxOversValue !== 20 || awayMaxOversValue !== 20) && (
                                     <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
                                         <span className="mr-0.5">(</span>
                                         <input className="border border-gray-300 rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3ch] h-[2.2vh] py-0 outline-none focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
