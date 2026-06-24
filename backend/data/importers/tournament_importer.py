@@ -268,6 +268,8 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         match["awayTeamRuns"] = 0
         match["awayTeamWickets"] = 0
         match["awayTeamBalls"] = 0
+        match["homeMaxBalls"] = 300 if tournament["format"] == "ODI" else 120
+        match["awayMaxBalls"] = 300 if tournament["format"] == "ODI" else 120
         match["autoUpdate"] = auto_update
         match["tournamentId"] = tournament["_id"]
 

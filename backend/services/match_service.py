@@ -29,6 +29,7 @@ stages_collection = db["stages"]
 
 
 def update_result(id, match_num, result):
+
     if result not in ["Home-win", "Away-win", "No-result"]:
         raise ValueError("Invalid result value")
 
@@ -195,21 +196,16 @@ def update_score(id, match_num, home_runs, home_wickets, home_overs, away_runs, 
         raise ValueError("No match was found")
 
     if old_match["result"] != "No-result":
-        if tournament["format"] == "T20":
-            max_balls = 120
-        else:
-            max_balls = 300
-
-        hB = max_balls if old_match["homeTeamWickets"] == 10 else old_match["homeTeamBalls"]
-        aB = max_balls if old_match["awayTeamWickets"] == 10 else old_match["awayTeamBalls"]
+        hB = old_match["homeMaxBalls"] if old_match["homeTeamWickets"] == 10 else old_match["homeTeamBalls"]
+        aB = old_match["awayMaxBalls"] if old_match["awayTeamWickets"] == 10 else old_match["awayTeamBalls"]
 
         stageTeams_collection.update_one(
             {"_id": ObjectId(old_match["homeStageTeamId"])},
             {"$inc": {
                 "runsScored":   int(home_runs)    - old_match["homeTeamRuns"],
                 "runsConceded":  int(away_runs)    - old_match["awayTeamRuns"],
-                "ballsBowled":  (max_balls if int(away_wickets) == 10 else new_away_balls) - aB,
-                "ballsFaced":   (max_balls if int(home_wickets) == 10 else new_home_balls) - hB,
+                "ballsBowled":  (old_match["awayMaxBalls"] if int(away_wickets) == 10 else new_away_balls) - aB,
+                "ballsFaced":   (old_match["homeMaxBalls"] if int(home_wickets) == 10 else new_home_balls) - hB,
             }}
         )
 
@@ -218,8 +214,8 @@ def update_score(id, match_num, home_runs, home_wickets, home_overs, away_runs, 
             {"$inc": {
                 "runsScored":   int(away_runs)    - old_match["awayTeamRuns"],
                 "runsConceded":  int(home_runs)    - old_match["homeTeamRuns"],
-                "ballsBowled":  (max_balls if int(home_wickets) == 10 else new_home_balls) - hB,
-                "ballsFaced":   (max_balls if int(away_wickets) == 10 else new_away_balls) - aB,
+                "ballsBowled":  (old_match["homeMaxBalls"] if int(home_wickets) == 10 else new_home_balls) - hB,
+                "ballsFaced":   (old_match["awayMaxBalls"] if int(away_wickets) == 10 else new_away_balls) - aB,
             }}
         )
 
@@ -262,19 +258,14 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
         team_acc[home_id]["runsScored"] += -match["homeTeamRuns"]
         team_acc[home_id]["runsConceded"] += -match["awayTeamRuns"]
 
-        if tournament["format"] == "T20":
-            max_balls = 120
-        else:
-            max_balls = 300
-
-        team_acc[home_id]["ballsBowled"] += -(max_balls if match["awayTeamWickets"] == 10 else match["awayTeamBalls"])
-        team_acc[home_id]["ballsFaced"] += -(max_balls if match["homeTeamWickets"] == 10 else match["homeTeamBalls"])
+        team_acc[home_id]["ballsBowled"] += -(match["awayMaxBalls"] if match["awayTeamWickets"] == 10 else match["awayTeamBalls"])
+        team_acc[home_id]["ballsFaced"] += -(match["homeMaxBalls"] if match["homeTeamWickets"] == 10 else match["homeTeamBalls"])
 
         team_acc[away_id]["runsScored"] += -match["awayTeamRuns"]
         team_acc[away_id]["runsConceded"] += -match["homeTeamRuns"]
 
-        team_acc[away_id]["ballsBowled"] += -(max_balls if match["homeTeamWickets"] == 10 else match["homeTeamBalls"])
-        team_acc[away_id]["ballsFaced"] += -(max_balls if match["awayTeamWickets"] == 10 else match["awayTeamBalls"])
+        team_acc[away_id]["ballsBowled"] += -(match["homeMaxBalls"] if match["homeTeamWickets"] == 10 else match["homeTeamBalls"])
+        team_acc[away_id]["ballsFaced"] += -(match["awayMaxBalls"] if match["awayTeamWickets"] == 10 else match["awayTeamBalls"])
 
         if match["stageType"] == "group":
             if match["result"] == "Home-win":
@@ -305,9 +296,15 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
     if operations:
         stageTeams_collection.bulk_write(operations)
 
+    max_balls = 120 if tournament["format"] == "T20" else 300
+
     result = matches_collection.update_many(
         {"tournamentId": id, "matchNumber": {"$in": match_numbers}},
-        {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
+        {"$set": {
+            "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, 
+            "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, 
+            "result": "None", "homeMaxBalls": max_balls, "awayMaxBalls": max_balls 
+        }}
     )
 
     if result.matched_count == 0:
@@ -456,6 +453,46 @@ def update_match_status(id, match_num, status):
         {"$set": {"status": status}}
     )
     return {"message": f"Match {match_num} for tournament {id} updated successfully"}
+
+def update_max_balls(id, match_num, team, max_overs):
+    max_balls = overs_to_balls(str(max_overs))
+
+    old_match = matches_collection.find_one_and_update(
+        {"tournamentId": id, "matchNumber": int(match_num)},
+        {"$set": {"{team}MaxBalls".format(team=team): max_balls}},
+        return_document=False
+    )
+
+    if not old_match:
+        raise ValueError("Match not found")
+
+    if old_match["result"] != "No-result":
+        if team == "home":
+            # Safe to run without checking if overs are entered yet, because the database wickets
+            # count remains 0 (or previously saved value) until the complete score is submitted.
+            if old_match["homeTeamWickets"] == 10:
+                diff = max_balls - old_match["homeMaxBalls"]
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(old_match["homeStageTeamId"])},
+                    {"$inc": {"ballsFaced": diff}}
+                )
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(old_match["awayStageTeamId"])},
+                    {"$inc": {"ballsBowled": diff}}
+                )
+        elif team == "away":
+            if old_match["awayTeamWickets"] == 10:
+                diff = max_balls - old_match["awayMaxBalls"]
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(old_match["awayStageTeamId"])},
+                    {"$inc": {"ballsFaced": diff}}
+                )
+                stageTeams_collection.update_one(
+                    {"_id": ObjectId(old_match["homeStageTeamId"])},
+                    {"$inc": {"ballsBowled": diff}}
+                )
+
+    return {"message": f"Match {match_num} for tournament {id} {team} max balls updated successfully"}
 
 def run_match_update(tournament_id=None, match_num=None):
     if tournament_id is not None and match_num is not None:

@@ -35,7 +35,9 @@ function MatchResultCard({
     tossDecision,
     city,
     format,
-    category
+    category,
+    homeMaxOversValue,
+    awayMaxOversValue
 }) {
     const battingFirstToggle = tossDecision === "bat";
 
@@ -102,11 +104,13 @@ function MatchResultCard({
                 runs: homeTeamRuns,
                 wickets: homeTeamWickets,
                 overs: homeTeamOvers,
+                maxOvers: homeMaxOversValue,
                 name: homeTeamName
             }, "Away": {
                 runs: awayTeamRuns,
                 wickets: awayTeamWickets,
                 overs: awayTeamOvers,
+                maxOvers: awayMaxOversValue,
                 name: awayTeamName
             }
         }
@@ -129,7 +133,11 @@ function MatchResultCard({
             const [overs, balls = 0] = scores[teamBattingSecond].overs.toString().split('.');
             const ballsPlayed = parseInt(balls) + (parseInt(overs) * 6);
 
-            const ballsLeft = format === "T20" ? 120 - ballsPlayed : 300 - ballsPlayed;
+            const maxOversVal = scores[teamBattingSecond].maxOvers || (format === "T20" ? 20 : 50);
+            const [maxO, maxB = 0] = maxOversVal.toString().split('.');
+            const maxBalls = parseInt(maxB) + (parseInt(maxO) * 6);
+
+            const ballsLeft = maxBalls - ballsPlayed;
 
             return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${ballsLeft} ${ballsLeft === 1 ? 'ball' : 'balls'} left)`;
         } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
@@ -230,14 +238,28 @@ function MatchResultCard({
                                     value={homeTeamWickets === 0 ? '' : (homeTeamWickets ?? '')}
                                     style={{ color: 'inherit' }} />
                             </div>}
-                            {matchResult !== 'None' && <div className="flex justify-end">
-                                <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    type="number"
-                                    min="0.0"
-                                    max="20.0"
-                                    step="0.1"
-                                    value={homeTeamOvers === 0 ? '' : (homeTeamOvers ?? '')}
-                                    style={{ color: 'inherit' }} />
+                            {matchResult !== 'None' && <div className="flex flex-row items-center justify-end w-full">
+                                {(homeMaxOversValue != 20 || awayMaxOversValue != 20) && (
+                                    <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
+                                        <span className="mr-0.5">(</span>
+                                        <input className="border border-gray-300 rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3ch] h-[2.2vh] py-0 outline-none focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
+                                            type="number"
+                                            value={homeMaxOversValue}
+                                            readOnly
+                                            onClick={(e) => e.stopPropagation()}
+                                            style={{ color: 'inherit' }} />
+                                        <span className="ml-0.5">)</span>
+                                    </div>
+                                )}
+                                <div className="flex justify-end ml-1 shrink-0">
+                                    <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[4.5ch] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
+                                        type="number"
+                                        min="0.0"
+                                        max="20.0"
+                                        step="0.1"
+                                        value={homeTeamOvers === 0 ? '' : (homeTeamOvers ?? '')}
+                                        style={{ color: 'inherit' }} />
+                                </div>
                             </div>}
 
                         </div>
@@ -315,14 +337,28 @@ function MatchResultCard({
                                     value={awayTeamWickets === 0 ? '' : (awayTeamWickets ?? '')}
                                     style={{ color: 'inherit' }} />
                             </div>}
-                            {matchResult !== 'None' && <div className="flex justify-start">
-                                <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    type="number"
-                                    min="0.0"
-                                    max="20.0"
-                                    step="0.1"
-                                    value={awayTeamOvers === 0 ? '' : (awayTeamOvers ?? '')}
-                                    style={{ color: 'inherit' }} />
+                            {matchResult !== 'None' && <div className="flex flex-row items-center justify-start w-full">
+                                <div className="flex justify-start shrink-0">
+                                    <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[4.5ch] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
+                                        type="number"
+                                        min="0.0"
+                                        max="20.0"
+                                        step="0.1"
+                                        value={awayTeamOvers === 0 ? '' : (awayTeamOvers ?? '')}
+                                        style={{ color: 'inherit' }} />
+                                </div>
+                                {(homeMaxOversValue != 20 || awayMaxOversValue != 20) && (
+                                    <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
+                                        <span className="mr-0.5">(</span>
+                                        <input className="border border-gray-300 rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3ch] h-[2.2vh] py-0 outline-none focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
+                                            type="number"
+                                            value={awayMaxOversValue}
+                                            readOnly
+                                            onClick={(e) => e.stopPropagation()}
+                                            style={{ color: 'inherit' }} />
+                                        <span className="ml-0.5">)</span>
+                                    </div>
+                                )}
                             </div>}
                         </div>
                     </div>

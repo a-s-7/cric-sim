@@ -37,13 +37,21 @@ def get_match_result(context):
         "homeTeamBalls": number,
         "awayTeamRuns": number,
         "awayTeamWickets": number,
-        "awayTeamBalls": number
+        "awayTeamBalls": number,
+        "awayMaxBalls": number,
+        "homeMaxBalls": number,
     }}
 
     Rules:
     - homeTeamRuns, homeTeamWickets, homeTeamBalls refer to {context['home_team_name']}'s innings
     - awayTeamRuns, awayTeamWickets, awayTeamBalls refer to {context['away_team_name']}'s innings
     - For balls: convert overs to balls (e.g. 20 overs = 120 balls, 18.3 overs = 111 balls)
+
+    - awayMaxBalls is the maximum number of balls the away team can bat in their innings
+    - homeMaxBalls is the maximum number of balls the home team can bat in their innings
+    - If a match is truncated, you must ensure that the max balls fields are updated accordingly
+    - For example, if a match is truncated to 10 overs a side, then homeMaxBalls = 60 and awayMaxBalls = 60
+    
     - If the match hasn't finished, return:
     {{
         "error": "Match has not finished"

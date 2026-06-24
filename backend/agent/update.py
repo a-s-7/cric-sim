@@ -12,11 +12,12 @@ def balls_to_overs(balls):
 def update_match(context, match_result):
     """
     Updates a match by calling the shared match service directly:
-      1. update_result (updates standings/points)
-      2. update_match_status (updates match status)
-      3. update_toss_result
-      4. update_toss_decision
-      5. update_score (updates NRR)
+      1. update_result        - (updates standings/points)
+      2. update_match_status  - (updates match status)
+      3. update_toss_result   - (updates toss result)
+      4. update_toss_decision - (updates toss decision)
+      5. update_max_balls     - (updates max balls)
+      6. update_score         - (updates NRR)
     """
     tournament_id = context["tournament_id"]
     match_num = context["match_number"]
@@ -38,7 +39,11 @@ def update_match(context, match_result):
         # Step 4: Update toss decision
         match_service.update_toss_decision(tournament_id, match_num, toss_decision)
 
-        # Step 4: Update score (handles NRR)
+        # Step 5: Update max balls
+        match_service.update_max_balls(tournament_id, match_num, 'home', balls_to_overs(match_result["homeMaxBalls"]))
+        match_service.update_max_balls(tournament_id, match_num, 'away', balls_to_overs(match_result["awayMaxBalls"]))
+
+        # Step 6: Update score (handles NRR)
         home_overs = balls_to_overs(match_result["homeTeamBalls"])
         away_overs = balls_to_overs(match_result["awayTeamBalls"])
 

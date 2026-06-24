@@ -114,6 +114,17 @@ def set_match_toss_result(id, match_num, toss_result):
     return jsonify({"message": f"Match {match_num} for tournament {id} toss result set successfully"})
 
 
+@events_bp.route('/tournaments/<string:id>/match/max-balls/<int:match_num>', methods=['PATCH'])
+def set_match_max_balls(id, match_num):
+    team = request.args.get("team", "")
+    max_overs = request.args.get("max_overs", type=float)
+    try:
+        ms.update_max_balls(id, match_num, team, max_overs)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    return jsonify({"message": f"Match {match_num} for tournament {id} {team} max balls set successfully"})
+
+
 @events_bp.route('/tournaments/<string:id>/match/toss-decision/<int:match_num>/<string:toss_decision>', methods=['PATCH'])
 def set_match_toss_decision(id, match_num, toss_decision):
     try:

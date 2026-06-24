@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock } from "@fortawesome/free-solid-svg-icons";
 
 function MatchCard({
     homeGradient,
@@ -30,7 +30,9 @@ function MatchCard({
     tossDecision,
     city,
     format,
-    category
+    category,
+    homeMaxOversValue,
+    awayMaxOversValue
 }) {
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
@@ -45,6 +47,11 @@ function MatchCard({
 
     const [battingFirstToggle, setBattingFirstToggle] = useState(tossDecision === "bat");
     const [tossResultState, setTossResultState] = useState(tossResult);
+
+    const [matchTimeChange, setMatchTimeChange] = useState(homeMaxOversValue != 20 || awayMaxOversValue != 20);
+
+    const [homeMaxOvers, setHomeMaxOvers] = useState(homeMaxOversValue);
+    const [awayMaxOvers, setAwayMaxOvers] = useState(awayMaxOversValue);
 
     const [isFetching, setIsFetching] = useState(false);
     const [showRateLimit, setShowRateLimit] = useState(false);
@@ -255,6 +262,8 @@ function MatchCard({
         setAwayRuns('');
         setAwayWickets('');
         setAwayOvers('');
+        setHomeMaxOvers(format === "T20" ? 20 : 50);
+        setAwayMaxOvers(format === "T20" ? 20 : 50);
         await resetMatchData();
         onMatchUpdate();
     };
@@ -370,11 +379,13 @@ function MatchCard({
                 runs: homeRunsValue,
                 wickets: homeWicketsValue,
                 overs: homeOversValue,
+                maxOvers: homeMaxOvers,
                 name: homeTeamName
             }, "Away": {
                 runs: awayRunsValue,
                 wickets: awayWicketsValue,
                 overs: awayOversValue,
+                maxOvers: awayMaxOvers,
                 name: awayTeamName
             }
         }
@@ -391,11 +402,17 @@ function MatchCard({
             const [overs, balls = 0] = scores[teamBattingSecond].overs.toString().split('.');
             const ballsPlayed = parseInt(balls) + (parseInt(overs) * 6);
 
-            const ballsLeft = format === "T20" ? 120 - ballsPlayed : 300 - ballsPlayed;
+            const maxOversVal = scores[teamBattingSecond].maxOvers;
+            const [maxO, maxB = 0] = maxOversVal.toString().split('.');
+            const maxBalls = parseInt(maxB) + (parseInt(maxO) * 6);
+
+            const ballsLeft = maxBalls - ballsPlayed;
 
             return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${ballsLeft} ${ballsLeft === 1 ? 'ball' : 'balls'} left)`;
         } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
-            return `${scores[teamBattingFirst].name} won by ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs} ${scores[teamBattingFirst].runs - scores[teamBattingSecond].runs === 1 ? 'run' : 'runs'}`;
+            const runsMargin = scores[teamBattingFirst].runs - scores[teamBattingSecond].runs;
+
+            return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}`;
         } else {
             return `${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the Super Over`;
         }
@@ -467,6 +484,36 @@ function MatchCard({
         );
     };
 
+    const handleMatchTime = (e) => {
+        e.stopPropagation();
+        setMatchTimeChange(!matchTimeChange);
+    };
+
+    const handleMaxBallsChange = async (team, max_overs) => {
+        if (max_overs === '' || max_overs === null) {
+            return;
+        }
+        const params = new URLSearchParams();
+        params.set("team", team);
+        params.set("max_overs", max_overs);
+
+        try {
+            const response = await fetch(
+                `/tournaments/${tournamentID}/match/max-balls/${matchNum}?${params}`,
+                {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+            if (!response.ok) {
+                alert("Error: Response not ok");
+            }
+            onMatchUpdate();
+        } catch (error) {
+            alert(error);
+        }
+    };
+
     const goldGlow = "border border-[#D4AF37] shadow-[0_0_1.25rem_rgba(212,175,55,0.8)]";
     const silverGlow = "border border-[#BFC1C2] shadow-[0_0_1.25rem_rgba(191,193,194,0.9)]";
 
@@ -517,21 +564,52 @@ function MatchCard({
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: 'inherit' }} />
                             </div>}
-                            {selected !== 'None' && <div className="flex justify-end">
-                                <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    type="number"
-                                    min="0.0"
-                                    max="20.0"
-                                    step="0.1"
-                                    onChange={(event) => {
-                                        const newVal = computeOverValue(event.target.value);
-                                        setHomeOvers(newVal);
-                                        handleNRRChange({ homeOvers: newVal });
-                                    }}
-                                    value={homeOvers === 0 ? '' : (homeOvers ?? '')}
-                                    onClick={(e) => e.stopPropagation()}
-                                    style={{ color: 'inherit' }} />
-                            </div>}
+
+
+                            {selected !== 'None' && <div className="flex flex-row items-center justify-end w-full">
+                                {matchTimeChange && (
+                                    <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
+                                        <span className="mr-0.5">(</span>
+                                        <input className="border border-gray-300 rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3ch] h-[2.2vh] py-0 outline-none focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
+                                            type="number"
+                                            min="0.0"
+                                            max={format === "T20" ? 20.0 : 50.0}
+                                            step="0.1"
+                                            value={homeMaxOvers}
+                                            onChange={async (event) => {
+                                                let newVal = computeOverValue(event.target.value);
+                                                setHomeMaxOvers(newVal);
+                                                await handleMaxBallsChange("home", newVal);
+                                                if (homeOvers && newVal && homeOvers > newVal) {
+                                                    setHomeOvers(newVal);
+                                                    handleNRRChange({ homeOvers: newVal });
+                                                }
+                                            }}
+                                            onClick={(e) => e.stopPropagation()}
+                                            style={{ color: 'inherit' }} />
+                                        <span className="ml-0.5">)</span>
+                                    </div>
+                                )}
+                                <div className="flex justify-end ml-1 shrink-0">
+                                    <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[4.5ch] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
+                                        type="number"
+                                        min="0.0"
+                                        max={homeMaxOvers ?? (format === "T20" ? 20.0 : 50.0)}
+                                        step="0.1"
+                                        onChange={(event) => {
+                                            let newVal = computeOverValue(event.target.value);
+                                            if (homeMaxOvers && newVal > homeMaxOvers) {
+                                                newVal = homeMaxOvers;
+                                            }
+                                            setHomeOvers(newVal);
+                                            handleNRRChange({ homeOvers: newVal });
+                                        }}
+                                        value={homeOvers === 0 ? '' : (homeOvers ?? '')}
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ color: 'inherit' }} />
+                                </div>
+                            </div>
+                            }
 
                         </div>
 
@@ -618,6 +696,7 @@ function MatchCard({
                                             <FontAwesomeIcon icon={isFetching ? faCircleNotch : faWandMagicSparkles} size="lg" className={isFetching ? 'animate-spin' : ''} style={{ fontSize: '0.9vh' }} />
                                         </button>
 
+
                                         <style>{`
                             @keyframes rateLimitPulse {
                                 0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); }
@@ -639,6 +718,13 @@ function MatchCard({
                                         <FontAwesomeIcon icon={faUnlock} size="lg" style={{ fontSize: '0.9vh' }} />
                                     </button>
                                 )}
+                                <button
+                                    className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                    onClick={(e) => (handleMatchTime(e))}
+                                    title={"Edit match overs"}
+                                >
+                                    <FontAwesomeIcon icon={faClock} size="lg" style={{ fontSize: '0.9vh' }} />
+                                </button>
                             </div>
                         </div>
 
@@ -691,20 +777,51 @@ function MatchCard({
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: 'inherit' }} />
                             </div>}
-                            {selected !== 'None' && <div className="flex justify-start">
-                                <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[90%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    type="number"
-                                    min="0.0"
-                                    max="20.0"
-                                    step="0.1"
-                                    onChange={(event) => {
-                                        const newVal = computeOverValue(event.target.value);
-                                        setAwayOvers(newVal);
-                                        handleNRRChange({ awayOvers: newVal });
-                                    }}
-                                    value={awayOvers === 0 ? '' : (awayOvers ?? '')}
-                                    onClick={(e) => e.stopPropagation()}
-                                    style={{ color: 'inherit' }} />
+                            {selected !== 'None' && <div className="flex flex-row items-center justify-start w-full">
+
+                                <div className="flex justify-start shrink-0">
+                                    <input className="border border-gray-300 text-[1.75vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[4.5ch] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
+                                        type="number"
+                                        min="0.0"
+                                        max={awayMaxOvers ?? (format === "T20" ? 20.0 : 50.0)}
+                                        step="0.1"
+                                        onChange={(event) => {
+                                            let newVal = computeOverValue(event.target.value);
+                                            if (awayMaxOvers && newVal > awayMaxOvers) {
+                                                newVal = awayMaxOvers;
+                                            }
+                                            setAwayOvers(newVal);
+                                            handleNRRChange({ awayOvers: newVal });
+                                        }}
+                                        value={awayOvers === 0 ? '' : (awayOvers ?? '')}
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ color: 'inherit' }} />
+                                </div>
+
+                                {matchTimeChange && (
+                                    <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
+                                        <span className="mr-0.5">(</span>
+                                        <input className="border border-gray-300 rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3ch] h-[2.2vh] py-0 outline-none focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0"
+                                            type="number"
+                                            min="0.0"
+                                            max={format === "T20" ? 20.0 : 50.0}
+                                            step="0.1"
+                                            value={awayMaxOvers}
+                                            onChange={async (event) => {
+                                                let newVal = computeOverValue(event.target.value);
+                                                setAwayMaxOvers(newVal);
+                                                await handleMaxBallsChange("away", newVal);
+                                                if (awayOvers && newVal && awayOvers > newVal) {
+                                                    setAwayOvers(newVal);
+                                                    handleNRRChange({ awayOvers: newVal })
+                                                }
+                                            }}
+                                            onClick={(e) => e.stopPropagation()}
+                                            style={{ color: 'inherit' }} />
+                                        <span className="ml-0.5">)</span>
+                                    </div>
+
+                                )}
                             </div>}
                         </div>
                     </div>

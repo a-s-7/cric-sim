@@ -104,6 +104,8 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     tossResult={match.tossResult}
                                     tossDecision={match.tossDecision}
                                     category={category}
+                                    homeMaxOversValue={convertBallsToDecimalOvers(match.homeMaxBalls)}
+                                    awayMaxOversValue={convertBallsToDecimalOvers(match.awayMaxBalls)}
                                 /> : <MatchCard
                                     homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
                                     awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
@@ -133,6 +135,8 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     city={match.city}
                                     format={format}
                                     category={category}
+                                    homeMaxOversValue={convertBallsToDecimalOvers(match.homeMaxBalls)}
+                                    awayMaxOversValue={convertBallsToDecimalOvers(match.awayMaxBalls)}
                                 />
                             }
                         </div>
