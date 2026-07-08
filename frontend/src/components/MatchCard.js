@@ -360,8 +360,6 @@ function MatchCard({
         }
     };
 
-
-
     const getWinningMargin = () => {
         const parsedScores = validateAndParseScores({}, {
             homeRuns, awayRuns, homeOvers, awayOvers, homeWickets, awayWickets
