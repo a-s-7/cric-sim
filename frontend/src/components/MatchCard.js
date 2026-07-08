@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye } from "@fortawesome/free-solid-svg-icons";
 
 function MatchCard({
     homeGradient,
@@ -52,6 +52,10 @@ function MatchCard({
 
     const [homeMaxOvers, setHomeMaxOvers] = useState(homeMaxOversValue);
     const [awayMaxOvers, setAwayMaxOvers] = useState(awayMaxOversValue);
+
+    const [matchTargetStatus, setMatchTargetStatus] = useState(false);
+    const [matchTargetRuns, setMatchTargetRuns] = useState();
+
 
     const [isFetching, setIsFetching] = useState(false);
     const [showRateLimit, setShowRateLimit] = useState(false);
@@ -489,6 +493,11 @@ function MatchCard({
         setMatchTimeChange(!matchTimeChange);
     };
 
+    const handleMatchTarget = (e) => {
+        e.stopPropagation();
+        setMatchTargetStatus(!matchTargetStatus);
+    }
+
     const handleMaxBallsChange = async (team, max_overs) => {
         if (max_overs === '' || max_overs === null) {
             return;
@@ -534,7 +543,7 @@ function MatchCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle("Home-win", 0)}>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5 relative">
                             {selected !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
@@ -608,6 +617,20 @@ function MatchCard({
                                         onClick={(e) => e.stopPropagation()}
                                         style={{ color: 'inherit' }} />
                                 </div>
+                            </div>
+                            }
+
+                            {selected != "None" && matchTargetStatus && ((tossResultState === 'Home-win' && !battingFirstToggle) || (tossResultState === 'Away-win' && battingFirstToggle)) && <div className="absolute bottom-2 right-0 flex flex-row items-center justify-end w-full pr-2">
+                                <span className="mr-0.5 text-[1vh]">TARGET</span>
+                                <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
+                                    type="number"
+                                    min="0"
+                                    max="1000"
+                                    value={matchTargetRuns ?? ''}
+                                    onChange={(event) => setMatchTargetRuns(event.target.value)}
+                                    onClick={(e) => e.stopPropagation()}
+                                    style={{ color: 'inherit' }}
+                                />
                             </div>
                             }
 
@@ -725,6 +748,13 @@ function MatchCard({
                                 >
                                     <FontAwesomeIcon icon={faClock} size="lg" style={{ fontSize: '0.9vh' }} />
                                 </button>
+                                <button
+                                    className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                    onClick={(e) => (handleMatchTarget(e))}
+                                    title={"Edit match overs"}
+                                >
+                                    <FontAwesomeIcon icon={faBullseye} size="lg" style={{ fontSize: '0.9vh' }} />
+                                </button>
                             </div>
                         </div>
 
@@ -748,7 +778,7 @@ function MatchCard({
                             }
                         </div>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5 relative">
                             {selected !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     type="number"
@@ -822,6 +852,20 @@ function MatchCard({
                                     </div>
 
                                 )}
+
+                                {selected != "None" && matchTargetStatus && ((tossResultState === 'Home-win' && battingFirstToggle) || (tossResultState === 'Away-win' && !battingFirstToggle)) && <div className="absolute bottom-2 left-0 flex flex-row items-center justify-start w-full pl-2">
+                                    <span className="mr-0.5 text-[1vh]">TARGET</span>
+                                    <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
+                                        type="number"
+                                        min="0"
+                                        max="1000"
+                                        value={matchTargetRuns ?? ''}
+                                        onChange={(event) => setMatchTargetRuns(event.target.value)}
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ color: 'inherit' }}
+                                    />
+                                </div>
+                                }
                             </div>}
                         </div>
                     </div>
