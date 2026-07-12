@@ -7,7 +7,8 @@ TOURNAMENTS = {
     4: {"category": "events", "folder": "t20-world-cup", "name": "t20-wc-2026.json"},
     5: {"category": "leagues", "folder": "ipl", "name": "ipl-2026.json"},
     6: {"category": "leagues", "folder": "mlc", "name": "mlc-2026.json"},
-    7: {"category": "events", "folder": "t20-world-cup", "name": "w-t20-wc-2026.json"}
+    7: {"category": "events", "folder": "t20-world-cup", "name": "w-t20-wc-2026.json"},
+    8: {"category": "leagues", "folder": "ipl", "name": "ipl-2025.json"}
 }
 
 def main(selected_ids="All"):
@@ -23,7 +24,7 @@ def main(selected_ids="All"):
         t_info = TOURNAMENTS[t_id]
 
         # 1. Add the real-world copy
-        tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=True, realWorld = True)
+        tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=False, realWorld = True)
 
         # 2. Add the pure simulation copy
         tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=False, realWorld = False)

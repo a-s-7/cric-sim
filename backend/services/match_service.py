@@ -508,6 +508,7 @@ def run_match_update(tournament_id=None, match_num=None):
         matches = matches_collection.find({
             "tournamentId": {"$in": rw_tournament_ids},
             "endDate": {"$lt": datetime.now(timezone.utc)},
+            "autoUpdate": True,
             "status": "incomplete"
         }).sort("endDate", 1)
 
