@@ -91,9 +91,19 @@
             "country": "United States"
         },
         {
-            "stadium": "Dubai International Stadium",
+            "stadium": "Dubai International Cricket Stadium",
             "city": "Dubai",
-            "country": "UAE"
+            "country": "United Arab Emirates"
+        },
+        {
+            "stadium": "Sharjah Cricket Stadium",
+            "city": "Sharjah",
+            "country": "United Arab Emirates"
+        },
+        {
+            "stadium": "Sheikh Zayed Stadium",
+            "city": "Abu Dhabi",
+            "country": "United Arab Emirates"
         },
         {
             "stadium": "Gaddafi Stadium",
@@ -168,6 +178,11 @@
         {
             "stadium": "Fairplex",
             "city": "Pomona",
+            "country": "United States"
+        },
+        {
+            "stadium": "Broward County Stadium",
+            "city": "Fort Lauderdale",
             "country": "United States"
         },
         {

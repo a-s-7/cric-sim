@@ -127,6 +127,54 @@
             "gradient": "linear-gradient(135deg, lightgreen, green, darkgreen)",
             "type": "franchise",
             "league": "MLC"
+        },
+        {
+            "_id": "ADKR",
+            "name": "Abu Dhabi Knight Riders",
+            "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e2/AbuDhabiKnightRiders_Logo.svg/500px-AbuDhabiKnightRiders_Logo.svg.png",
+            "gradient": "linear-gradient(135deg, #3B1E5C, #3B1E5C, #D4AF37)",
+            "type": "franchise",
+            "league": "ILT20"
+        },
+        {
+            "_id": "DV",
+            "name": "Desert Vipers",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Desert_Vipers.png",
+            "gradient": "linear-gradient(135deg, black, #C8102E, gold)",
+            "type": "franchise",
+            "league": "ILT20"
+        },
+        {
+            "_id": "DC",
+            "name": "Dubai Capitals",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Dubai_Capital.png",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #E4002B)",
+            "type": "franchise",
+            "league": "ILT20"
+        },
+        {
+            "_id": "GG",
+            "name": "Gulf Giants",
+            "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/8/8a/Gulf_Giants_Logo.svg/500px-Gulf_Giants_Logo.svg.png",
+            "gradient": "linear-gradient(135deg, #E0D8B0, #E0D8B0, orange)",
+            "type": "franchise",
+            "league": "ILT20"
+        },
+        {
+            "_id": "MIE",
+            "name": "MI Emirates",
+            "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/MI_Emirates_%E2%80%93_Logo.svg/500px-MI_Emirates_%E2%80%93_Logo.svg.png",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #ffd700)",
+            "type": "franchise",
+            "league": "ILT20"
+        },
+        {
+            "_id": "SW",
+            "name": "Sharjah Warriorz",
+            "logo": "https://d13ir53smqqeyp.cloudfront.net/flags/cr-flags/FC-SWR@2x.png",
+            "gradient": "linear-gradient(135deg, #5A2D81, #5A2D81, red)",
+            "type": "franchise",
+            "league": "ILT20"
         }
     ]
 }

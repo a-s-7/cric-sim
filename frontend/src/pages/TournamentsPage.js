@@ -145,7 +145,7 @@ function TournamentsPage() {
                     {!tournaments["grouped"] &&
                         tournaments["tournaments"].map((tournament, index) => (
                             <div
-                                onClick={() => navigate("/tournaments/" + tournament.name + "-" + tournament.edition)}
+                                onClick={() => navigate("/tournaments/" + tournament["id"])}
                                 key={tournament.id + "-" + index}
                                 className="rounded-3xl border border-gray-300 
                  shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500

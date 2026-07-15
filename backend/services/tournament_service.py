@@ -32,10 +32,13 @@ def get_tournaments_info(group_results, category, division):
     paired = {}
 
     for tournament in tournaments:
-        key = (tournament["name"], tournament["edition"])
+        # Group by the base _id (stripping off -rw and -ps suffixes) 
+        base_id = str(tournament["_id"])
+        key = base_id[:-3]
 
         if key not in paired:
             paired[key] = {
+                "id": key,
                 "rw_id": None,
                 "ps_id": None,
                 "format": tournament["format"],
@@ -56,6 +59,8 @@ def get_tournaments_info(group_results, category, division):
             paired[key]["rw_id"] = str(tournament["_id"])
         else:
             paired[key]["ps_id"] = str(tournament["_id"])
+
+            
 
     # # If grouped results are requested, organize by franchise (acronym) or format
     # if group_results:

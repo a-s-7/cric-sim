@@ -8,7 +8,10 @@ TOURNAMENTS = {
     5: {"category": "leagues", "folder": "ipl", "name": "ipl-2026.json"},
     6: {"category": "leagues", "folder": "mlc", "name": "mlc-2026.json"},
     7: {"category": "events", "folder": "t20-world-cup", "name": "w-t20-wc-2026.json"},
-    8: {"category": "leagues", "folder": "ipl", "name": "ipl-2025.json"}
+    8: {"category": "leagues", "folder": "ipl", "name": "ipl-2025.json"},
+    9: {"category": "leagues", "folder": "mlc", "name": "mlc-2025.json"},
+    10: {"category": "leagues", "folder": "ilt20", "name": "ilt20-2025-1.json"},
+    11: {"category": "leagues", "folder": "ilt20", "name": "ilt20-2025-2.json"}
 }
 
 def main(selected_ids="All"):
