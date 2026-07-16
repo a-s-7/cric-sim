@@ -18,6 +18,7 @@ tournaments_collection = db['tournaments']
 stageTeams_collection = db['stageTeams']
 matches_collection = db['matches']
 stages_collection = db["stages"]
+teams_collection = db['teams']
 
 def get_tournaments_info(group_results, category, division):
     query = {}
@@ -224,8 +225,6 @@ def get_tournaments_stages(id, onlyActiveStages):
     if not tournament:
         raise ValueError('Tournament not found')
 
-        
-
     filter = {"tournamentId": id}
 
     if onlyActiveStages:
@@ -270,7 +269,7 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
     {
         "$project": {
             "_id": 0,
-            "acronym": "$team._id",
+            "acronym": "$team.acronym",
             "gradient": "$team.gradient",
             "name": "$team.name",
             "logo": "$team.logo"
@@ -327,9 +326,22 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
                 "preserveNullAndEmptyArrays": True
             }
         },
+        {"$lookup": {
+            "from": "teams",
+            "localField": "homeStageTeam.teamId",
+            "foreignField": "_id",
+            "as": "homeTeam"
+        }},
+        {
+            "$unwind": { 
+                "path": "$homeTeam", 
+                "preserveNullAndEmptyArrays": True 
+            }
+        },
         {
             "$set": {
-                "homeStageTeam": "$homeStageTeam.teamId",
+                "homeStageTeam": "$homeTeam.acronym",
+                "homeTeamId": "$homeTeam._id",
                 "homeConfirmed": "$homeStageTeam.confirmed",
                 "homeSeed": "$homeStageTeam.seed"
             }
@@ -346,9 +358,22 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
                 "preserveNullAndEmptyArrays": True
             }
         },
+        {"$lookup": {
+            "from": "teams",
+            "localField": "awayStageTeam.teamId",
+            "foreignField": "_id",
+            "as": "awayTeam"
+        }},
+        {
+            "$unwind": { 
+                "path": "$awayTeam", 
+                "preserveNullAndEmptyArrays": True 
+            }
+        },
         {
             "$set": {
-                "awayStageTeam": "$awayStageTeam.teamId",
+                "awayStageTeam": "$awayTeam.acronym",
+                "awayTeamId": "$awayTeam._id",
                 "awayConfirmed": "$awayStageTeam.confirmed",
                 "awaySeed": "$awayStageTeam.seed"
             }
@@ -373,6 +398,8 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
                 "tournamentId": 0,
                 "homeStageTeamId": 0,
                 "awayStageTeamId": 0,
+                "homeTeam": 0,
+                "awayTeam": 0,
                 "venueId": 0,
                 "stageId": 0,
             }
@@ -388,8 +415,8 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
         or_condition["$or"].append({"group": { "$in": groups }})
 
     if teams:
-        or_condition["$or"].append({"homeStageTeam": { "$in": teams }})
-        or_condition["$or"].append({"awayStageTeam": { "$in": teams }})
+        or_condition["$or"].append({"homeTeamId": { "$in": teams }})
+        or_condition["$or"].append({"awayTeamId": { "$in": teams }})
 
     if venues:
         or_condition["$or"].append({"venue": { "$in": venues }})
@@ -412,6 +439,7 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
 
         if final_match["result"] == "Home-win":
             winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
+            winner = teams_collection.find_one({"_id": winner})["acronym"]
         elif final_match["result"] == "No-result":
 
             # If final is no result in a franchise tournament, determine winner based on league standings (Higher-seeded team is champion)
@@ -420,15 +448,19 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
                 standings = get_tournament_standings(id, [last_stage["order"] - 1])
                 standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
 
-                winner = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]    
+                winner = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]
+                winner = teams_collection.find_one({"_id": winner})["acronym"]
             else:
                 winner1 = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
                 winner2 = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
 
+                winner1 = teams_collection.find_one({"_id": winner1})["acronym"]
+                winner2 = teams_collection.find_one({"_id": winner2})["acronym"]
                 winner = winner1 + "#" + winner2
 
         else:
             winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
+            winner = teams_collection.find_one({"_id": winner})["acronym"]
 
     return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"]}
     

@@ -62,7 +62,8 @@ def get_tournament_standings(id, stages):
         {"$unwind": "$stage"},
         {"$project": {
             "_id": 0,
-            "teamId": "$team._id",
+            "teamId": "$team.acronym",
+            "teamDbId": "$team._id",
             "name": "$team.name",
             "logo": "$team.logo",
             "group": "$group",
@@ -166,8 +167,8 @@ def confirmTeamsForStage(tournamentId, stageOrder):
             secondPlaceTeam = teams[1]
 
             qualifierIds = {
-                firstPlaceTeam["teamId"],
-                secondPlaceTeam["teamId"]
+                firstPlaceTeam["teamDbId"],
+                secondPlaceTeam["teamDbId"]
             }
 
             seededTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }}))
@@ -227,7 +228,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                     {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s1},
                     {
                         "$set": {
-                            "teamId": firstPlaceTeam["teamId"],
+                            "teamId": firstPlaceTeam["teamDbId"],
                             "confirmed": True
                         }
                     }
@@ -237,7 +238,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                     {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s2},
                     {
                         "$set": {
-                            "teamId": secondPlaceTeam["teamId"],
+                            "teamId": secondPlaceTeam["teamDbId"],
                             "confirmed": True
                         }
                     })
@@ -254,12 +255,11 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                 group_name = team.get("teamFromStandingsGroup") or "LEAGUE"
                 standingsGroup = prevStageGroups[group_name]
                 standingsTeam = standingsGroup[team.get("teamFromStandingsPosition", 1) - 1]
-                
                 stageTeams_collection.update_one(
                     {"_id": ObjectId(team["_id"])},
                     {
                         "$set": {
-                            "teamId": standingsTeam["teamId"],
+                            "teamId": standingsTeam["teamDbId"],
                             "confirmed": True
                         }
                     })
@@ -328,7 +328,7 @@ def confirmTeamsForPlayoffs(tournamentId, stageOrder, stageTeams, currentStage):
     def update_from_standings(st_id):
         st = stageTeams_collection.find_one({"_id": ObjectId(st_id)})
         standings_team = standingsGroup[st.get("teamFromStandingsPosition", 1) - 1]
-        stageTeams_collection.update_one({"_id": st["_id"]}, {"$set": {"teamId": standings_team["teamId"], "confirmed": True}})
+        stageTeams_collection.update_one({"_id": st["_id"]}, {"$set": {"teamId": standings_team["teamDbId"], "confirmed": True}})
 
     # Assigns a team to a match slot by identifying the winner or loser of a specific previous match based on its result
     def update_from_result(target_st_id, source_match, winner=True):
@@ -397,11 +397,12 @@ def decide_playoff_no_result(source_match, winner=True, standings=[]):
         print(f"Deciding playoff progression for 'No-result' in match {source_match.get('matchNumber', 'N/A')}: {homeSt['teamId']} vs {awaySt['teamId']}")
 
     for team in standings:
-        if team["teamId"] == homeSt["teamId"]:
-            if verbose: print(f"  -> {homeSt['teamId']} is higher in standings than {awaySt['teamId']}. Choosing {homeSt['teamId'] if winner else awaySt['teamId']} as {'winner' if winner else 'loser'}.")
+        # Compare using teamDbId (full DB _id) against stageTeam.teamId — both are the full team _id
+        if team["teamDbId"] == homeSt["teamId"]:
+            if verbose: print(f"  -> {homeSt['teamId']} is higher in standings. Choosing {'home' if winner else 'away'} team.")
             return homeSt if winner else awaySt
-        elif team["teamId"] == awaySt["teamId"]:
-            if verbose: print(f"  -> {awaySt['teamId']} is higher in standings than {homeSt['teamId']}. Choosing {awaySt['teamId'] if winner else homeSt['teamId']} as {'winner' if winner else 'loser'}.")
+        elif team["teamDbId"] == awaySt["teamId"]:
+            if verbose: print(f"  -> {awaySt['teamId']} is higher in standings. Choosing {'away' if winner else 'home'} team.")
             return awaySt if winner else homeSt
 
     return None        

@@ -53,15 +53,23 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
 
     # Check teams
     teams_in_file = tournament.get("teams", [])
-    existing_teams = list(db['teams'].find({"_id": {"$in": teams_in_file}}))
+    if tournament.get("category") == "franchise":
+        team_ids_in_file = set(tournament["acronym"] + "-" + t for t in teams_in_file)
+    else:
+        team_ids_in_file = set(teams_in_file)
+
+    existing_teams = list(db['teams'].find({"_id": {"$in": list(team_ids_in_file)}}))
     existing_team_ids = set(t["_id"] for t in existing_teams)
-    missing_teams = [t for t in teams_in_file if t not in existing_team_ids]
+
+    missing_teams = team_ids_in_file - existing_team_ids
 
     # Check stadiums
-    stadiums_in_file = tournament.get("stadiums", [])
-    existing_venues = list(db['venues'].find({"stadium": {"$in": stadiums_in_file}}))
-    existing_stadium_names = set(v["stadium"] for v in existing_venues)
-    missing_stadiums = [s for s in stadiums_in_file if s not in existing_stadium_names]
+    stadiums_in_file = set(tournament.get("stadiums", []))
+    
+    existing_venues = list(db['venues'].find({"stadium": {"$in": list(stadiums_in_file)}}))
+    existing_stadiums = set(v["stadium"] for v in existing_venues)
+
+    missing_stadiums = stadiums_in_file - existing_stadiums
 
     if missing_teams or missing_stadiums:
         print(f"\n{RED}{BOLD}{'=' * 80}{ENDC}")
@@ -188,6 +196,9 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         s_team["ballsFaced"] = 0
         s_team["ballsBowled"] = 0
 
+        if tournament.get("category") == "franchise" and s_team.get("teamId") is not None:
+            s_team["teamId"] = tournament["acronym"] + "-" + s_team["teamId"]
+
 
     DB_NAME_OR_SEED_TO_ID = {}
 
@@ -254,6 +265,12 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
 
         match["venueId"] = venue_dict[match["venue"]]
         del match["venue"]
+
+        if tournament.get("category") == "franchise":
+            if match["homeStageTeamId"] is not None and match["homeStageTeamId"] in teams_in_file:
+                match["homeStageTeamId"] = tournament["acronym"] + "-" + match["homeStageTeamId"]
+            if match["awayStageTeamId"] is not None and match["awayStageTeamId"] in teams_in_file:
+                match["awayStageTeamId"] = tournament["acronym"] + "-" + match["awayStageTeamId"]
 
         if match["homeStageTeamId"] is not None:
             match["homeStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["homeStageTeamId"]]

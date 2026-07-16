@@ -42,7 +42,15 @@ def main(team_type):
     print(f"{CYAN}{BOLD}{'='*80}{ENDC}")
 
     try:
-        result = teams_collection.insert_many(json_info["teams"], ordered=False)
+        teams = json_info["teams"]
+        
+        for team in teams:
+            if team_type == "franchise":
+                team["_id"] = team["league"] + "-" + team["acronym"]
+            elif team_type == "national":
+                team["_id"] = team["acronym"]
+
+        result = teams_collection.insert_many(teams, ordered=False)
         print(f"\n{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} {team_type.upper()} TEAMS{ENDC}\n")
         print(f"{BLUE}{BOLD}{'NAME':<40} {'ID':<10}{ENDC}")
         print("─" * 60)

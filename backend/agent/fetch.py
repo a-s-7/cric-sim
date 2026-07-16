@@ -43,7 +43,7 @@ def get_match_context(tournament_id, match_number):
         "tournament_edition": tournament["edition"],
         "tournament_id": tournament["_id"],
         "home_team_name": home_team["name"],
-        "home_team_acronym": home_team["_id"],
+        "home_team_acronym": home_team["acronym"],
         "away_team_name": away_team["name"],
-        "away_team_acronym": away_team["_id"],
+        "away_team_acronym": away_team["acronym"],
     }

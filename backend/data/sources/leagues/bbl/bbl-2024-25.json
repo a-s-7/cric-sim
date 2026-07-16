@@ -1,0 +1,660 @@
+{
+    "tournament": {
+        "_id": "bbl-2024-25",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "Big Bash League",
+        "acronym": "BBL",
+        "edition": "2024-25",
+        "status": "upcoming",
+        "startDate": "2024-12-15",
+        "endDate": "2025-01-27",
+        "structure": "league",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, black, black, #F9C20C)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/c/c0/Big_Bash_League_%28logo%29.png",
+        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/c/c0/Big_Bash_League_%28logo%29.png",
+        "pointsTableColor": "black",
+        "tileBackgroundColor": "teal",
+        "teams": [
+            "STR",
+            "HEA",
+            "HUR",
+            "REN",
+            "STA",
+            "SCO",
+            "SIX",
+            "THU"
+        ],
+        "stadiums": [
+            "The Gabba",
+            "Bellerive Oval",
+            "SCG",
+            "GMHBA Stadium",
+            "Perth Stadium",
+            "Marvel Stadium",
+            "MCG",
+            "ENGIE Stadium",
+            "C.ex Coffs International Stadium",
+            "Manuka Oval",
+            "Adelaide Oval"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numGroups": 1,
+                "teamsPerGroup": 8,
+                "matchesPerTeam": 10,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "STR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "HEA",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "HUR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "REN",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "STA",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SCO",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SIX",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "THU",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 41
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-K",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 42
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 41
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-C",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 43
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2024-12-15 00:15:00",
+            "venue": "Perth Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2024-12-16 00:15:00",
+            "venue": "SCG",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2024-12-17 00:15:00",
+            "venue": "Manuka Oval",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2024-12-18 00:15:00",
+            "venue": "MCG",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2024-12-19 00:15:00",
+            "venue": "GMHBA Stadium",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2024-12-20 00:15:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2024-12-20 21:00:00",
+            "venue": "Bellerive Oval",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2024-12-21 00:15:00",
+            "venue": "ENGIE Stadium",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2024-12-22 00:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2024-12-23 00:15:00",
+            "venue": "Marvel Stadium",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2024-12-25 23:05:00",
+            "venue": "SCG",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2024-12-26 02:15:00",
+            "venue": "Perth Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2024-12-27 00:15:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2024-12-28 00:15:00",
+            "venue": "Manuka Oval",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2024-12-29 00:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2024-12-30 00:15:00",
+            "venue": "ENGIE Stadium",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2024-12-31 00:15:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2024-12-31 21:00:00",
+            "venue": "Bellerive Oval",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2025-01-01 00:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2025-01-02 00:15:00",
+            "venue": "Marvel Stadium",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2025-01-02 23:05:00",
+            "venue": "C.ex Coffs International Stadium",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2025-01-03 02:15:00",
+            "venue": "Perth Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2025-01-04 00:15:00",
+            "venue": "MCG",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2025-01-05 00:15:00",
+            "venue": "Bellerive Oval",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2025-01-06 00:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2025-01-07 00:15:00",
+            "venue": "Perth Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2025-01-08 00:15:00",
+            "venue": "ENGIE Stadium",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2025-01-09 00:15:00",
+            "venue": "MCG",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2025-01-10 00:15:00",
+            "venue": "Bellerive Oval",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2025-01-10 21:45:00",
+            "venue": "SCG",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 1,
+            "date": "2025-01-11 01:00:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 1,
+            "date": "2025-01-12 00:15:00",
+            "venue": "Marvel Stadium",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 1,
+            "date": "2025-01-13 00:30:00",
+            "venue": "ENGIE Stadium",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 1,
+            "date": "2025-01-14 00:30:00",
+            "venue": "Bellerive Oval",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 35,
+            "stageOrder": 1,
+            "date": "2025-01-15 00:30:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 36,
+            "stageOrder": 1,
+            "date": "2025-01-16 00:30:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 37,
+            "stageOrder": 1,
+            "date": "2025-01-17 00:15:00",
+            "venue": "SCG",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 38,
+            "stageOrder": 1,
+            "date": "2025-01-17 22:00:00",
+            "venue": "Marvel Stadium",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 39,
+            "stageOrder": 1,
+            "date": "2025-01-18 01:15:00",
+            "venue": "Perth Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 40,
+            "stageOrder": 1,
+            "date": "2025-01-19 00:15:00",
+            "venue": "MCG",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 41,
+            "stageOrder": 2,
+            "date": "2025-01-21 00:15:00",
+            "venue": "TBC",
+            "homeStageTeamId": "T1",
+            "awayStageTeamId": "T2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier"
+        },
+        {
+            "matchNumber": 42,
+            "stageOrder": 2,
+            "date": "2025-01-22 00:15:00",
+            "venue": "TBC",
+            "homeStageTeamId": "T3",
+            "awayStageTeamId": "T4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Knockout"
+        },
+        {
+            "matchNumber": 43,
+            "stageOrder": 2,
+            "date": "2025-01-24 00:15:00",
+            "venue": "TBC",
+            "homeStageTeamId": "L-Q",
+            "awayStageTeamId": "W-K",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Challenger"
+        },
+        {
+            "matchNumber": 44,
+            "stageOrder": 2,
+            "date": "2025-01-27 00:15:00",
+            "venue": "TBC",
+            "homeStageTeamId": "W-Q",
+            "awayStageTeamId": "W-C",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}
