@@ -20,10 +20,17 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
 
 
+
+
             <div className={`relative flex flex-row items-center justify-between h-16 overflow-hidden transition-all duration-500 rounded-2xl mx-2`} style={winner ? { padding: "16px" } : {}}>
-                <h3 className={`relative z-10 text-3xl font-bold text-black font-['Kanit'] uppercase drop-shadow-md`} style={winner ? { color: "white" } : {}}>
-                    MATCHES
-                </h3>
+                <div className="relative z-10 flex items-center gap-4 drop-shadow-md">
+                    <h3 className="text-3xl font-bold text-black font-['Kanit'] uppercase" style={winner ? { color: "white" } : {}}>
+                        MATCHES
+                    </h3>
+                    <span className="text-xl font-light font-['Kanit']" style={winner ? { color: "rgba(255, 255, 255, 0.7)" } : { color: "rgba(0, 0, 0, 0.5)" }}>
+                        ({matchesArray.length})
+                    </span>
+                </div>
 
                 {winner && (
                     <div

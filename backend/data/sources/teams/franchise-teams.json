@@ -175,6 +175,70 @@
             "gradient": "linear-gradient(135deg, #5A2D81, #5A2D81, red)",
             "type": "franchise",
             "league": "ILT20"
+        },
+        {
+            "acronym": "BP",
+            "name": "Birmingham Phoenix",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/birmingham-phoenix.svg",
+            "gradient": "linear-gradient(135deg, #FF6B00, #FF6B00, #FFD000)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "LS",
+            "name": "London Spirit",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/london-spirit.svg",
+            "gradient": "linear-gradient(135deg, #B7E3F9, #B7E3F9, #4D9DE0)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "MO",
+            "name": "Manchester Originals",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/manchester-originals.svg",
+            "gradient": "linear-gradient(135deg, grey, grey, lightgrey)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "NS",
+            "name": "Northern Superchargers",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/northern-superchargers.svg",
+            "gradient": "linear-gradient(135deg, #8000FF, #8000FF, #ADFF2F)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "OI",
+            "name": "Oval Invincibles",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/oval-invincibles-black.svg",
+            "gradient": "linear-gradient(135deg, #00D96B, #00D96B, #00A8D6)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "SB",
+            "name": "Southern Brave",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/southern-brave.svg",
+            "gradient": "linear-gradient(135deg, #E85D6A, #E85D6A, #6B6B6B)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "TR",
+            "name": "Trent Rockets",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/trent-rockets.svg",
+            "gradient": "linear-gradient(135deg, #E6C900, #E6C900, #E53935)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "WF",
+            "name": "Welsh Fire",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/welsh-fire.svg",
+            "gradient": "linear-gradient(135deg, #F4B0C4, #F4B0C4, #FF4F64)",
+            "type": "franchise",
+            "league": "THU"
         }
     ]
 }

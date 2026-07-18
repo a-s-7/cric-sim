@@ -12,7 +12,8 @@ TOURNAMENTS = {
     9: {"category": "leagues", "folder": "mlc", "name": "mlc-2025.json"},
     10: {"category": "leagues", "folder": "ilt20", "name": "ilt20-2025.json"},
     11: {"category": "leagues", "folder": "ilt20", "name": "ilt20-2025-26.json"},
-    12: {"category": "leagues", "folder": "bbl", "name": "bbl-2024-25.json"}
+    12: {"category": "leagues", "folder": "bbl", "name": "bbl-2024-25.json"},
+    13: {"category": "leagues", "folder": "thu", "name": "thu-2025.json"}
 }
 
 def main(selected_ids="All"):

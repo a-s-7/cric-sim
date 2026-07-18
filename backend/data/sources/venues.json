@@ -216,8 +216,28 @@
             "country": "England"
         },
         {
-            "stadium": "The Oval",
+            "stadium": "The Kia Oval",
             "city": "London",
+            "country": "England"
+        },
+        {
+            "stadium": "Emirates Old Trafford",
+            "city": "Manchester",
+            "country": "England"
+        },
+        {
+            "stadium": "Sophia Gardens",
+            "city": "Cardiff",
+            "country": "Wales"
+        },
+        {
+            "stadium": "Trent Bridge",
+            "city": "Nottingham",
+            "country": "England"
+        },
+        {
+            "stadium": "Utilita Bowl",
+            "city": "Southampton",
             "country": "England"
         }
     ]

@@ -1,7 +1,8 @@
 from fetch import get_match_context
 
 # Use a real match _id from your database
-match_id = "69ce0a41c64d88ca4e80d432"
+tournament_id = "ipl-2026-rw"
+match_number = 1
 
-context = get_match_context(match_id)
+context = get_match_context(tournament_id, match_number)
 print(context)

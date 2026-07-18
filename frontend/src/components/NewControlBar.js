@@ -7,7 +7,6 @@ import { customStyles } from "../utils/selectStyles";
 function NewControlBar({
     refreshFunction,
     resetState,
-    matchCount,
     teams,
     stadiums,
     groups,
@@ -53,10 +52,7 @@ function NewControlBar({
 
             if (ratio < 3.2) {
                 // Moderately wide (T20 World Cup style)
-                scale = 70;
-            } else if (ratio < 3.6) {
-                // Slightly wide (T20 World Cup style)
-                scale = 80;
+                scale = 75;
             } else {
                 scale = 55;
             }
@@ -264,11 +260,9 @@ function NewControlBar({
                     />
                 </div>
 
-                <div className="flex justify-center items-center w-[35%] font-['Reem_Kufi_Fun'] uppercase text-white flex-shrink-0">
-                    {matchCount + " MATCHES"}
-                </div>
 
-                <div className="flex items-center justify-center w-[15%] flex-shrink-0 h-full">
+
+                <div className="flex items-center justify-center  flex-shrink-0 h-full">
                     <button
                         onClick={() => {
                             resetState();

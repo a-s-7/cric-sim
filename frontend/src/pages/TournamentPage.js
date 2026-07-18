@@ -99,7 +99,6 @@ function TournamentPage({
             <NewControlBar
                 resetState={resetState}
                 refreshFunction={handleRefresh}
-                matchCount={matchesData?.matches?.length || 0}
                 teams={selectedTeams}
                 stadiums={selectedStadiums}
                 groups={selectedGroups}
@@ -131,7 +130,10 @@ function TournamentPage({
                         cardNeutralGradient={tournamentGradient} />
                 </div>
                 <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
-                    <EventStandings key={mode === "real-world" ? tournamentRWID : tournamentPSID} standingsData={standingsData.standings} category={standingsData.category} color={tournamentPointsTableColor} />
+                    <EventStandings key={mode === "real-world" ? tournamentRWID : tournamentPSID}
+                        standingsData={standingsData.standings}
+                        category={standingsData.category}
+                        color={tournamentPointsTableColor} />
                 </div>
             </div>
         </div>
