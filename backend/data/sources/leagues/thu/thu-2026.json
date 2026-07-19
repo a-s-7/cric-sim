@@ -1,0 +1,523 @@
+{
+    "tournament": {
+        "_id": "thu-2026",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "The Hundred",
+        "acronym": "THU",
+        "edition": "2026",
+        "status": "upcoming",
+        "startDate": "2026-07-21",
+        "endDate": "2026-08-16",
+        "structure": "league",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, #FF007F, #FF007F, black)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/The_Hundred_%28cricket%29_logo.svg/1280px-The_Hundred_%28cricket%29_logo.svg.png?_=20251104000412",
+        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/The_Hundred_%28cricket%29_logo.svg/1280px-The_Hundred_%28cricket%29_logo.svg.png?_=20251104000412",
+        "pointsTableColor": "#FF007F",
+        "tileBackgroundColor": "#FF007F",
+        "teams": [
+            "BP",
+            "LS",
+            "MSG",
+            "SRL",
+            "MIL",
+            "SB",
+            "TR",
+            "WF"
+        ],
+        "stadiums": [
+            "Lord's Cricket Ground",
+            "Emirates Old Trafford",
+            "Headingley",
+            "Edgbaston",
+            "Trent Bridge",
+            "The Kia Oval",
+            "Sophia Gardens",
+            "Utilita Bowl"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numGroups": 1,
+                "teamsPerGroup": 8,
+                "matchesPerTeam": 8,
+                "qualifiersPerGroup": 3
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 3,
+                "numMatches": 2
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "BP",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "LS",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "MSG",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SRL",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "MIL",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SB",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "TR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "WF",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromStandingsPosition": 1
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2026-07-21 10:30:00",
+            "venue": "The Kia Oval",
+            "homeStageTeamId": "MIL",
+            "awayStageTeamId": "SRL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2026-07-22 10:30:00",
+            "venue": "Utilita Bowl",
+            "homeStageTeamId": "SB",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2026-07-23 10:30:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "LS",
+            "awayStageTeamId": "MSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2026-07-24 10:30:00",
+            "venue": "Edgbaston",
+            "homeStageTeamId": "BP",
+            "awayStageTeamId": "TR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2026-07-25 06:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "SRL",
+            "awayStageTeamId": "SB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2026-07-25 10:00:00",
+            "venue": "Sophia Gardens",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "MIL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2026-07-26 06:30:00",
+            "venue": "Emirates Old Trafford",
+            "homeStageTeamId": "MSG",
+            "awayStageTeamId": "BP",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2026-07-26 10:00:00",
+            "venue": "Trent Bridge",
+            "homeStageTeamId": "TR",
+            "awayStageTeamId": "LS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2026-07-27 10:30:00",
+            "venue": "Utilita Bowl",
+            "homeStageTeamId": "SB",
+            "awayStageTeamId": "MIL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2026-07-28 10:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "SRL",
+            "awayStageTeamId": "MSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2026-07-29 07:00:00",
+            "venue": "Sophia Gardens",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "TR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2026-07-29 10:30:00",
+            "venue": "The Kia Oval",
+            "homeStageTeamId": "MIL",
+            "awayStageTeamId": "LS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2026-07-30 10:30:00",
+            "venue": "Utilita Bowl",
+            "homeStageTeamId": "SB",
+            "awayStageTeamId": "BP",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2026-07-31 10:30:00",
+            "venue": "Emirates Old Trafford",
+            "homeStageTeamId": "MSG",
+            "awayStageTeamId": "TR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2026-08-01 06:30:00",
+            "venue": "Edgbaston",
+            "homeStageTeamId": "BP",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2026-08-01 10:00:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "LS",
+            "awayStageTeamId": "SB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2026-08-02 06:30:00",
+            "venue": "Trent Bridge",
+            "homeStageTeamId": "TR",
+            "awayStageTeamId": "SRL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2026-08-02 10:00:00",
+            "venue": "The Kia Oval",
+            "homeStageTeamId": "MIL",
+            "awayStageTeamId": "MSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2026-08-03 10:30:00",
+            "venue": "Sophia Gardens",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "SB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2026-08-04 10:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "SRL",
+            "awayStageTeamId": "LS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2026-08-05 07:00:00",
+            "venue": "Emirates Old Trafford",
+            "homeStageTeamId": "MSG",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2026-08-05 10:30:00",
+            "venue": "Trent Bridge",
+            "homeStageTeamId": "TR",
+            "awayStageTeamId": "BP",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2026-08-06 10:30:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "LS",
+            "awayStageTeamId": "MIL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2026-08-07 10:30:00",
+            "venue": "Edgbaston",
+            "homeStageTeamId": "BP",
+            "awayStageTeamId": "SRL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2026-08-08 06:30:00",
+            "venue": "The Kia Oval",
+            "homeStageTeamId": "MIL",
+            "awayStageTeamId": "TR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2026-08-08 10:00:00",
+            "venue": "Utilita Bowl",
+            "homeStageTeamId": "SB",
+            "awayStageTeamId": "MSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2026-08-09 06:30:00",
+            "venue": "Headingley",
+            "homeStageTeamId": "SRL",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2026-08-09 10:00:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "LS",
+            "awayStageTeamId": "BP",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2026-08-10 10:30:00",
+            "venue": "Trent Bridge",
+            "homeStageTeamId": "TR",
+            "awayStageTeamId": "SB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2026-08-11 10:30:00",
+            "venue": "Emirates Old Trafford",
+            "homeStageTeamId": "MSG",
+            "awayStageTeamId": "SRL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 1,
+            "date": "2026-08-12 07:00:00",
+            "venue": "Sophia Gardens",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "LS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 1,
+            "date": "2026-08-12 10:30:00",
+            "venue": "Edgbaston",
+            "homeStageTeamId": "BP",
+            "awayStageTeamId": "MIL",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 2,
+            "date": "2026-08-14 10:00:00",
+            "venue": "The Kia Oval",
+            "homeStageTeamId": "T2",
+            "awayStageTeamId": "T3",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Eliminator"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 2,
+            "date": "2026-08-16 10:00:00",
+            "venue": "Lord's Cricket Ground",
+            "homeStageTeamId": "T1",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

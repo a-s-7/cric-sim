@@ -239,6 +239,30 @@
             "gradient": "linear-gradient(135deg, #F4B0C4, #F4B0C4, #FF4F64)",
             "type": "franchise",
             "league": "THU"
+        },
+        {
+            "acronym": "MIL",
+            "name": "MI London",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/mi-london-black.svg",
+            "gradient": "linear-gradient(135deg, #00D96B, #00D96B, #00A8D6)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "MSG",
+            "name": "Manchester Super Giants",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/manchester-super-giants.svg",
+            "gradient": "linear-gradient(135deg, #D10005, #D10005, darkblue)",
+            "type": "franchise",
+            "league": "THU"
+        },
+        {
+            "acronym": "SRL",
+            "name": "Sunrisers Leeds",
+            "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/sunrisers-leeds.svg",
+            "gradient": "linear-gradient(135deg, #000000, #D35400, #FFB400)",
+            "type": "franchise",
+            "league": "THU"
         }
     ]
 }
