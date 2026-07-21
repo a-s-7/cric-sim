@@ -614,7 +614,7 @@ function MatchCard({
 
                             {/* Handle */}
                             <button
-                                className="flex items-center justify-center w-[2.5vh] h-[1vh] transition-colors overflow-hidden"
+                                className="flex items-center justify-center w-[2.5vh] h-[1vh] transition-transform hover:scale-125 overflow-hidden"
                                 onClick={(e) => { e.stopPropagation(); setDrawerOpen(prev => !prev); }}
                                 title="More actions"
                             >
