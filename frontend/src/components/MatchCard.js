@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import BallsInput from "./BallsInput";
 import RunsInput from "./RunsInput";
 import WicketsInput from "./WicketsInput";
@@ -614,16 +614,16 @@ function MatchCard({
 
                             {/* Handle */}
                             <button
-                                className="flex items-center justify-center w-[2.5vh] h-[1vh]  transition-colors overflow-hidden"
+                                className="flex items-center justify-center w-[2.5vh] h-[1vh] transition-colors overflow-hidden"
                                 onClick={(e) => { e.stopPropagation(); setDrawerOpen(prev => !prev); }}
                                 title="More actions"
                             >
-                                <FontAwesomeIcon icon={faMinus} style={{ fontSize: '1vh' }} />
+                                <FontAwesomeIcon icon={drawerOpen ? faChevronUp : faChevronDown} style={{ fontSize: '0.75vh' }} />
                             </button>
 
                             {/* Buttons - fade in from bottom */}
                             <div
-                                className="w-full flex gap-1 items-center justify-center py-1"
+                                className="w-full flex gap-1 items-center justify-center pb-1"
                                 style={{
                                     opacity: drawerOpen ? 1 : 0,
                                     transform: drawerOpen ? 'translateY(0)' : 'translateY(0)',

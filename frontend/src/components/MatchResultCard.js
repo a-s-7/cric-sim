@@ -278,7 +278,7 @@ function MatchResultCard({
                                 <span>{formattedTime}</span>
                             </div>
 
-                            <div className="w-full flex justify-center items-center">
+                            <div className="w-full flex justify-center items-center pb-1">
                                 {tournamentID.slice(-2) === 'ps' && homeConfirmed && awayConfirmed && (
                                     <button
                                         className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
