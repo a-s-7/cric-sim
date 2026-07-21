@@ -69,7 +69,6 @@ function MatchCard({
     const genericErrorTimer = useRef(null);
 
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const drawerRef = useRef(null);
 
     useEffect(() => {
         setSelected(matchResult);
@@ -615,11 +614,11 @@ function MatchCard({
 
                             {/* Handle */}
                             <button
-                                className="flex items-center justify-center w-[2.5vh] h-[1vh] text-zinc-400 hover:text-zinc-600 transition-colors overflow-hidden"
+                                className="flex items-center justify-center w-[2.5vh] h-[1vh]  transition-colors overflow-hidden"
                                 onClick={(e) => { e.stopPropagation(); setDrawerOpen(prev => !prev); }}
                                 title="More actions"
                             >
-                                <FontAwesomeIcon icon={faMinus} style={{ fontSize: '0.7vh' }} />
+                                <FontAwesomeIcon icon={faMinus} style={{ fontSize: '1vh' }} />
                             </button>
 
                             {/* Buttons - fade in from bottom */}
@@ -711,7 +710,77 @@ function MatchCard({
                             }
                         </div>
 
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5 relative">
+                            {selected !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
+                                {/* Away Team Runs */}
+                                <RunsInput
+                                    value={awayRuns}
+                                    onChange={(runs) => {
+                                        setAwayRuns(runs);
+                                        handleNRRChange({ awayRuns: runs });
+                                    }}
+                                />
+                                <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
+                                {/* Away Team Wickets*/}
+                                <WicketsInput value={awayWickets}
+                                    onChange={(v) => {
+                                        setAwayWickets(v);
+                                        handleNRRChange({ awayWickets: v });
+                                    }}
+                                />
 
+                            </div>}
+                            {selected !== 'None' && <div className="flex flex-row items-center justify-start w-full">
+                                {/* Away Team Balls*/}
+                                <div className="flex justify-start shrink-0">
+                                    <BallsInput
+                                        width="4.5ch"
+                                        mode={format === "HUNDRED" ? "balls" : "overs"}
+                                        max={awayMaxBalls}
+                                        value={awayBalls === 0 ? '' : (awayBalls ?? '')}
+                                        onChange={(balls) => {
+                                            setAwayBalls(balls);
+                                            handleNRRChange({ awayBalls: balls });
+                                        }}
+                                    />
+                                </div>
+
+                                {matchTimeChange && (
+                                    <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
+                                        <span className="mr-0.5">(</span>
+                                        {/* Away Team Max Balls*/}
+                                        <BallsInput
+                                            width="3ch"
+                                            mode={format === "HUNDRED" ? "balls" : "overs"}
+                                            max={inningsBalls}
+                                            value={awayMaxBalls}
+                                            onChange={async (balls) => {
+                                                setAwayMaxBalls(balls);
+                                                await handleMaxBallsChange("away", balls);
+                                                if (awayBalls && balls && Number(awayBalls) > Number(balls)) {
+                                                    setAwayBalls(balls);
+                                                    handleNRRChange({ awayBalls: balls });
+                                                }
+                                            }}
+                                        />
+                                        <span className="ml-0.5">)</span>
+                                    </div>
+                                )}
+                                {selected !== "None" && matchTargetStatus && ((tossResultState === 'Home-win' && battingFirstToggle) || (tossResultState === 'Away-win' && !battingFirstToggle)) && <div className="absolute bottom-2 left-0 flex flex-row items-center justify-start w-full pl-2">
+                                    <span className="mr-0.5 text-[1vh]">TARGET</span>
+                                    <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
+                                        type="number"
+                                        min="0"
+                                        max="1000"
+                                        value={matchTargetRuns ?? ''}
+                                        onChange={(event) => setMatchTargetRuns(event.target.value)}
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ color: 'inherit' }}
+                                    />
+                                </div>
+                                }
+                            </div>}
+                        </div>
                     </div>
                 </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 function BallsInput({ width = "4.5ch", mode, value, onChange, max, readOnly = false }) {
     const [text, setText] = useState('');
@@ -10,10 +10,10 @@ function BallsInput({ width = "4.5ch", mode, value, onChange, max, readOnly = fa
         return ballsLeft ? `${overs}.${ballsLeft}` : `${overs}`;
     }
 
-    function format(balls) {
+    const format = useCallback((balls) => {
         if (!balls) return '';
         return mode === 'balls' ? String(balls) : formatOvers(balls);
-    }
+    }, [mode]);
 
     // Only sync from external value when the field isn't being actively edited,
     // otherwise this clobbers whatever the user is mid-typing.

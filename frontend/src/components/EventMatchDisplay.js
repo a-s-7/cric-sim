@@ -11,12 +11,6 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
     const category = matches?.category || "";
     const ballsPerInnings = matches?.ballsPerInnings || "";
 
-    const convertBallsToDecimalOvers = (balls) => {
-        const overs = Math.floor(balls / 6);
-        const remainingBalls = balls % 6;
-        return parseFloat(`${overs}.${remainingBalls}`);
-    }
-
     return (
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
 
