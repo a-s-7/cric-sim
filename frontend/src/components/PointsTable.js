@@ -2,7 +2,9 @@ import React from 'react';
 import { faCaretUp, faCaretDown, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingleTable, category }) {
+function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingleTable, category, format }) {
+    const ballsPerOver = format === "HUNDRED" ? 5 : 6
+
     const getDiffDisplay = (diff) => {
         if (diff > 0) {
             return (
@@ -75,8 +77,8 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.noResult}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[2.25vh] font-bold text-black">{team.netRunRate > 0 ? "+" : ""}{team.netRunRate.toFixed(3)}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] text-[2.5vh] font-bold">{team.points}</td>
-                            <td className="text-center py-3 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsScored + "/" + (Math.floor(team.ballsFaced / 6) + "." + (team.ballsFaced % 6))}</td>
-                            <td className="text-center py-3 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsConceded + "/" + (Math.floor(team.ballsBowled / 6) + "." + (team.ballsBowled % 6))}</td>
+                            <td className="text-center py-3 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsScored + "/" + (Math.floor(team.ballsFaced / ballsPerOver) + "." + (team.ballsFaced % ballsPerOver))}</td>
+                            <td className="text-center py-3 px-4 border-b border-zinc-200 whitespace-nowrap">{team.runsConceded + "/" + (Math.floor(team.ballsBowled / ballsPerOver) + "." + (team.ballsBowled % ballsPerOver))}</td>
                         </tr>
                     );
                 })}

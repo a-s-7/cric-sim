@@ -246,7 +246,7 @@ function NewControlBar({
     return (
         <div className="flex h-[8%] m-2 rounded-3xl overflow-hidden" style={{ background: color }}>
             <div className="flex row w-[22%]">
-                <div className="flex items-center justify-center w-[50%] flex-shrink-0 p-1">
+                <div className="flex items-center justify-center w-[50%] flex-shrink-0 ml-4 p-1">
                     <img
                         className="object-contain"
                         style={{
@@ -262,7 +262,7 @@ function NewControlBar({
 
 
 
-                <div className="flex items-center justify-center  flex-shrink-0 h-full">
+                <div className="flex items-center justify-center p-4 flex-shrink-0 h-full ">
                     <button
                         onClick={() => {
                             resetState();

@@ -462,7 +462,7 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
             winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
             winner = teams_collection.find_one({"_id": winner})["acronym"]
 
-    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"]}
+    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"], "ballsPerInnings": tournament["ballsPerInnings"]}
     
 
 

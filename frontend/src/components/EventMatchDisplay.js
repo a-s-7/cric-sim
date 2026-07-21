@@ -9,6 +9,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
     const winner = matches?.winner || "";
     const format = matches?.format || "";
     const category = matches?.category || "";
+    const ballsPerInnings = matches?.ballsPerInnings || "";
 
     const convertBallsToDecimalOvers = (balls) => {
         const overs = Math.floor(balls / 6);
@@ -18,9 +19,6 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
 
     return (
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
-
-
-
 
             <div className={`relative flex flex-row items-center justify-between h-16 overflow-hidden transition-all duration-500 rounded-2xl mx-2`} style={winner ? { padding: "16px" } : {}}>
                 <div className="relative z-10 flex items-center gap-4 drop-shadow-md">
@@ -99,10 +97,10 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     onMatchUpdate={onMatchUpdate}
                                     homeTeamRuns={match.homeTeamRuns}
                                     homeTeamWickets={match.homeTeamWickets}
-                                    homeTeamOvers={convertBallsToDecimalOvers(match.homeTeamBalls)}
+                                    homeTeamBalls={match.homeTeamBalls}
                                     awayTeamRuns={match.awayTeamRuns}
                                     awayTeamWickets={match.awayTeamWickets}
-                                    awayTeamOvers={convertBallsToDecimalOvers(match.awayTeamBalls)}
+                                    awayTeamBalls={match.awayTeamBalls}
                                     neutralGradient={cardNeutralGradient}
                                     group={match.group}
                                     stage={match.description ? match.description : match.stage}
@@ -111,9 +109,12 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     tossResult={match.tossResult}
                                     tossDecision={match.tossDecision}
                                     category={category}
-                                    homeMaxOversValue={convertBallsToDecimalOvers(match.homeMaxBalls)}
-                                    awayMaxOversValue={convertBallsToDecimalOvers(match.awayMaxBalls)}
+                                    homeMaxBalls={match.homeMaxBalls}
+                                    awayMaxBalls={match.awayMaxBalls}
+                                    inningsBalls={ballsPerInnings}
                                 /> : <MatchCard
+                                    group={match.group}
+                                    stage={match.description ? match.description : match.stage}
                                     homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
                                     awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
                                     homeTeamName={match.homeStageTeam}
@@ -124,26 +125,25 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     tournamentID={tournamentId}
                                     tournamentEdition={tournamentEdition}
                                     matchNum={match.matchNumber}
+                                    format={format}
+                                    category={category}
                                     venue={match.venue}
+                                    city={match.city}
                                     date={match.date}
                                     matchResult={match.result}
                                     onMatchUpdate={onMatchUpdate}
                                     homeTeamRuns={match.homeTeamRuns}
                                     homeTeamWickets={match.homeTeamWickets}
-                                    homeTeamOvers={convertBallsToDecimalOvers(match.homeTeamBalls)}
+                                    homeTeamBalls={match.homeTeamBalls}
+                                    homeTeamMaxBalls={match.homeMaxBalls}
                                     awayTeamRuns={match.awayTeamRuns}
                                     awayTeamWickets={match.awayTeamWickets}
-                                    awayTeamOvers={convertBallsToDecimalOvers(match.awayTeamBalls)}
+                                    awayTeamBalls={match.awayTeamBalls}
+                                    awayTeamMaxBalls={match.awayMaxBalls}
                                     neutralGradient={cardNeutralGradient}
-                                    group={match.group}
-                                    stage={match.description ? match.description : match.stage}
                                     tossResult={match.tossResult}
                                     tossDecision={match.tossDecision}
-                                    city={match.city}
-                                    format={format}
-                                    category={category}
-                                    homeMaxOversValue={convertBallsToDecimalOvers(match.homeMaxBalls)}
-                                    awayMaxOversValue={convertBallsToDecimalOvers(match.awayMaxBalls)}
+                                    inningsBalls={ballsPerInnings}
                                 />
                             }
                         </div>

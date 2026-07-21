@@ -90,10 +90,10 @@ def clear_tournament_matches(id):
         return jsonify({"error": str(e)}), 400
 
 
-@events_bp.route('/tournaments/<string:id>/match/score/<int:match_num>/<int:home_runs>/<int:home_wickets>/<string:home_overs>/<int:away_runs>/<int:away_wickets>/<string:away_overs>', methods=['PATCH'])
-def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_overs, away_runs, away_wickets, away_overs):
+@events_bp.route('/tournaments/<string:id>/match/score/<int:match_num>/<int:home_runs>/<int:home_wickets>/<string:home_balls>/<int:away_runs>/<int:away_wickets>/<string:away_balls>', methods=['PATCH'])
+def nrr_tournament_match(id, match_num, home_runs, home_wickets, home_balls, away_runs, away_wickets, away_balls):
     try:
-        ms.update_score(id, match_num, home_runs, home_wickets, home_overs, away_runs, away_wickets, away_overs)
+        ms.update_score(id, match_num, home_runs, home_wickets, home_balls, away_runs, away_wickets, away_balls)
     except ValueError as e:
         return jsonify(str(e)), 404
     return jsonify({"message": f"Tournament id {id} match #{match_num} score updated successfully"})
@@ -117,9 +117,9 @@ def set_match_toss_result(id, match_num, toss_result):
 @events_bp.route('/tournaments/<string:id>/match/max-balls/<int:match_num>', methods=['PATCH'])
 def set_match_max_balls(id, match_num):
     team = request.args.get("team", "")
-    max_overs = request.args.get("max_overs", type=float)
+    max_balls = request.args.get("max_balls", type=int)
     try:
-        ms.update_max_balls(id, match_num, team, max_overs)
+        ms.update_max_balls(id, match_num, team, max_balls)
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
     return jsonify({"message": f"Match {match_num} for tournament {id} {team} max balls set successfully"})

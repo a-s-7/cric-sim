@@ -13,7 +13,7 @@ def get_match_result(context):
     google_search_tool = Tool(google_search=GoogleSearch())
 
     prompt = f"""
-    You are a cricket data agent. You have been given the following match context:
+    You are a cricket match data retrieval agent. You have been given the following match context:
 
     - Home Team: {context['home_team_name']} ({context['home_team_acronym']})
     - Away Team: {context['away_team_name']} ({context['away_team_acronym']})
@@ -42,21 +42,30 @@ def get_match_result(context):
         "homeMaxBalls": number,
     }}
 
-    Rules:
+   Rules:
+    - Do not assume, infer, or deduce tossResult or tossDecision. You must explicitly find and verify both values from the available data before populating them.
+    
     - homeTeamRuns, homeTeamWickets, homeTeamBalls refer to {context['home_team_name']}'s innings
     - awayTeamRuns, awayTeamWickets, awayTeamBalls refer to {context['away_team_name']}'s innings
-    - For balls: convert overs to balls (e.g. 20 overs = 120 balls, 18.3 overs = 111 balls)
+
+    - Balls are always represented as total balls, not overs:
+        - Convert overs to balls (e.g. 20 overs = 120 balls, 18.3 overs = 111 balls)
+        - For The Hundred, use its separate 100-ball format (1 innings = maximum 100 balls)
 
     - awayMaxBalls is the maximum number of balls the away team can bat in their innings
     - homeMaxBalls is the maximum number of balls the home team can bat in their innings
+
     - If a match is truncated, you must ensure that the max balls fields are updated accordingly
-    - For example, if a match is truncated to 10 overs a side, then homeMaxBalls = 60 and awayMaxBalls = 60
-    
+    - For example:
+        - A T20/ODI match truncated to 10 overs per side → homeMaxBalls = 60 and awayMaxBalls = 60
+        - A The Hundred match truncated to 60 balls per side → homeMaxBalls = 60 and awayMaxBalls = 60
+
     - If the match hasn't finished, return:
     {{
         "error": "Match has not finished"
     }}
-    - If the match result is not found or there is any other error preventing you from finding the result, return:
+
+    - If any of the above mentioned fields in the JSON object cannot be found or verified with confidence, return:
     {{
         "error": "Could not find match result"
     }}

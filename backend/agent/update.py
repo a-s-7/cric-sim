@@ -1,14 +1,5 @@
 from services import match_service
 
-def balls_to_overs(balls):
-    """Convert balls (e.g. 111) to overs string (e.g. '18.3')."""
-    full_overs = balls // 6
-    remaining = balls % 6
-    if remaining == 0:
-        return str(full_overs)
-    return f"{full_overs}.{remaining}"
-
-
 def update_match(context, match_result):
     """
     Updates a match by calling the shared match service directly:
@@ -40,17 +31,14 @@ def update_match(context, match_result):
         match_service.update_toss_decision(tournament_id, match_num, toss_decision)
 
         # Step 5: Update max balls
-        match_service.update_max_balls(tournament_id, match_num, 'home', balls_to_overs(match_result["homeMaxBalls"]))
-        match_service.update_max_balls(tournament_id, match_num, 'away', balls_to_overs(match_result["awayMaxBalls"]))
+        match_service.update_max_balls(tournament_id, match_num, 'home', match_result["homeMaxBalls"])
+        match_service.update_max_balls(tournament_id, match_num, 'away', match_result["awayMaxBalls"])
 
         # Step 6: Update score (handles NRR)
-        home_overs = balls_to_overs(match_result["homeTeamBalls"])
-        away_overs = balls_to_overs(match_result["awayTeamBalls"])
-
         match_service.update_score(
             tournament_id, match_num,
-            match_result['homeTeamRuns'], match_result['homeTeamWickets'], home_overs,
-            match_result['awayTeamRuns'], match_result['awayTeamWickets'], away_overs
+            match_result['homeTeamRuns'], match_result['homeTeamWickets'], match_result["homeTeamBalls"],
+            match_result['awayTeamRuns'], match_result['awayTeamWickets'], match_result["awayTeamBalls"]
         )
 
         return {"status": "success", "message": f"Tournament {tournament_id} match #{match_num} updated"}

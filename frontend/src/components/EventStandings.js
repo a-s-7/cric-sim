@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PointsTable from "./PointsTable";
 
 
-function EventStandings({ standingsData, category, color }) {
+function EventStandings({ standingsData, category, color, format }) {
     function getFarthestActiveIndex(stages) {
         let farthest = 0;
 
@@ -75,6 +75,7 @@ function EventStandings({ standingsData, category, color }) {
                                     topQualifiers={standingsData[activeStage].numQualifiers}
                                     isSingleTable={array.length === 1}
                                     category={category}
+                                    format={format}
                                 />
                             </div>
                         </div>

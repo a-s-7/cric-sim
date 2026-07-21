@@ -88,8 +88,10 @@ def get_tournament_standings(id, stages):
 
     # Calculate NRR for each team
     for team in stageTeamsData:
-        totalOversFaced = team["ballsFaced"] / 6
-        totalOversBowled = team["ballsBowled"] / 6
+        ballsPerOver = 5 if tournament["format"] == "HUNDRED" else 6
+        
+        totalOversFaced = team["ballsFaced"] / ballsPerOver
+        totalOversBowled = team["ballsBowled"] / ballsPerOver
 
         runRate = team["runsScored"] / totalOversFaced if totalOversFaced > 0 else 0
         runRateConceded = team["runsConceded"] / totalOversBowled if totalOversBowled > 0 else 0
@@ -143,7 +145,7 @@ def get_tournament_standings(id, stages):
             for group_key in sorted_group_keys
         }
 
-    return {"standings": sorted_standings, "category": tournament["category"]}
+    return {"standings": sorted_standings, "category": tournament["category"], }
     
 
 def confirmTeamsForStage(tournamentId, stageOrder):    

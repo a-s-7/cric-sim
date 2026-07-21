@@ -13,7 +13,8 @@ function TournamentPage({
     tournamentLogo,
     tournamentGradient,
     tournamentPointsTableColor,
-    tournamentStructure
+    tournamentStructure,
+    tournamentFormat
 }) {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [selectedStadiums, setSelectedStadiums] = useState([]);
@@ -133,7 +134,8 @@ function TournamentPage({
                     <EventStandings key={mode === "real-world" ? tournamentRWID : tournamentPSID}
                         standingsData={standingsData.standings}
                         category={standingsData.category}
-                        color={tournamentPointsTableColor} />
+                        color={tournamentPointsTableColor}
+                        format={tournamentFormat} />
                 </div>
             </div>
         </div>

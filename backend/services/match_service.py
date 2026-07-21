@@ -29,6 +29,9 @@ stages_collection = db["stages"]
 
 
 def update_result(id, match_num, result):
+    tournament = tournaments_collection.find_one({"_id": id})
+    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
+    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
 
     if result not in ["Home-win", "Away-win", "No-result"]:
         raise ValueError("Invalid result value")
@@ -43,7 +46,7 @@ def update_result(id, match_num, result):
         if match["result"] == "Home-win":
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
+                {"$inc": {"won": -1, "points": -pointsPerWin, "matchesPlayed": -1}}
             )
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["awayStageTeamId"])},
@@ -52,7 +55,7 @@ def update_result(id, match_num, result):
         elif match["result"] == "Away-win":
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}
+                {"$inc": {"won": -1, "points": -pointsPerWin, "matchesPlayed": -1}}
             )
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["homeStageTeamId"])},
@@ -61,17 +64,17 @@ def update_result(id, match_num, result):
         elif match["result"] == "No-result":
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
+                {"$inc": {"matchesPlayed": -1, "points": -pointsPerNoResult, "noResult": -1}}
             )
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}
+                {"$inc": {"matchesPlayed": -1, "points": -pointsPerNoResult, "noResult": -1}}
             )
 
         if result == "Home-win":
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
+                {"$inc": {"won": 1, "points": pointsPerWin, "matchesPlayed": 1}}
             )
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["awayStageTeamId"])},
@@ -80,7 +83,7 @@ def update_result(id, match_num, result):
         elif result == "Away-win":
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}
+                {"$inc": {"won": 1, "points": pointsPerWin, "matchesPlayed": 1}}
             )
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["homeStageTeamId"])},
@@ -89,11 +92,11 @@ def update_result(id, match_num, result):
         elif result == "No-result":
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
+                {"$inc": {"matchesPlayed": 1, "points": pointsPerNoResult, "noResult": 1}}
             )
             stageTeams_collection.update_one(
                 {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}
+                {"$inc": {"matchesPlayed": 1, "points": pointsPerNoResult, "noResult": 1}}
             )
 
     update_db_result = matches_collection.update_one(
@@ -171,13 +174,13 @@ def update_status(id, match_num, status):
         {"$set": {"status": status}}
     )
 
-def update_score(id, match_num, home_runs, home_wickets, home_overs, away_runs, away_wickets, away_overs):
+def update_score(id, match_num, home_runs, home_wickets, home_balls, away_runs, away_wickets, away_balls):
     tournament = tournaments_collection.find_one({"_id": id})
     if not tournament:
         raise ValueError("Tournament not found")
 
-    new_home_balls = overs_to_balls(str(home_overs))
-    new_away_balls = overs_to_balls(str(away_overs))
+    new_home_balls = int(home_balls)
+    new_away_balls = int(away_balls)
 
     old_match = matches_collection.find_one_and_update(
         {"tournamentId": id, "matchNumber": int(match_num)},
@@ -222,6 +225,9 @@ def update_score(id, match_num, home_runs, home_wickets, home_overs, away_runs, 
 
 def clear_tournament_matches(id, mode, stage_order, match_nums):
     tournament = tournaments_collection.find_one({"_id": id})
+    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
+    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
+
     if not tournament:
         raise ValueError("Tournament not found")
 
@@ -270,22 +276,22 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
         if match["stageType"] == "group":
             if match["result"] == "Home-win":
                 team_acc[home_id]["won"] += -1
-                team_acc[home_id]["points"] += -2
+                team_acc[home_id]["points"] += -pointsPerWin
                 team_acc[home_id]["matchesPlayed"] += -1
                 team_acc[away_id]["lost"] += -1
                 team_acc[away_id]["matchesPlayed"] += -1
             elif match["result"] == "Away-win":
                 team_acc[away_id]["won"] += -1
-                team_acc[away_id]["points"] += -2
+                team_acc[away_id]["points"] += -pointsPerWin
                 team_acc[away_id]["matchesPlayed"] += -1
                 team_acc[home_id]["lost"] += -1
                 team_acc[home_id]["matchesPlayed"] += -1
             elif match["result"] == "No-result":
                 team_acc[home_id]["matchesPlayed"] += -1
-                team_acc[home_id]["points"] += -1
+                team_acc[home_id]["points"] += -pointsPerNoResult
                 team_acc[home_id]["noResult"] += -1
                 team_acc[away_id]["matchesPlayed"] += -1
-                team_acc[away_id]["points"] += -1
+                team_acc[away_id]["points"] += -pointsPerNoResult
                 team_acc[away_id]["noResult"] += -1
         
     operations = [
@@ -296,7 +302,7 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
     if operations:
         stageTeams_collection.bulk_write(operations)
 
-    max_balls = 120 if tournament["format"] == "T20" else 300
+    max_balls = tournament["ballsPerInnings"]
 
     result = matches_collection.update_many(
         {"tournamentId": id, "matchNumber": {"$in": match_numbers}},
@@ -358,6 +364,10 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
 
 
 def simulate_tournament_matches(id, stage_num):
+    tournament = tournaments_collection.find_one({"_id": ObjectId(id)})
+    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
+    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
+
     stageToSim = stages_collection.find_one(
         {
             "tournamentId": id,
@@ -378,7 +388,7 @@ def simulate_tournament_matches(id, stage_num):
     for match in matches:
         result = random.choices(
             ["Home-win", "Away-win", "No-result"],
-            weights=[0.45, 0.45, 0.10]
+            weights=[0.475, 0.475, 0.05]
         )[0]
 
         if stageToSim["type"] == "group":
@@ -387,24 +397,24 @@ def simulate_tournament_matches(id, stage_num):
             old_result = match.get("result")
 
             if old_result == "Home-win":
-                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}))
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"won": -1, "points": -pointsPerWin, "matchesPlayed": -1}}))
                 team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"lost": -1, "matchesPlayed": -1}}))
             elif old_result == "Away-win":
-                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"won": -1, "points": -2, "matchesPlayed": -1}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"won": -1, "points": -pointsPerWin, "matchesPlayed": -1}}))
                 team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"lost": -1, "matchesPlayed": -1}}))
             elif old_result == "No-result":
-                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}))
-                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": -1, "points": -1, "noResult": -1}}))
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": -1, "points": -pointsPerNoResult, "noResult": -1}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": -1, "points": -pointsPerNoResult, "noResult": -1}}))
 
             if result == "Home-win":
-                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}))
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"won": 1, "points": pointsPerWin, "matchesPlayed": 1}}))
                 team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"lost": 1, "matchesPlayed": 1}}))
             elif result == "Away-win":
-                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"won": 1, "points": 2, "matchesPlayed": 1}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"won": 1, "points": pointsPerWin, "matchesPlayed": 1}}))
                 team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"lost": 1, "matchesPlayed": 1}}))
             elif result == "No-result":
-                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}))
-                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": 1, "points": 1, "noResult": 1}}))
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": 1, "points": pointsPerNoResult, "noResult": 1}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": 1, "points": pointsPerNoResult, "noResult": 1}}))
 
         match_updates.append(UpdateOne({"_id": match["_id"]}, {"$set": {"result": result}}))
 
@@ -454,8 +464,8 @@ def update_match_status(id, match_num, status):
     )
     return {"message": f"Match {match_num} for tournament {id} updated successfully"}
 
-def update_max_balls(id, match_num, team, max_overs):
-    max_balls = overs_to_balls(str(max_overs))
+def update_max_balls(id, match_num, team, max_balls):
+    max_balls = int(max_balls)
 
     old_match = matches_collection.find_one_and_update(
         {"tournamentId": id, "matchNumber": int(match_num)},

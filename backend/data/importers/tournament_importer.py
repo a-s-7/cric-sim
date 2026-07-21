@@ -250,15 +250,10 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         match["stageId"] = DB_STAGE_ORDER_TO_ID[match["stageOrder"]]
         del match["stageOrder"]   
 
-        formats_to_delay = {
-            "ODI": timedelta(hours=8),
-            "T20": timedelta(hours=4),
-        } 
-
         start_dt = datetime.fromisoformat(match["date"])
         
         start_dt_pst = start_dt.replace(tzinfo=zone)
-        end_dt_pst = start_dt_pst + formats_to_delay[tournament["format"]]
+        end_dt_pst = start_dt_pst + timedelta(minutes=tournament["matchDurationMinutes"])
 
         match["date"] = start_dt_pst.astimezone(timezone.utc)
         match["endDate"] = end_dt_pst.astimezone(timezone.utc)
@@ -285,11 +280,11 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         match["awayTeamRuns"] = 0
         match["awayTeamWickets"] = 0
         match["awayTeamBalls"] = 0
-        match["homeMaxBalls"] = 300 if tournament["format"] == "ODI" else 120
-        match["awayMaxBalls"] = 300 if tournament["format"] == "ODI" else 120
+        match["homeMaxBalls"] = tournament["ballsPerInnings"]
+        match["awayMaxBalls"] = tournament["ballsPerInnings"]
         match["autoUpdate"] = auto_update
         match["tournamentId"] = tournament["_id"]
-
+        
     try:
         result = matches_collection.insert_many(matches, ordered=True)
 
