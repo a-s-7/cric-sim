@@ -20,7 +20,7 @@ function BallsInput({ width = "4.5ch", mode, value, onChange, max, readOnly = fa
     useEffect(() => {
         if (focused) return;
         setText(format(value));
-    }, [value, mode, focused]);
+    }, [value, focused, format]);
 
     function emit(balls) {
         let capped = balls < 0 ? 0 : balls;
