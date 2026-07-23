@@ -25,6 +25,8 @@ function EventStandings({ standingsData, category, color, format }) {
 
     if (!standingsData || !standingsData.length) return null;
 
+    const safeActiveStage = standingsData[activeStage] ? activeStage : Math.max(0, standingsData.length - 1);
+
     return (
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
             {/* Stage Selector Toggle */}
@@ -39,7 +41,7 @@ function EventStandings({ standingsData, category, color, format }) {
                             className="absolute transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full shadow-md"
                             style={{
                                 width: `calc((100% - 8px) / ${standingsData.length})`,
-                                left: `calc(4px + ${activeStage} * (100% - 8px) / ${standingsData.length})`,
+                                left: `calc(4px + ${safeActiveStage} * (100% - 8px) / ${standingsData.length})`,
                                 height: 'calc(100% - 8px)',
                                 background: color || '#000',
                             }}
@@ -48,7 +50,7 @@ function EventStandings({ standingsData, category, color, format }) {
                             <button
                                 key={stage.stageOrder}
                                 onClick={() => setActiveStage(index)}
-                                className={`relative z-10 flex-1 h-full text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 font-['Reem_Kufi_Fun'] ${activeStage === index
+                                className={`relative z-10 flex-1 h-full text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 font-['Reem_Kufi_Fun'] ${safeActiveStage === index
                                     ? "text-white"
                                     : "text-zinc-500 hover:text-zinc-800"
                                     }`}
@@ -64,7 +66,7 @@ function EventStandings({ standingsData, category, color, format }) {
             <div className="flex-1 flex flex-col bg-white rounded-[10px] border border-zinc-200 shadow-xl overflow-hidden mx-2 mb-2 mt-2">
                 {/* Content Area */}
                 <div className="flex-1 flex flex-col p-4 gap-8 overflow-y-auto no-scrollbar">
-                    {Object.entries(standingsData[activeStage].groups).map(([groupName, teams], _, array) => (
+                    {Object.entries(standingsData[safeActiveStage].groups).map(([groupName, teams], _, array) => (
                         <div className={`flex flex-col gap-2 ${array.length === 1 ? 'flex-1' : ''}`} key={groupName}>
                             {groupName !== "LEAGUE" && <h3 className={`text-2xl font-bold tracking-tight text-black font-['Kanit']`}>GROUP {groupName}</h3>}
 
@@ -72,7 +74,7 @@ function EventStandings({ standingsData, category, color, format }) {
                                 <PointsTable
                                     pointsTableTeamsData={teams}
                                     headerColor={color}
-                                    topQualifiers={standingsData[activeStage].numQualifiers}
+                                    topQualifiers={standingsData[safeActiveStage].numQualifiers}
                                     isSingleTable={array.length === 1}
                                     category={category}
                                     format={format}

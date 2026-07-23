@@ -1,0 +1,363 @@
+{
+    "tournament": {
+        "_id": "ac-2023",
+        "division": "mens",
+        "category": "international",
+        "format": "ODI",
+        "ballsPerInnings": 300,
+        "matchDurationMinutes": 480,
+        "name": "Asia Cup",
+        "edition": "2023",
+        "status": "upcoming",
+        "startDate": "2023-08-30",
+        "endDate": "2023-09-17",
+        "structure": "groups",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, white, darkblue, darkblue)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/c/c7/2023_Asia_Cup_logo.png",
+        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/c/c7/2023_Asia_Cup_logo.png",
+        "pointsTableColor": "darkblue",
+        "tileBackgroundColor": "white",
+        "teams": [
+            "AFG",
+            "BAN",
+            "IND",
+            "NEP",
+            "PAK",
+            "SL"
+        ],
+        "stadiums": [
+            "Gaddafi Stadium",
+            "Multan Cricket Stadium",
+            "R. Premadasa Stadium",
+            "Pallekele International Cricket Stadium"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numGroups": 2,
+                "teamsPerGroup": 3,
+                "matchesPerTeam": 2,
+                "qualifiersPerGroup": 2
+            }
+        },
+        {
+            "type": "group",
+            "order": 2,
+            "name": "Super Four",
+            "status": "locked",
+            "config": {
+                "numGroups": 1,
+                "teamsPerGroup": 4,
+                "matchesPerTeam": 3,
+                "qualifiersPerGroup": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 3,
+            "name": "Final",
+            "status": "locked",
+            "config": {
+                "numTeams": 2,
+                "numMatches": 1
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "IND",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "PAK",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NEP",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "BAN",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SL",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "AFG",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "group": "1",
+            "teamId": "PAK",
+            "confirmed": false,
+            "seed": "A1",
+            "seedToGroupMapping": "A1",
+            "preseededTeamId": "PAK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "group": "1",
+            "teamId": "IND",
+            "confirmed": false,
+            "seed": "A2",
+            "seedToGroupMapping": "A2",
+            "preseededTeamId": "IND",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "group": "1",
+            "teamId": "SL",
+            "confirmed": false,
+            "seed": "B1",
+            "seedToGroupMapping": "B1",
+            "preseededTeamId": "SL",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "group": "1",
+            "teamId": "BAN",
+            "confirmed": false,
+            "seed": "B2",
+            "seedToGroupMapping": "B2",
+            "preseededTeamId": "BAN",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G1-1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "1",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G1-2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "1",
+            "teamFromStandingsPosition": 2
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2023-08-30 02:30:00",
+            "venue": "Multan Cricket Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "NEP",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2023-08-31 02:30:00",
+            "venue": "Pallekele International Cricket Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2023-09-02 02:30:00",
+            "venue": "Pallekele International Cricket Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "IND",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2023-09-03 02:30:00",
+            "venue": "Gaddafi Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2023-09-04 02:30:00",
+            "venue": "Pallekele International Cricket Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "NEP",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2023-09-05 02:30:00",
+            "venue": "Gaddafi Stadium",
+            "homeStageTeamId": "AFG",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 2,
+            "date": "2023-09-06 02:30:00",
+            "venue": "Gaddafi Stadium",
+            "homeStageTeamId": "A1",
+            "awayStageTeamId": "B2",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 2,
+            "date": "2023-09-09 02:30:00",
+            "venue": "R. Premadasa Stadium",
+            "homeStageTeamId": "B1",
+            "awayStageTeamId": "B2",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 2,
+            "date": "2023-09-10 02:30:00",
+            "venue": "R. Premadasa Stadium",
+            "homeStageTeamId": "A1",
+            "awayStageTeamId": "A2",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 2,
+            "date": "2023-09-12 02:30:00",
+            "venue": "R. Premadasa Stadium",
+            "homeStageTeamId": "A2",
+            "awayStageTeamId": "B1",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 2,
+            "date": "2023-09-14 02:30:00",
+            "venue": "R. Premadasa Stadium",
+            "homeStageTeamId": "A1",
+            "awayStageTeamId": "B1",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 2,
+            "date": "2023-09-15 02:30:00",
+            "venue": "R. Premadasa Stadium",
+            "homeStageTeamId": "A2",
+            "awayStageTeamId": "B2",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 3,
+            "date": "2023-09-17 02:30:00",
+            "venue": "R. Premadasa Stadium",
+            "homeStageTeamId": "G1-1",
+            "awayStageTeamId": "G1-2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

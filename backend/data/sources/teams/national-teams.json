@@ -36,6 +36,13 @@
             "type": "national"
         },
         {
+            "acronym": "HK",
+            "name": "Hong Kong",
+            "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/hkg.png",
+            "gradient": "linear-gradient(135deg, red, red, white)",
+            "type": "national"
+        },
+        {
             "acronym": "IND",
             "name": "India",
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/ind.png",

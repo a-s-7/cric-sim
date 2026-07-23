@@ -1,0 +1,447 @@
+{
+    "tournament": {
+        "_id": "ac-2025",
+        "division": "mens",
+        "category": "international",
+        "format": "T20",
+        "ballsPerInnings": 120,
+        "matchDurationMinutes": 240,
+        "name": "Asia Cup",
+        "edition": "2025",
+        "status": "upcoming",
+        "startDate": "2025-09-09",
+        "endDate": "2025-09-28",
+        "structure": "groups",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, white, darkblue, darkblue)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/f/fd/2025_ACC_Asia_Cup.png",
+        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/f/fd/2025_ACC_Asia_Cup.png",
+        "pointsTableColor": "darkblue",
+        "tileBackgroundColor": "white",
+        "teams": [
+            "IND",
+            "PAK",
+            "UAE",
+            "OMA",
+            "SL",
+            "BAN",
+            "AFG",
+            "HK"
+        ],
+        "stadiums": [
+            "Dubai International Cricket Stadium",
+            "Sheikh Zayed Stadium"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numGroups": 2,
+                "teamsPerGroup": 4,
+                "matchesPerTeam": 3,
+                "qualifiersPerGroup": 2
+            }
+        },
+        {
+            "type": "group",
+            "order": 2,
+            "name": "Super Four",
+            "status": "locked",
+            "config": {
+                "numGroups": 1,
+                "teamsPerGroup": 4,
+                "matchesPerTeam": 3,
+                "qualifiersPerGroup": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 3,
+            "name": "Final",
+            "status": "locked",
+            "config": {
+                "numTeams": 2,
+                "numMatches": 1
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "IND",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "PAK",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "UAE",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "OMA",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "BAN",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SL",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "AFG",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "HK",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "group": "1",
+            "teamId": null,
+            "confirmed": false,
+            "seed": "A1",
+            "seedToGroupMapping": "A1",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "group": "1",
+            "teamId": null,
+            "confirmed": false,
+            "seed": "A2",
+            "seedToGroupMapping": "A2",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "group": "1",
+            "teamId": null,
+            "confirmed": false,
+            "seed": "B1",
+            "seedToGroupMapping": "B1",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "group": "1",
+            "teamId": null,
+            "confirmed": false,
+            "seed": "B2",
+            "seedToGroupMapping": "B2",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G1-1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "1",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "G1-2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "1",
+            "teamFromStandingsPosition": 2
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2025-09-09 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "AFG",
+            "awayStageTeamId": "HK",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2025-09-10 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "UAE",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2025-09-11 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "HK",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2025-09-12 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "OMA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2025-09-13 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "SL",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2025-09-14 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2025-09-15 05:00:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "UAE",
+            "awayStageTeamId": "OMA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2025-09-15 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "SL",
+            "awayStageTeamId": "HK",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2025-09-16 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "BAN",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2025-09-17 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "UAE",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2025-09-18 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "SL",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2025-09-19 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "OMA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 2,
+            "date": "2025-09-20 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "B1",
+            "awayStageTeamId": "B2",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 2,
+            "date": "2025-09-21 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "A1",
+            "awayStageTeamId": "A2",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 2,
+            "date": "2025-09-23 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "A2",
+            "awayStageTeamId": "B1",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 2,
+            "date": "2025-09-24 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "A1",
+            "awayStageTeamId": "B2",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 2,
+            "date": "2025-09-25 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "A2",
+            "awayStageTeamId": "B2",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 2,
+            "date": "2025-09-26 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "A1",
+            "awayStageTeamId": "B1",
+            "result": "None",
+            "status": "incomplete",
+            "group": "1"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 3,
+            "date": "2025-09-28 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "G1-1",
+            "awayStageTeamId": "G1-2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

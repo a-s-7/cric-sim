@@ -4,6 +4,8 @@
         "division": "mens",
         "category": "franchise",
         "format": "T20",
+        "ballsPerInnings": 120,
+        "matchDurationMinutes": 240,
         "name": "Major League Cricket",
         "acronym": "MLC",
         "edition": "2026",

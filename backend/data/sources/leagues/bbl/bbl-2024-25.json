@@ -4,6 +4,8 @@
         "division": "mens",
         "category": "franchise",
         "format": "T20",
+        "ballsPerInnings": 120,
+        "matchDurationMinutes": 240,
         "name": "Big Bash League",
         "acronym": "BBL",
         "edition": "2024-25",

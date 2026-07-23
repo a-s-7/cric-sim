@@ -151,7 +151,7 @@
             "confirmed": false,
             "seed": "T2",
             "teamFromPreviousStage": "standings",
-            "teamFromStandingsPosition": 1
+            "teamFromStandingsPosition": 2
         },
         {
             "stageOrder": 2,
@@ -159,7 +159,7 @@
             "confirmed": false,
             "seed": "T3",
             "teamFromPreviousStage": "standings",
-            "teamFromStandingsPosition": 2
+            "teamFromStandingsPosition": 3
         },
         {
             "stageOrder": 2,
@@ -167,7 +167,7 @@
             "confirmed": false,
             "seed": "T1",
             "teamFromPreviousStage": "standings",
-            "teamFromStandingsPosition": 3
+            "teamFromStandingsPosition": 1
         },
         {
             "stageOrder": 2,
@@ -175,7 +175,7 @@
             "confirmed": false,
             "seed": "W-E",
             "teamFromPreviousStage": "match-winner",
-            "teamFromStandingsPosition": 1
+            "teamFromMatchNumber": 33
         }
     ],
     "matches": [

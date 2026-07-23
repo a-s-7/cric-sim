@@ -4,6 +4,8 @@
         "division": "mens",
         "category": "franchise",
         "format": "T20",
+        "ballsPerInnings": 120,
+        "matchDurationMinutes": 240,
         "name": "International League T20",
         "acronym": "ILT20",
         "edition": "2025-26",

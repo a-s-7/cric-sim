@@ -27,6 +27,26 @@ stageTeams_collection = db['stageTeams']
 matches_collection = db['matches']
 stages_collection = db["stages"]
 
+def update_team_match_win(stageTeamId, points, mode):
+    m = 1 if mode == "Apply" else -1
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(stageTeamId)},
+        {"$inc": {"won": m, "points": m*points, "matchesPlayed": m}}
+    )
+
+def update_team_match_loss(stageTeamId, mode):
+    m = 1 if mode == "Apply" else -1
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(stageTeamId)},
+        {"$inc": {"lost": m, "matchesPlayed": m}}
+    )
+
+def update_team_match_no_result(stageTeamId, points, mode):
+    m = 1 if mode == "Apply" else -1
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(stageTeamId)},
+        {"$inc": {"noResult": m, "matchesPlayed": m, "points": m*points}}
+    )
 
 def update_result(id, match_num, result):
     tournament = tournaments_collection.find_one({"_id": id})
@@ -43,61 +63,27 @@ def update_result(id, match_num, result):
     matchStage = stages_collection.find_one({"_id": ObjectId(match["stageId"])})
 
     if matchStage["type"] == "group":
+        # Undo the previous result
         if match["result"] == "Home-win":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"won": -1, "points": -pointsPerWin, "matchesPlayed": -1}}
-            )
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"lost": -1, "matchesPlayed": -1}}
-            )
+            update_team_match_win(match["homeStageTeamId"], pointsPerWin, "Undo")
+            update_team_match_loss(match["awayStageTeamId"], "Undo")
         elif match["result"] == "Away-win":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"won": -1, "points": -pointsPerWin, "matchesPlayed": -1}}
-            )
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"lost": -1, "matchesPlayed": -1}}
-            )
+            update_team_match_win(match["awayStageTeamId"], pointsPerWin, "Undo")
+            update_team_match_loss(match["homeStageTeamId"], "Undo")
         elif match["result"] == "No-result":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"matchesPlayed": -1, "points": -pointsPerNoResult, "noResult": -1}}
-            )
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"matchesPlayed": -1, "points": -pointsPerNoResult, "noResult": -1}}
-            )
+            update_team_match_no_result(match["homeStageTeamId"], pointsPerNoResult, "Undo")
+            update_team_match_no_result(match["awayStageTeamId"], pointsPerNoResult, "Undo")
 
+        # Apply the new result
         if result == "Home-win":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"won": 1, "points": pointsPerWin, "matchesPlayed": 1}}
-            )
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"lost": 1, "matchesPlayed": 1}}
-            )
+            update_team_match_win(match["homeStageTeamId"], pointsPerWin, "Apply")
+            update_team_match_loss(match["awayStageTeamId"], "Apply")
         elif result == "Away-win":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"won": 1, "points": pointsPerWin, "matchesPlayed": 1}}
-            )
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"lost": 1, "matchesPlayed": 1}}
-            )
+            update_team_match_win(match["awayStageTeamId"], pointsPerWin, "Apply")
+            update_team_match_loss(match["homeStageTeamId"], "Apply")
         elif result == "No-result":
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["homeStageTeamId"])},
-                {"$inc": {"matchesPlayed": 1, "points": pointsPerNoResult, "noResult": 1}}
-            )
-            stageTeams_collection.update_one(
-                {"_id": ObjectId(match["awayStageTeamId"])},
-                {"$inc": {"matchesPlayed": 1, "points": pointsPerNoResult, "noResult": 1}}
-            )
+            update_team_match_no_result(match["homeStageTeamId"], pointsPerNoResult, "Apply")
+            update_team_match_no_result(match["awayStageTeamId"], pointsPerNoResult, "Apply")
 
     update_db_result = matches_collection.update_one(
         {"tournamentId": id, "matchNumber": match_num},
@@ -152,7 +138,6 @@ def update_toss_result(id, match_num, toss_result):
         {"$set": {"tossResult": toss_result}}
     )
 
-
 def update_toss_decision(id, match_num, toss_decision):
     match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
     if not match:
@@ -162,7 +147,6 @@ def update_toss_decision(id, match_num, toss_decision):
         {"_id": ObjectId(match["_id"])},
         {"$set": {"tossDecision": toss_decision}}
     )
-
 
 def update_status(id, match_num, status):
     match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
@@ -331,32 +315,53 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
         if firstMostRecentStage["name"] == "Playoffs":
             confirmTeamsForStage(id, firstMostRecentStage["order"])
 
+        # 1. Find all stages that happen after the one being cleared
         future_stages = list(stages_collection.find({"tournamentId": id, "order": {"$gt": firstMostRecentStage["order"]}}).sort("order", 1))
         isFirstNextStage = True
+        
         for nextStage in future_stages:
+            # 2. Lock the future stage since its prerequisite (the current stage) is now incomplete
             stages_collection.update_one(
                 {"_id": ObjectId(nextStage["_id"])},
                 {"$set": {"status": "locked"}}
             )
+            
+            # 3. Handle team slot assignments for the immediate next stage
             if firstMostRecentStage["type"] != "group" and isFirstNextStage:
+                # If we cleared a knockout match, dynamically re-calculate who qualifies for the next stage
                 confirmTeamsForStage(id, nextStage["order"])
             else:
+                # Otherwise, completely wipe all team stats and qualifications for future stages
                 if nextStage["type"] == "group":
+                    # Revert group stages back to their original pre-seeded teams (or null) and reset stats
+                    print("Resetting")
                     stageTeams_collection.update_many(
                         {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
-                        [{"$set": {"teamId": "$preseededTeamId", "confirmed": False,
+                        [{"$set": {"teamId": {"$ifNull": ["$preseededTeamId", None]}, "confirmed": False,
                         "matchesPlayed": 0, "points": 0, "won": 0, "lost": 0, "noResult": 0,
                         "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
                     )
                 else:
+                    # Clear knockout stage slots entirely (teamId: None) and reset stats
                     stageTeams_collection.update_many(
                         {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
                         [{"$set": {"teamId": None, "confirmed": False,
                         "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
                     )
+            
+            # 4. Wipe all match scorecards in the future stage back to 0-0
             matches_collection.update_many(
                 {"tournamentId": id, "stageId": ObjectId(nextStage["_id"])},
-                {"$set": { "homeTeamRuns": 0, "homeTeamWickets": 0, "homeTeamBalls": 0, "awayTeamRuns": 0, "awayTeamWickets": 0, "awayTeamBalls": 0, "result": "None" }}
+                {"$set": {
+                    "homeTeamRuns": 0, 
+                    "homeTeamWickets": 0, 
+                    "homeTeamBalls": 0, 
+                    "awayTeamRuns": 0, 
+                    "awayTeamWickets": 0, 
+                    "awayTeamBalls": 0, 
+                    "homeMaxBalls": tournament["ballsPerInnings"],
+                    "awayMaxBalls": tournament["ballsPerInnings"],
+                    "result": "None" }}
             )          
             isFirstNextStage = False
 
@@ -364,7 +369,7 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
 
 
 def simulate_tournament_matches(id, stage_num):
-    tournament = tournaments_collection.find_one({"_id": ObjectId(id)})
+    tournament = tournaments_collection.find_one({"_id": id})
     pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
     pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
 
