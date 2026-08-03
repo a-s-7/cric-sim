@@ -669,19 +669,15 @@ function MatchCard({
                             }
 
                             {selected !== "None" && matchTargetStatus && ((tossResultState === 'Home-win' && !battingFirstToggle) || (tossResultState === 'Away-win' && battingFirstToggle)) && <div className="absolute bottom-2 right-0 flex flex-row items-center justify-end w-full pr-2">
+                                {/* Home Team Target (if enabled and batting second*/}
                                 <span className="mr-0.5 text-[1vh]">TARGET</span>
-                                <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
-                                    type="number"
-                                    min="0"
-                                    max="1000"
-                                    value={matchTargetRuns ?? ''}
-                                    onChange={(event) => {
-                                        const val = event.target.value;
+                                <RunsInput
+                                    value={matchTargetRuns}
+                                    onChange={(val) => {
                                         setMatchTargetRuns(val);
                                         handleTargetChange(val);
                                     }}
-                                    onClick={(e) => e.stopPropagation()}
-                                    style={{ color: 'inherit' }}
+                                    className="!w-[3.5ch] !h-[2vh] !text-[1.25vh] shrink-0 ml-1 outline-none focus:outline-none"
                                 />
                             </div>
                             }
@@ -890,19 +886,15 @@ function MatchCard({
                                     </div>
                                 )}
                                 {selected !== "None" && matchTargetStatus && ((tossResultState === 'Home-win' && battingFirstToggle) || (tossResultState === 'Away-win' && !battingFirstToggle)) && <div className="absolute bottom-2 left-0 flex flex-row items-center justify-start w-full pl-2">
+                                    {/* Away Team Target (if enabled and batting second*/}
                                     <span className="mr-0.5 text-[1vh]">TARGET</span>
-                                    <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
-                                        type="number"
-                                        min="0"
-                                        max="1000"
-                                        value={matchTargetRuns ?? ''}
-                                        onChange={(event) => {
-                                            const val = event.target.value;
+                                    <RunsInput
+                                        value={matchTargetRuns}
+                                        onChange={(val) => {
                                             setMatchTargetRuns(val);
                                             handleTargetChange(val);
                                         }}
-                                        onClick={(e) => e.stopPropagation()}
-                                        style={{ color: 'inherit' }}
+                                        className="!w-[3.5ch] !h-[2vh] !text-[1.25vh] shrink-0 ml-1 outline-none focus:outline-none"
                                     />
                                 </div>
                                 }
