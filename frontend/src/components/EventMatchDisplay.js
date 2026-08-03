@@ -106,6 +106,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     homeMaxBalls={match.homeMaxBalls}
                                     awayMaxBalls={match.awayMaxBalls}
                                     inningsBalls={ballsPerInnings}
+                                    target={match.target}
                                 /> : <MatchCard
                                     group={match.group}
                                     stage={match.description ? match.description : match.stage}
@@ -138,6 +139,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     tossResult={match.tossResult}
                                     tossDecision={match.tossDecision}
                                     inningsBalls={ballsPerInnings}
+                                    target={match.target}
                                 />
                             }
                         </div>

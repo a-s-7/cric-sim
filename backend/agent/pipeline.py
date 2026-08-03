@@ -2,12 +2,12 @@ from agent.fetch import get_match_context
 from agent.search import get_match_result
 from agent.update import update_match
 
-def run(tournament_id, match_number):
+def run_match_result_agent(tournament_id, match_number):
     """
-    Runs the full agent pipeline for a single match:
+    Runs the match result agent:
       1. Fetch match context from the database
-      2. Get the real-world result via AI + web search
-      3. Update the match document via the backend API
+      2. Determine the official match result using an LLM with web search
+      3. Update the match document via the backend match service
     """
 
     # Step 1 — Fetch
@@ -15,7 +15,7 @@ def run(tournament_id, match_number):
     context = get_match_context(tournament_id, match_number)
     print(f"       {context['home_team_name']} vs {context['away_team_name']} on {context['date']}")
 
-    # Step 2 — AI
+    # Step 2 — AI search
     print(f"[2/3] Searching for match result...")
     result = get_match_result(context)
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye, faChevronUp, faChevronDown, faBan } from "@fortawesome/free-solid-svg-icons";
 import BallsInput from "./BallsInput";
 import RunsInput from "./RunsInput";
 import WicketsInput from "./WicketsInput";
@@ -38,6 +38,7 @@ function MatchCard({
     format,
     category,
     inningsBalls,
+    target,
 }) {
     const [awayRuns, setAwayRuns] = useState(awayTeamRuns);
     const [awayWickets, setAwayWickets] = useState(awayTeamWickets);
@@ -54,8 +55,8 @@ function MatchCard({
 
     const [matchTimeChange, setMatchTimeChange] = useState(homeTeamMaxBalls !== inningsBalls || awayTeamMaxBalls !== inningsBalls);
 
-    const [matchTargetStatus, setMatchTargetStatus] = useState(false);
-    const [matchTargetRuns, setMatchTargetRuns] = useState();
+    const [matchTargetStatus, setMatchTargetStatus] = useState(target != null);
+    const [matchTargetRuns, setMatchTargetRuns] = useState(target);
 
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
@@ -68,6 +69,9 @@ function MatchCard({
     const [showGenericError, setShowGenericError] = useState(false);
     const genericErrorTimer = useRef(null);
 
+    const [showAbandonGlow, setShowAbandonGlow] = useState(false);
+    const abandonGlowTimer = useRef(null);
+
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     useEffect(() => {
@@ -75,10 +79,20 @@ function MatchCard({
         setAwayRuns(awayTeamRuns);
         setAwayWickets(awayTeamWickets);
         setAwayBalls(awayTeamBalls);
+        setAwayMaxBalls(awayTeamMaxBalls);
         setHomeRuns(homeTeamRuns);
         setHomeWickets(homeTeamWickets);
         setHomeBalls(homeTeamBalls);
-    }, [matchResult, awayTeamRuns, awayTeamWickets, awayTeamBalls, homeTeamRuns, homeTeamWickets, homeTeamBalls]);
+        setHomeMaxBalls(homeTeamMaxBalls);
+        setMatchTargetRuns(target);
+        setMatchTargetStatus(target != null);
+        setTossResultState(tossResult);
+        setBattingFirstToggle(tossDecision === "bat");
+        if (tossResult === 'None' || matchResult === 'None') {
+            setMatchTimeChange(false);
+        }
+    }, [matchResult, awayTeamRuns, awayTeamWickets, awayTeamBalls, homeTeamRuns, homeTeamWickets, homeTeamBalls, target,
+        awayTeamMaxBalls, homeTeamMaxBalls, tossResult, tossDecision]);
 
     const goldGlow = "border border-[#D4AF37] shadow-[0_0_1.25rem_rgba(212,175,55,0.8)]";
     const silverGlow = "border border-[#BFC1C2] shadow-[0_0_1.25rem_rgba(191,193,194,0.9)]";
@@ -116,7 +130,17 @@ function MatchCard({
         };
     };
 
+    const triggerAbandonGlow = () => {
+        if (abandonGlowTimer.current) clearTimeout(abandonGlowTimer.current);
+        setShowAbandonGlow(true);
+        abandonGlowTimer.current = setTimeout(() => setShowAbandonGlow(false), 2000);
+    };
+
     const handleClick = async (result) => {
+        if (tossResultState === 'None') {
+            triggerAbandonGlow();
+            return;
+        }
         setSelected(result);
         try {
             const response = await fetch(`/tournaments/${tournamentID}/match/${matchNum}/${result}`, {
@@ -127,11 +151,11 @@ function MatchCard({
             if (response.ok) {
                 onMatchUpdate();
             } else {
-                alert("Error: Response not ok");
+                // alert("Error: Response not ok");
             }
 
         } catch (error) {
-            alert(error);
+            // alert(error);
         }
     };
 
@@ -157,8 +181,8 @@ function MatchCard({
             awayRunsValue != null && awayRunsValue >= 0 &&
             homeWicketsValue != null && homeWicketsValue >= 0 &&
             awayWicketsValue != null && awayWicketsValue >= 0 &&
-            homeBallsValue != null && homeBallsValue > 0 &&
-            awayBallsValue != null && awayBallsValue > 0;
+            homeBallsValue != null && (selected === "No-result" ? homeBallsValue >= 0 : homeBallsValue > 0) &&
+            awayBallsValue != null && (selected === "No-result" ? awayBallsValue >= 0 : awayBallsValue > 0);
 
         if (!allValid) return null;
 
@@ -173,6 +197,11 @@ function MatchCard({
     };
 
     const handleNRRChange = async (overrides = {}) => {
+        if (tossResultState === 'None') {
+            triggerAbandonGlow();
+            return;
+        }
+
         const parsedScores = validateAndParseScores(overrides, {
             homeRuns, awayRuns, homeBalls, awayBalls, homeWickets, awayWickets
         });
@@ -202,10 +231,10 @@ function MatchCard({
             if (response.ok) {
                 onMatchUpdate();
             } else {
-                alert("Error: Response not ok");
+                // alert("Error: Response not ok");
             }
         } catch (error) {
-            alert(error);
+            // alert(error);
         }
     };
 
@@ -224,20 +253,11 @@ function MatchCard({
                 alert("Error: Response not ok");
             }
         } catch (error) {
-            alert(error);
+            // alert(error);
         }
     };
 
-    const resetMatch = async (result) => {
-        setSelected(result);
-        setHomeRuns('');
-        setHomeWickets('');
-        setHomeBalls('');
-        setAwayRuns('');
-        setAwayWickets('');
-        setAwayBalls('');
-        setHomeMaxBalls(inningsBalls);
-        setAwayMaxBalls(inningsBalls);
+    const resetMatch = async () => {
         await resetMatchData();
         onMatchUpdate();
     };
@@ -271,6 +291,31 @@ function MatchCard({
         setIsFetching(false);
     };
 
+    const handleAbandonMatch = async (e) => {
+        e.stopPropagation();
+
+        if (tossResultState === 'None') {
+            // Un-abandon: Restore default toss
+            handleTossResultChange('Home-win');
+        } else {
+            // Abandon match
+            try {
+                const response = await fetch(`/tournaments/${tournamentID}/match/abandon/${matchNum}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (response.ok) {
+                    onMatchUpdate();
+                } else {
+                    // alert("Error: Response not ok");
+                }
+            } catch (error) {
+                // alert(error);
+            }
+        }
+    };
+
     const handleMatchLock = async (e) => {
         e.stopPropagation(); // Prevents setting the match to "No-result" on click
 
@@ -285,10 +330,10 @@ function MatchCard({
             if (response.ok) {
                 onMatchUpdate();
             } else {
-                alert("Failed to update match status.");
+                // alert("Failed to update match status.");
             }
         } catch (error) {
-            alert("Error updating match status: " + error.message);
+            // alert("Error updating match status: " + error.message);
         }
     };
 
@@ -304,10 +349,11 @@ function MatchCard({
                 }
             );
             if (!response.ok) {
-                alert("Error: Response not ok");
+                // alert("Error: Response not ok");
             }
+            onMatchUpdate();
         } catch (error) {
-            alert(error);
+            // alert(error);
         }
     };
 
@@ -323,10 +369,10 @@ function MatchCard({
                 }
             );
             if (!response.ok) {
-                alert("Error: Response not ok");
+                // alert("Error: Response not ok");
             }
         } catch (error) {
-            alert(error);
+            // alert(error);
         }
     };
 
@@ -336,7 +382,9 @@ function MatchCard({
         });
 
         if (!parsedScores) {
-            return selected === "Home-win" ? `${homeTeamName} won` : `${awayTeamName} won`;
+            if (selected === "Home-win") return `${homeTeamName} won`;
+            if (selected === "Away-win") return `${awayTeamName} won`;
+            return '';
         }
 
         const {
@@ -370,20 +418,26 @@ function MatchCard({
         const teamBattingFirst = homeBattedFirst ? "Home" : "Away";
         const teamBattingSecond = homeBattedFirst ? "Away" : "Home";
 
-        if (scores[teamBattingSecond].runs > scores[teamBattingFirst].runs) {
+        const isDLS = target !== null;
+        // Under DLS, the "par" score the team batting second needed to beat is target - 1,
+        // not the first team's actual runs (which may reflect a curtailed innings).
+        const firstInningsEffectiveRuns = isDLS ? target - 1 : scores[teamBattingFirst].runs;
+        const dlsSuffix = isDLS ? ' (DLS Method)' : '';
+
+        if (scores[teamBattingSecond].runs > firstInningsEffectiveRuns) {
             const wicketsRemaining = 10 - scores[teamBattingSecond].wickets;
 
             const ballsPlayed = scores[teamBattingSecond].balls;
             const maxBalls = scores[teamBattingSecond].maxBalls;
             const ballsLeft = maxBalls - ballsPlayed;
 
-            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${ballsLeft} ${ballsLeft === 1 ? 'ball' : 'balls'} left)`;
-        } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
-            const runsMargin = scores[teamBattingFirst].runs - scores[teamBattingSecond].runs;
+            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${ballsLeft} ${ballsLeft === 1 ? 'ball' : 'balls'} left)${dlsSuffix}`;
+        } else if (scores[teamBattingSecond].runs < firstInningsEffectiveRuns) {
+            const runsMargin = firstInningsEffectiveRuns - scores[teamBattingSecond].runs;
 
-            return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}`;
+            return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}\n${dlsSuffix}`;
         } else {
-            return `${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the Super Over`;
+            return `Match Tied\n${selected === "Home-win" ? scores["Home"].name : scores["Away"].name} won the ${format === "HUNDRED" ? "Super Five" : "Super Over"}`;
         }
 
     }
@@ -391,11 +445,32 @@ function MatchCard({
     const getMatchResult = () => {
         if (selected === 'None') {
             return '';
-        } else if (selected === "No-result") {
-            return 'No Result';
-        } else {
-            return getWinningMargin()
         }
+
+        const parsedScores = validateAndParseScores({}, {
+            homeRuns, awayRuns, homeBalls, awayBalls, homeWickets, awayWickets
+        });
+
+        const isTied = parsedScores &&
+            parsedScores.homeBallsValue > 0 && parsedScores.awayBallsValue > 0 &&
+            parsedScores.homeRunsValue === parsedScores.awayRunsValue;
+
+        if (isTied && format === "HUNDRED" && stage === "Group Stage") {
+            return 'Match Tied';
+        }
+
+        if (selected === "No-result") {
+            if (!parsedScores) {
+                return "Match Abandoned\nWithout a ball bowled";
+            }
+
+            if (parsedScores.homeBallsValue > 0 || parsedScores.awayBallsValue > 0) {
+                return 'No Result';
+            }
+            return 'Match Abandoned\nWithout a ball bowled'
+        }
+
+        return getWinningMargin()
     }
 
     const getTossSpan = (type, section, isTossWinner) => {
@@ -464,6 +539,11 @@ function MatchCard({
     }
 
     const handleMaxBallsChange = async (team, max_balls) => {
+        // For added security
+        if (tossResultState === 'None') {
+            triggerAbandonGlow();
+            return;
+        }
         if (max_balls === '' || max_balls === null) {
             return;
         }
@@ -480,11 +560,36 @@ function MatchCard({
                 }
             );
             if (!response.ok) {
-                alert("Error: Response not ok");
+                // alert("Error: Response not ok");
             }
             onMatchUpdate();
         } catch (error) {
-            alert(error);
+            // alert(error);
+        }
+    };
+
+    const handleTargetChange = async (targetVal) => {
+        // For added security
+        if (tossResultState === 'None') {
+            triggerAbandonGlow();
+            return;
+        }
+        const parsed = targetVal === '' || targetVal === null || targetVal === undefined ? null : parseInt(targetVal, 10);
+        const url = parsed === null
+            ? `/tournaments/${tournamentID}/match/target/${matchNum}`
+            : `/tournaments/${tournamentID}/match/target/${matchNum}/${parsed}`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (!response.ok) {
+                // alert("Error: Response not ok");
+            }
+            onMatchUpdate();
+        } catch (error) {
+            // alert(error);
         }
     };
 
@@ -570,7 +675,11 @@ function MatchCard({
                                     min="0"
                                     max="1000"
                                     value={matchTargetRuns ?? ''}
-                                    onChange={(event) => setMatchTargetRuns(event.target.value)}
+                                    onChange={(event) => {
+                                        const val = event.target.value;
+                                        setMatchTargetRuns(val);
+                                        handleTargetChange(val);
+                                    }}
                                     onClick={(e) => e.stopPropagation()}
                                     style={{ color: 'inherit' }}
                                 />
@@ -601,7 +710,7 @@ function MatchCard({
                         <div className="w-full h-[36%] flex items-center justify-center">
                             <div className={`uppercase text-inherit text-center px-2 ${selected === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: selected !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {selected === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
-                                    <div key={i} className={i !== 0 ? "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.75vw' }}>{line}</div>
+                                    <div key={i} className={i > 0 ? selected === "No-result" ? "" : "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.725vw' }}>{line}</div>
                                 ))}
                             </div>
                         </div>
@@ -665,27 +774,41 @@ function MatchCard({
                                     </div>
                                 )}
                                 <button
-                                    className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
-                                    onClick={(e) => (toggleInningsLengthDisplay(e))}
-                                    title={`Edit match ${format === "HUNDRED" ? "balls" : "overs"}`}
+                                    className={`bg-white transition-all duration-300 shadow-sm border border-zinc-200 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None' ? "text-zinc-400 cursor-default" : "hover:bg-zinc-100 text-zinc-800 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"}`}
+                                    onClick={tossResultState === 'None' ? undefined : toggleInningsLengthDisplay}
+                                    disabled={tossResultState === 'None'}
+                                    title={tossResultState === 'None' ? null : `Edit match ${format === "HUNDRED" ? "balls" : "overs"}`}
                                 >
                                     <FontAwesomeIcon icon={faClock} size="lg" style={{ fontSize: '0.9vh' }} />
                                 </button>
                                 {tournamentID.slice(-2) === 'ps' && (
                                     <button
                                         className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
-                                        onClick={(e) => handleMatchLock(e)}
+                                        onClick={handleMatchLock}
                                         title={"Lock match"}
                                     >
                                         <FontAwesomeIcon icon={faUnlock} size="lg" style={{ fontSize: '0.9vh' }} />
                                     </button>
                                 )}
                                 <button
-                                    className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
-                                    onClick={(e) => (toggleInningsTargetDisplay(e))}
-                                    title={`Edit match ${format === "HUNDRED" ? "balls" : "overs"}`}
+                                    className={`bg-white transition-all duration-300 shadow-sm border border-zinc-200 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None' ? "text-zinc-400 cursor-default" : "hover:bg-zinc-100 text-zinc-800 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"}`}
+                                    onClick={tossResultState === 'None' ? undefined : toggleInningsTargetDisplay}
+                                    disabled={tossResultState === 'None'}
+                                    title={tossResultState === 'None' ? null : `Edit match target`}
                                 >
                                     <FontAwesomeIcon icon={faBullseye} size="lg" style={{ fontSize: '0.9vh' }} />
+                                </button>
+                                <button
+                                    className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                    onClick={handleAbandonMatch}
+                                    title={`Set match to abandoned`}
+                                    style={{
+                                        animation: showAbandonGlow ? 'abandonPulse 0.7s ease-in-out 4' : 'none',
+                                        borderColor: showAbandonGlow ? '#ef4444' : '',
+                                        backgroundColor: showAbandonGlow ? '#fee2e2' : '',
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={faBan} size="lg" style={{ fontSize: '0.9vh', color: tossResultState === 'None' || showAbandonGlow ? '#ef4444' : 'inherit' }} />
                                 </button>
                             </div>
                         </div>
@@ -773,7 +896,11 @@ function MatchCard({
                                         min="0"
                                         max="1000"
                                         value={matchTargetRuns ?? ''}
-                                        onChange={(event) => setMatchTargetRuns(event.target.value)}
+                                        onChange={(event) => {
+                                            const val = event.target.value;
+                                            setMatchTargetRuns(val);
+                                            handleTargetChange(val);
+                                        }}
                                         onClick={(e) => e.stopPropagation()}
                                         style={{ color: 'inherit' }}
                                     />
@@ -786,7 +913,7 @@ function MatchCard({
 
                 <div className="border-t border-gray-100 h-8 flex flex-row items-center justify-between bg-gray-300/20 text-[0.9vw]">
                     <div className={`flex justify-center items-center h-full flex-grow text-black cursor-pointer ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}
-                        onClick={() => resetMatch('None')}
+                        onClick={() => resetMatch()}
                         onMouseEnter={() => setHoveredSection("None")}
                         onMouseLeave={() => setHoveredSection(null)}
                         style={{
@@ -796,7 +923,7 @@ function MatchCard({
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

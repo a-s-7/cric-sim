@@ -38,7 +38,8 @@ function MatchResultCard({
     category,
     homeMaxBalls,
     awayMaxBalls,
-    inningsBalls
+    inningsBalls,
+    target
 }) {
     const battingFirstToggle = tossDecision === "bat";
 
@@ -122,31 +123,48 @@ function MatchResultCard({
         const teamBattingFirst = homeBattedFirst ? "Home" : "Away";
         const teamBattingSecond = homeBattedFirst ? "Away" : "Home";
 
-        if (scores[teamBattingSecond].runs > scores[teamBattingFirst].runs) {
+        const isDLS = target !== null;
+        // Under DLS, the "par" score the team batting second needed to beat is target - 1,
+        // not the first team's actual runs (which may reflect a curtailed innings).
+        const firstInningsEffectiveRuns = isDLS ? target - 1 : scores[teamBattingFirst].runs;
+        const dlsSuffix = isDLS ? ' (DLS Method)' : '';
+
+        if (scores[teamBattingSecond].runs > firstInningsEffectiveRuns) {
             const wicketsRemaining = 10 - scores[teamBattingSecond].wickets;
 
             const ballsPlayed = scores[teamBattingSecond].balls;
             const maxBalls = scores[teamBattingSecond].maxBalls;
             const ballsLeft = maxBalls - ballsPlayed;
 
-            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${ballsLeft} ${ballsLeft === 1 ? 'ball' : 'balls'} left)`;
-        } else if (scores[teamBattingSecond].runs < scores[teamBattingFirst].runs) {
-            const runsMargin = scores[teamBattingFirst].runs - scores[teamBattingSecond].runs;
+            return `${scores[teamBattingSecond].name} won by ${wicketsRemaining} ${wicketsRemaining === 1 ? 'wicket' : 'wickets'}\n(${ballsLeft} ${ballsLeft === 1 ? 'ball' : 'balls'} left)${dlsSuffix}`;
+        } else if (scores[teamBattingSecond].runs < firstInningsEffectiveRuns) {
+            const runsMargin = firstInningsEffectiveRuns - scores[teamBattingSecond].runs;
 
-            return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}`;
+            return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}\n${dlsSuffix}`;
         } else {
-            return `${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the Super Over`;
+            return `Match Tied\n${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the ${format === "HUNDRED" ? "Super Five" : "Super Over"}`;
         }
     }
 
     const getMatchResult = () => {
         if (matchResult === 'None') {
             return '';
-        } else if (matchResult === "No-result") {
-            return 'No Result';
-        } else {
-            return getWinningMargin()
         }
+
+        const isTied = homeTeamBalls > 0 && awayTeamBalls > 0 && homeTeamRuns === awayTeamRuns;
+
+        if (isTied && format === "HUNDRED" && stage === "Group Stage") {
+            return 'Match Tied';
+        }
+
+        if (matchResult === "No-result") {
+            if (homeTeamBalls > 0 || awayTeamBalls > 0) {
+                return 'No Result';
+            }
+            return 'Match Abandoned\nWithout a ball bowled'
+        }
+
+        return getWinningMargin();
     }
 
     const getTossSpan = (type, section, isTossWinner) => {
@@ -207,7 +225,7 @@ function MatchResultCard({
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         style={getStyle("Home-win", 0)}>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5"
+                        <div className="relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5"
                             style={{ opacity: homeLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Home Team Runs */}
@@ -246,8 +264,21 @@ function MatchResultCard({
                                         readOnly={true}
                                     />
                                 </div>
-                            </div>}
+                            </div>
+                            }
 
+                            {matchResult !== "None" && target !== null && ((tossResult === 'Home-win' && !battingFirstToggle) || (tossResult === 'Away-win' && battingFirstToggle)) && <div className="absolute bottom-2 right-0 flex flex-row items-center justify-end w-full pr-2">
+                                <span className="mr-0.5 text-[1vh]">TARGET</span>
+                                <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
+                                    type="number"
+                                    min="0"
+                                    max="1000"
+                                    value={target ?? ''}
+                                    onClick={(e) => e.stopPropagation()}
+                                    style={{ color: 'inherit' }}
+                                />
+                            </div>
+                            }
                         </div>
 
                         <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
@@ -269,7 +300,7 @@ function MatchResultCard({
                         <div className="w-full h-[36%] h-2/5 flex items-center justify-center">
                             <div className={`uppercase text-inherit text-center px-2 ${matchResult === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: matchResult !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {matchResult === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
-                                    <div key={i} className={i !== 0 ? "text-gray-500" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.75vw' }}>{line}</div>
+                                    <div key={i} className={i > 0 ? matchResult === "No-result" ? "" : "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.725vw' }}>{line}</div>
                                 ))}
                             </div>
                         </div>
@@ -307,7 +338,7 @@ function MatchResultCard({
                             }
                         </div>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5"
+                        <div className="relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5"
                             style={{ opacity: awayLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Away Team Runs*/}
@@ -342,8 +373,19 @@ function MatchResultCard({
                                             value={awayMaxBalls}
                                             readOnly={true}
                                         />
+                                        <span className="ml-0.5">)</span>
                                     </div>
                                 )}
+                                {matchResult !== "None" && target !== null && ((tossResult === 'Home-win' && battingFirstToggle) || (tossResult === 'Away-win' && !battingFirstToggle)) && <div className="absolute bottom-2 left-0 flex flex-row items-center justify-start w-full pl-2">
+                                    <span className="mr-0.5 text-[1vh]">TARGET</span>
+                                    <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
+                                        type="number"
+                                        value={target ?? ''}
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ color: 'inherit' }}
+                                    />
+                                </div>
+                                }
                             </div>}
                         </div>
                     </div>

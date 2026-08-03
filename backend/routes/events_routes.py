@@ -105,6 +105,15 @@ def simulate_tournament_matches(id):
     return jsonify(ms.simulate_tournament_matches(id, stage_num))
 
 
+@events_bp.route('/tournaments/<string:id>/match/abandon/<int:match_num>', methods=['PATCH'])
+def abandon_match(id, match_num):
+    try:
+        res = ms.abandon_match(id, match_num)
+        return jsonify(res)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+
+
 @events_bp.route('/tournaments/<string:id>/match/toss-result/<int:match_num>/<string:toss_result>', methods=['PATCH'])
 def set_match_toss_result(id, match_num, toss_result):
     try:
@@ -141,6 +150,15 @@ def set_match_status(id, match_num, status):
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
     return jsonify({"message": f"Match {match_num} for tournament {id} status set successfully"})
+
+@events_bp.route('/tournaments/<string:id>/match/target/<int:match_num>', methods=['PATCH'])
+@events_bp.route('/tournaments/<string:id>/match/target/<int:match_num>/<int:target_runs>', methods=['PATCH'])
+def set_match_target(id, match_num, target_runs=None):
+    try:
+        ms.update_target_runs(id, match_num, target_runs)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    return jsonify({"message": f"Match {match_num} for tournament {id} target runs set successfully"})
 
     
 @events_bp.route("/run-match-update", methods=["POST"])
