@@ -34,7 +34,9 @@ def update_match(context, match_result):
             return {"status": "success", "message": f"Tournament {tournament_id} match #{match_num} abandoned"}
 
         # Case B: Update completed match details
-        
+
+        match_service.clear_tournament_matches(tournament_id, "match-numbers", None, str(match_num))
+
         # Step 1: Update match status, toss result, and toss decision together
         match_service.update_match_status_and_toss(tournament_id, match_num, status, toss_result, toss_decision)
 
