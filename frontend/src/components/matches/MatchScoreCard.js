@@ -807,7 +807,7 @@ function MatchScoreCard({
                                     className={`bg-white transition-all duration-300 shadow-sm border border-zinc-200 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None' ? "text-zinc-400 cursor-default" : "hover:bg-zinc-100 text-zinc-800 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"}`}
                                     onClick={toggleInningsLengthDisplay}
                                     disabled={tossResultState === 'None'}
-                                    title={tossResultState === 'None' ? null : `Edit match ${format === "HUNDRED" ? "balls" : "overs"}`}
+                                    title={tossResultState === 'None' ? null : `Edit match duration`}
                                 >
                                     <FontAwesomeIcon icon={faClock} size="lg" style={{ fontSize: '0.9vh' }} />
                                 </button>
@@ -844,7 +844,7 @@ function MatchScoreCard({
                                 <button
                                     className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
                                     onClick={handleAbandonMatch}
-                                    title={`Set match to abandoned`}
+                                    title={`Set match as abandoned`}
                                     style={{
                                         animation: showAbandonGlow ? 'abandonPulse 0.7s ease-in-out 4' : 'none',
                                         borderColor: showAbandonGlow ? '#ef4444' : '',

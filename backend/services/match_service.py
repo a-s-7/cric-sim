@@ -175,9 +175,13 @@ def update_result(id, match_num, result):
 
         
         # NRR fields only apply when result isn't No-result. Undo/apply the contribution
-        # whenever this change crosses the No-result boundary.
-        was_active = match["result"] in ["Home-win", "Away-win"]
-        will_be_active = result in ["Home-win", "Away-win"]
+        # whenever this change crosses the No-result boundary (except tied matches in HUNDRED format).
+        format_type = tournament["format"]
+        has_score = match["homeTeamBalls"] > 0 and match["awayTeamBalls"] > 0
+        was_tie = has_score and (match["homeTeamRuns"] == match["awayTeamRuns"])
+
+        was_active = match["result"] in ["Home-win", "Away-win"] or (format_type == "HUNDRED" and match["result"] == "No-result" and was_tie)
+        will_be_active = result in ["Home-win", "Away-win"] or (format_type == "HUNDRED" and result == "No-result" and was_tie)
 
         if was_active and not will_be_active:
             _apply_nrr_contribution(match, "Undo")
@@ -237,9 +241,13 @@ def update_target_runs(id, match_num, target_runs):
         {"$set": {"target": target_runs}}
     )
 
-    if match["result"] in ["Home-win", "Away-win"]:
-        has_score = match["homeTeamBalls"] > 0 and match["awayTeamBalls"] > 0
-        
+    tournament = tournaments_collection.find_one({"_id": id})
+    format_type = tournament["format"] if tournament else None
+    has_score = match["homeTeamBalls"] > 0 and match["awayTeamBalls"] > 0
+    is_tie = has_score and (match["homeTeamRuns"] == match["awayTeamRuns"])
+    is_nrr_active = match["result"] in ["Home-win", "Away-win"] or (format_type == "HUNDRED" and match["result"] == "No-result" and is_tie)
+
+    if is_nrr_active:
         if has_score:
             # Determine who batted first
             toss_result = match["tossResult"]
@@ -325,7 +333,17 @@ def update_score(id, match_num, home_runs, home_wickets, home_balls, away_runs, 
     if not old_match:
         raise ValueError("No match was found")
 
-    if old_match["result"] != "No-result":
+    format_type = tournament["format"]
+
+    old_has_score = old_match["homeTeamBalls"] > 0 and old_match["awayTeamBalls"] > 0
+    old_is_tie = old_has_score and (old_match["homeTeamRuns"] == old_match["awayTeamRuns"])
+    old_score_exists = (old_match["result"] != "No-result") or (format_type == "HUNDRED" and old_match["result"] == "No-result" and old_is_tie)
+
+    new_has_score = new_home_balls > 0 and new_away_balls > 0
+    new_is_tie = new_has_score and (int(home_runs) == int(away_runs))
+    new_score_active = (old_match["result"] != "No-result") or (format_type == "HUNDRED" and old_match["result"] == "No-result" and new_is_tie)
+
+    if old_score_exists or new_score_active:
         toss_result = old_match["tossResult"]
         toss_decision = old_match["tossDecision"]
             
@@ -352,8 +370,6 @@ def update_score(id, match_num, home_runs, home_wickets, home_balls, away_runs, 
         # Old ball baselines for delta calculation
         # 1. TypeError guard: Only use target - 1 if target is not None
         # 2. Standings guard: If score wasn't committed yet (balls == 0), previous runs/balls contribution was 0
-        old_score_exists = old_match["homeTeamBalls"] > 0 and old_match["awayTeamBalls"] > 0
-
         hB = home_balls_nrr(old_match["homeTeamWickets"], old_match["homeTeamBalls"]) if old_score_exists else 0
         aB = away_balls_nrr(old_match["awayTeamWickets"], old_match["awayTeamBalls"]) if old_score_exists else 0
 
@@ -366,11 +382,11 @@ def update_score(id, match_num, home_runs, home_wickets, home_balls, away_runs, 
             else ((target - 1) if (target is not None and not home_batted_first) else old_match["awayTeamRuns"])
         )
 
-        new_home_runs = (target - 1) if (target is not None and home_batted_first) else int(home_runs)
-        new_away_runs = (target - 1) if (target is not None and not home_batted_first) else int(away_runs)
+        new_home_runs = 0 if not new_score_active else ((target - 1) if (target is not None and home_batted_first) else int(home_runs))
+        new_away_runs = 0 if not new_score_active else ((target - 1) if (target is not None and not home_batted_first) else int(away_runs))
 
-        new_hB = home_balls_nrr(home_wickets, new_home_balls)
-        new_aB = away_balls_nrr(away_wickets, new_away_balls)
+        new_hB = home_balls_nrr(home_wickets, new_home_balls) if new_score_active else 0
+        new_aB = away_balls_nrr(away_wickets, new_away_balls) if new_score_active else 0
 
         stageTeams_collection.update_one(
             {"_id": ObjectId(old_match["homeStageTeamId"])},
@@ -408,7 +424,13 @@ def update_max_balls(id, match_num, team, max_balls):
     if not old_match:
         raise ValueError("Match not found")
 
-    if old_match["result"] != "No-result":
+    tournament = tournaments_collection.find_one({"_id": id})
+    format_type = tournament["format"] if tournament else None
+    has_score = old_match["homeTeamBalls"] > 0 and old_match["awayTeamBalls"] > 0
+    is_tie = has_score and (old_match["homeTeamRuns"] == old_match["awayTeamRuns"])
+    is_nrr_active = old_match["result"] != "No-result" or (format_type == "HUNDRED" and old_match["result"] == "No-result" and is_tie)
+
+    if is_nrr_active:
         target = old_match["target"]
         has_score = old_match["homeTeamBalls"] > 0 and old_match["awayTeamBalls"] > 0
 
@@ -526,7 +548,11 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
         home_id = match["homeStageTeamId"]
         away_id = match["awayStageTeamId"]
 
-        if has_score and toss_known and match["result"] != "No-result":
+        format_type = tournament["format"]
+        is_tie = has_score and (match["homeTeamRuns"] == match["awayTeamRuns"])
+        is_nrr_active = match["result"] != "No-result" or (format_type == "HUNDRED" and match["result"] == "No-result" and is_tie)
+
+        if has_score and toss_known and is_nrr_active:
             home_runs = (target - 1) if (target is not None and home_batted_first) else match["homeTeamRuns"]
             away_runs = (target - 1) if (target is not None and not home_batted_first) else match["awayTeamRuns"]
 
