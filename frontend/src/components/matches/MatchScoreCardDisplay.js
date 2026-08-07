@@ -1,9 +1,9 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import BallsInput from "./BallsInput";
+import BallsInput from "../inputs/BallsInput";
 
-function MatchResultCard({
+function MatchScoreCardDisplay({
     tournamentID,
     tournamentName,
     tournamentEdition,
@@ -406,4 +406,4 @@ function MatchResultCard({
     );
 }
 
-export default MatchResultCard;
+export default MatchScoreCardDisplay;

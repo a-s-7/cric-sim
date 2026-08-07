@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PointsTable from "./PointsTable";
 
 
-function EventStandings({ standingsData, category, color, format }) {
+function StandingsPanel({ standingsData, category, color, format }) {
     function getFarthestActiveIndex(stages) {
         let farthest = 0;
 
@@ -88,4 +88,4 @@ function EventStandings({ standingsData, category, color, format }) {
     );
 }
 
-export default EventStandings;
+export default StandingsPanel;

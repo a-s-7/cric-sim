@@ -1,8 +1,8 @@
-import MatchCard from "./MatchCard";
-import MatchResultCard from "./MatchResultCard";
+import MatchScoreCard from "./MatchScoreCard";
+import MatchScoreCardDisplay from "./MatchScoreCardDisplay";
 
 
-function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tournamentId, tournamentName, tournamentEdition }) {
+function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentId, tournamentName, tournamentEdition }) {
 
     const matchesArray = matches?.matches || [];
     const teamDictionary = matches?.teams?.[0] || {};
@@ -70,7 +70,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                     {matchesArray && matchesArray.map(match => (
                         <div key={`${match.matchNumber}`}>
                             {((match.stageStatus === "locked" || match.status === "complete") ? true : (match.stage === "Playoffs" || match.stage === "Final") ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
-                                <MatchResultCard
+                                <MatchScoreCardDisplay
                                     homeGradient={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.gradient : ""}
                                     awayGradient={match.awayStageTeam ? teamDictionary[match.awayStageTeam]?.gradient : ""}
                                     homeTeamName={match.homeStageTeam}
@@ -108,7 +108,7 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
                                     inningsBalls={ballsPerInnings}
                                     target={match.target}
                                     targetOvertaken={match.targetOvertaken}
-                                /> : <MatchCard
+                                /> : <MatchScoreCard
                                     group={match.group}
                                     stage={match.description ? match.description : match.stage}
                                     homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
@@ -152,4 +152,4 @@ function EventMatchDisplay({ onMatchUpdate, matches, cardNeutralGradient, tourna
     );
 }
 
-export default EventMatchDisplay;
+export default MatchesPanel;

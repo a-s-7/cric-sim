@@ -1,15 +1,15 @@
 import React from "react";
-import WTCMatchCard from "./WTCMatchCard";
-import WTCMatchResultCard from "./WTCMatchResultCard";
+import MatchCard from "./MatchCard";
+import MatchCardDisplay from "./MatchCardDisplay";
 
-function WTCMatchCardPanel({onMatchUpdate, matches, cycle, urlTag}) {
+function WTCMatchCardPanel({ onMatchUpdate, matches, cycle, urlTag }) {
     const [teamData = {}, seriesData = {}, matchData = []] = matches;
 
     return (
         matchData.map(match => (
             <div key={`${match.seriesID}-${match.matchNumber.charAt(0)}`}>
                 {match.status === "incomplete" ? (
-                    <WTCMatchCard
+                    <MatchCard
                         homeGradient={teamData[match.homeTeam].gradient}
                         awayGradient={teamData[match.awayTeam].gradient}
                         homeTeamName={match.homeTeam}
@@ -30,7 +30,7 @@ function WTCMatchCardPanel({onMatchUpdate, matches, cycle, urlTag}) {
                         urlTag={urlTag}
                     />
                 ) : (
-                    <WTCMatchResultCard
+                    <MatchCardDisplay
                         homeGradient={teamData[match.homeTeam].gradient}
                         awayGradient={teamData[match.awayTeam].gradient}
                         homeTeamName={match.homeTeam}
@@ -44,7 +44,7 @@ function WTCMatchCardPanel({onMatchUpdate, matches, cycle, urlTag}) {
                         time={match.startTime}
                         matchResult={match.result}
                         homeDeduction={match.homeDed}
-                        awayDeduction={match.awayDed}/>
+                        awayDeduction={match.awayDed} />
                 )}
             </div>
         ))

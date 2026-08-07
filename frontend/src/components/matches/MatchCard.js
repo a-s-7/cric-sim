@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-function WTCMatchCard({
-                          homeGradient, awayGradient, homeTeamName, homeTeamFlag, awayTeamName, awayTeamFlag,
-                          seriesName, testNum, venue, dateRange, time, seriesId, onMatchUpdate, matchResult,
-                          homeDeduction, awayDeduction, cycle, urlTag
-                      }) {
+function MatchCard({
+    homeGradient, awayGradient, homeTeamName, homeTeamFlag, awayTeamName, awayTeamFlag,
+    seriesName, testNum, venue, dateRange, time, seriesId, onMatchUpdate, matchResult,
+    homeDeduction, awayDeduction, cycle, urlTag
+}) {
     const neutralGradient = 'linear-gradient(135deg, black, black, silver)';
 
     const [selected, setSelected] = useState(matchResult)
@@ -93,10 +93,10 @@ function WTCMatchCard({
             <div className="body">
                 <div className="mainBody">
                     <div className='homeTeam'
-                         onClick={() => handleClick('Home-win')}
-                         onMouseEnter={() => setHoveredSection("Home-win")}
-                         onMouseLeave={() => setHoveredSection(null)}
-                         style={getStyle("Home-win", 0)}>
+                        onClick={() => handleClick('Home-win')}
+                        onMouseEnter={() => setHoveredSection("Home-win")}
+                        onMouseLeave={() => setHoveredSection(null)}
+                        style={getStyle("Home-win", 0)}>
                         <div className="homeName">
                             {homeTeamName}
                         </div>
@@ -105,19 +105,19 @@ function WTCMatchCard({
                         </div>
                     </div>
                     <div className='neutral'
-                         onClick={() => handleClick('Draw')}
-                         onMouseEnter={() => setHoveredSection("Draw")}
-                         onMouseLeave={() => setHoveredSection(null)}
-                         style={getStyle("Draw", 1)}>
+                        onClick={() => handleClick('Draw')}
+                        onMouseEnter={() => setHoveredSection("Draw")}
+                        onMouseLeave={() => setHoveredSection(null)}
+                        style={getStyle("Draw", 1)}>
                         <div className="date">{dateRange}</div>
                         <div className="vs">VS</div>
                         <div className="time">{time + " your time"}</div>
                     </div>
                     <div className='awayTeam'
-                         onClick={() => handleClick('Away-win')}
-                         onMouseEnter={() => setHoveredSection("Away-win")}
-                         onMouseLeave={() => setHoveredSection(null)}
-                         style={getStyle("Away-win", 2)}>
+                        onClick={() => handleClick('Away-win')}
+                        onMouseEnter={() => setHoveredSection("Away-win")}
+                        onMouseLeave={() => setHoveredSection(null)}
+                        style={getStyle("Away-win", 2)}>
                         <div className="awayFlag">
                             <img src={awayTeamFlag} alt={`Flag of ${awayTeamName}`}></img>
                         </div>
@@ -129,36 +129,36 @@ function WTCMatchCard({
                 <div className="infoBody">
                     <div className="homeDed">
                         <input type="number"
-                               placeholder="Point Deduction"
-                               value={homeDed === 0 ? "" : homeDed}
-                               min="0"
-                               onChange={(event) => {
-                                   setHomeDed(event.target.value)
-                                   updateDeduction(event.target.value, 'home-team')
-                               }
-                               }/>
+                            placeholder="Point Deduction"
+                            value={homeDed === 0 ? "" : homeDed}
+                            min="0"
+                            onChange={(event) => {
+                                setHomeDed(event.target.value)
+                                updateDeduction(event.target.value, 'home-team')
+                            }
+                            } />
                     </div>
                     <div className="matchInfo"
-                         onClick={() => resetMatch('None')}
-                         onMouseEnter={() => setHoveredSection("None")}
-                         onMouseLeave={() => setHoveredSection(null)}
-                         style={{
-                             background: hoveredSection === "None" ? 'rgba(0, 0, 0, 0.1)' : 'transparent',
-                             color: 'black'
-                         }}
+                        onClick={() => resetMatch('None')}
+                        onMouseEnter={() => setHoveredSection("None")}
+                        onMouseLeave={() => setHoveredSection(null)}
+                        style={{
+                            background: hoveredSection === "None" ? 'rgba(0, 0, 0, 0.1)' : 'transparent',
+                            color: 'black'
+                        }}
                     >
                         {seriesName + " · " + testNum + " · " + venue}
                     </div>
                     <div className="awayDed">
                         <input type="number"
-                               placeholder="Point Deduction"
-                               value={awayDed === 0 ? "" : awayDed}
-                               min="0"
-                               onChange={(event) => {
-                                   setAwayDed(event.target.value)
-                                   updateDeduction(event.target.value, 'away-team')
-                               }
-                               }/>
+                            placeholder="Point Deduction"
+                            value={awayDed === 0 ? "" : awayDed}
+                            min="0"
+                            onChange={(event) => {
+                                setAwayDed(event.target.value)
+                                updateDeduction(event.target.value, 'away-team')
+                            }
+                            } />
                     </div>
                 </div>
             </div>
@@ -166,4 +166,4 @@ function WTCMatchCard({
     );
 }
 
-export default WTCMatchCard
+export default MatchCard

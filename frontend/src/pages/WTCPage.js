@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
-import WTCMatchCardPanel from "../components/WTC/WTCMatchCardPanel";
-import WTCPointsTable from "../components/WTC/WTCPointsTable";
+import React, { useState, useEffect } from "react";
+import WTCMatchCardPanel from "../components/matches/WTCMatchCardPanel";
+import WTCPointsTable from "../components/standings/WTCPointsTable";
 import ControlBar from "../components/ControlBar";
 
-function WTCPage({wtcUrlTag, wtcName, wtcEdition, wtcControlBarColor, wtcLogo, wtcPointsTableColor}) {
+function WTCPage({ wtcUrlTag, wtcName, wtcEdition, wtcControlBarColor, wtcLogo, wtcPointsTableColor }) {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [selectedStadiums, setSelectedStadiums] = useState([]);
 
@@ -26,15 +26,15 @@ function WTCPage({wtcUrlTag, wtcName, wtcEdition, wtcControlBarColor, wtcLogo, w
         await refreshPointsTable();
     }
 
-   const fetchMatchData = async () => {
+    const fetchMatchData = async () => {
         let teamVal = "All";
         let stadiumVal = "All";
 
-        if(selectedTeams.length > 0) {
+        if (selectedTeams.length > 0) {
             teamVal = selectedTeams.map(team => team.label).join("-");
         }
 
-        if(selectedStadiums.length > 0) {
+        if (selectedStadiums.length > 0) {
             stadiumVal = selectedStadiums.map(stadium => stadium.label).join("#");
         }
 
@@ -104,31 +104,31 @@ function WTCPage({wtcUrlTag, wtcName, wtcEdition, wtcControlBarColor, wtcLogo, w
     return (
         <div className="flex flex-col bg-white w-full h-[93%]">
             <ControlBar refreshFunction={handleRefresh}
-                        matchCount={Array.isArray(matchesData[2]) ? matchesData[2].length : 0}
-                        teams={selectedTeams}
-                        stadiums={selectedStadiums}
-                        sst={setSelectedTeams}
-                        setStadiums={setSelectedStadiums}
-                        urlTag={wtcUrlTag}
-                        edition={wtcEdition}
-                        logo={wtcLogo}
-                        name={wtcName}
-                        color={wtcControlBarColor}
-                        matchesFiltered={matchesData[2]}
+                matchCount={Array.isArray(matchesData[2]) ? matchesData[2].length : 0}
+                teams={selectedTeams}
+                stadiums={selectedStadiums}
+                sst={setSelectedTeams}
+                setStadiums={setSelectedStadiums}
+                urlTag={wtcUrlTag}
+                edition={wtcEdition}
+                logo={wtcLogo}
+                name={wtcName}
+                color={wtcControlBarColor}
+                matchesFiltered={matchesData[2]}
             />
 
             <div className="matchArea">
                 <div className="matchCardContainer">
                     <WTCMatchCardPanel key={matchAreaKey}
-                                       onMatchUpdate={refreshPointsTable}
-                                       matches={matchesData}
-                                       cycle={wtcEdition}
-                                        urlTag={wtcUrlTag}/>
+                        onMatchUpdate={refreshPointsTable}
+                        matches={matchesData}
+                        cycle={wtcEdition}
+                        urlTag={wtcUrlTag} />
                 </div>
                 <div className="tableContainer">
                     <div className="tableWrapper">
                         <WTCPointsTable pointsTableData={pointsTableData}
-                                        headerColor={wtcPointsTableColor}/>
+                            headerColor={wtcPointsTableColor} />
                     </div>
                     {/* <div className="tableWrapper">*/}
                     {/*    <WTCPointsTable pointsTableData={pointsTableData}*/}

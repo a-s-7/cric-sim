@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye, faChevronUp, faChevronDown, faBan, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import BallsInput from "./BallsInput";
-import RunsInput from "./RunsInput";
-import WicketsInput from "./WicketsInput";
-import FetchStatusButton from "./FetchStatusButton";
+import BallsInput from "../inputs/BallsInput";
+import RunsInput from "../inputs/RunsInput";
+import WicketsInput from "../inputs/WicketsInput";
+import FetchStatusButton from "../buttons/FetchStatusButton";
 
-function MatchCard({
+function MatchScoreCard({
     tournamentID,
     tournamentName,
     tournamentEdition,
@@ -830,10 +830,10 @@ function MatchCard({
                                 </button>
                                 <button
                                     className={`transition-all duration-300 shadow-sm border flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None'
-                                            ? "bg-white border-zinc-200 text-zinc-400 cursor-default"
-                                            : targetOvertakenState
-                                                ? "bg-amber-100 text-amber-600 border-amber-300 hover:bg-amber-200 hover:scale-110 hover:shadow-[0_0_8px_rgba(217,119,6,0.2)]"
-                                                : "bg-white border-zinc-200 text-zinc-800 hover:bg-zinc-100 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                        ? "bg-white border-zinc-200 text-zinc-400 cursor-default"
+                                        : targetOvertakenState
+                                            ? "bg-amber-100 text-amber-600 border-amber-300 hover:bg-amber-200 hover:scale-110 hover:shadow-[0_0_8px_rgba(217,119,6,0.2)]"
+                                            : "bg-white border-zinc-200 text-zinc-800 hover:bg-zinc-100 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
                                         }`}
                                     onClick={handleToggleTargetOvertaken}
                                     disabled={tossResultState === 'None'}
@@ -966,4 +966,4 @@ function MatchCard({
     );
 }
 
-export default MatchCard;
+export default MatchScoreCard;

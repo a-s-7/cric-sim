@@ -1,10 +1,10 @@
 import React from "react";
 
-function WTCMatchResultCard({
-                          homeGradient, awayGradient, homeTeamName, homeTeamFlag, awayTeamName, awayTeamFlag,
-                          seriesName, testNum, venue, dateRange, time, matchResult,
-                          homeDeduction, awayDeduction
-                      }) {
+function MatchCardDisplay({
+    homeGradient, awayGradient, homeTeamName, homeTeamFlag, awayTeamName, awayTeamFlag,
+    seriesName, testNum, venue, dateRange, time, matchResult,
+    homeDeduction, awayDeduction
+}) {
     const neutralGradient = 'linear-gradient(135deg, black, black, silver)';
 
 
@@ -28,7 +28,7 @@ function WTCMatchResultCard({
             <div className="body">
                 <div className="mainBody">
                     <div className='homeTeam'
-                         style={getStyle("Home-win", 0)}>
+                        style={getStyle("Home-win", 0)}>
                         <div className="homeName">
                             {homeTeamName}
                         </div>
@@ -37,13 +37,13 @@ function WTCMatchResultCard({
                         </div>
                     </div>
                     <div className='neutral'
-                         style={getStyle("Draw", 1)}>
+                        style={getStyle("Draw", 1)}>
                         <div className="date">{dateRange}</div>
                         <div className="vs">VS</div>
                         <div className="time">{time + " your time"}</div>
                     </div>
                     <div className='awayTeam'
-                         style={getStyle("Away-win", 2)}>
+                        style={getStyle("Away-win", 2)}>
                         <div className="awayFlag">
                             <img src={awayTeamFlag} alt={`Flag of ${awayTeamName}`}></img>
                         </div>
@@ -55,20 +55,20 @@ function WTCMatchResultCard({
                 <div className="infoBody">
                     <div className="homeDed">
                         <input type="number"
-                               placeholder={homeDeduction === 0 ? "" : homeDeduction}
-                               value={homeDeduction === 0 ? "" : homeDeduction}
-                               min="0"
-                              />
+                            placeholder={homeDeduction === 0 ? "" : homeDeduction}
+                            value={homeDeduction === 0 ? "" : homeDeduction}
+                            min="0"
+                        />
                     </div>
                     <div className="matchInfo">
                         {seriesName + " · " + testNum + " · " + venue}
                     </div>
                     <div className="awayDed">
                         <input type="number"
-                               placeholder={awayDeduction === 0 ? "" : awayDeduction}
-                               value={awayDeduction === 0 ? "" : awayDeduction}
-                               min="0"
-                               />
+                            placeholder={awayDeduction === 0 ? "" : awayDeduction}
+                            value={awayDeduction === 0 ? "" : awayDeduction}
+                            min="0"
+                        />
                     </div>
                 </div>
             </div>
@@ -76,4 +76,4 @@ function WTCMatchResultCard({
     );
 }
 
-export default WTCMatchResultCard
+export default MatchCardDisplay

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import NewControlBar from "../components/NewControlBar";
-import EventStandings from "../components/EventStandings";
-import EventMatchDisplay from "../components/EventMatchDisplay";
+import ControlBar from "../components/ControlBar";
+import StandingsPanel from "../components/standings/StandingsPanel";
+import MatchesPanel from "../components/matches/MatchesPanel";
 import { calculateStandingsMovement } from "../utils/standingsUtils";
 
 
@@ -97,7 +97,7 @@ function TournamentPage({
 
     return (
         <div className="h-[93%] flex flex-col" style={{ backgroundColor: tournamentGradient }}>
-            <NewControlBar
+            <ControlBar
                 resetState={resetState}
                 refreshFunction={handleRefresh}
                 teams={selectedTeams}
@@ -121,7 +121,7 @@ function TournamentPage({
 
             <div className="flex flex-row w-full flex-1 overflow-hidden">
                 <div className="flex flex-col w-[55%] h-full overflow-auto no-scrollbar">
-                    <EventMatchDisplay
+                    <MatchesPanel
                         key={mode === "real-world" ? tournamentRWID : tournamentPSID}
                         onMatchUpdate={handleRefresh}
                         matches={matchesData}
@@ -131,7 +131,7 @@ function TournamentPage({
                         cardNeutralGradient={tournamentGradient} />
                 </div>
                 <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
-                    <EventStandings key={mode === "real-world" ? tournamentRWID : tournamentPSID}
+                    <StandingsPanel key={mode === "real-world" ? tournamentRWID : tournamentPSID}
                         standingsData={standingsData.standings}
                         category={standingsData.category}
                         color={tournamentPointsTableColor}
