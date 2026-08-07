@@ -160,6 +160,13 @@ def set_match_target(id, match_num, target_runs=None):
         return jsonify({"error": str(e)}), 404
     return jsonify({"message": f"Match {match_num} for tournament {id} target runs set successfully"})
 
+@events_bp.route('/tournaments/<string:id>/match/target-overtaken/<int:match_num>/<string:target_overtaken>', methods=['PATCH'])
+def set_match_target_overtake_status(id, match_num, target_overtaken):
+    try:
+        ms.update_target_overtake_status(id, match_num, target_overtaken)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    return jsonify({"message": f"Match {match_num} for tournament {id} target overtaken status set successfully"})
     
 @events_bp.route("/run-match-update", methods=["POST"])
 def run_match_update():

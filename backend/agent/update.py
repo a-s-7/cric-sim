@@ -22,6 +22,9 @@ def update_match(context, match_result):
     toss_result = match_result["tossResult"]
     toss_decision = match_result["tossDecision"]
     target = match_result["target"]
+    target_overtaken = match_result["targetOvertaken"]
+    if isinstance(target_overtaken, str):
+        target_overtaken = target_overtaken.lower() == "true"
     status = "complete"
 
     try:        
@@ -52,6 +55,8 @@ def update_match(context, match_result):
         # Step 5: Update target if it exists
         if target is not None:
             match_service.update_target_runs(tournament_id, match_num, target)
+            if target_overtaken:
+                match_service.update_target_overtake_status(tournament_id, match_num, target_overtaken)
 
         # Step 6: Update score (handles NRR)
         match_service.update_score(

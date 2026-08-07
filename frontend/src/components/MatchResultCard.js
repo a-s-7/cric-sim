@@ -39,7 +39,8 @@ function MatchResultCard({
     homeMaxBalls,
     awayMaxBalls,
     inningsBalls,
-    target
+    target,
+    targetOvertaken
 }) {
     const battingFirstToggle = tossDecision === "bat";
 
@@ -130,6 +131,10 @@ function MatchResultCard({
         const dlsSuffix = isDLS ? ' (DLS Method)' : '';
 
         if (scores[teamBattingSecond].runs > firstInningsEffectiveRuns) {
+            if (isDLS && targetOvertaken) {
+                const runsMargin = scores[teamBattingSecond].runs - firstInningsEffectiveRuns;
+                return `${scores[teamBattingSecond].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}\n${dlsSuffix}`;
+            }
             const wicketsRemaining = 10 - scores[teamBattingSecond].wickets;
 
             const ballsPlayed = scores[teamBattingSecond].balls;

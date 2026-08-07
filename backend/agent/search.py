@@ -40,7 +40,8 @@ def get_match_result(context):
         "awayTeamBalls": number,
         "awayMaxBalls": number,
         "homeMaxBalls": number,
-        "target": null or number 
+        "target": null or number,
+        "targetOvertaken": boolean
     }}
 
    Rules:
@@ -72,6 +73,7 @@ def get_match_result(context):
         - Do NOT set target for a normal, uninterrupted chase. A team simply chasing the first innings score is not a DLS target — leave target as null in that case.
         - If DLS (or equivalent) was applied, set target to the revised target score the team batting second needed to win, exactly as officially declared for the match. Do not calculate or estimate this yourself — find and verify the officially stated revised target.
         - If DLS was applied, homeMaxBalls and awayMaxBalls must reflect the revised overs/balls allocated to each team's innings after the interruption, not the original scheduled length.
+        - targetOvertaken must be a boolean. Set targetOvertaken to true for DLS matches where the team batting second successfully goes past the revised DLS target in truncated matches. If they do not, set it to false.
         - If you cannot verify with confidence whether DLS was applied or what the exact revised target was, treat this as a field that cannot be verified and return the "Could not find match result" error.
 
     - Tied score rules:

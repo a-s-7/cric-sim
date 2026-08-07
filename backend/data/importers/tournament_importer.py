@@ -283,6 +283,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         match["homeMaxBalls"] = tournament["ballsPerInnings"]
         match["awayMaxBalls"] = tournament["ballsPerInnings"]
         match["target"] = None
+        match["targetOvertaken"] = False
         match["autoUpdate"] = auto_update
         match["tournamentId"] = tournament["_id"]
         

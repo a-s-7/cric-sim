@@ -1,10 +1,13 @@
 {
     "tournament": {
         "_id": "icc-mens-t20-wc-2024",
+        "division": "mens",
         "category": "international",
         "format": "T20",
+        "ballsPerInnings": 120,
+        "matchDurationMinutes": 240,
         "name": "ICC Men's T20 World Cup",
-        "edition": 2024,
+        "edition": "2024",
         "status": "active",
         "startDate": "2024-06-01",
         "endDate": "2024-06-29",

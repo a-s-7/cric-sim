@@ -70,6 +70,7 @@ def _blank_match_fields(tournament):
         "homeMaxBalls": max_balls,
         "awayMaxBalls": max_balls,
         "target": None,
+        "targetOvertaken": False,
         "tossResult": "Home-win",
         "tossDecision": "bat",
         "result": "None",
@@ -684,6 +685,8 @@ def update_toss_result(id, match_num, toss_result):
     match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
     if not match:
         raise ValueError("Match not found")
+    elif match["target"] != None:
+        raise ValueError("Toss result cannot be changed when target is entered")
 
     matches_collection.update_one(
         {"_id": ObjectId(match["_id"])},
@@ -694,6 +697,8 @@ def update_toss_decision(id, match_num, toss_decision):
     match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
     if not match:
         raise ValueError("Match not found")
+    elif match["target"] != None:
+        raise ValueError("Toss decision cannot be changed when target is entered")
 
     matches_collection.update_one(
         {"_id": ObjectId(match["_id"])},
@@ -846,4 +851,16 @@ def run_match_update(tournament_id=None, match_num=None):
     return result
     
 
-    
+def update_target_overtake_status(id, match_num, target_overtaken):
+    match = _get_match_with_toss_guard(id, match_num, "updating target overtaken status")
+
+    if isinstance(target_overtaken, str):
+        target_overtaken = target_overtaken.lower() == "true"
+
+    matches_collection.update_one(
+        {"_id": ObjectId(match["_id"])},
+        {"$set": {"targetOvertaken": target_overtaken}}
+    )
+
+    return {"message": f"Match {match_num} for tournament {id} updated successfully"}
+

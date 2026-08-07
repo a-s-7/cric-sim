@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye, faChevronUp, faChevronDown, faBan } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye, faChevronUp, faChevronDown, faBan, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import BallsInput from "./BallsInput";
 import RunsInput from "./RunsInput";
 import WicketsInput from "./WicketsInput";
@@ -39,6 +39,7 @@ function MatchCard({
     category,
     inningsBalls,
     target,
+    targetOvertaken,
 }) {
     const [awayRuns, setAwayRuns] = useState(awayTeamRuns);
     const [awayWickets, setAwayWickets] = useState(awayTeamWickets);
@@ -57,6 +58,7 @@ function MatchCard({
 
     const [matchTargetStatus, setMatchTargetStatus] = useState(target != null);
     const [matchTargetRuns, setMatchTargetRuns] = useState(target);
+    const [targetOvertakenState, setTargetOvertakenState] = useState(targetOvertaken || false);
 
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
@@ -88,11 +90,12 @@ function MatchCard({
         setMatchTargetStatus(target != null);
         setTossResultState(tossResult);
         setBattingFirstToggle(tossDecision === "bat");
+        setTargetOvertakenState(targetOvertaken || false);
         if (tossResult === 'None' || matchResult === 'None') {
             setMatchTimeChange(false);
         }
     }, [matchResult, awayTeamRuns, awayTeamWickets, awayTeamBalls, homeTeamRuns, homeTeamWickets, homeTeamBalls, target,
-        awayTeamMaxBalls, homeTeamMaxBalls, tossResult, tossDecision]);
+        awayTeamMaxBalls, homeTeamMaxBalls, tossResult, tossDecision, targetOvertaken]);
 
     const goldGlow = "border border-[#D4AF37] shadow-[0_0_1.25rem_rgba(212,175,55,0.8)]";
     const silverGlow = "border border-[#BFC1C2] shadow-[0_0_1.25rem_rgba(191,193,194,0.9)]";
@@ -425,6 +428,10 @@ function MatchCard({
         const dlsSuffix = isDLS ? ' (DLS Method)' : '';
 
         if (scores[teamBattingSecond].runs > firstInningsEffectiveRuns) {
+            if (isDLS && targetOvertakenState) {
+                const runsMargin = scores[teamBattingSecond].runs - firstInningsEffectiveRuns;
+                return `${scores[teamBattingSecond].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}\n${dlsSuffix}`;
+            }
             const wicketsRemaining = 10 - scores[teamBattingSecond].wickets;
 
             const ballsPlayed = scores[teamBattingSecond].balls;
@@ -487,34 +494,33 @@ function MatchCard({
         return (
             <div
                 onClick={(e) => {
-                    if (!isTossWinner) return;
                     e.stopPropagation();
+                    if (!isTossWinner || matchTargetStatus) return;
                     handleTossResultChange(tossResultState === 'Home-win' ? 'Away-win' : 'Home-win');
                 }}
                 className={`flex items-center justify-center rounded-full transition-all duration-500 ease-in-out border border-white/20 hover:border-gray-300 ${baseColor} group/coin hover:bg-white has-[.inner-toss:hover]:bg-[#d1d5db]`}
                 style={{
                     width: "3vh",
                     height: "3vh",
-                    cursor: isTossWinner ? "pointer" : "default",
+                    cursor: isTossWinner && !matchTargetStatus ? "pointer" : "default",
                     boxShadow: isTossWinner && !isLoser ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
-                    opacity: isTossWinner ? (isLoser ? 0.4 : 1) : 0,
+                    opacity: isTossWinner ? (matchTargetStatus ? 0.4 : (isLoser ? 0.4 : 1)) : 0,
                     transform: isTossWinner ? 'scale(1)' : 'scale(0.4)',
-                    pointerEvents: isTossWinner ? 'auto' : 'none'
+                    pointerEvents: isTossWinner && !matchTargetStatus ? 'auto' : 'none'
                 }}
             >
-                {/* The Ring is now solid white */}
                 <div className="flex items-center justify-center rounded-full w-[2.6vh] h-[2.6vh] bg-white shadow-sm transition-colors duration-200 group-hover/coin:bg-gray-700 has-[.inner-toss:hover]:bg-white">
                     <div
                         onClick={(e) => {
-                            if (!isTossWinner) return;
                             e.stopPropagation();
+                            if (!isTossWinner || matchTargetStatus) return;
                             handleTossDecisionChange(!battingFirstToggle);
                         }}
                         className={`inner-toss group/inner-hover flex items-center justify-center rounded-full transition-colors duration-200 ${innerColor} hover:bg-gray-700`}
                         style={{
                             width: "2vh",
                             height: "2vh",
-                            cursor: "pointer",
+                            cursor: matchTargetStatus ? "default" : "pointer",
                         }}
                     >
                         <img
@@ -537,6 +543,34 @@ function MatchCard({
         e.stopPropagation();
         setMatchTargetStatus(!matchTargetStatus);
     }
+
+    const handleToggleTargetOvertaken = async (e) => {
+        e.stopPropagation();
+        if (tossResultState === 'None') return;
+        const newStatus = !targetOvertakenState;
+        try {
+            const response = await fetch(`/tournaments/${tournamentID}/match/target-overtaken/${matchNum}/${newStatus}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 429) {
+                setShowRateLimit(true);
+                return;
+            }
+            if (!response.ok) {
+                throw new Error("Failed to update target overtaken status");
+            }
+            setTargetOvertakenState(newStatus);
+            if (onMatchUpdate) {
+                onMatchUpdate();
+            }
+        } catch (error) {
+            console.error(error);
+            setShowGenericError(true);
+        }
+    };
 
     const handleMaxBallsChange = async (team, max_balls) => {
         // For added security
@@ -771,7 +805,7 @@ function MatchCard({
                                 )}
                                 <button
                                     className={`bg-white transition-all duration-300 shadow-sm border border-zinc-200 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None' ? "text-zinc-400 cursor-default" : "hover:bg-zinc-100 text-zinc-800 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"}`}
-                                    onClick={tossResultState === 'None' ? undefined : toggleInningsLengthDisplay}
+                                    onClick={toggleInningsLengthDisplay}
                                     disabled={tossResultState === 'None'}
                                     title={tossResultState === 'None' ? null : `Edit match ${format === "HUNDRED" ? "balls" : "overs"}`}
                                 >
@@ -788,11 +822,24 @@ function MatchCard({
                                 )}
                                 <button
                                     className={`bg-white transition-all duration-300 shadow-sm border border-zinc-200 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None' ? "text-zinc-400 cursor-default" : "hover:bg-zinc-100 text-zinc-800 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"}`}
-                                    onClick={tossResultState === 'None' ? undefined : toggleInningsTargetDisplay}
+                                    onClick={toggleInningsTargetDisplay}
                                     disabled={tossResultState === 'None'}
                                     title={tossResultState === 'None' ? null : `Edit match target`}
                                 >
                                     <FontAwesomeIcon icon={faBullseye} size="lg" style={{ fontSize: '0.9vh' }} />
+                                </button>
+                                <button
+                                    className={`transition-all duration-300 shadow-sm border flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None'
+                                            ? "bg-white border-zinc-200 text-zinc-400 cursor-default"
+                                            : targetOvertakenState
+                                                ? "bg-amber-100 text-amber-600 border-amber-300 hover:bg-amber-200 hover:scale-110 hover:shadow-[0_0_8px_rgba(217,119,6,0.2)]"
+                                                : "bg-white border-zinc-200 text-zinc-800 hover:bg-zinc-100 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                        }`}
+                                    onClick={handleToggleTargetOvertaken}
+                                    disabled={tossResultState === 'None'}
+                                    title={tossResultState === 'None' ? null : `Mark match target as overtaken`}
+                                >
+                                    <FontAwesomeIcon icon={faCircleCheck} size="lg" style={{ fontSize: '0.9vh' }} />
                                 </button>
                                 <button
                                     className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
