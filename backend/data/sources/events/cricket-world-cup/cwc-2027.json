@@ -1,0 +1,119 @@
+{
+    "tournament": {
+        "_id": "icc-mens-cwc-2027",
+        "division": "mens",
+        "category": "international",
+        "format": "ODI",
+        "ballsPerInnings": 300,
+        "matchDurationMinutes": 480,
+        "name": "ICC Men's Cricket World Cup",
+        "edition": "2027",
+        "status": "upcoming",
+        "startDate": "2027-10-04",
+        "endDate": "2027-11-21",
+        "structure": "league",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, #ffffff, #431011, #431011)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/2027_Cricket_World_Cup_Logo.svg/500px-2027_Cricket_World_Cup_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/2027_Cricket_World_Cup_Logo.svg/500px-2027_Cricket_World_Cup_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        "pointsTableColor": "#30156E",
+        "tileBackgroundColor": "#ffffff",
+        "teams": [
+            "IRE",
+            "NAM",
+            "NED"
+        ],
+        "stadiums": [
+            "Mangaung Oval",
+            "Newlands Cricket Ground",
+            "Centurion Park",
+            "Kingsmead Cricket Ground",
+            "Buffalo Park",
+            "St George's Park",
+            "Wanderers Stadium",
+            "Boland Park",
+            "Queens Sports Club",
+            "Harare Sports Club",
+            "Mosi-oa-Tunya International Cricket Stadium",
+            "Namibia Cricket Ground"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Super Series",
+            "status": "active",
+            "config": {
+                "numGroups": 1,
+                "teamsPerGroup": 3,
+                "matchesPerTeam": 2,
+                "qualifiersPerGroup": 1
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "IRE",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NAM",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NED",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2027-10-04 14:00:00",
+            "venue": "Namibia Cricket Ground",
+            "homeStageTeamId": "NAM",
+            "awayStageTeamId": "IRE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2027-10-05 14:00:00",
+            "venue": "Namibia Cricket Ground",
+            "homeStageTeamId": "IRE",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2027-10-06 14:00:00",
+            "venue": "Namibia Cricket Ground",
+            "homeStageTeamId": "NAM",
+            "awayStageTeamId": "NED",
+            "result": "None",
+            "status": "incomplete"
+        }
+    ]
+}

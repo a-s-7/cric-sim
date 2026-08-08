@@ -244,6 +244,66 @@
             "stadium": "Utilita Bowl",
             "city": "Southampton",
             "country": "England"
+        },
+        {
+            "stadium": "Mangaung Oval",
+            "city": "Bloemfontein",
+            "country": "South Africa"
+        },
+        {
+            "stadium": "Newlands Cricket Ground",
+            "city": "Cape Town",
+            "country": "South Africa"
+        },
+        {
+            "stadium": "Centurion Park",
+            "city": "Centurion",
+            "country": "South Africa"
+        },
+        {
+            "stadium": "Kingsmead Cricket Ground",
+            "city": "Durban",
+            "country": "South Africa"
+        },
+        {
+            "stadium": "Buffalo Park",
+            "city": "KuGompo City",
+            "country": "South Africa"
+        },
+        {
+            "stadium": "St George's Park",
+            "city": "Gqeberha",
+            "country": "South Africa"
+        },
+        {
+            "stadium": "Wanderers Stadium",
+            "city": "Johannesburg",
+            "country": "South Africa"
+        },
+        {
+            "stadium": "Boland Park",
+            "city": "Paarl",
+            "country": "South Africa"
+        },
+        {
+            "stadium": "Queens Sports Club",
+            "city": "Bulawayo",
+            "country": "Zimbabwe"
+        },
+        {
+            "stadium": "Harare Sports Club",
+            "city": "Harare",
+            "country": "Zimbabwe"
+        },
+        {
+            "stadium": "Mosi-oa-Tunya International Cricket Stadium",
+            "city": "Victoria Falls",
+            "country": "Zimbabwe"
+        },
+        {
+            "stadium": "Namibia Cricket Ground",
+            "city": "Windhoek",
+            "country": "Namibia"
         }
     ]
 }

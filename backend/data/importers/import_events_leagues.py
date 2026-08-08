@@ -16,7 +16,8 @@ TOURNAMENTS = {
     13: {"category": "leagues", "folder": "thu", "name": "thu-2025.json"},
     14: {"category": "leagues", "folder": "thu", "name": "thu-2026.json"},
     15: {"category": "events", "folder": "asia-cup", "name": "ac-2023.json"},
-    16: {"category": "events", "folder": "asia-cup", "name": "ac-2025.json"}
+    16: {"category": "events", "folder": "asia-cup", "name": "ac-2025.json"},
+    17: {"category": "events", "folder": "cricket-world-cup", "name": "cwc-2027.json"},
 }
 
 def main(selected_ids="All"):
