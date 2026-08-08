@@ -40,7 +40,7 @@
             "name": "Group Stage",
             "status": "active",
             "config": {
-                "numGroups": 2,
+                "numberOfGroups": 2,
                 "teamsPerGroup": 4,
                 "matchesPerTeam": 3,
                 "qualifiersPerGroup": 2
@@ -52,7 +52,7 @@
             "name": "Super Four",
             "status": "locked",
             "config": {
-                "numGroups": 1,
+                "numberOfGroups": 1,
                 "teamsPerGroup": 4,
                 "matchesPerTeam": 3,
                 "qualifiersPerGroup": 2

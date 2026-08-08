@@ -58,7 +58,7 @@
             "name": "Group Stage",
             "status": "active",
             "config": {
-                "numGroups": 4,
+                "numberOfGroups": 4,
                 "teamsPerGroup": 5,
                 "matchesPerTeam": 4,
                 "qualifiersPerGroup": 2
@@ -70,7 +70,7 @@
             "name": "Super 8",
             "status": "locked",
             "config": {
-                "numGroups": 2,
+                "numberOfGroups": 2,
                 "teamsPerGroup": 4,
                 "matchesPerTeam": 3,
                 "qualifiersPerGroup": 2

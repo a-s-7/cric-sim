@@ -45,7 +45,7 @@
             "name": "Super Series",
             "status": "active",
             "config": {
-                "numGroups": 1,
+                "numberOfGroups": 1,
                 "teamsPerGroup": 3,
                 "matchesPerTeam": 2,
                 "qualifiersPerGroup": 1

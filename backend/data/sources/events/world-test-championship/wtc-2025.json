@@ -1,1019 +1,1272 @@
 {
-  "acronym": "wtc",
-  "name": "ICC World Test Championship",
-  "edition": 2025,
-  "gradient": "linear-gradient(135deg, black, black, black)",
-  "logo": "https://images.icc-cricket.com/image/private/t_q-best/v1723568183/prd/assets/tournaments/worldtestchampionship/2023-2025/Logo_Light_dvrowv.svg",
-  "pointsTableColor": "black",
-  "teams": [
+  "tournament": {
+    "_id": "icc-mens-wtc-2025-27",
+    "division": "mens",
+    "category": "international",
+    "format": "TEST",
+    "matchDurationMinutes": 7200,
+    "name": "ICC World Test Championship",
+    "acronym": "WTC",
+    "edition": "2025-27",
+    "status": "ongoing",
+    "startDate": "2025-06-17",
+    "endDate": "2027-06-13",
+    "structure": "league",
+    "currentStageId": null,
+    "gradient": "linear-gradient(135deg, black, black, black)",
+    "mainLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1723568183/prd/assets/tournaments/worldtestchampionship/2023-2025/Logo_Light_dvrowv.svg",
+    "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1723568183/prd/assets/tournaments/worldtestchampionship/2023-2025/Logo_Light_dvrowv.svg",
+    "pointsTableColor": "black",
+    "tileBackgroundColor": "#ffffff",
+    "teams": [
+      "IND",
+      "AUS",
+      "ENG",
+      "NZ",
+      "SA",
+      "BAN",
+      "SL",
+      "WI",
+      "PAK"
+    ]
+  },
+  "stages": [
     {
-      "name": "Australia",
-      "acronym": "AUS",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/1.png?v=7",
-      "gradient": "linear-gradient(135deg, green, forestgreen, gold)"
+      "type": "group",
+      "order": 1,
+      "name": "Group Stage",
+      "status": "active",
+      "config": {
+        "numberOfGroups": 1,
+        "teamsPerGroup": 9,
+        "qualifiersPerGroup": 2
+      }
     },
     {
-      "name": "Bangladesh",
-      "acronym": "BAN",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/2.png?v=7",
-      "gradient": "linear-gradient(135deg, forestgreen, darkred, darkred)"
+      "type": "knockout",
+      "order": 2,
+      "name": "Final",
+      "status": "locked",
+      "config": {
+        "numTeams": 2,
+        "numMatches": 1
+      }
+    }
+  ],
+  "stageTeams": [
+    {
+      "stageOrder": 1,
+      "teamId": "IND",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
     },
     {
-      "name": "England",
-      "acronym": "ENG",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/3.png?v=7",
-      "gradient": "linear-gradient(135deg, red, red, white)"
+      "stageOrder": 1,
+      "teamId": "AUS",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
     },
     {
-      "name": "India",
-      "acronym": "IND",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/4.png?v=7",
-      "gradient": "linear-gradient(135deg, blue, darkorange)"
+      "stageOrder": 1,
+      "teamId": "NZ",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
     },
     {
-      "name": "New Zealand",
-      "acronym": "NZ",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/5.png?v=7",
-      "gradient": "linear-gradient(135deg, black, teal)"
+      "stageOrder": 1,
+      "teamId": "SA",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
     },
     {
-      "name": "Pakistan",
-      "acronym": "PAK",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/6.png?v=7",
-      "gradient": "linear-gradient(135deg, darkgreen, darkgreen, lawngreen)"
+      "stageOrder": 1,
+      "teamId": "ENG",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
     },
     {
-      "name": "South Africa",
-      "acronym": "SA",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/7.png?v=7",
-      "gradient": "linear-gradient(135deg, darkgreen, gold)"
+      "stageOrder": 1,
+      "teamId": "WI",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
     },
     {
-      "name": "Sri Lanka",
-      "acronym": "SL",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/8.png?v=7",
-      "gradient": "linear-gradient(135deg, darkblue, rgb(255, 180, 0))"
+      "stageOrder": 1,
+      "teamId": "PAK",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
     },
     {
-      "name": "West Indies",
-      "acronym": "WI",
-      "flag": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/9.png?v=7",
-      "gradient": "linear-gradient(135deg, maroon, rgb(255, 235, 0))"
+      "stageOrder": 1,
+      "teamId": "BANs",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
+    },
+    {
+      "stageOrder": 1,
+      "teamId": "SL",
+      "matchesPlayed": 0,
+      "won": 0,
+      "lost": 0,
+      "draw": 0,
+      "tied": 0,
+      "points": 0,
+      "deductionPoints": 0
+    },
+    {
+      "stageOrder": 2,
+      "teamId": null,
+      "confirmed": false,
+      "seed": "T1",
+      "teamFromPreviousStage": "standings",
+      "teamFromStandingsPosition": 1
+    },
+    {
+      "stageOrder": 2,
+      "teamId": null,
+      "confirmed": false,
+      "seed": "T2",
+      "teamFromPreviousStage": "standings",
+      "teamFromStandingsPosition": 2
     }
   ],
   "series": [
     {
-      "seriesName": "SLvBAN",
       "seriesId": 1,
       "numMatches": 2,
-      "homeTeam": "Sri Lanka",
-      "awayTeam": "Bangladesh",
-      "matches": [
-        {
-          "location": "Galle International Stadium, Galle",
-          "startDate": "2025-06-17",
-          "endDate": "2025-06-21",
-          "startTime": "21:00:00",
-          "status": "complete",
-          "result": "Draw",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Sinhalese Sports Club Cricket Ground, Colombo",
-          "startDate": "2025-06-25",
-          "endDate": "2025-06-29",
-          "startTime": "21:00:00",
-          "status": "complete",
-          "result": "Home-win",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "BAN"
     },
     {
-      "seriesName": "Anderson–Tendulkar Trophy",
       "seriesId": 2,
       "numMatches": 5,
-      "homeTeam": "England",
-      "awayTeam": "India",
-      "matches": [
-        {
-          "location": "Headingley, Leeds",
-          "startDate": "2025-06-20",
-          "endDate": "2025-06-24",
-          "startTime": "03:00:00",
-          "status": "complete",
-          "result": "Home-win",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Edgbaston, Birmingham",
-          "startDate": "2025-07-02",
-          "endDate": "2025-07-06",
-          "startTime": "03:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Lord's, London",
-          "startDate": "2025-07-10",
-          "endDate": "2025-07-14",
-          "startTime": "03:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Old Trafford, Manchester",
-          "startDate": "2025-07-23",
-          "endDate": "2025-07-27",
-          "startTime": "03:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "The Oval, London",
-          "startDate": "2025-07-31",
-          "endDate": "2025-08-04",
-          "startTime": "03:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "IND"
     },
     {
-      "seriesName": "WIvAUS",
       "seriesId": 3,
       "numMatches": 3,
-      "homeTeam": "West Indies",
-      "awayTeam": "Australia",
-      "matches": [
-        {
-          "location": "Kensington Oval, Bridgetown",
-          "startDate": "2025-06-25",
-          "endDate": "2025-06-29",
-          "startTime": "07:00:00",
-          "status": "complete",
-          "result": "Away-win",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Grenada National Cricket Stadium, St. George's",
-          "startDate": "2025-07-03",
-          "endDate": "2025-07-07",
-          "startTime": "07:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Sabina Park, Kingston",
-          "startDate": "2025-07-12",
-          "endDate": "2025-07-16",
-          "startTime": "07:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "AUS"
     },
     {
-      "seriesName": "PAKvSA",
       "seriesId": 4,
       "numMatches": 2,
-      "homeTeam": "Pakistan",
-      "awayTeam": "South Africa",
-      "matches": [
-        {
-          "location": "Rawalpindi Cricket Stadium, Rawalpindi",
-          "startDate": "2025-10-17",
-          "endDate": "2025-10-21",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "National Stadium, Karachi",
-          "startDate": "2025-10-25",
-          "endDate": "2025-10-29",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "WI"
     },
     {
-      "seriesName": "INDvWI",
       "seriesId": 5,
       "numMatches": 2,
-      "homeTeam": "India",
-      "awayTeam": "West Indies",
-      "matches": [
-        {
-          "location": "Narendra Modi Stadium, Ahmedabad",
-          "startDate": "2025-10-02",
-          "endDate": "2025-10-06",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Arun Jaitley Cricket Stadium, New Delhi",
-          "startDate": "2025-10-10",
-          "endDate": "2025-10-14",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "SA"
     },
     {
-      "seriesName": "Freedom Trophy",
       "seriesId": 6,
       "numMatches": 2,
-      "homeTeam": "India",
-      "awayTeam": "South Africa",
-      "matches": [
-        {
-          "location": "Eden Gardens, Kolkata",
-          "startDate": "2025-11-14",
-          "endDate": "2025-11-18",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Assam Cricket Association Stadium, Guwahati",
-          "startDate": "2025-11-22",
-          "endDate": "2025-11-26",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "SA"
     },
     {
-      "seriesName": "The Ashes",
       "seriesId": 7,
-      "numMatches": 5,
-      "homeTeam": "Australia",
-      "awayTeam": "England",
-      "matches": [
-        {
-          "location": "Perth Stadium, Perth",
-          "startDate": "2025-11-21",
-          "endDate": "2025-11-25",
-          "startTime": "18:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "The Gabba, Brisbane",
-          "startDate": "2025-12-04",
-          "endDate": "2025-12-08",
-          "startTime": "20:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Adelaide Oval, Adelaide",
-          "startDate": "2025-12-17",
-          "endDate": "2025-12-21",
-          "startTime": "15:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Melbourne Cricket Ground, Melbourne",
-          "startDate": "2025-12-26",
-          "endDate": "2025-12-30",
-          "startTime": "15:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Sydney Cricket Ground, Sydney",
-          "startDate": "2026-01-04",
-          "endDate": "2026-01-08",
-          "startTime": "15:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
-    },
-    {
-      "seriesName": "NZvWI",
-      "seriesId": 8,
       "numMatches": 3,
-      "homeTeam": "New Zealand",
-      "awayTeam": "West Indies",
-      "matches": [
-        {
-          "location": "Hagley Oval, Christchurch",
-          "startDate": "2025-12-02",
-          "endDate": "2025-12-06",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Basin Reserve, Wellington",
-          "startDate": "2025-12-10",
-          "endDate": "2025-12-14",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Bay Oval, Mount Maunganui",
-          "startDate": "2025-12-18",
-          "endDate": "2025-12-22",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "WI"
     },
     {
-      "seriesName": "BANvPAK",
+      "seriesId": 8,
+      "numMatches": 5,
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "ENG"
+    },
+    {
       "seriesId": 9,
       "numMatches": 2,
-      "homeTeam": "Bangladesh",
-      "awayTeam": "Pakistan",
-      "matches": [
-        {
-          "location": "Sher-e-Bangla National Cricket Stadium, Dhaka",
-          "startDate": "2026-03-05",
-          "endDate": "2026-03-09",
-          "startTime": "22:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Zahur Ahmed Chowdhury Stadium, Chattogram",
-          "startDate": "2026-03-17",
-          "endDate": "2026-03-21",
-          "startTime": "22:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "PAK"
     },
     {
-      "seriesName": "Crowe–Thorpe Trophy",
       "seriesId": 10,
       "numMatches": 3,
-      "homeTeam": "England",
-      "awayTeam": "New Zealand",
-      "matches": [
-        {
-          "location": "Lord's, London",
-          "startDate": "2026-06-04",
-          "endDate": "2026-06-08",
-          "startTime": "03:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Headingley, Leeds",
-          "startDate": "2026-06-16",
-          "endDate": "2026-06-20",
-          "startTime": "03:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Edgbaston, Birmingham",
-          "startDate": "2026-06-28",
-          "endDate": "2026-07-02",
-          "startTime": "03:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "NZ"
     },
     {
-      "seriesName": "Sobers–Tissera Trophy",
       "seriesId": 11,
       "numMatches": 2,
-      "homeTeam": "West Indies",
-      "awayTeam": "Sri Lanka",
-      "matches": [
-        {
-          "location": "Kensington Oval, Bridgetown",
-          "startDate": "2026-06-10",
-          "endDate": "2026-06-14",
-          "startTime": "07:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Queen's Park Oval, Port of Spain",
-          "startDate": "2026-06-22",
-          "endDate": "2026-06-26",
-          "startTime": "07:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "SL"
     },
     {
-      "seriesName": "WIvPAK",
       "seriesId": 12,
       "numMatches": 2,
-      "homeTeam": "West Indies",
-      "awayTeam": "Pakistan",
-      "matches": [
-        {
-          "location": "Daren Sammy National Cricket Stadium, Gros Islet",
-          "startDate": "2026-07-12",
-          "endDate": "2026-07-16",
-          "startTime": "08:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Providence Stadium, Guyana",
-          "startDate": "2026-08-01",
-          "endDate": "2026-08-05",
-          "startTime": "08:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "PAK"
     },
     {
-      "seriesName": "SLvIND",
       "seriesId": 13,
       "numMatches": 2,
-      "homeTeam": "Sri Lanka",
-      "awayTeam": "India",
-      "matches": [
-        {
-          "location": "Galle International Stadium, Galle",
-          "startDate": "2026-08-12",
-          "endDate": "2026-08-16",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "R. Premadasa Stadium, Colombo",
-          "startDate": "2026-08-24",
-          "endDate": "2026-08-28",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "BAN"
     },
     {
-      "seriesName": "AUSvBAN",
       "seriesId": 14,
       "numMatches": 2,
-      "homeTeam": "Australia",
-      "awayTeam": "Bangladesh",
-      "matches": [
-        {
-          "location": "The Gabba, Brisbane",
-          "startDate": "2026-08-10",
-          "endDate": "2026-08-14",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Adelaide Oval, Adelaide",
-          "startDate": "2026-08-22",
-          "endDate": "2026-08-26",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "IND"
     },
     {
-      "seriesName": "ENGvPAK",
       "seriesId": 15,
       "numMatches": 3,
-      "homeTeam": "England",
-      "awayTeam": "Pakistan",
-      "matches": [
-        {
-          "location": "Trent Bridge, Nottingham",
-          "startDate": "2026-08-15",
-          "endDate": "2026-08-19",
-          "startTime": "03:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "The Oval, London",
-          "startDate": "2026-09-02",
-          "endDate": "2026-09-06",
-          "startTime": "03:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Old Trafford, Manchester",
-          "startDate": "2026-09-14",
-          "endDate": "2026-09-18",
-          "startTime": "03:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "PAK"
     },
     {
-      "seriesName": "SAvAUS",
       "seriesId": 16,
       "numMatches": 3,
-      "homeTeam": "South Africa",
-      "awayTeam": "Australia",
-      "matches": [
-        {
-          "location": "SuperSport Park, Centurion",
-          "startDate": "2026-09-21",
-          "endDate": "2026-09-25",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Newlands, Cape Town",
-          "startDate": "2026-10-03",
-          "endDate": "2026-10-07",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Kingsmead, Durban",
-          "startDate": "2026-10-15",
-          "endDate": "2026-10-19",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "AUS"
     },
     {
-      "seriesName": "BANvWI",
       "seriesId": 17,
       "numMatches": 2,
-      "homeTeam": "Bangladesh",
-      "awayTeam": "West Indies",
-      "matches": [
-        {
-          "location": "Sylhet International Cricket Stadium, Sylhet",
-          "startDate": "2026-10-08",
-          "endDate": "2026-10-12",
-          "startTime": "22:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Shaheed Chandu Stadium, Bogura",
-          "startDate": "2026-10-20",
-          "endDate": "2026-10-24",
-          "startTime": "22:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "WI"
     },
     {
-      "seriesName": "NZvIND",
       "seriesId": 18,
       "numMatches": 2,
-      "homeTeam": "New Zealand",
-      "awayTeam": "India",
-      "matches": [
-        {
-          "location": "Eden Park, Auckland",
-          "startDate": "2026-10-30",
-          "endDate": "2026-11-03",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Seddon Park, Hamilton",
-          "startDate": "2026-11-11",
-          "endDate": "2026-11-15",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "BAN"
     },
     {
-      "seriesName": "SAvBAN",
       "seriesId": 19,
       "numMatches": 2,
-      "homeTeam": "South Africa",
-      "awayTeam": "Bangladesh",
-      "matches": [
-        {
-          "location": "Wanderers Stadium, Johannesburg",
-          "startDate": "2026-11-05",
-          "endDate": "2026-11-09",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "St George's Park, Gqeberha",
-          "startDate": "2026-11-17",
-          "endDate": "2026-11-21",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "IND"
     },
     {
-      "seriesName": "PAKvSL",
       "seriesId": 20,
       "numMatches": 2,
-      "homeTeam": "Pakistan",
-      "awayTeam": "Sri Lanka",
-      "matches": [
-        {
-          "location": "National Stadium, Karachi",
-          "startDate": "2026-11-08",
-          "endDate": "2026-11-12",
-          "startTime": "01:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Gaddafi Stadium, Lahore",
-          "startDate": "2026-11-20",
-          "endDate": "2026-11-24",
-          "startTime": "01:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "SL"
     },
     {
-      "seriesName": "Trans–Tasman Trophy",
       "seriesId": 21,
       "numMatches": 4,
-      "homeTeam": "Australia",
-      "awayTeam": "New Zealand",
-      "matches": [
-        {
-          "location": "Perth Stadium, Perth",
-          "startDate": "2026-12-01",
-          "endDate": "2026-12-05",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "SCG, Sydney",
-          "startDate": "2026-12-13",
-          "endDate": "2026-12-17",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "MCG, Melbourne",
-          "startDate": "2026-12-26",
-          "endDate": "2026-12-30",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Blundstone Arena, Hobart",
-          "startDate": "2027-01-07",
-          "endDate": "2027-01-11",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "NZ"
     },
     {
-      "seriesName": "Basil D'Oliveira Trophy",
       "seriesId": 22,
       "numMatches": 3,
-      "homeTeam": "South Africa",
-      "awayTeam": "England",
-      "matches": [
-        {
-          "location": "SuperSport Park, Centurion",
-          "startDate": "2026-12-05",
-          "endDate": "2026-12-09",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Newlands, Cape Town",
-          "startDate": "2026-12-17",
-          "endDate": "2026-12-21",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Wanderers Stadium, Johannesburg",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-02",
-          "startTime": "00:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "ENG"
     },
     {
-      "seriesName": "NZvSL",
       "seriesId": 23,
-      "numMatches": 2,
-      "homeTeam": "New Zealand",
-      "awayTeam": "Sri Lanka",
-      "matches": [
-        {
-          "location": "University Oval, Dunedin",
-          "startDate": "2027-01-10",
-          "endDate": "2027-01-14",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Basin Reserve, Wellington",
-          "startDate": "2027-01-22",
-          "endDate": "2027-01-26",
-          "startTime": "21:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
-    },
-    {
-      "seriesName": "Border–Gavaskar Trophy",
-      "seriesId": 24,
       "numMatches": 5,
-      "homeTeam": "India",
-      "awayTeam": "Australia",
-      "matches": [
-        {
-          "location": "Rajiv Gandhi Intl. Stadium, Hyderabad",
-          "startDate": "2027-01-05",
-          "endDate": "2027-01-09",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "MA Chidambaram Stadium, Chennai",
-          "startDate": "2027-01-17",
-          "endDate": "2027-01-21",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Eden Gardens, Kolkata",
-          "startDate": "2027-02-02",
-          "endDate": "2027-02-06",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Holkar Stadium, Indore",
-          "startDate": "2027-02-14",
-          "endDate": "2027-02-18",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "M. Chinnaswamy Stadium, Bengaluru",
-          "startDate": "2027-02-26",
-          "endDate": "2027-03-02",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "AUS"
     },
     {
-      "seriesName": "BANvENG",
+      "seriesId": 24,
+      "numMatches": 2,
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "SL"
+    },
+    {
       "seriesId": 25,
       "numMatches": 2,
-      "homeTeam": "Bangladesh",
-      "awayTeam": "England",
-      "matches": [
-        {
-          "location": "Sher-e-Bangla National Cricket Stadium, Dhaka",
-          "startDate": "2027-02-08",
-          "endDate": "2027-02-12",
-          "startTime": "22:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Zahur Ahmed Chowdhury Stadium, Chattogram",
-          "startDate": "2027-02-20",
-          "endDate": "2027-02-24",
-          "startTime": "22:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "ENG"
     },
     {
-      "seriesName": "SLvSA",
       "seriesId": 26,
       "numMatches": 2,
-      "homeTeam": "Sri Lanka",
-      "awayTeam": "South Africa",
-      "matches": [
-        {
-          "location": "Pallekele International Cricket Stadium, Pallekele",
-          "startDate": "2027-02-28",
-          "endDate": "2027-03-03",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Rangiri Dambulla International Stadium, Dambulla",
-          "startDate": "2027-03-11",
-          "endDate": "2027-03-15",
-          "startTime": "23:30:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "SA"
     },
     {
-      "seriesName": "PAKvNZ",
       "seriesId": 27,
       "numMatches": 2,
-      "homeTeam": "Pakistan",
-      "awayTeam": "New Zealand",
-      "matches": [
-        {
-          "location": "Rawalpindi Cricket Stadium, Rawalpindi",
-          "startDate": "2027-03-18",
-          "endDate": "2027-03-22",
-          "startTime": "01:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        },
-        {
-          "location": "Multan Cricket Stadium, Multan",
-          "startDate": "2027-03-28",
-          "endDate": "2027-04-01",
-          "startTime": "01:00:00",
-          "status": "incomplete",
-          "result": "None",
-          "homeDed": 0,
-          "awayDed": 0
-        }
-      ]
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "NZ"
+    }
+  ],
+  "matches": [
+    {
+      "seriesId": 1,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2025-06-17 21:00:00",
+      "venue": "Galle International Stadium",
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "BAN",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 1,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2025-06-25 21:00:00",
+      "venue": "Sinhalese Sports Club Cricket Ground",
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "BAN",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 2,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2025-06-20 03:00:00",
+      "venue": "Headingley",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "complete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 2,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2025-07-02 03:00:00",
+      "venue": "Edgbaston",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 2,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2025-07-10 03:00:00",
+      "venue": "Lord's Cricket Ground",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 2,
+      "seriesMatchNumber": 4,
+      "stageOrder": 1,
+      "date": "2025-07-23 03:00:00",
+      "venue": "Old Trafford Cricket Ground",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 2,
+      "seriesMatchNumber": 5,
+      "stageOrder": 1,
+      "date": "2025-07-31 03:00:00",
+      "venue": "The Oval",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 3,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2025-06-25 07:00:00",
+      "venue": "Kensington Oval",
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "complete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 3,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2025-07-03 07:00:00",
+      "venue": "Grenada National Cricket Stadium",
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 3,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2025-07-12 07:00:00",
+      "venue": "Sabina Park",
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 4,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2025-10-02 21:00:00",
+      "venue": "Narendra Modi Stadium",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "WI",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 4,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2025-10-10 21:00:00",
+      "venue": "Arun Jaitley Stadium",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "WI",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 5,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2025-10-12 21:00:00",
+      "venue": "Gaddafi Stadium",
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "SA",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 5,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2025-10-20 21:00:00",
+      "venue": "Rawalpindi Cricket Stadium",
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "SA",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 6,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2025-11-14 21:00:00",
+      "venue": "Eden Gardens",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "SA",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 6,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2025-11-22 21:00:00",
+      "venue": "ACA Stadium",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "SA",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 7,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2025-12-02 14:00:00",
+      "venue": "Hagley Oval",
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "WI",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 7,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2025-12-10 14:00:00",
+      "venue": "Basin Reserve",
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "WI",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 7,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2025-12-18 14:00:00",
+      "venue": "Bay Oval",
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "WI",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 8,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2025-11-21 18:30:00",
+      "venue": "Optus Stadium",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 8,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2025-12-04 20:30:00",
+      "venue": "The Gabba",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 8,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2025-12-17 15:30:00",
+      "venue": "Adelaide Oval",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 8,
+      "seriesMatchNumber": 4,
+      "stageOrder": 1,
+      "date": "2025-12-26 15:30:00",
+      "venue": "Melbourne Cricket Ground",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 8,
+      "seriesMatchNumber": 5,
+      "stageOrder": 1,
+      "date": "2026-01-04 15:30:00",
+      "venue": "Sydney Cricket Ground",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 9,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-05-08 21:00:00",
+      "venue": "Sher-E-Bangla National Cricket Stadium",
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "PAK",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 9,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-05-16 21:00:00",
+      "venue": "Sylhet International Cricket Stadium",
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "PAK",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 10,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-06-04 03:00:00",
+      "venue": "Lord's Cricket Ground",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 10,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-06-17 03:00:00",
+      "venue": "The Oval",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 10,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2026-06-25 03:00:00",
+      "venue": "Trent Bridge",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 11,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-06-25 07:00:00",
+      "venue": "Sir Vivian Richards Stadium",
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "SL",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 11,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-07-03 07:00:00",
+      "venue": "Sir Vivian Richards Stadium",
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "SL",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 12,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-07-25 07:00:00",
+      "venue": "Brian Lara Cricket Academy",
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "PAK",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 12,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-08-02 07:00:00",
+      "venue": "Queens Park Oval",
+      "homeStageTeamId": "WI",
+      "awayStageTeamId": "PAK",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 13,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-08-12 17:30:00",
+      "venue": "Marrara Stadium",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "BAN",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 13,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-08-21 17:00:00",
+      "venue": "Great Barrier Reef Arena",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "BAN",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 14,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-08-14 21:30:00",
+      "venue": "Galle International Stadium",
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 14,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-08-22 21:30:00",
+      "venue": "Sinhalese Sports Club Cricket Ground",
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 15,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-08-19 03:00:00",
+      "venue": "Headingley",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "PAK",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 15,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-08-27 03:00:00",
+      "venue": "Lord's Cricket Ground",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "PAK",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 15,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2026-09-09 03:00:00",
+      "venue": "Edgbaston",
+      "homeStageTeamId": "ENG",
+      "awayStageTeamId": "PAK",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 16,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-10-09 00:30:00",
+      "venue": "Kingsmead Cricket Ground",
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 16,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-10-18 01:00:00",
+      "venue": "St George's Park",
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 16,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2026-10-27 01:30:00",
+      "venue": "Newlands Cricket Ground",
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 17,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-10-08 22:00:00",
+      "venue": "TBC",
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "WI",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 17,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-10-20 22:00:00",
+      "venue": "TBC",
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "WI",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 18,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-11-15 00:00:00",
+      "venue": "Wanderers Stadium",
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "BAN",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 18,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-11-23 00:00:00",
+      "venue": "Centurion Park",
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "BAN",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 19,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-11-18 14:00:00",
+      "venue": "Basin Reserve",
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 19,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-11-26 14:00:00",
+      "venue": "Hagley Oval",
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "IND",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 20,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-11-08 01:00:00",
+      "venue": "TBC",
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "SL",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 20,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-11-20 01:00:00",
+      "venue": "TBC",
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "SL",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 21,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-12-08 18:20:00",
+      "venue": "Optus Stadium",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 21,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-12-16 16:30:00",
+      "venue": "Adelaide Oval",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 21,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2026-12-25 15:30:00",
+      "venue": "Melbourne Cricket Ground",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 21,
+      "seriesMatchNumber": 4,
+      "stageOrder": 1,
+      "date": "2027-01-03 15:30:00",
+      "venue": "Sydney Cricket Ground",
+      "homeStageTeamId": "AUS",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 22,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2026-12-17 00:00:00",
+      "venue": "Wanderers Stadium",
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 22,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2026-12-26 00:00:00",
+      "venue": "Centurion Park",
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 22,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2027-01-03 00:30:00",
+      "venue": "Newlands Cricket Ground",
+      "homeStageTeamId": "SA",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 23,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2027-01-20 20:00:00",
+      "venue": "Vidarbha Cricket Association Stadium",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 23,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2027-01-28 20:00:00",
+      "venue": "MA Chidambaram Stadium",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 23,
+      "seriesMatchNumber": 3,
+      "stageOrder": 1,
+      "date": "2027-02-10 19:30:00",
+      "venue": "ACA Stadium",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 23,
+      "seriesMatchNumber": 4,
+      "stageOrder": 1,
+      "date": "2027-02-18 20:00:00",
+      "venue": "JSCA International Stadium Complex",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 23,
+      "seriesMatchNumber": 5,
+      "stageOrder": 1,
+      "date": "2027-02-26 20:00:00",
+      "venue": "Narendra Modi Stadium",
+      "homeStageTeamId": "IND",
+      "awayStageTeamId": "AUS",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 24,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2027-02-03 14:00:00",
+      "venue": "Bay Oval",
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "SL",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 24,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2027-02-11 14:00:00",
+      "venue": "Seddon Park",
+      "homeStageTeamId": "NZ",
+      "awayStageTeamId": "SL",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 25,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2027-02-08 22:00:00",
+      "venue": "TBC",
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 25,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2027-02-20 22:00:00",
+      "venue": "TBC",
+      "homeStageTeamId": "BAN",
+      "awayStageTeamId": "ENG",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 26,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2027-02-28 23:30:00",
+      "venue": "TBC",
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "SA",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 26,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2027-03-11 23:30:00",
+      "venue": "TBC",
+      "homeStageTeamId": "SL",
+      "awayStageTeamId": "SA",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 27,
+      "seriesMatchNumber": 1,
+      "stageOrder": 1,
+      "date": "2027-03-18 01:00:00",
+      "venue": "TBC",
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "seriesId": 27,
+      "seriesMatchNumber": 2,
+      "stageOrder": 1,
+      "date": "2027-03-28 01:00:00",
+      "venue": "TBC",
+      "homeStageTeamId": "PAK",
+      "awayStageTeamId": "NZ",
+      "result": "None",
+      "status": "incomplete",
+      "homeDeductionPoints": 0,
+      "awayDeductionPoints": 0
+    },
+    {
+      "stageOrder": 2,
+      "date": "2027-06-09 02:30:00",
+      "venue": "The Oval",
+      "homeStageTeamId": "T1",
+      "awayStageTeamId": "T2",
+      "result": "None",
+      "status": "incomplete",
+      "description": "Final"
     }
   ]
 }

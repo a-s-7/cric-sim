@@ -50,7 +50,7 @@
             "name": "Group Stage",
             "status": "active",
             "config": {
-                "numGroups": 1,
+                "numberOfGroups": 1,
                 "teamsPerGroup": 10,
                 "matchesPerTeam": 9,
                 "qualifiersPerGroup": 4

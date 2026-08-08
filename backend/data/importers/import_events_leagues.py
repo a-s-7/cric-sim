@@ -1,4 +1,5 @@
 import tournament_importer 
+import wtc_importer
 
 TOURNAMENTS = {
     1: {"category": "events", "folder": "cricket-world-cup", "name": "cwc-2023.json"},
@@ -18,6 +19,7 @@ TOURNAMENTS = {
     15: {"category": "events", "folder": "asia-cup", "name": "ac-2023.json"},
     16: {"category": "events", "folder": "asia-cup", "name": "ac-2025.json"},
     17: {"category": "events", "folder": "cricket-world-cup", "name": "cwc-2027.json"},
+    18: {"category": "events", "folder": "world-test-championship", "name": "wtc-2025.json"}
 }
 
 def main(selected_ids="All"):
@@ -32,11 +34,10 @@ def main(selected_ids="All"):
             continue
         t_info = TOURNAMENTS[t_id]
 
-        # 1. Add the real-world copy
-        tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=False, realWorld = True)
+        importer = wtc_importer if t_info["folder"] == "world-test-championship" else tournament_importer
 
-        # 2. Add the pure simulation copy
-        tournament_importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=False, realWorld = False)
+        for real_value in (True, False):
+            importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=real_value, realWorld=real_value)
 
 if __name__ == "__main__":
     main(selected_ids=[6])

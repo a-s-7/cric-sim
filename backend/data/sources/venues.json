@@ -1,6 +1,56 @@
 {
     "venues": [
         {
+            "stadium": "TBC",
+            "city": "TBC",
+            "country": "TBC"
+        },
+        {
+            "stadium": "Adelaide Oval",
+            "city": "Adelaide",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Great Barrier Reef Arena",
+            "city": "Mackay",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Marrara Stadium",
+            "city": "Darwin",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Optus Stadium",
+            "city": "Perth",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Sydney Cricket Ground",
+            "city": "Sydney",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Melbourne Cricket Ground",
+            "city": "Melbourne",
+            "country": "Australia"
+        },
+        {
+            "stadium": "The Gabba",
+            "city": "Brisbane",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Sher-E-Bangla National Cricket Stadium",
+            "city": "Dhaka",
+            "country": "Bangladesh"
+        },
+        {
+            "stadium": "Sylhet International Cricket Stadium",
+            "city": "Sylhet",
+            "country": "Bangladesh"
+        },
+        {
             "stadium": "Narendra Modi Stadium",
             "city": "Ahmedabad",
             "country": "India"
@@ -23,6 +73,16 @@
         {
             "stadium": "ACA-VDCA Cricket Stadium",
             "city": "Visakhapatnam",
+            "country": "India"
+        },
+        {
+            "stadium": "Vidarbha Cricket Association Stadium",
+            "city": "Nagpur",
+            "country": "India"
+        },
+        {
+            "stadium": "JSCA International Stadium Complex",
+            "city": "Ranchi",
             "country": "India"
         },
         {
@@ -71,9 +131,24 @@
             "country": "St. Vincent & the Grenadines"
         },
         {
+            "stadium": "Grenada National Cricket Stadium",
+            "city": "St. George's",
+            "country": "Grenada"
+        },
+        {
             "stadium": "Brian Lara Cricket Academy",
             "city": "Tarouba",
             "country": "Trinidad & Tobago"
+        },
+        {
+            "stadium": "Queens Park Oval",
+            "city": "Port of Spain",
+            "country": "Trinidad and Tobago"
+        },
+        {
+            "stadium": "Sabina Park",
+            "city": "Kingston",
+            "country": "Jamaica"
         },
         {
             "stadium": "Central Broward Park",
@@ -221,7 +296,7 @@
             "country": "England"
         },
         {
-            "stadium": "The Kia Oval",
+            "stadium": "The Oval",
             "city": "London",
             "country": "England"
         },
@@ -304,6 +379,31 @@
             "stadium": "Namibia Cricket Ground",
             "city": "Windhoek",
             "country": "Namibia"
+        },
+        {
+            "stadium": "Basin Reserve",
+            "city": "Wellington",
+            "country": "New Zealand"
+        },
+        {
+            "stadium": "Bay Oval",
+            "city": "Mount Maunganui",
+            "country": "New Zealand"
+        },
+        {
+            "stadium": "Hagley Oval",
+            "city": "Christchurch",
+            "country": "New Zealand"
+        },
+        {
+            "stadium": "Seddon Park",
+            "city": "Hamilton",
+            "country": "New Zealand"
+        },
+        {
+            "stadium": "Galle International Stadium",
+            "city": "Galle",
+            "country": "Sri Lanka"
         }
     ]
 }
