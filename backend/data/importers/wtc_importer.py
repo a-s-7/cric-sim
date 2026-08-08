@@ -122,7 +122,6 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     ).replace(tzinfo=zone)
 
     # Add tournament to DB
-
     tournaments_collection = db['tournaments']
 
     if realWorld:
@@ -140,95 +139,168 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         print(f"{RED}Tournament with ID '{tournament['_id']}' already exists{ENDC}")
         return
 
-    # ######################################### Insert stages data
+    ######################################### Insert stages data
 
-    # stages = json_info["stages"]
+    stages = json_info["stages"]
 
-    # stages_collection = db['stages']
+    stages_collection = db['stages']
     
-    # stages_collection.create_index(
-    #     [("tournamentId", 1), ("order", 1)],
-    #     unique=True
-    # )
+    stages_collection.create_index(
+        [("tournamentId", 1), ("order", 1)],
+        unique=True
+    )
 
-    # DB_STAGE_ORDER_TO_ID = {}
+    DB_STAGE_ORDER_TO_ID = {}
 
-    # try:
-    #     for stage in stages:
-    #         stage["tournamentId"] = tournament["_id"]
+    try:
+        for stage in stages:
+            stage["tournamentId"] = tournament["_id"]
 
-    #     result = stages_collection.insert_many(stages, ordered=True)
-    #     print(f"\n{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} STAGES{ENDC}\n")
+        result = stages_collection.insert_many(stages, ordered=True)
+        print(f"\n{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} STAGES{ENDC}\n")
         
-    #     for i, stage in enumerate(stages):
-    #         stage_order = stage["order"]
-    #         object_id = result.inserted_ids[i]
-    #         DB_STAGE_ORDER_TO_ID[stage_order] = object_id
+        for i, stage in enumerate(stages):
+            stage_order = stage["order"]
+            object_id = result.inserted_ids[i]
+            DB_STAGE_ORDER_TO_ID[stage_order] = object_id
             
-    # except (BulkWriteError, DuplicateKeyError):
-    #     # If they already exist, we need to fetch their IDs to continue the script
-    #     existing_stages = list(stages_collection.find({"tournamentId": tournament["_id"]}))
-    #     print(f"\n{YELLOW}{BOLD}ℹ USING {len(existing_stages)} EXISTING STAGES{ENDC}\n")
-    #     for stage in existing_stages:
-    #         DB_STAGE_ORDER_TO_ID[stage["order"]] = stage["_id"]
+    except (BulkWriteError, DuplicateKeyError):
+        # If they already exist, we need to fetch their IDs to continue the script
+        existing_stages = list(stages_collection.find({"tournamentId": tournament["_id"]}))
+        print(f"\n{YELLOW}{BOLD}ℹ USING {len(existing_stages)} EXISTING STAGES{ENDC}\n")
+        for stage in existing_stages:
+            DB_STAGE_ORDER_TO_ID[stage["order"]] = stage["_id"]
 
-    # print(f"{BLUE}{BOLD}{'STAGE':<20} {'ID':<50}{ENDC}")
-    # print("─" * 70)
-    # for stage_order, object_id in sorted(DB_STAGE_ORDER_TO_ID.items()):
-    #     print(f"{stage_order:<20} {str(object_id):<50}")
-    # print("─" * 70 + "\n")
-
-
-    # ######################################### Insert stage teams data
-
-    # stage_teams = json_info["stageTeams"]
-
-    # stage_teams_collection = db['stageTeams']
-
-    # stage_teams_collection.create_index(
-    #     [("stageId", 1), ("teamId", 1)],
-    #     unique=True,
-    #     partialFilterExpression={"teamId": {"$type": "objectId"}}
-    # )
-
-    # for s_team in stage_teams:
-    #     s_team["stageId"] = DB_STAGE_ORDER_TO_ID[s_team["stageOrder"]]
-    #     del s_team["stageOrder"]
-    #     s_team["tournamentId"] = tournament["_id"]
-    #     s_team["runsScored"] = 0
-    #     s_team["runsConceded"] = 0
-    #     s_team["ballsFaced"] = 0
-    #     s_team["ballsBowled"] = 0
-
-    #     if tournament.get("category") == "franchise" and s_team.get("teamId") is not None:
-    #         s_team["teamId"] = tournament["acronym"] + "-" + s_team["teamId"]
+    print(f"{BLUE}{BOLD}{'STAGE':<20} {'ID':<50}{ENDC}")
+    print("─" * 70)
+    for stage_order, object_id in sorted(DB_STAGE_ORDER_TO_ID.items()):
+        print(f"{stage_order:<20} {str(object_id):<50}")
+    print("─" * 70 + "\n")
 
 
-    # DB_NAME_OR_SEED_TO_ID = {}
+    ######################################### Insert stage teams data
 
-    # try:
-    #     result = stage_teams_collection.insert_many(stage_teams, ordered=True)
-    #     print(f"{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} STAGE TEAMS{ENDC}\n")
-    #     print(f"{BLUE}{BOLD}{'STAGE TEAM':<20} {'ID':<50}{ENDC}")
-    #     print("─" * 70)
+    stage_teams = json_info["stageTeams"]
+
+    stage_teams_collection = db['stageTeams']
+
+    stage_teams_collection.create_index(
+        [("stageId", 1), ("teamId", 1)],
+        unique=True,
+        partialFilterExpression={"teamId": {"$type": "objectId"}}
+    )
+
+    for s_team in stage_teams:
+        if s_team["stageOrder"] == 1:
+            s_team["matchesPlayed"] = 0
+            s_team["won"] = 0
+            s_team["lost"] = 0
+            s_team["draw"] = 0
+            s_team["tied"] = 0
+            s_team["points"] = 0
+            s_team["deductionPoints"] = 0
+
+        s_team["stageId"] = DB_STAGE_ORDER_TO_ID[s_team["stageOrder"]]
+        del s_team["stageOrder"]
+        s_team["tournamentId"] = tournament["_id"]
+       
+        if tournament.get("category") == "franchise" and s_team.get("teamId") is not None:
+            s_team["teamId"] = tournament["acronym"] + "-" + s_team["teamId"]
+
+
+    DB_NAME_OR_SEED_TO_ID = {}
+
+    try:
+        result = stage_teams_collection.insert_many(stage_teams, ordered=True)
+        print(f"{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} STAGE TEAMS{ENDC}\n")
+        print(f"{BLUE}{BOLD}{'STAGE TEAM':<20} {'ID':<50}{ENDC}")
+        print("─" * 70)
         
-    #     for i, s_team in enumerate(stage_teams):
-    #         if "confirmed" in s_team and not s_team["confirmed"]:
-    #             DB_NAME_OR_SEED_TO_ID[s_team["seed"]] = result.inserted_ids[i]
-    #             print(f"{s_team['seed']:<20} {str(result.inserted_ids[i]):<50}")
-    #         else:
-    #             DB_NAME_OR_SEED_TO_ID[s_team["teamId"]] = result.inserted_ids[i]
-    #             print(f"{s_team['teamId']:<20} {str(result.inserted_ids[i]):<50}")
-    #     print("─" * 70 + "\n")
+        for i, s_team in enumerate(stage_teams):
+            if "confirmed" in s_team and not s_team["confirmed"]:
+                DB_NAME_OR_SEED_TO_ID[s_team["seed"]] = result.inserted_ids[i]
+                print(f"{s_team['seed']:<20} {str(result.inserted_ids[i]):<50}")
+            else:
+                DB_NAME_OR_SEED_TO_ID[s_team["teamId"]] = result.inserted_ids[i]
+                print(f"{s_team['teamId']:<20} {str(result.inserted_ids[i]):<50}")
+        print("─" * 70 + "\n")
                         
-    # except BulkWriteError as e:
-    #     write_errors = e.details.get('writeErrors', [])
-        
-    #     first_error_index = write_errors[0]['index']
+    except (BulkWriteError, DuplicateKeyError):
+        existing_stage_teams = list(stage_teams_collection.find({"tournamentId": tournament["_id"]}))
+        print(f"\n{YELLOW}{BOLD}ℹ USING {len(existing_stage_teams)} EXISTING STAGE TEAMS{ENDC}\n")
+        for s_team in existing_stage_teams:
+            if "confirmed" in s_team and not s_team["confirmed"]:
+                DB_NAME_OR_SEED_TO_ID[s_team["seed"]] = s_team["_id"]
+            else:
+                DB_NAME_OR_SEED_TO_ID[s_team["teamId"]] = s_team["_id"]
 
-    #     print(f"{RED}Error: Stopped inserting stage teams at stage team index {first_error_index}{ENDC}")
+    ######################################### Insert series data
 
-    # ######################################### Insert matches data
+    series_collection = db['series']
+
+    series_collection.create_index(
+        [("tournamentId", 1), ("seriesName", 1)],
+        unique=True
+    )
+
+    series_data = json_info["series"]
+    team_id_to_name = {t["_id"]: t["name"] for t in existing_teams}
+
+    DB_SERIES_ID_TO_GUID = {}
+
+    series_to_insert = []
+    original_series_ids = []
+
+    for s in series_data:
+        orig_series_id = s["seriesId"]
+        original_series_ids.append(orig_series_id)
+
+        home_acronym = s["homeStageTeamId"]
+        away_acronym = s["awayStageTeamId"]
+
+        home_name = team_id_to_name[home_acronym]
+        away_name = team_id_to_name[away_acronym]
+
+        new_series = {
+            "numMatches": s["numMatches"],
+            "seriesName": f"{away_name} tour of {home_name}",
+            "homeStageTeamId": DB_NAME_OR_SEED_TO_ID[home_acronym],
+            "awayStageTeamId": DB_NAME_OR_SEED_TO_ID[away_acronym],
+            "tournamentId": tournament["_id"]
+        }
+        series_to_insert.append(new_series)
+
+    try:
+        result = series_collection.insert_many(series_to_insert, ordered=True)
+        print(f"{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} SERIES{ENDC}\n")
+        print(f"{BLUE}{BOLD}{'SERIES NAME':<40} {'ID':<50}{ENDC}")
+        print("─" * 70)
+
+        for i, inserted_id in enumerate(result.inserted_ids):
+            orig_id = original_series_ids[i]
+            DB_SERIES_ID_TO_GUID[orig_id] = inserted_id
+            print(f"{series_to_insert[i]['seriesName']:<40} {str(inserted_id):<50}")
+        print("─" * 70 + "\n")
+
+    except (BulkWriteError, DuplicateKeyError):
+        existing_series = list(series_collection.find({"tournamentId": tournament["_id"]}))
+        print(f"\n{YELLOW}{BOLD}ℹ USING {len(existing_series)} EXISTING SERIES{ENDC}\n")
+        existing_by_name = {s["seriesName"]: s["_id"] for s in existing_series}
+        for i, s in enumerate(series_to_insert):
+            orig_id = original_series_ids[i]
+            s_name = s["seriesName"]
+            if s_name in existing_by_name:
+                DB_SERIES_ID_TO_GUID[orig_id] = existing_by_name[s_name]
+
+        print(f"{BLUE}{BOLD}{'SERIES NAME':<40} {'ID':<50}{ENDC}")
+        print("─" * 70)
+        for orig_id, inserted_id in DB_SERIES_ID_TO_GUID.items():
+            s_name = next((s["seriesName"] for s in series_to_insert if s["seriesName"] in existing_by_name and existing_by_name[s["seriesName"]] == inserted_id), "Series")
+            print(f"{s_name:<40} {str(inserted_id):<50}")
+        print("─" * 70 + "\n")
+
+
+    ######################################### Insert matches data
 
     # DB_STADIUM_NAME_TO_ID = {}
 
@@ -312,7 +384,6 @@ if __name__ == "__main__":
     # Example usage:
     # main("leagues", "ipl", "ipl-2026.json", auto_update=True, realWorld=True)
     pass
-
 
     
 

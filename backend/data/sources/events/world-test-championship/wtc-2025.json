@@ -17,7 +17,7 @@
     "mainLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1723568183/prd/assets/tournaments/worldtestchampionship/2023-2025/Logo_Light_dvrowv.svg",
     "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1723568183/prd/assets/tournaments/worldtestchampionship/2023-2025/Logo_Light_dvrowv.svg",
     "pointsTableColor": "black",
-    "tileBackgroundColor": "#ffffff",
+    "tileBackgroundColor": "#000000",
     "teams": [
       "IND",
       "AUS",
@@ -56,102 +56,39 @@
   "stageTeams": [
     {
       "stageOrder": 1,
-      "teamId": "IND",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "IND"
     },
     {
       "stageOrder": 1,
-      "teamId": "AUS",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "AUS"
     },
     {
       "stageOrder": 1,
-      "teamId": "NZ",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "NZ"
     },
     {
       "stageOrder": 1,
-      "teamId": "SA",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "SA"
     },
     {
       "stageOrder": 1,
-      "teamId": "ENG",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "ENG"
     },
     {
       "stageOrder": 1,
-      "teamId": "WI",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "WI"
     },
     {
       "stageOrder": 1,
-      "teamId": "PAK",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "PAK"
     },
     {
       "stageOrder": 1,
-      "teamId": "BANs",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "BAN"
     },
     {
       "stageOrder": 1,
-      "teamId": "SL",
-      "matchesPlayed": 0,
-      "won": 0,
-      "lost": 0,
-      "draw": 0,
-      "tied": 0,
-      "points": 0,
-      "deductionPoints": 0
+      "teamId": "SL"
     },
     {
       "stageOrder": 2,
