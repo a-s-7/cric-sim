@@ -214,12 +214,6 @@ def get_tournaments_stages(id, onlyActiveStages):
 
     return stages
 
-def get_tournaments_standings_data(id):
-    groupStageOrders = stages_collection.find({"tournamentId": id, "type": "group"})
-    groupStageOrders = [s["order"] for s in groupStageOrders]
-
-    return get_tournament_standings(id, groupStageOrders)
-
 def get_tournaments_match_data(id, groups, teams, venues, stages):
     tournament = tournaments_collection.find_one({"_id": id})
 
@@ -438,5 +432,9 @@ def get_tournaments_match_data(id, groups, teams, venues, stages):
 
     return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"], "ballsPerInnings": tournament["ballsPerInnings"]}
     
+def get_tournaments_standings_data(id):
+    groupStageOrders = stages_collection.find({"tournamentId": id, "type": "group"})
+    groupStageOrders = [s["order"] for s in groupStageOrders]
 
+    return get_tournament_standings(id, groupStageOrders)
 
