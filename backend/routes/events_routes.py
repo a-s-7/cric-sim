@@ -25,14 +25,13 @@ def get_tournaments_teams(id):
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
 
-
+# USED BY: ALL 
 @events_bp.route('/tournaments/<string:id>/venues', methods=['GET'])
 def get_tournaments_venues(id):
     try:
         return jsonify(ts.get_tournaments_venues(id))
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
-
 
 @events_bp.route('/tournaments/<string:id>/groups', methods=['GET'])
 def get_tournaments_groups(id):

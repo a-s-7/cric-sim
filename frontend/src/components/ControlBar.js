@@ -87,7 +87,11 @@ function ControlBar({
                 throw new Error("Response was not ok");
             }
             const result = await response.json();
-            setGroupOptions(result);
+            const groupsData = result.map(item => ({
+                label: item.name,
+                value: item.name
+            }));
+            setGroupOptions(groupsData);
         } catch (error) {
             console.error("Error fetching data:", error);
         }

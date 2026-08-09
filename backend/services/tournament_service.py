@@ -158,13 +158,10 @@ def get_tournaments_venues(id):
     return venues
 
 def get_tournaments_groups(id):
-    groups = []
-
     tournament = tournaments_collection.find_one({"_id": id})
 
     if not tournament:
         raise ValueError('Tournament not found')
-    
     
     groups = list(matches_collection.aggregate([
         {
@@ -181,19 +178,18 @@ def get_tournaments_groups(id):
         {
             "$project": {
                 "_id": 0,
-                "label": "$_id",
-                "value": "$_id"
+                "name": "$_id",
             }
         },
         {
             "$sort": {
-                "label": 1
+                "name": 1
             }
         }
     ]))
 
     if not groups:
-        raise ValueError('Groups not found')        
+        raise ValueError('No groups found')        
 
     return groups
 
