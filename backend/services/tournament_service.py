@@ -194,8 +194,6 @@ def get_tournaments_groups(id):
     return groups
 
 def get_tournaments_stages(id, onlyActiveStages):
-    stages = []
-
     tournament = tournaments_collection.find_one({"_id": id})
 
     if not tournament:
@@ -208,7 +206,7 @@ def get_tournaments_stages(id, onlyActiveStages):
     
     stages = list(stages_collection.find(
         filter,
-        {"_id": 0, "label": "$name", "value": "$order"}
+        {"_id": 0, "name": "$name", "order": "$order"}
     ))
 
     if not stages:

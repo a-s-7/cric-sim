@@ -33,6 +33,7 @@ def get_tournaments_venues(id):
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
 
+# USED BY: ALL 
 @events_bp.route('/tournaments/<string:id>/groups', methods=['GET'])
 def get_tournaments_groups(id):
     try:
@@ -40,7 +41,7 @@ def get_tournaments_groups(id):
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
 
-
+# USED BY: ALL 
 @events_bp.route('/tournaments/<string:id>/stages', methods=['GET'])
 def get_tournaments_stages(id):
     onlyActiveStages = request.args.get("onlyActiveStages", "")

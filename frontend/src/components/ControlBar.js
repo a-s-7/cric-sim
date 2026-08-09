@@ -67,9 +67,9 @@ function ControlBar({
                 throw new Error("Response was not ok");
             }
             const result = await response.json();
-            const teamsData = result.map(item => ({
-                label: item.name,
-                value: item.id
+            const teamsData = result.map(team => ({
+                label: team.name,
+                value: team.id
             }));
             setTeamOptions(teamsData);
         } catch (error) {
@@ -87,9 +87,9 @@ function ControlBar({
                 throw new Error("Response was not ok");
             }
             const result = await response.json();
-            const groupsData = result.map(item => ({
-                label: item.name,
-                value: item.name
+            const groupsData = result.map(group => ({
+                label: group.name,
+                value: group.name
             }));
             setGroupOptions(groupsData);
         } catch (error) {
@@ -126,7 +126,11 @@ function ControlBar({
                 throw new Error("Response was not ok");
             }
             const result = await response.json();
-            setStageOptions(result);
+            const stageOptions = result.map(stage => ({
+                label: stage.name,
+                value: stage.order,
+            }));
+            setStageOptions(stageOptions);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -141,13 +145,17 @@ function ControlBar({
                 throw new Error("Response was not ok");
             }
             const result = await response.json();
-            setStageValues(result);
+            const stageOptions = result.map(stage => ({
+                label: stage.name,
+                value: stage.order,
+            }));
+            setStageValues(stageOptions);
 
-            if (result.length > 0) {
+            if (stageOptions.length > 0) {
                 if (isInitialLoad || autoJumpToLatest) {
-                    setActiveStageIndex(result.length - 1);
+                    setActiveStageIndex(stageOptions.length - 1);
                 } else {
-                    setActiveStageIndex(prev => prev < result.length ? prev : result.length - 1);
+                    setActiveStageIndex(prev => prev < stageOptions.length ? prev : stageOptions.length - 1);
                 }
             } else {
                 setActiveStageIndex(0);
@@ -172,7 +180,6 @@ function ControlBar({
     const handleStageChange = (selectedOptions) => {
         setSelectedStages(selectedOptions);
     };
-
 
     const resetIncompleteMatches = async () => {
         setIsResetting(true);
