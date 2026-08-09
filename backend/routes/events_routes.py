@@ -40,21 +40,13 @@ def get_tournament_stages(tournament_id):
     return jsonify(ts.get_tournament_stages(tournament_id, onlyActiveStages))
   
 @events_bp.route('/tournaments/<string:tournament_id>/matches', methods=['GET'])
-def get_tournaments_match_data(tournament_id):
+def get_tournament_matches(tournament_id):
     groups = request.args.get("groups", "")
     teams = request.args.get("teams", "")
     venues = request.args.get("venues", "")
     stages = request.args.get("stages", "")
 
-    # tournament = find_tournament(tournament_id)
-
-    # try:
-    #     # if tournament["acronym"] == "WTC":
-    #     #     return jsonify(ts.get_wtc_match_data(tournament_id, groups, teams, venues, stages))
-    #     # else:
-    #     #     return jsonify(ts.get_tournaments_match_data(tournament_id, groups, teams, venues, stages))
-    # except ValueError as e:
-    #     return jsonify({"error": str(e)}), 404
+    return jsonify(ts.get_tournament_matches(tournament_id, groups, teams, venues, stages))
 
 @events_bp.route('/tournaments/<string:id>/standings', methods=['GET'])
 def get_tournaments_standings(id):

@@ -53,10 +53,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
 
     # Check teams
     teams_in_file = tournament.get("teams", [])
-    if tournament.get("category") == "franchise":
-        team_ids_in_file = set(tournament["acronym"] + "-" + t for t in teams_in_file)
-    else:
-        team_ids_in_file = set(teams_in_file)
+    team_ids_in_file = set(teams_in_file)
 
     existing_teams = list(db['teams'].find({"_id": {"$in": list(team_ids_in_file)}}))
     existing_team_ids = set(t["_id"] for t in existing_teams)
@@ -203,10 +200,6 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         s_team["stageId"] = DB_STAGE_ORDER_TO_ID[s_team["stageOrder"]]
         del s_team["stageOrder"]
         s_team["tournamentId"] = tournament["_id"]
-       
-        if tournament.get("category") == "franchise" and s_team.get("teamId") is not None:
-            s_team["teamId"] = tournament["acronym"] + "-" + s_team["teamId"]
-
 
     DB_NAME_OR_SEED_TO_ID = {}
 
@@ -347,12 +340,6 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
 
         match["venueId"] = venue_dict[match["venue"]]
         del match["venue"]
-
-        if tournament.get("category") == "franchise":
-            if match["homeStageTeamId"] is not None and match["homeStageTeamId"] in teams_in_file:
-                match["homeStageTeamId"] = tournament["acronym"] + "-" + match["homeStageTeamId"]
-            if match["awayStageTeamId"] is not None and match["awayStageTeamId"] in teams_in_file:
-                match["awayStageTeamId"] = tournament["acronym"] + "-" + match["awayStageTeamId"]
 
         if match["homeStageTeamId"] is not None:
             match["homeStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["homeStageTeamId"]]
