@@ -94,7 +94,6 @@ function ControlBar({
     };
 
     const fetchVenueOptions = async () => {
-        // let url = urlTag === "wtc" ? `/${urlTag}/${edition}/venues` : `/leagues/${urlTag}/${edition}/venues`;
         let url = `/tournaments/${urlTag}/venues`;
 
         try {
@@ -104,8 +103,8 @@ function ControlBar({
             }
             const result = await response.json();
             const venueOptions = result.map(venue => ({
-                label: venue,
-                value: venue
+                label: venue.stadium + ", " + venue.city,
+                value: venue.stadium
             }));
             setStadiumOptions(venueOptions);
         } catch (error) {

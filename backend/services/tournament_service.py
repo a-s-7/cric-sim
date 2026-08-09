@@ -133,12 +133,21 @@ def get_tournaments_venues(id):
         },
         {
             "$group": {
-                "_id": "$venue.stadium"
+                "_id": "$venue._id",
+                "stadium": {"$first": "$venue.stadium"},
+                "city": {"$first": "$venue.city"}
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "stadium": 1,
+                "city": 1
             }
         },
         {
             "$sort": {
-                "_id": 1
+                "stadium": 1
             }
         }
     ]))
@@ -146,7 +155,7 @@ def get_tournaments_venues(id):
     if not venues:
         raise ValueError('No venues found')        
 
-    return [venue["_id"] for venue in venues]
+    return venues
 
 def get_tournaments_groups(id):
     groups = []
