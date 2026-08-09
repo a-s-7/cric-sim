@@ -10,7 +10,7 @@ events_bp = Blueprint('events_bp', __name__)
 
 # USED BY: ALL 
 @events_bp.route('/tournaments', methods=['GET'])
-def get_tournaments_info():
+def get_tournaments():
     group_results = request.args.get('grouped', 'false').lower() == 'true'
     category = request.args.get('category', 'all').lower()
     division = request.args.get('division', 'all').lower()
@@ -18,48 +18,43 @@ def get_tournaments_info():
     return ts.get_tournaments_info(group_results, category, division)
 
 # USED BY: ALL 
-@events_bp.route('/tournaments/<string:id>/teams', methods=['GET'])
-def get_tournaments_teams(id):
-    try:
-        return jsonify(ts.get_tournaments_teams(id))
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
+@events_bp.route('/tournaments/<string:tournament_id>/teams', methods=['GET'])
+def get_tournament_teams(tournament_id):
+   return jsonify(ts.get_tournament_teams(tournament_id))
 
 # USED BY: ALL 
-@events_bp.route('/tournaments/<string:id>/venues', methods=['GET'])
-def get_tournaments_venues(id):
-    try:
-        return jsonify(ts.get_tournaments_venues(id))
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
+@events_bp.route('/tournaments/<string:tournament_id>/venues', methods=['GET'])
+def get_tournament_venues(tournament_id):
+    return jsonify(ts.get_tournament_venues(tournament_id))
 
 # USED BY: ALL 
-@events_bp.route('/tournaments/<string:id>/groups', methods=['GET'])
-def get_tournaments_groups(id):
-    try:
-        return jsonify(ts.get_tournaments_groups(id))
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
+@events_bp.route('/tournaments/<string:tournament_id>/groups', methods=['GET'])
+def get_tournament_groups(tournament_id):
+    return jsonify(ts.get_tournament_groups(tournament_id))
 
 # USED BY: ALL 
-@events_bp.route('/tournaments/<string:id>/stages', methods=['GET'])
-def get_tournaments_stages(id):
-    onlyActiveStages = request.args.get("onlyActiveStages", "")
-    try:
-        return jsonify(ts.get_tournaments_stages(id, onlyActiveStages))
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
-
-@events_bp.route('/tournaments/<string:id>/matches', methods=['GET'])
-def get_tournaments_match_data(id):
+@events_bp.route('/tournaments/<string:tournament_id>/stages', methods=['GET'])
+def get_tournament_stages(tournament_id):
+    onlyActiveStages = request.args.get("onlyActiveStages") == "true"
+    
+    return jsonify(ts.get_tournament_stages(tournament_id, onlyActiveStages))
+  
+@events_bp.route('/tournaments/<string:tournament_id>/matches', methods=['GET'])
+def get_tournaments_match_data(tournament_id):
     groups = request.args.get("groups", "")
     teams = request.args.get("teams", "")
     venues = request.args.get("venues", "")
     stages = request.args.get("stages", "")
-    try:
-        return jsonify(ts.get_tournaments_match_data(id, groups, teams, venues, stages))
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
+
+    # tournament = find_tournament(tournament_id)
+
+    # try:
+    #     # if tournament["acronym"] == "WTC":
+    #     #     return jsonify(ts.get_wtc_match_data(tournament_id, groups, teams, venues, stages))
+    #     # else:
+    #     #     return jsonify(ts.get_tournaments_match_data(tournament_id, groups, teams, venues, stages))
+    # except ValueError as e:
+    #     return jsonify({"error": str(e)}), 404
 
 @events_bp.route('/tournaments/<string:id>/standings', methods=['GET'])
 def get_tournaments_standings(id):

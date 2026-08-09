@@ -37,12 +37,12 @@ stages_collection = db["stages"]
 def get_tournament_standings(id, stages):
     tournament = tournaments_collection.find_one({"_id": id})
 
-    stageIds = stages_collection.find({"tournamentId": id, "order": {"$in": stages}})
-    stageIds = [ObjectId(s["_id"]) for s in stageIds]
-
     if not tournament:
         return jsonify({"error": "Tournament not found"}), 404
 
+    stageIds = stages_collection.find({"tournamentId": id, "order": {"$in": stages}})
+    stageIds = [ObjectId(s["_id"]) for s in stageIds]
+    
     # Get all stage-team info with team and stage details
     stageTeamsData = list(stageTeams_collection.aggregate([
         {"$match": {"tournamentId": id, "stageId": {"$in": stageIds}}},

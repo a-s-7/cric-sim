@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from collections import defaultdict
 from utils import get_tournament_standings, confirmTeamsForStage, decide_playoff_no_result
+from flask import abort
 
 verbose = True
 
@@ -19,6 +20,14 @@ stageTeams_collection = db['stageTeams']
 matches_collection = db['matches']
 stages_collection = db["stages"]
 teams_collection = db['teams']
+
+def find_tournament(tournament_id):
+    tournament = tournaments_collection.find_one({"_id": tournament_id})
+
+    if tournament is None:
+        abort(404, description=f"Tournament not found")
+
+    return tournament
 
 def get_tournaments_info(group_results, category, division):
     query = {}
@@ -65,16 +74,13 @@ def get_tournaments_info(group_results, category, division):
 
     return {"tournaments": output, "grouped": group_results}
 
-def get_tournaments_teams(id):
-    tournament = tournaments_collection.find_one({"_id": id})
-
-    if not tournament:
-        raise ValueError('Tournament not found')
+def get_tournament_teams(tournament_id):
+    find_tournament(tournament_id)
     
     teams = list(stageTeams_collection.aggregate([
         {
             "$match": {
-                "tournamentId": id,
+                "tournamentId": tournament_id,
                 "confirmed": { "$exists": False }
             }
         },
@@ -103,21 +109,15 @@ def get_tournaments_teams(id):
         }
     ]))
 
-    if not teams:
-        raise ValueError('Teams not found')        
-
     return teams
 
-def get_tournaments_venues(id):
-    tournament = tournaments_collection.find_one({"_id": id})
-
-    if not tournament:
-        raise ValueError('Tournament not found')
+def get_tournament_venues(tournament_id):
+    find_tournament(tournament_id)
     
     venues = list(matches_collection.aggregate([
         {
             "$match": {
-                "tournamentId": id
+                "tournamentId": tournament_id
             }
         },
         {
@@ -152,21 +152,15 @@ def get_tournaments_venues(id):
         }
     ]))
 
-    if not venues:
-        raise ValueError('No venues found')        
-
     return venues
 
-def get_tournaments_groups(id):
-    tournament = tournaments_collection.find_one({"_id": id})
-
-    if not tournament:
-        raise ValueError('Tournament not found')
+def get_tournament_groups(tournament_id):
+    find_tournament(tournament_id)
     
     groups = list(matches_collection.aggregate([
         {
             "$match": {
-                "tournamentId": id,
+                "tournamentId": tournament_id,
                 "group": { "$exists": True}
             }
         },
@@ -188,18 +182,12 @@ def get_tournaments_groups(id):
         }
     ]))
 
-    if not groups:
-        raise ValueError('No groups found')        
-
     return groups
 
-def get_tournaments_stages(id, onlyActiveStages):
-    tournament = tournaments_collection.find_one({"_id": id})
+def get_tournament_stages(tournament_id, onlyActiveStages):
+    find_tournament(tournament_id)
 
-    if not tournament:
-        raise ValueError('Tournament not found')
-
-    filter = {"tournamentId": id}
+    filter = {"tournamentId": tournament_id}
 
     if onlyActiveStages:
         filter["status"] = "active"
@@ -207,14 +195,229 @@ def get_tournaments_stages(id, onlyActiveStages):
     stages = list(stages_collection.find(
         filter,
         {"_id": 0, "name": "$name", "order": "$order"}
-    ))
-
-    if not stages:
-        raise ValueError('Stages not found')        
+    ))    
 
     return stages
 
 def get_tournaments_match_data(id, groups, teams, venues, stages):
+    tournament = tournaments_collection.find_one({"_id": id})
+
+    if not tournament:
+        raise ValueError('Tournament not found')
+
+    teams_pipeline = [
+    { "$match": { "tournamentId": id } },
+
+    {
+        "$lookup": {
+            "from": "teams",
+            "localField": "teamId",
+            "foreignField": "_id",
+            "as": "team"
+        }
+    },
+
+    { "$unwind": "$team" },
+
+    {
+        "$project": {
+            "_id": 0,
+            "acronym": "$team.acronym",
+            "gradient": "$team.gradient",
+            "name": "$team.name",
+            "logo": "$team.logo"
+        }
+    },
+
+    {
+        "$group": {
+            "_id": None,
+            "teams": { 
+                "$push": {
+                    "k": "$acronym",
+                    "v": { "gradient": "$gradient", "logo": "$logo", "name": "$name" }
+                }
+            }
+        }
+    },
+    {
+        "$replaceRoot": { "newRoot": { "$arrayToObject": "$teams" } }
+    }
+    ]
+
+    teams_data = list(stageTeams_collection.aggregate(teams_pipeline))
+
+    groups = groups.split(",") if groups else []
+    teams = teams.split(",") if teams else []
+    venues = venues.split(",") if venues else []
+    stages = [int(stage) for stage in stages.split(",")] if stages else []
+
+    pipeline = [
+        { "$match": {"tournamentId": id} },
+        {"$lookup": {
+            "from": "venues",
+            "localField": "venueId",
+            "foreignField": "_id",
+            "as": "venue"
+        }},
+        {"$unwind": "$venue"},
+        {
+            "$set": {
+                "venue": "$venue.stadium",
+                "city": "$venue.city"
+            }
+        },
+        {"$lookup": {
+            "from": "stageTeams",
+            "localField": "homeStageTeamId",
+            "foreignField": "_id",
+            "as": "homeStageTeam"
+        }},
+        {
+            "$unwind": {
+                "path": "$homeStageTeam",
+                "preserveNullAndEmptyArrays": True
+            }
+        },
+        {"$lookup": {
+            "from": "teams",
+            "localField": "homeStageTeam.teamId",
+            "foreignField": "_id",
+            "as": "homeTeam"
+        }},
+        {
+            "$unwind": { 
+                "path": "$homeTeam", 
+                "preserveNullAndEmptyArrays": True 
+            }
+        },
+        {
+            "$set": {
+                "homeStageTeam": "$homeTeam.acronym",
+                "homeTeamId": "$homeTeam._id",
+                "homeConfirmed": "$homeStageTeam.confirmed",
+                "homeSeed": "$homeStageTeam.seed"
+            }
+        },
+        {"$lookup": {
+            "from": "stageTeams",
+            "localField": "awayStageTeamId",
+            "foreignField": "_id",
+            "as": "awayStageTeam"
+        }},
+        {
+            "$unwind": {
+                "path": "$awayStageTeam",
+                "preserveNullAndEmptyArrays": True
+            }
+        },
+        {"$lookup": {
+            "from": "teams",
+            "localField": "awayStageTeam.teamId",
+            "foreignField": "_id",
+            "as": "awayTeam"
+        }},
+        {
+            "$unwind": { 
+                "path": "$awayTeam", 
+                "preserveNullAndEmptyArrays": True 
+            }
+        },
+        {
+            "$set": {
+                "awayStageTeam": "$awayTeam.acronym",
+                "awayTeamId": "$awayTeam._id",
+                "awayConfirmed": "$awayStageTeam.confirmed",
+                "awaySeed": "$awayStageTeam.seed"
+            }
+        },
+        {"$lookup": {
+            "from": "stages",
+            "localField": "stageId",
+            "foreignField": "_id",
+            "as": "stage"
+        }},
+        {"$unwind": "$stage"},
+        {
+            "$set": {
+                "stage": "$stage.name",
+                "stageOrder": "$stage.order",
+                "stageStatus": "$stage.status"
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "tournamentId": 0,
+                "homeStageTeamId": 0,
+                "awayStageTeamId": 0,
+                "homeTeam": 0,
+                "awayTeam": 0,
+                "venueId": 0,
+                "stageId": 0,
+            }
+        }
+    ]
+
+    or_condition = {
+            "$or": [
+            ]
+        }
+
+    if groups:
+        or_condition["$or"].append({"group": { "$in": groups }})
+
+    if teams:
+        or_condition["$or"].append({"homeTeamId": { "$in": teams }})
+        or_condition["$or"].append({"awayTeamId": { "$in": teams }})
+
+    if venues:
+        or_condition["$or"].append({"venue": { "$in": venues }})
+
+    if stages:
+        or_condition["$or"].append({"stageOrder": { "$in": stages }})
+
+    if or_condition["$or"]:
+        pipeline.append({"$match": or_condition})
+
+    pipeline.append({"$sort": {"matchNumber": 1}})
+        
+    filtered_matches = list(matches_collection.aggregate(pipeline))
+
+    final_match = matches_collection.find({"tournamentId": id}).sort("matchNumber", -1).limit(1)[0]
+    
+    winner = ""
+    if final_match["result"] != "None":
+        # Determine final winner
+
+        if final_match["result"] == "Home-win":
+            winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
+            winner = teams_collection.find_one({"_id": winner})["acronym"]
+        elif final_match["result"] == "No-result":
+
+            # If final is no result in a franchise tournament, determine winner based on league standings (Higher-seeded team is champion)
+            if tournament["category"] == "franchise":
+                last_stage = stages_collection.find({"tournamentId": id}).sort("order", -1).limit(1)[0]
+                standings = get_tournament_standings(id, [last_stage["order"] - 1])
+                standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
+
+                winner = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]
+                winner = teams_collection.find_one({"_id": winner})["acronym"]
+            else:
+                winner1 = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
+                winner2 = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
+
+                winner1 = teams_collection.find_one({"_id": winner1})["acronym"]
+                winner2 = teams_collection.find_one({"_id": winner2})["acronym"]
+                winner = winner1 + "#" + winner2
+
+        else:
+            winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
+            winner = teams_collection.find_one({"_id": winner})["acronym"]
+
+    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"], "ballsPerInnings": tournament["ballsPerInnings"]}
+
+def get_wtc_match_data(id, groups, teams, venues, stages):
     tournament = tournaments_collection.find_one({"_id": id})
 
     if not tournament:

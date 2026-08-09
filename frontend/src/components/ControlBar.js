@@ -118,7 +118,6 @@ function ControlBar({
 
     const fetchStageOptions = async () => {
         let url = `/tournaments/${urlTag}/stages`;
-        console.log(url);
 
         try {
             const response = await fetch(url);
