@@ -60,35 +60,16 @@ def get_tournaments_info(group_results, category, division):
             paired[key]["rw_id"] = str(tournament["_id"])
         else:
             paired[key]["ps_id"] = str(tournament["_id"])
-
-            
-
-    # # If grouped results are requested, organize by franchise (acronym) or format
-    # if group_results:
-    #     output = {}
-    #     for item in paired.values():
-    #         if category == "franchise":
-    #             group_key = item.get("acronym", "Other")
-    #         else:
-    #             group_key = item.get("format", "Other")
-            
-    #         if group_key not in output:
-    #             output[group_key] = []
-    #         output[group_key].append(item)
-    # else:
     
     output = list(paired.values())
 
     return {"tournaments": output, "grouped": group_results}
 
 def get_tournaments_teams(id):
-    teams = []
-
     tournament = tournaments_collection.find_one({"_id": id})
 
     if not tournament:
         raise ValueError('Tournament not found')
-    
     
     teams = list(stageTeams_collection.aggregate([
         {
@@ -111,13 +92,13 @@ def get_tournaments_teams(id):
         {
             "$project": {
                 "_id": 0,
-                "value": { "$toString": "$team._id" },
-                "label": "$team.name"
+                "name": "$team.name",
+                "id": { "$toString": "$team._id" }
             }
         },
         {
             "$sort": {
-                "label": 1
+                "name": 1
             }
         }
     ]))
@@ -128,13 +109,10 @@ def get_tournaments_teams(id):
     return teams
 
 def get_tournaments_venues(id):
-    venues = []
-
     tournament = tournaments_collection.find_one({"_id": id})
 
     if not tournament:
         raise ValueError('Tournament not found')
-    
     
     venues = list(matches_collection.aggregate([
         {
@@ -159,23 +137,16 @@ def get_tournaments_venues(id):
             }
         },
         {
-            "$project": {
-                "_id": 0,
-                "label": "$_id",
-                "value": "$_id"
-            }
-        },
-        {
             "$sort": {
-                "label": 1
+                "_id": 1
             }
         }
     ]))
 
     if not venues:
-        raise ValueError('Venues not found')        
+        raise ValueError('No venues found')        
 
-    return venues
+    return [venue["_id"] for venue in venues]
 
 def get_tournaments_groups(id):
     groups = []

@@ -4,7 +4,7 @@
     "division": "mens",
     "category": "international",
     "format": "TEST",
-    "matchDurationMinutes": 7200,
+    "matchDurationMinutes": 6240,
     "name": "ICC World Test Championship",
     "acronym": "WTC",
     "edition": "2025-27",
@@ -281,9 +281,7 @@
       "homeStageTeamId": "SL",
       "awayStageTeamId": "BAN",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 1,
@@ -294,9 +292,7 @@
       "homeStageTeamId": "SL",
       "awayStageTeamId": "BAN",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 2,
@@ -307,9 +303,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "complete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "complete"
     },
     {
       "seriesId": 2,
@@ -320,9 +314,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 2,
@@ -333,9 +325,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 2,
@@ -346,9 +336,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 2,
@@ -359,9 +347,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 3,
@@ -372,9 +358,7 @@
       "homeStageTeamId": "WI",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "complete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "complete"
     },
     {
       "seriesId": 3,
@@ -385,9 +369,7 @@
       "homeStageTeamId": "WI",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 3,
@@ -398,9 +380,7 @@
       "homeStageTeamId": "WI",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 4,
@@ -411,9 +391,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "WI",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 4,
@@ -424,9 +402,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "WI",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 5,
@@ -437,9 +413,7 @@
       "homeStageTeamId": "PAK",
       "awayStageTeamId": "SA",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 5,
@@ -450,9 +424,7 @@
       "homeStageTeamId": "PAK",
       "awayStageTeamId": "SA",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 6,
@@ -463,9 +435,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "SA",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 6,
@@ -476,9 +446,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "SA",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 7,
@@ -489,9 +457,7 @@
       "homeStageTeamId": "NZ",
       "awayStageTeamId": "WI",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 7,
@@ -502,9 +468,7 @@
       "homeStageTeamId": "NZ",
       "awayStageTeamId": "WI",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 7,
@@ -515,9 +479,7 @@
       "homeStageTeamId": "NZ",
       "awayStageTeamId": "WI",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 8,
@@ -528,9 +490,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 8,
@@ -541,9 +501,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 8,
@@ -554,9 +512,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 8,
@@ -567,9 +523,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 8,
@@ -580,9 +534,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 9,
@@ -593,9 +545,7 @@
       "homeStageTeamId": "BAN",
       "awayStageTeamId": "PAK",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 9,
@@ -606,9 +556,7 @@
       "homeStageTeamId": "BAN",
       "awayStageTeamId": "PAK",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 10,
@@ -619,9 +567,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 10,
@@ -632,9 +578,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 10,
@@ -645,9 +589,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 11,
@@ -658,9 +600,7 @@
       "homeStageTeamId": "WI",
       "awayStageTeamId": "SL",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 11,
@@ -671,9 +611,7 @@
       "homeStageTeamId": "WI",
       "awayStageTeamId": "SL",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 12,
@@ -684,9 +622,7 @@
       "homeStageTeamId": "WI",
       "awayStageTeamId": "PAK",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 12,
@@ -697,9 +633,7 @@
       "homeStageTeamId": "WI",
       "awayStageTeamId": "PAK",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 13,
@@ -710,9 +644,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "BAN",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 13,
@@ -723,9 +655,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "BAN",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 14,
@@ -736,9 +666,7 @@
       "homeStageTeamId": "SL",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 14,
@@ -749,9 +677,7 @@
       "homeStageTeamId": "SL",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 15,
@@ -762,9 +688,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "PAK",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 15,
@@ -775,9 +699,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "PAK",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 15,
@@ -788,9 +710,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "PAK",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 16,
@@ -801,9 +721,7 @@
       "homeStageTeamId": "SA",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 16,
@@ -814,9 +732,7 @@
       "homeStageTeamId": "SA",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 16,
@@ -827,9 +743,7 @@
       "homeStageTeamId": "SA",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 17,
@@ -840,9 +754,7 @@
       "homeStageTeamId": "BAN",
       "awayStageTeamId": "WI",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 17,
@@ -853,9 +765,7 @@
       "homeStageTeamId": "BAN",
       "awayStageTeamId": "WI",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 18,
@@ -866,9 +776,7 @@
       "homeStageTeamId": "SA",
       "awayStageTeamId": "BAN",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 18,
@@ -879,9 +787,7 @@
       "homeStageTeamId": "SA",
       "awayStageTeamId": "BAN",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 19,
@@ -892,9 +798,7 @@
       "homeStageTeamId": "NZ",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 19,
@@ -905,9 +809,7 @@
       "homeStageTeamId": "NZ",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 20,
@@ -918,9 +820,7 @@
       "homeStageTeamId": "PAK",
       "awayStageTeamId": "SL",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 20,
@@ -931,9 +831,7 @@
       "homeStageTeamId": "PAK",
       "awayStageTeamId": "SL",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 21,
@@ -944,9 +842,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 21,
@@ -957,9 +853,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 21,
@@ -970,9 +864,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 21,
@@ -983,9 +875,7 @@
       "homeStageTeamId": "AUS",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 22,
@@ -996,9 +886,7 @@
       "homeStageTeamId": "SA",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 22,
@@ -1009,9 +897,7 @@
       "homeStageTeamId": "SA",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 22,
@@ -1022,9 +908,7 @@
       "homeStageTeamId": "SA",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 23,
@@ -1035,9 +919,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 23,
@@ -1048,9 +930,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 23,
@@ -1061,9 +941,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 23,
@@ -1074,9 +952,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 23,
@@ -1087,9 +963,7 @@
       "homeStageTeamId": "IND",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 24,
@@ -1100,9 +974,7 @@
       "homeStageTeamId": "NZ",
       "awayStageTeamId": "SL",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 24,
@@ -1113,9 +985,7 @@
       "homeStageTeamId": "NZ",
       "awayStageTeamId": "SL",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 25,
@@ -1126,9 +996,7 @@
       "homeStageTeamId": "BAN",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 25,
@@ -1139,9 +1007,7 @@
       "homeStageTeamId": "BAN",
       "awayStageTeamId": "ENG",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 26,
@@ -1152,9 +1018,7 @@
       "homeStageTeamId": "SL",
       "awayStageTeamId": "SA",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 26,
@@ -1165,9 +1029,7 @@
       "homeStageTeamId": "SL",
       "awayStageTeamId": "SA",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 27,
@@ -1178,9 +1040,7 @@
       "homeStageTeamId": "PAK",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "seriesId": 27,
@@ -1191,9 +1051,7 @@
       "homeStageTeamId": "PAK",
       "awayStageTeamId": "NZ",
       "result": "None",
-      "status": "incomplete",
-      "homeDeductionPoints": 0,
-      "awayDeductionPoints": 0
+      "status": "incomplete"
     },
     {
       "stageOrder": 2,

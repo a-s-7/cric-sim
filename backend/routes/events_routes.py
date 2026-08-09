@@ -8,14 +8,16 @@ from utils import is_gemini_quota_error
 
 events_bp = Blueprint('events_bp', __name__)
 
+# USED BY: ALL 
 @events_bp.route('/tournaments', methods=['GET'])
 def get_tournaments_info():
     group_results = request.args.get('grouped', 'false').lower() == 'true'
     category = request.args.get('category', 'all').lower()
     division = request.args.get('division', 'all').lower()
+
     return ts.get_tournaments_info(group_results, category, division)
 
-
+# USED BY: ALL 
 @events_bp.route('/tournaments/<string:id>/teams', methods=['GET'])
 def get_tournaments_teams(id):
     try:
@@ -52,7 +54,6 @@ def get_tournaments_stages(id):
 @events_bp.route('/tournaments/<string:id>/standings', methods=['GET'])
 def get_tournaments_standings(id):
     return jsonify(ts.get_tournaments_standings_data(id))
-
 
 @events_bp.route('/tournaments/<string:id>/matches', methods=['GET'])
 def get_tournaments_match_data(id):

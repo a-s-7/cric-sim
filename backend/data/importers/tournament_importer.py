@@ -240,7 +240,8 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
 
     matches_collection.create_index(
         [("tournamentId", 1), ("matchNumber", 1)],
-        unique=True
+        unique=True,
+        partialFilterExpression={"matchNumber": {"$exists": True}}
     )
 
     matches = json_info["matches"]

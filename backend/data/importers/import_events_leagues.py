@@ -37,7 +37,7 @@ def main(selected_ids="All"):
         importer = wtc_importer if t_info["folder"] == "world-test-championship" else tournament_importer
 
         for real_value in (True, False):
-            importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=real_value, realWorld=real_value)
+            importer.main(t_info["category"], t_info["folder"], t_info["name"], auto_update=False, realWorld=real_value)
 
 if __name__ == "__main__":
     main(selected_ids=[6])

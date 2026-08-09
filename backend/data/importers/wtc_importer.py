@@ -300,85 +300,85 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         print("─" * 70 + "\n")
 
 
-    ######################################### Insert matches data
+    ######################################## Insert matches data
 
-    # DB_STADIUM_NAME_TO_ID = {}
+    venues_collection = db['venues']
+    venues = venues_collection.find({
+        "stadium": {
+            "$in": list(stadiums_in_file)
+        }
+    })
+    venue_dict = {v["stadium"]: v["_id"] for v in venues}
 
-    # venues_collection = db['venues']
-    # venues = venues_collection.find({
-    #     "stadium": {
-    #         "$in": tournament.get("stadiums", [])
-    #     }
-    # })
-    # venue_dict = {v["stadium"]: v["_id"] for v in venues}
+    matches_collection = db['matches']
 
-    # matches_collection = db['matches']
+    matches_collection.create_index(
+        [("tournamentId", 1), ("matchNumber", 1)],
+        unique=True,
+        partialFilterExpression={"matchNumber": {"$exists": True}}
+    )
 
-    # matches_collection.create_index(
-    #     [("tournamentId", 1), ("matchNumber", 1)],
-    #     unique=True
-    # )
+    matches_collection.create_index(
+        [("seriesId", 1), ("seriesMatchNumber", 1)],
+        unique=True,
+        partialFilterExpression={"seriesId": {"$type": "objectId"}}
+    )
 
-    # matches = json_info["matches"]
+    matches = json_info["matches"]
 
-    # for match in matches:
+    for match in matches:
+        if match["stageOrder"] == 1:
+            match["homeDeductionPoints"] = 0
+            match["awayDeductionPoints"] = 0
 
-    #     match["stageId"] = DB_STAGE_ORDER_TO_ID[match["stageOrder"]]
-    #     del match["stageOrder"]   
+        match["stageId"] = DB_STAGE_ORDER_TO_ID[match["stageOrder"]]
+        del match["stageOrder"]   
 
-    #     start_dt = datetime.fromisoformat(match["date"])
+        if "seriesId" in match and match["seriesId"] in DB_SERIES_ID_TO_GUID:
+            match["seriesId"] = DB_SERIES_ID_TO_GUID[match["seriesId"]]
+
+        start_dt = datetime.fromisoformat(match["date"])
         
-    #     start_dt_pst = start_dt.replace(tzinfo=zone)
-    #     end_dt_pst = start_dt_pst + timedelta(minutes=tournament["matchDurationMinutes"])
+        start_dt_pst = start_dt.replace(tzinfo=zone)
+        end_dt_pst = start_dt_pst + timedelta(minutes=tournament["matchDurationMinutes"])
 
-    #     match["date"] = start_dt_pst.astimezone(timezone.utc)
-    #     match["endDate"] = end_dt_pst.astimezone(timezone.utc)
+        match["date"] = start_dt_pst.astimezone(timezone.utc)
+        match["endDate"] = end_dt_pst.astimezone(timezone.utc)
 
-    #     match["venueId"] = venue_dict[match["venue"]]
-    #     del match["venue"]
+        match["venueId"] = venue_dict[match["venue"]]
+        del match["venue"]
 
-    #     if tournament.get("category") == "franchise":
-    #         if match["homeStageTeamId"] is not None and match["homeStageTeamId"] in teams_in_file:
-    #             match["homeStageTeamId"] = tournament["acronym"] + "-" + match["homeStageTeamId"]
-    #         if match["awayStageTeamId"] is not None and match["awayStageTeamId"] in teams_in_file:
-    #             match["awayStageTeamId"] = tournament["acronym"] + "-" + match["awayStageTeamId"]
+        if tournament.get("category") == "franchise":
+            if match["homeStageTeamId"] is not None and match["homeStageTeamId"] in teams_in_file:
+                match["homeStageTeamId"] = tournament["acronym"] + "-" + match["homeStageTeamId"]
+            if match["awayStageTeamId"] is not None and match["awayStageTeamId"] in teams_in_file:
+                match["awayStageTeamId"] = tournament["acronym"] + "-" + match["awayStageTeamId"]
 
-    #     if match["homeStageTeamId"] is not None:
-    #         match["homeStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["homeStageTeamId"]]
-    #     if match["awayStageTeamId"] is not None:
-    #         match["awayStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["awayStageTeamId"]]
+        if match["homeStageTeamId"] is not None:
+            match["homeStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["homeStageTeamId"]]
+        if match["awayStageTeamId"] is not None:
+            match["awayStageTeamId"] = DB_NAME_OR_SEED_TO_ID[match["awayStageTeamId"]]
         
-    #     match["tossResult"] = "Home-win"
-    #     match["tossDecision"] = "bat"
-    #     match["homeTeamRuns"] = 0
-    #     match["homeTeamWickets"] = 0
-    #     match["homeTeamBalls"] = 0
-    #     match["awayTeamRuns"] = 0
-    #     match["awayTeamWickets"] = 0
-    #     match["awayTeamBalls"] = 0
-    #     match["homeMaxBalls"] = tournament["ballsPerInnings"]
-    #     match["awayMaxBalls"] = tournament["ballsPerInnings"]
-    #     match["target"] = None
-    #     match["targetOvertaken"] = False
-    #     match["autoUpdate"] = auto_update
-    #     match["tournamentId"] = tournament["_id"]
+        match["tossResult"] = "Home-win"
+        match["tossDecision"] = "bat"
+        match["resultSummary"] = None
+        match["autoUpdate"] = auto_update
+        match["tournamentId"] = tournament["_id"]
         
-    # try:
-    #     result = matches_collection.insert_many(matches, ordered=True)
+    try:
+        result = matches_collection.insert_many(matches, ordered=True)
 
-    #     print(f"{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} MATCHES{ENDC}\n")
-    #     print(f"{BLUE}{BOLD}{'MATCH NUMBER':<20} {'ID':<50}{ENDC}")
-    #     print("─" * 70)
-    #     for i, id in enumerate(result.inserted_ids):
-    #         print(f"{matches[i]['matchNumber']:<20} {str(id):<50}")
-    #     print("─" * 70 + "\n")
+        print(f"{GREEN}{BOLD}✓ INSERTED {len(result.inserted_ids)} MATCHES{ENDC}\n")
+        print(f"{BLUE}{BOLD}{'SERIES MATCH NO':<20} {'ID':<50}{ENDC}")
+        print("─" * 70)
+        for i, id in enumerate(result.inserted_ids):
+            m_num = matches[i].get('seriesMatchNumber', matches[i].get('description', f"Match {i+1}"))
+            print(f"{str(m_num):<20} {str(id):<50}")
+        print("─" * 70 + "\n")
 
-    # except BulkWriteError as e:
-    #     write_errors = e.details.get('writeErrors', [])
-        
-    #     first_error_index = write_errors[0]['index']
-
-    #     print(f"{RED}Error: Stopped inserting matches at match {first_error_index + 1}{ENDC}")
+    except (BulkWriteError, DuplicateKeyError):
+        existing_matches = list(matches_collection.find({"tournamentId": tournament["_id"]}))
+        print(f"\n{YELLOW}{BOLD}ℹ USING {len(existing_matches)} EXISTING MATCHES{ENDC}\n")
 
 if __name__ == "__main__":
     # Example usage:

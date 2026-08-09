@@ -58,8 +58,6 @@ function ControlBar({
     }, [logo]);
 
     const fetchTeamOptions = async () => {
-
-        // let url = urlTag === "wtc" ? `/${urlTag}/${edition}/teams` : `/leagues/${urlTag}/${edition}/teams`;
         let url = `/tournaments/${urlTag}/teams`;
         console.log(url);
 
@@ -69,7 +67,11 @@ function ControlBar({
                 throw new Error("Response was not ok");
             }
             const result = await response.json();
-            setTeamOptions(result);
+            const teamsData = result.map(item => ({
+                label: item.name,
+                value: item.id
+            }));
+            setTeamOptions(teamsData);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -101,7 +103,11 @@ function ControlBar({
                 throw new Error("Response was not ok");
             }
             const result = await response.json();
-            setStadiumOptions(result);
+            const venueOptions = result.map(venue => ({
+                label: venue,
+                value: venue
+            }));
+            setStadiumOptions(venueOptions);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
