@@ -58,7 +58,7 @@ function ControlBar({
     }, [logo]);
 
     const fetchTeamOptions = async () => {
-        let url = `/tournaments/${urlTag}/teams`;
+        let url = `/tournament/${urlTag}/teams`;
         console.log(url);
 
         try {
@@ -78,7 +78,7 @@ function ControlBar({
     };
 
     const fetchGroupOptions = async () => {
-        let url = `/tournaments/${urlTag}/groups`;
+        let url = `/tournament/${urlTag}/groups`;
         console.log(url);
 
         try {
@@ -98,7 +98,7 @@ function ControlBar({
     };
 
     const fetchVenueOptions = async () => {
-        let url = `/tournaments/${urlTag}/venues`;
+        let url = `/tournament/${urlTag}/venues`;
 
         try {
             const response = await fetch(url);
@@ -117,7 +117,7 @@ function ControlBar({
     };
 
     const fetchStageOptions = async () => {
-        let url = `/tournaments/${urlTag}/stages`;
+        let url = `/tournament/${urlTag}/stages`;
 
         try {
             const response = await fetch(url);
@@ -136,7 +136,7 @@ function ControlBar({
     };
 
     const fetchActiveStages = async (isInitialLoad = false) => {
-        let url = `/tournaments/${urlTag}/stages?onlyActiveStages=true`;
+        let url = `/tournament/${urlTag}/stages?onlyActiveStages=true`;
 
         try {
             const response = await fetch(url);

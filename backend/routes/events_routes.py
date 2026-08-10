@@ -18,22 +18,22 @@ def get_tournaments():
     return ts.get_tournaments_info(group_results, category, division)
 
 # USED BY: ALL 
-@events_bp.route('/tournaments/<string:tournament_id>/teams', methods=['GET'])
+@events_bp.route('/tournament/<string:tournament_id>/teams', methods=['GET'])
 def get_tournament_teams(tournament_id):
    return jsonify(ts.get_tournament_teams(tournament_id))
 
 # USED BY: ALL 
-@events_bp.route('/tournaments/<string:tournament_id>/venues', methods=['GET'])
+@events_bp.route('/tournament/<string:tournament_id>/venues', methods=['GET'])
 def get_tournament_venues(tournament_id):
     return jsonify(ts.get_tournament_venues(tournament_id))
 
 # USED BY: ALL 
-@events_bp.route('/tournaments/<string:tournament_id>/groups', methods=['GET'])
+@events_bp.route('/tournament/<string:tournament_id>/groups', methods=['GET'])
 def get_tournament_groups(tournament_id):
     return jsonify(ts.get_tournament_groups(tournament_id))
 
 # USED BY: ALL 
-@events_bp.route('/tournaments/<string:tournament_id>/stages', methods=['GET'])
+@events_bp.route('/tournament/<string:tournament_id>/stages', methods=['GET'])
 def get_tournament_stages(tournament_id):
     onlyActiveStages = request.args.get("onlyActiveStages") == "true"
     
