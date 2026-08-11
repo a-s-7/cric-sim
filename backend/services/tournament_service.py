@@ -207,6 +207,89 @@ def get_tournament_matches(tournament_id, groups, teams, venues, stages):
     else:
         return get_tournament_match_data(tournament, groups, teams, venues, stages)
     
+def get_tournament_match_data(tournament, groups, teams, venues, stages):
+    teams_data = get_tournament_match_teams_data(tournament)
+    groups, teams, venues, stages = parse_filter_params(groups, teams, venues, stages)
+
+    pipeline = [{"$match": {"tournamentId": tournament["_id"]}}]
+    pipeline.extend(build_common_match_lookup_stages())
+    pipeline.append({
+        "$project": {
+            "_id": 0,
+            "tournamentId": 0,
+            "homeStageTeamId": 0,
+            "awayStageTeamId": 0,
+            "homeTeam": 0,
+            "awayTeam": 0,
+            "venueId": 0,
+            "stageId": 0,
+        }
+    })
+
+    or_condition = build_or_filter_condition(groups, teams, venues, stages)
+    if or_condition["$or"]:
+        pipeline.append({"$match": or_condition})
+
+    pipeline.append({"$sort": {"matchNumber": 1}})
+        
+    filtered_matches = list(matches_collection.aggregate(pipeline))
+
+    final_match = matches_collection.find({"tournamentId": tournament["_id"]}).sort("matchNumber", -1).limit(1)[0]
+    
+    winner = determine_final_winner(tournament, final_match)
+
+    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"], "ballsPerInnings": tournament["ballsPerInnings"]}
+
+def get_wtc_match_data(tournament, teams, venues, stages):
+    teams_data = get_tournament_match_teams_data(tournament)
+    _, teams, venues, stages = parse_filter_params(None, teams, venues, stages)
+
+    pipeline = [{"$match": {"tournamentId": tournament["_id"]}}]
+    pipeline.append({"$lookup": {
+        "from": "series",
+        "localField": "seriesId",
+        "foreignField": "_id",
+        "as": "series"
+    }})
+    pipeline.append({"$unwind": {"path": "$series", "preserveNullAndEmptyArrays": True}})
+    pipeline.append({"$set": {"series": "$series.name"}})
+    pipeline.extend(build_common_match_lookup_stages())
+    pipeline.append({
+        "$project": {
+            "_id": 0,
+            "tournamentId": 0,
+            "homeStageTeamId": 0,
+            "awayStageTeamId": 0,
+            "homeTeam": 0,
+            "awayTeam": 0,
+            "venueId": 0,
+            "stageId": 0,
+            "seriesId": 0,
+        }
+    })
+
+    or_condition = build_or_filter_condition([], teams, venues, stages)
+    if or_condition["$or"]:
+        pipeline.append({"$match": or_condition})
+
+    pipeline.append({"$sort": {"date": 1}})
+        
+    filtered_matches = list(matches_collection.aggregate(pipeline))
+
+    final_match = matches_collection.find({"tournamentId": tournament["_id"]}).sort("date", -1).limit(1)[0]
+    
+    winner = determine_final_winner(tournament, final_match)
+
+    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"]}
+
+def get_tournaments_standings_data(id):
+    groupStageOrders = stages_collection.find({"tournamentId": id, "type": "group"})
+    groupStageOrders = [s["order"] for s in groupStageOrders]
+
+    return get_tournament_standings(id, groupStageOrders)
+
+# Helpers
+
 def get_tournament_match_teams_data(tournament):
     teams_pipeline = [
             { "$match": { "tournamentId": tournament["_id"] } },
@@ -246,370 +329,115 @@ def get_tournament_match_teams_data(tournament):
     
     return list(stageTeams_collection.aggregate(teams_pipeline))
 
-def get_tournament_match_data(tournament, groups, teams, venues, stages):
-    teams_data = get_tournament_match_teams_data(tournament)
+def resolve_team_acronym(stage_team_id):
+    stage_team = stageTeams_collection.find_one({"_id": ObjectId(stage_team_id)})
+    team = teams_collection.find_one({"_id": stage_team["teamId"]})
+    return team["acronym"]
 
-    groups = groups.split(",") if groups else []
-    teams = teams.split(",") if teams else []
-    venues = venues.split(",") if venues else []
-    stages = [int(stage) for stage in stages.split(",")] if stages else []
+def parse_filter_params(groups, teams, venues, stages):
+    """Split comma-separated filter query params into lists."""
+    groups_list = groups.split(",") if groups else []
+    teams_list = teams.split(",") if teams else []
+    venues_list = venues.split(",") if venues else []
 
-    pipeline = [
-        { "$match": {"tournamentId": tournament["_id"]} },
-        {"$lookup": {
-            "from": "venues",
-            "localField": "venueId",
-            "foreignField": "_id",
-            "as": "venue"
-        }},
-        {"$unwind": "$venue"},
-        {
-            "$set": {
-                "venue": "$venue.stadium",
-                "city": "$venue.city"
-            }
-        },
-        {"$lookup": {
-            "from": "stageTeams",
-            "localField": "homeStageTeamId",
-            "foreignField": "_id",
-            "as": "homeStageTeam"
-        }},
-        {
-            "$unwind": {
-                "path": "$homeStageTeam",
-                "preserveNullAndEmptyArrays": True
-            }
-        },
-        {"$lookup": {
-            "from": "teams",
-            "localField": "homeStageTeam.teamId",
-            "foreignField": "_id",
-            "as": "homeTeam"
-        }},
-        {
-            "$unwind": { 
-                "path": "$homeTeam", 
-                "preserveNullAndEmptyArrays": True 
-            }
-        },
-        {
-            "$set": {
-                "homeStageTeam": "$homeTeam.acronym",
-                "homeTeamId": "$homeTeam._id",
-                "homeConfirmed": "$homeStageTeam.confirmed",
-                "homeSeed": "$homeStageTeam.seed"
-            }
-        },
-        {"$lookup": {
-            "from": "stageTeams",
-            "localField": "awayStageTeamId",
-            "foreignField": "_id",
-            "as": "awayStageTeam"
-        }},
-        {
-            "$unwind": {
-                "path": "$awayStageTeam",
-                "preserveNullAndEmptyArrays": True
-            }
-        },
-        {"$lookup": {
-            "from": "teams",
-            "localField": "awayStageTeam.teamId",
-            "foreignField": "_id",
-            "as": "awayTeam"
-        }},
-        {
-            "$unwind": { 
-                "path": "$awayTeam", 
-                "preserveNullAndEmptyArrays": True 
-            }
-        },
-        {
-            "$set": {
-                "awayStageTeam": "$awayTeam.acronym",
-                "awayTeamId": "$awayTeam._id",
-                "awayConfirmed": "$awayStageTeam.confirmed",
-                "awaySeed": "$awayStageTeam.seed"
-            }
-        },
-        {"$lookup": {
-            "from": "stages",
-            "localField": "stageId",
-            "foreignField": "_id",
-            "as": "stage"
-        }},
-        {"$unwind": "$stage"},
-        {
-            "$set": {
-                "stage": "$stage.name",
-                "stageOrder": "$stage.order",
-                "stageStatus": "$stage.status"
-            }
-        },
-        {
-            "$project": {
-                "_id": 0,
-                "tournamentId": 0,
-                "homeStageTeamId": 0,
-                "awayStageTeamId": 0,
-                "homeTeam": 0,
-                "awayTeam": 0,
-                "venueId": 0,
-                "stageId": 0,
-            }
-        }
-    ]
+    stages_list = []
+    if stages:
+        for stage in stages.split(","):
+            stages_list.append(int(stage))
 
-    or_condition = {
-            "$or": [
-            ]
-        }
+    return groups_list, teams_list, venues_list, stages_list
+
+def build_or_filter_condition(groups, teams, venues, stages):
+    """Build the shared $or filter condition used by both match pipelines."""
+    or_condition = {"$or": []}
 
     if groups:
-        or_condition["$or"].append({"group": { "$in": groups }})
+        or_condition["$or"].append({"group": {"$in": groups}})
 
     if teams:
-        or_condition["$or"].append({"homeTeamId": { "$in": teams }})
-        or_condition["$or"].append({"awayTeamId": { "$in": teams }})
+        or_condition["$or"].append({"homeTeamId": {"$in": teams}})
+        or_condition["$or"].append({"awayTeamId": {"$in": teams}})
 
     if venues:
-        or_condition["$or"].append({"venue": { "$in": venues }})
+        or_condition["$or"].append({"venue": {"$in": venues}})
 
     if stages:
-        or_condition["$or"].append({"stageOrder": { "$in": stages }})
+        or_condition["$or"].append({"stageOrder": {"$in": stages}})
 
-    if or_condition["$or"]:
-        pipeline.append({"$match": or_condition})
-
-    pipeline.append({"$sort": {"matchNumber": 1}})
-        
-    filtered_matches = list(matches_collection.aggregate(pipeline))
-
-    final_match = matches_collection.find({"tournamentId": tournament["_id"]}).sort("matchNumber", -1).limit(1)[0]
+    return or_condition
     
-    winner = ""
-    if final_match["result"] != "None":
-        # Determine final winner
+def build_common_match_lookup_stages():
+    """Venue, home team, away team, and stage lookups shared by all match pipelines."""
+    stages = []
+    stages.append({"$lookup": {
+        "from": "venues",
+        "localField": "venueId",
+        "foreignField": "_id",
+        "as": "venue"
+    }})
+    stages.append({"$unwind": "$venue"})
+    stages.append({"$set": {"venue": "$venue.stadium", "city": "$venue.city"}})
 
-        if final_match["result"] == "Home-win":
-            winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
-            winner = teams_collection.find_one({"_id": winner})["acronym"]
-        elif final_match["result"] == "No-result":
-
-            # If final is no result in a franchise tournament, determine winner based on league standings (Higher-seeded team is champion)
-            if tournament["category"] == "franchise":
-                last_stage = stages_collection.find({"tournamentId": tournament["_id"]}).sort("order", -1).limit(1)[0]
-                standings = get_tournament_standings(tournament["_id"], [last_stage["order"] - 1])
-                standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
-
-                winner = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]
-                winner = teams_collection.find_one({"_id": winner})["acronym"]
-            else:
-                winner1 = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
-                winner2 = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
-
-                winner1 = teams_collection.find_one({"_id": winner1})["acronym"]
-                winner2 = teams_collection.find_one({"_id": winner2})["acronym"]
-                winner = winner1 + "#" + winner2
-
-        else:
-            winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
-            winner = teams_collection.find_one({"_id": winner})["acronym"]
-
-    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"], "ballsPerInnings": tournament["ballsPerInnings"]}
-
-def get_wtc_match_data(tournament, teams, venues, stages):
-    teams_data = get_tournament_match_teams_data(tournament)
-
-    teams = teams.split(",") if teams else []
-    venues = venues.split(",") if venues else []
-    stages = [int(stage) for stage in stages.split(",")] if stages else []
-
-    pipeline = [
-        {"$match": {"tournamentId": tournament["_id"]} },
-        {"$lookup": {
-            "from": "series",
-            "localField": "seriesId",
-            "foreignField": "_id",
-            "as": "series"
-        }},
-        {   "$unwind": {
-                "path": "$series",
-                "preserveNullAndEmptyArrays": True
-            }
-        },
-        {
-            "$set": {
-                "series": "$series.name",
-            }
-        },
-        {"$lookup": {
-            "from": "venues",
-            "localField": "venueId",
-            "foreignField": "_id",
-            "as": "venue"
-        }},
-        {"$unwind": "$venue"},
-        {
-            "$set": {
-                "venue": "$venue.stadium",
-                "city": "$venue.city"
-            }
-        },
-        {"$lookup": {
+    for side in ("home", "away"):
+        stages.append({"$lookup": {
             "from": "stageTeams",
-            "localField": "homeStageTeamId",
+            "localField": f"{side}StageTeamId",
             "foreignField": "_id",
-            "as": "homeStageTeam"
-        }},
-        {
-            "$unwind": {
-                "path": "$homeStageTeam",
-                "preserveNullAndEmptyArrays": True
-            }
-        },
-        {"$lookup": {
+            "as": f"{side}StageTeam"
+        }})
+        stages.append({"$unwind": {"path": f"${side}StageTeam", "preserveNullAndEmptyArrays": True}})
+        stages.append({"$lookup": {
             "from": "teams",
-            "localField": "homeStageTeam.teamId",
+            "localField": f"{side}StageTeam.teamId",
             "foreignField": "_id",
-            "as": "homeTeam"
-        }},
-        {
-            "$unwind": { 
-                "path": "$homeTeam", 
-                "preserveNullAndEmptyArrays": True 
-            }
-        },
-        {
-            "$set": {
-                "homeStageTeam": "$homeTeam.acronym",
-                "homeTeamId": "$homeTeam._id",
-                "homeConfirmed": "$homeStageTeam.confirmed",
-                "homeSeed": "$homeStageTeam.seed"
-            }
-        },
-        {"$lookup": {
-            "from": "stageTeams",
-            "localField": "awayStageTeamId",
-            "foreignField": "_id",
-            "as": "awayStageTeam"
-        }},
-        {
-            "$unwind": {
-                "path": "$awayStageTeam",
-                "preserveNullAndEmptyArrays": True
-            }
-        },
-        {"$lookup": {
-            "from": "teams",
-            "localField": "awayStageTeam.teamId",
-            "foreignField": "_id",
-            "as": "awayTeam"
-        }},
-        {
-            "$unwind": { 
-                "path": "$awayTeam", 
-                "preserveNullAndEmptyArrays": True 
-            }
-        },
-        {
-            "$set": {
-                "awayStageTeam": "$awayTeam.acronym",
-                "awayTeamId": "$awayTeam._id",
-                "awayConfirmed": "$awayStageTeam.confirmed",
-                "awaySeed": "$awayStageTeam.seed"
-            }
-        },
-        {"$lookup": {
-            "from": "stages",
-            "localField": "stageId",
-            "foreignField": "_id",
-            "as": "stage"
-        }},
-        {"$unwind": "$stage"},
-        {
-            "$set": {
-                "stage": "$stage.name",
-                "stageOrder": "$stage.order",
-                "stageStatus": "$stage.status"
-            }
-        },
-        {
-            "$project": {
-                "_id": 0,
-                "tournamentId": 0,
-                "homeStageTeamId": 0,
-                "awayStageTeamId": 0,
-                "homeTeam": 0,
-                "awayTeam": 0,
-                "venueId": 0,
-                "stageId": 0,
-                "seriesId": 0,
-            }
-        }
-    ]
+            "as": f"{side}Team"
+        }})
+        stages.append({"$unwind": {"path": f"${side}Team", "preserveNullAndEmptyArrays": True}})
+        stages.append({"$set": {
+            f"{side}StageTeam": f"${side}Team.acronym",
+            f"{side}TeamId": f"${side}Team._id",
+            f"{side}Confirmed": f"${side}StageTeam.confirmed",
+            f"{side}Seed": f"${side}StageTeam.seed"
+        }})
 
-    or_condition = {
-            "$or": [
-            ]
-        }
+    stages.append({"$lookup": {
+        "from": "stages",
+        "localField": "stageId",
+        "foreignField": "_id",
+        "as": "stage"
+    }})
+    stages.append({"$unwind": "$stage"})
+    stages.append({"$set": {
+        "stage": "$stage.name",
+        "stageOrder": "$stage.order",
+        "stageStatus": "$stage.status"
+    }})
+    return stages
 
-    if teams:
-        or_condition["$or"].append({"homeTeamId": { "$in": teams }})
-        or_condition["$or"].append({"awayTeamId": { "$in": teams }})
+def determine_final_winner(tournament, final_match):
+    """Determine the acronym (or acronym#acronym for a shared/undecided result)
+    of the final match's winner, given the tournament's result conventions."""
+    if final_match["result"] == "None":
+        return ""
 
-    if venues:
-        or_condition["$or"].append({"venue": { "$in": venues }})
+    if final_match["result"] == "Home-win":
+        return resolve_team_acronym(final_match["homeStageTeamId"])
 
-    if stages:
-        or_condition["$or"].append({"stageOrder": { "$in": stages }})
+    if final_match["result"] in ("No-result", "Draw"):
+        # Franchise tournaments resolve an undecided final via league standings
+        # (higher-seeded team is champion). Everything else (WTC draws, non-franchise
+        # no-results) is reported as a shared/undecided result between both teams.
+        if tournament["category"] == "franchise":
+            last_stage = stages_collection.find({"tournamentId": tournament["_id"]}).sort("order", -1).limit(1)[0]
+            standings = get_tournament_standings(tournament["_id"], [last_stage["order"] - 1])
+            standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
 
-    if or_condition["$or"]:
-        pipeline.append({"$match": or_condition})
+            decided_team_id = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]
+            return teams_collection.find_one({"_id": decided_team_id})["acronym"]
 
-    pipeline.append({"$sort": {"date": 1}})
-        
-    filtered_matches = list(matches_collection.aggregate(pipeline))
+        winner1 = resolve_team_acronym(final_match["homeStageTeamId"])
+        winner2 = resolve_team_acronym(final_match["awayStageTeamId"])
+        return winner1 + "#" + winner2
 
-    final_match = matches_collection.find({"tournamentId": tournament["_id"]}).sort("date", -1).limit(1)[0]
-    
-    winner = ""
-    if final_match["result"] != "None":
-        # Determine final winner
-
-        if final_match["result"] == "Home-win":
-            winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
-            winner = teams_collection.find_one({"_id": winner})["acronym"]
-        elif final_match["result"] == "No-result":
-
-            # If final is no result in a franchise tournament, determine winner based on league standings (Higher-seeded team is champion)
-            if tournament["category"] == "franchise":
-                last_stage = stages_collection.find({"tournamentId": tournament["_id"]}).sort("order", -1).limit(1)[0]
-                standings = get_tournament_standings(tournament["_id"], [last_stage["order"] - 1])
-                standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
-
-                winner = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]
-                winner = teams_collection.find_one({"_id": winner})["acronym"]
-            else:
-                winner1 = stageTeams_collection.find_one({"_id": ObjectId(final_match["homeStageTeamId"])})["teamId"]
-                winner2 = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
-
-                winner1 = teams_collection.find_one({"_id": winner1})["acronym"]
-                winner2 = teams_collection.find_one({"_id": winner2})["acronym"]
-                winner = winner1 + "#" + winner2
-
-        else:
-            winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
-            winner = teams_collection.find_one({"_id": winner})["acronym"]
-
-    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"]}
-
-
-
-def get_tournaments_standings_data(id):
-    groupStageOrders = stages_collection.find({"tournamentId": id, "type": "group"})
-    groupStageOrders = [s["order"] for s in groupStageOrders]
-
-    return get_tournament_standings(id, groupStageOrders)
-
+    # Away-win
+    return resolve_team_acronym(final_match["awayStageTeamId"])
