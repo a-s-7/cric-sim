@@ -88,6 +88,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                                     awayConfirmed={match.awayConfirmed ?? true}
                                     venue={match.venue}
                                     date={match.date}
+                                    endDate={match.endDate}
                                     matchResult={match.result}
                                     onMatchUpdate={onMatchUpdate}
                                     neutralGradient={cardNeutralGradient}
@@ -153,6 +154,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                                         awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
                                         venue={match.venue}
                                         date={match.date}
+                                        endDate={match.endDate}
                                         matchResult={match.result}
                                         onMatchUpdate={onMatchUpdate}
                                         neutralGradient={cardNeutralGradient}

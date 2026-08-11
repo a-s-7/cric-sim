@@ -19,6 +19,7 @@ function MatchCardDisplay({
     awaySeed,
     venue,
     date,
+    endDate,
     matchResult,
     onMatchUpdate,
     neutralGradient,
@@ -38,6 +39,29 @@ function MatchCardDisplay({
 
     const formattedDateObj = new Date(date);
     const timeZone = "America/Los_Angeles";
+
+    const formatTestDateRange = (date, endDate) => {
+        const start = new Date(date);
+        const end = new Date(endDate);
+
+        const startDay = start.getUTCDate();
+        const endDay = end.getUTCDate();
+        const startMonth = start.toLocaleDateString("en-US", {
+            month: "short",
+            timeZone: "UTC"
+        });
+        const endMonth = end.toLocaleDateString("en-US", {
+            month: "short",
+            timeZone: "UTC"
+        });
+        const year = end.getUTCFullYear();
+
+        if (startMonth === endMonth) {
+            return `${startMonth} ${startDay}-${endDay}, ${year}`;
+        }
+
+        return `${startMonth} ${startDay}–${endMonth} ${endDay}, ${year}`;
+    };
 
     const formattedDate = formattedDateObj.toLocaleDateString("en-US", {
         weekday: "short",
@@ -185,7 +209,7 @@ function MatchCardDisplay({
 
                     <div className='flex flex-col border-l border-r border-gray-100 w-[27%]'
                         style={getStyle("No-result", 1)}>
-                        <div className={`w-full h-[32%] flex font-bold items-center justify-center text-[0.9vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formattedDate}</div>
+                        <div className={`w-full h-[32%] flex font-bold items-center justify-center text-[0.9vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formatTestDateRange(date, endDate)}</div>
                         <div className="w-full h-[36%] flex items-center justify-center">
                             <div className={`uppercase text-inherit text-center px-2 ${matchResult === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: matchResult !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {matchResult === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
