@@ -160,7 +160,6 @@
         },
         {
             "stageOrder": 2,
-            "group": "1",
             "teamId": null,
             "confirmed": false,
             "seed": "A1",
@@ -174,7 +173,6 @@
         },
         {
             "stageOrder": 2,
-            "group": "1",
             "teamId": null,
             "confirmed": false,
             "seed": "A2",
@@ -188,7 +186,6 @@
         },
         {
             "stageOrder": 2,
-            "group": "1",
             "teamId": null,
             "confirmed": false,
             "seed": "B1",
@@ -202,7 +199,6 @@
         },
         {
             "stageOrder": 2,
-            "group": "1",
             "teamId": null,
             "confirmed": false,
             "seed": "B2",
@@ -374,8 +370,7 @@
             "homeStageTeamId": "B1",
             "awayStageTeamId": "B2",
             "result": "None",
-            "status": "incomplete",
-            "group": "1"
+            "status": "incomplete"
         },
         {
             "matchNumber": 14,
@@ -385,8 +380,7 @@
             "homeStageTeamId": "A1",
             "awayStageTeamId": "A2",
             "result": "None",
-            "status": "incomplete",
-            "group": "1"
+            "status": "incomplete"
         },
         {
             "matchNumber": 15,
@@ -396,8 +390,7 @@
             "homeStageTeamId": "A2",
             "awayStageTeamId": "B1",
             "result": "None",
-            "status": "incomplete",
-            "group": "1"
+            "status": "incomplete"
         },
         {
             "matchNumber": 16,
@@ -407,8 +400,7 @@
             "homeStageTeamId": "A1",
             "awayStageTeamId": "B2",
             "result": "None",
-            "status": "incomplete",
-            "group": "1"
+            "status": "incomplete"
         },
         {
             "matchNumber": 17,
@@ -418,8 +410,7 @@
             "homeStageTeamId": "A2",
             "awayStageTeamId": "B2",
             "result": "None",
-            "status": "incomplete",
-            "group": "1"
+            "status": "incomplete"
         },
         {
             "matchNumber": 18,
@@ -429,8 +420,7 @@
             "homeStageTeamId": "A1",
             "awayStageTeamId": "B1",
             "result": "None",
-            "status": "incomplete",
-            "group": "1"
+            "status": "incomplete"
         },
         {
             "matchNumber": 19,

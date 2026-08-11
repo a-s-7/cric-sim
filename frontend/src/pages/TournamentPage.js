@@ -62,7 +62,7 @@ function TournamentPage({
     };
 
     const fetchStandings = async () => {
-        let url = `/tournaments/${mode === "real-world" ? tournamentRWID : tournamentPSID}/standings`;
+        let url = `/tournament/${mode === "real-world" ? tournamentRWID : tournamentPSID}/standings`;
 
         try {
             const response = await fetch(url);

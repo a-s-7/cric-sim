@@ -1,7 +1,7 @@
 import os
 from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
-from flask import jsonify
+from flask import jsonify, abort
 
 try:
     from google.genai.errors import ClientError as GenaiClientError
@@ -34,18 +34,180 @@ teams_collection = db['teams']
 matches_collection = db['matches']
 stages_collection = db["stages"]
 
-def get_tournament_standings(id, stages):
-    tournament = tournaments_collection.find_one({"_id": id})
 
-    if not tournament:
-        return jsonify({"error": "Tournament not found"}), 404
+def find_tournament(tournament_id):
+    tournament = tournaments_collection.find_one({"_id": tournament_id})
 
-    stageIds = stages_collection.find({"tournamentId": id, "order": {"$in": stages}})
-    stageIds = [ObjectId(s["_id"]) for s in stageIds]
+    if tournament is None:
+        abort(404, description=f"Tournament not found")
+
+    return tournament
+
+def get_tournament_match_teams_data(tournament):
+    teams_pipeline = [
+            { "$match": { "tournamentId": tournament["_id"] } },
+            {
+                "$lookup": {
+                    "from": "teams",
+                    "localField": "teamId",
+                    "foreignField": "_id",
+                    "as": "team"
+                }
+            },
+            { "$unwind": "$team" },
+            {
+                "$project": {
+                    "_id": 0,
+                    "acronym": "$team.acronym",
+                    "gradient": "$team.gradient",
+                    "name": "$team.name",
+                    "logo": "$team.logo"
+                }
+            },
+            {
+                "$group": {
+                    "_id": None,
+                    "teams": { 
+                        "$push": {
+                            "k": "$acronym",
+                            "v": { "gradient": "$gradient", "logo": "$logo", "name": "$name" }
+                        }
+                    }
+                }
+            },
+            {
+                "$replaceRoot": { "newRoot": { "$arrayToObject": "$teams" } }
+            }
+        ]
     
-    # Get all stage-team info with team and stage details
-    stageTeamsData = list(stageTeams_collection.aggregate([
-        {"$match": {"tournamentId": id, "stageId": {"$in": stageIds}}},
+    return list(stageTeams_collection.aggregate(teams_pipeline))
+
+def resolve_team_acronym(stage_team_id):
+    stage_team = stageTeams_collection.find_one({"_id": ObjectId(stage_team_id)})
+    team = teams_collection.find_one({"_id": stage_team["teamId"]})
+    return team["acronym"]
+
+def parse_filter_params(groups, teams, venues, stages):
+    """Split comma-separated filter query params into lists."""
+    groups_list = groups.split(",") if groups else []
+    teams_list = teams.split(",") if teams else []
+    venues_list = venues.split(",") if venues else []
+
+    stages_list = []
+    if stages:
+        for stage in stages.split(","):
+            stages_list.append(int(stage))
+
+    return groups_list, teams_list, venues_list, stages_list
+
+def build_or_filter_condition(groups, teams, venues, stages):
+    """Build the shared $or filter condition used by both match pipelines."""
+    or_condition = {"$or": []}
+
+    if groups:
+        or_condition["$or"].append({"group": {"$in": groups}})
+
+    if teams:
+        or_condition["$or"].append({"homeTeamId": {"$in": teams}})
+        or_condition["$or"].append({"awayTeamId": {"$in": teams}})
+
+    if venues:
+        or_condition["$or"].append({"venue": {"$in": venues}})
+
+    if stages:
+        or_condition["$or"].append({"stageOrder": {"$in": stages}})
+
+    return or_condition
+    
+def build_common_match_lookup_stages():
+    """Venue, home team, away team, and stage lookups shared by all match pipelines."""
+    stages = []
+    stages.append({"$lookup": {
+        "from": "venues",
+        "localField": "venueId",
+        "foreignField": "_id",
+        "as": "venue"
+    }})
+    stages.append({"$unwind": "$venue"})
+    stages.append({"$set": {"venue": "$venue.stadium", "city": "$venue.city"}})
+
+    for side in ("home", "away"):
+        stages.append({"$lookup": {
+            "from": "stageTeams",
+            "localField": f"{side}StageTeamId",
+            "foreignField": "_id",
+            "as": f"{side}StageTeam"
+        }})
+        stages.append({"$unwind": {"path": f"${side}StageTeam", "preserveNullAndEmptyArrays": True}})
+        stages.append({"$lookup": {
+            "from": "teams",
+            "localField": f"{side}StageTeam.teamId",
+            "foreignField": "_id",
+            "as": f"{side}Team"
+        }})
+        stages.append({"$unwind": {"path": f"${side}Team", "preserveNullAndEmptyArrays": True}})
+        stages.append({"$set": {
+            f"{side}StageTeam": f"${side}Team.acronym",
+            f"{side}TeamId": f"${side}Team._id",
+            f"{side}Confirmed": f"${side}StageTeam.confirmed",
+            f"{side}Seed": f"${side}StageTeam.seed"
+        }})
+
+    stages.append({"$lookup": {
+        "from": "stages",
+        "localField": "stageId",
+        "foreignField": "_id",
+        "as": "stage"
+    }})
+    stages.append({"$unwind": "$stage"})
+    stages.append({"$set": {
+        "stage": "$stage.name",
+        "stageOrder": "$stage.order",
+        "stageStatus": "$stage.status"
+    }})
+    return stages
+
+def determine_final_winner(tournament, final_match):
+    """Determine the acronym (or acronym#acronym for a shared/undecided result)
+    of the final match's winner, given the tournament's result conventions."""
+    if final_match["result"] == "None":
+        return ""
+
+    if final_match["result"] == "Home-win":
+        return resolve_team_acronym(final_match["homeStageTeamId"])
+
+    if final_match["result"] in ("No-result", "Draw"):
+        # Franchise tournaments resolve an undecided final via league standings
+        # (higher-seeded team is champion). Everything else (WTC draws, non-franchise
+        # no-results) is reported as a shared/undecided result between both teams.
+        if tournament["category"] == "franchise":
+            last_stage = stages_collection.find({"tournamentId": tournament["_id"]}).sort("order", -1).limit(1)[0]
+            standings = get_tournament_standings_data(tournament["_id"], [last_stage["order"] - 1])
+            standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
+
+            decided_team_id = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]
+            return teams_collection.find_one({"_id": decided_team_id})["acronym"]
+
+        winner1 = resolve_team_acronym(final_match["homeStageTeamId"])
+        winner2 = resolve_team_acronym(final_match["awayStageTeamId"])
+        return winner1 + "#" + winner2
+
+    # Away-win
+    return resolve_team_acronym(final_match["awayStageTeamId"])
+
+
+def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = False):
+    tournament = find_tournament(tournament_id)
+
+    if allGroupStages:
+        stages = stages_collection.find({"tournamentId": tournament_id, "type": "group"})
+    else:
+        stages = stages_collection.find({"tournamentId": tournament_id, "order": {"$in": stageOrders}})
+
+    stageIds = [ObjectId(s["_id"]) for s in stages]
+    
+    stageTeamsPipeline = [
+        {"$match": {"tournamentId": tournament_id, "stageId": {"$in": stageIds}}},
         {"$lookup": {
             "from": "teams",
             "localField": "teamId",
@@ -59,8 +221,10 @@ def get_tournament_standings(id, stages):
             "foreignField": "_id",
             "as": "stage"
         }},
-        {"$unwind": "$stage"},
-        {"$project": {
+        {"$unwind": "$stage"}
+    ]
+
+    projectionCriteria = {
             "_id": 0,
             "teamId": "$team.acronym",
             "teamDbId": "$team._id",
@@ -70,34 +234,47 @@ def get_tournament_standings(id, stages):
             "played": "$matchesPlayed",
             "won": "$won",
             "lost": "$lost",
-            "noResult": "$noResult",
-            "ballsFaced": "$ballsFaced",
-            "ballsBowled": "$ballsBowled",
-            "runsScored": "$runsScored",
-            "runsConceded": "$runsConceded",
-            "points": "$points",
             "stageName": "$stage.name",
             "stageOrder": "$stage.order",
             "stageStatus": "$stage.status",
+            "points": "$points",
             "confirmed": "$confirmed",
             "seed": "$seed",
             "numQualifiers": "$stage.config.qualifiersPerGroup"
-        }}
-    ]))
+        }
 
+    if tournament["format"] == "TEST":
+        tournamentCriteria =  {"draw": "$draw",
+                             "tied": "$tied",
+                             "deductionPoints": "$deductionPoints"}
+    else: 
+        tournamentCriteria = {"noResult": "$noResult",
+                            "ballsFaced": "$ballsFaced",
+                            "ballsBowled": "$ballsBowled",
+                            "runsScored": "$runsScored",
+                            "runsConceded": "$runsConceded"}
+    
+    projectionCriteria.update(tournamentCriteria)
+    stageTeamsPipeline.append({"$project": projectionCriteria})
 
-    # Calculate NRR for each team
-    for team in stageTeamsData:
-        ballsPerOver = 5 if tournament["format"] == "HUNDRED" else 6
-        
-        totalOversFaced = team["ballsFaced"] / ballsPerOver
-        totalOversBowled = team["ballsBowled"] / ballsPerOver
+    stageTeamsData = list(stageTeams_collection.aggregate(stageTeamsPipeline))
 
-        runRate = team["runsScored"] / totalOversFaced if totalOversFaced > 0 else 0
-        runRateConceded = team["runsConceded"] / totalOversBowled if totalOversBowled > 0 else 0
+    if tournament["format"] == "TEST":
+        for team in stageTeamsData:
+            team["totalPointsContested"] = team["played"] * 12
 
-        team["netRunRate"] = runRate - runRateConceded
+            team["pointsPercentage"] = 0 if (team["totalPointsContested"] == 0) else (team["points"] - team["deductionPoints"]) / team["totalPointsContested"]
+    else:
+        for team in stageTeamsData:
+            ballsPerOver = 5 if tournament["format"] == "HUNDRED" else 6
+            
+            totalOversFaced = team["ballsFaced"] / ballsPerOver
+            totalOversBowled = team["ballsBowled"] / ballsPerOver
 
+            runRate = team["runsScored"] / totalOversFaced if totalOversFaced > 0 else 0
+            runRateConceded = team["runsConceded"] / totalOversBowled if totalOversBowled > 0 else 0
+
+            team["netRunRate"] = runRate - runRateConceded
 
     # Organize into stages -> groups -> teams
     standings = {}
@@ -126,6 +303,18 @@ def get_tournament_standings(id, stages):
     # # Sort stages by stageOrder (your data is a list, not dict)
     sorted_standings = [standings[key] for key in sorted(standings.keys())]
 
+    if tournament["format"] == "TEST":
+        sort_key = lambda team: (
+            team.get("played", 0) == 0,
+            -team.get("pointsPercentage", 0),
+        )
+    else:
+        sort_key = lambda team: (
+            team.get("played", 0) == 0,
+            -team.get("points", 0),
+            -team.get("netRunRate", 0),
+        )
+
     for stage in sorted_standings:
         groups = stage["groups"]
 
@@ -136,17 +325,12 @@ def get_tournament_standings(id, stages):
         stage["groups"] = {
             group_key: sorted(
                 groups[group_key],
-                key=lambda team: (
-                    team.get("played", 0) == 0,
-                    -team.get("points"),
-                    -team.get("netRunRate"),
-                )
+                key=sort_key
             )
             for group_key in sorted_group_keys
         }
 
-    return {"standings": sorted_standings, "category": tournament["category"],}
-    
+    return {"standings": sorted_standings, "category": tournament["category"]}
 
 def confirmTeamsForStage(tournamentId, stageOrder):    
     currentStage = stages_collection.find_one({"tournamentId": tournamentId, "order": stageOrder})
@@ -163,7 +347,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
         elif currentStage["name"] == "Semi-final":
             stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])}))
 
-            standings = get_tournament_standings(tournamentId, [stageOrder - 1])
+            standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
             prevStageGroups = standings["standings"][0]["groups"]
 
             for team in stageTeams:
@@ -185,7 +369,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
             for team in stageTeams:
                 if team["teamFromPreviousStage"] == "standings":
                     if prevStageGroups is None:
-                        standings = get_tournament_standings(tournamentId, [stageOrder - 1])
+                        standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
                         prevStageGroups = standings["standings"][0]["groups"]
                     
                     group_name = team["teamFromStandingsGroup"] or "LEAGUE"
@@ -261,7 +445,7 @@ def confirmTeamsForGroupStageBasic(tournamentId, stageOrder, currentStage):
         {"$set": {"teamId": None, "confirmed": False}}
     )
 
-    previousStageStandings = get_tournament_standings(tournamentId, [stageOrder - 1])
+    previousStageStandings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
     prevStageGroups = previousStageStandings["standings"][0]["groups"]
 
     for key, val in prevStageGroups.items():
@@ -291,7 +475,7 @@ def confirmTeamsForGroupStageWithPreseeding(tournamentId, stageOrder, currentSta
         [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
     )
 
-    previousStageStandings = get_tournament_standings(tournamentId, [stageOrder - 1])
+    previousStageStandings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
 
     prevStageGroups = previousStageStandings["standings"][0]["groups"]
 
@@ -432,7 +616,7 @@ def update_stage_team_from_result(target_st_id, source_match, standingsGroup, wi
 
 def confirmTeamsFor3TeamPlayoffs(tournamentId, stageOrder, matches):
     # Get standings from the previous stage
-    standings = get_tournament_standings(tournamentId, [stageOrder - 1])
+    standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
     standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
 
     # Get matches for the current playoffs stage format
@@ -459,7 +643,7 @@ def confirmTeamsFor3TeamPlayoffs(tournamentId, stageOrder, matches):
 
 def confirmTeamsFor4TeamPlayoffs(tournamentId, stageOrder, matches):
     # Get standings from the previous stage (league)
-    standings = get_tournament_standings(tournamentId, [stageOrder - 1])
+    standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
     standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
 
     # Get matches for the current playoffs stage 

@@ -8,7 +8,7 @@ from bson import ObjectId
 import random
 from collections import defaultdict
 
-from utils import confirmTeamsForStage, get_tournament_standings, decide_playoff_no_result, is_gemini_quota_error
+from utils import confirmTeamsForStage, is_gemini_quota_error
 from data.utils.tournamentsUtils import overs_to_balls
 from agent.pipeline import run_match_result_agent
 from datetime import datetime, timedelta

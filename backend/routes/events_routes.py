@@ -48,9 +48,9 @@ def get_tournament_matches(tournament_id):
 
     return jsonify(ts.get_tournament_matches(tournament_id, groups, teams, venues, stages))
 
-@events_bp.route('/tournaments/<string:id>/standings', methods=['GET'])
-def get_tournaments_standings(id):
-    return jsonify(ts.get_tournaments_standings_data(id))
+@events_bp.route('/tournament/<string:tournament_id>/standings', methods=['GET'])
+def get_tournament_standings(tournament_id):
+    return jsonify(ts.get_tournament_standings(tournament_id))
 
 @events_bp.route('/tournaments/<string:id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
 def update_tournament_match_result(id, match_num, result):

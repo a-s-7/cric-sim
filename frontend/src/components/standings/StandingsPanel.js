@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import PointsTable from "./PointsTable";
 
-
 function StandingsPanel({ standingsData, category, color, format }) {
     function getFarthestActiveIndex(stages) {
         let farthest = 0;
@@ -63,11 +62,11 @@ function StandingsPanel({ standingsData, category, color, format }) {
             </div>
 
             {/* Main Standings Container */}
-            <div className="flex-1 flex flex-col bg-white rounded-[10px] border border-zinc-200 shadow-xl overflow-hidden mx-2 mb-2 mt-2">
+            <div className="flex-1 flex flex-col bg-white rounded-[10px] border border-zinc-200 shadow-xl overflow-hidden mx-2 mb-2 mt-2 bg-red-500">
                 {/* Content Area */}
-                <div className="flex-1 flex flex-col p-4 gap-8 overflow-y-auto no-scrollbar">
+                <div className="flex-1 flex flex-col overflow-y-auto no-scrollbar">
                     {Object.entries(standingsData[safeActiveStage].groups).map(([groupName, teams], _, array) => (
-                        <div className={`flex flex-col gap-2 ${array.length === 1 ? 'flex-1' : ''}`} key={groupName}>
+                        <div className={`flex flex-col gap-2 w-full ${array.length === 1 ? 'flex-1' : ''} ${groupName === "LEAGUE" ? '' : 'p-4'}`} key={groupName}>
                             {groupName !== "LEAGUE" && <h3 className={`text-2xl font-bold tracking-tight text-black font-['Kanit']`}>GROUP {groupName}</h3>}
 
                             <div className={array.length === 1 ? "flex-1 h-full" : ""}>
