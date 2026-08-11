@@ -46,7 +46,7 @@ function TournamentPage({
         params.set("venues", selectedStadiums.map(stadium => stadium.value).join(","));
         params.set("stages", selectedStages.map(stage => stage.value).join(","));
 
-        let url = `/tournaments/${mode === "real-world" ? tournamentRWID : tournamentPSID}/matches?${params.toString()}`;
+        let url = `/tournament/${mode === "real-world" ? tournamentRWID : tournamentPSID}/matches?${params.toString()}`;
 
         try {
             const response = await fetch(url);

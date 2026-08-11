@@ -39,7 +39,7 @@ def get_tournament_stages(tournament_id):
     
     return jsonify(ts.get_tournament_stages(tournament_id, onlyActiveStages))
   
-@events_bp.route('/tournaments/<string:tournament_id>/matches', methods=['GET'])
+@events_bp.route('/tournament/<string:tournament_id>/matches', methods=['GET'])
 def get_tournament_matches(tournament_id):
     groups = request.args.get("groups", "")
     teams = request.args.get("teams", "")

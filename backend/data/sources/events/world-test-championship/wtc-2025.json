@@ -302,7 +302,7 @@
       "homeStageTeamId": "ENG",
       "awayStageTeamId": "IND",
       "result": "None",
-      "status": "complete"
+      "status": "incomplete"
     },
     {
       "seriesId": 2,
@@ -357,7 +357,7 @@
       "homeStageTeamId": "WI",
       "awayStageTeamId": "AUS",
       "result": "None",
-      "status": "complete"
+      "status": "incomplete"
     },
     {
       "seriesId": 3,

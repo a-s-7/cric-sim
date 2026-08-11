@@ -232,7 +232,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     series_collection = db['series']
 
     series_collection.create_index(
-        [("tournamentId", 1), ("seriesName", 1)],
+        [("tournamentId", 1), ("name", 1)],
         unique=True
     )
 
@@ -256,7 +256,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
 
         new_series = {
             "numMatches": s["numMatches"],
-            "seriesName": f"{away_name} tour of {home_name}",
+            "name": f"{away_name} tour of {home_name}",
             "homeStageTeamId": DB_NAME_OR_SEED_TO_ID[home_acronym],
             "awayStageTeamId": DB_NAME_OR_SEED_TO_ID[away_acronym],
             "tournamentId": tournament["_id"]
@@ -272,23 +272,23 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         for i, inserted_id in enumerate(result.inserted_ids):
             orig_id = original_series_ids[i]
             DB_SERIES_ID_TO_GUID[orig_id] = inserted_id
-            print(f"{series_to_insert[i]['seriesName']:<40} {str(inserted_id):<50}")
+            print(f"{series_to_insert[i]['name']:<40} {str(inserted_id):<50}")
         print("─" * 70 + "\n")
 
     except (BulkWriteError, DuplicateKeyError):
         existing_series = list(series_collection.find({"tournamentId": tournament["_id"]}))
         print(f"\n{YELLOW}{BOLD}ℹ USING {len(existing_series)} EXISTING SERIES{ENDC}\n")
-        existing_by_name = {s["seriesName"]: s["_id"] for s in existing_series}
+        existing_by_name = {s["name"]: s["_id"] for s in existing_series}
         for i, s in enumerate(series_to_insert):
             orig_id = original_series_ids[i]
-            s_name = s["seriesName"]
+            s_name = s["name"]
             if s_name in existing_by_name:
                 DB_SERIES_ID_TO_GUID[orig_id] = existing_by_name[s_name]
 
         print(f"{BLUE}{BOLD}{'SERIES NAME':<40} {'ID':<50}{ENDC}")
         print("─" * 70)
         for orig_id, inserted_id in DB_SERIES_ID_TO_GUID.items():
-            s_name = next((s["seriesName"] for s in series_to_insert if s["seriesName"] in existing_by_name and existing_by_name[s["seriesName"]] == inserted_id), "Series")
+            s_name = next((s["name"] for s in series_to_insert if s["name"] in existing_by_name and existing_by_name[s["name"]] == inserted_id), "Series")
             print(f"{s_name:<40} {str(inserted_id):<50}")
         print("─" * 70 + "\n")
 

@@ -202,52 +202,52 @@ def get_tournament_stages(tournament_id, onlyActiveStages):
 def get_tournament_matches(tournament_id, groups, teams, venues, stages):
     tournament = find_tournament(tournament_id)
 
-    if tournament["acronym"] == "WTC":
-        return get_wtc_match_data(tournament_id, teams, venues, stages)
+    if tournament["name"] == "ICC World Test Championship":
+        return get_wtc_match_data(tournament, teams, venues, stages)
     else:
         return get_tournament_match_data(tournament, groups, teams, venues, stages)
     
-def get_tournament_match_data(tournament, groups, teams, venues, stages):
+def get_tournament_match_teams_data(tournament):
     teams_pipeline = [
-        { "$match": { "tournamentId": tournament["_id"] } },
-
-        {
-            "$lookup": {
-                "from": "teams",
-                "localField": "teamId",
-                "foreignField": "_id",
-                "as": "team"
-            }
-        },
-
-        { "$unwind": "$team" },
-
-        {
-            "$project": {
-                "_id": 0,
-                "acronym": "$team.acronym",
-                "gradient": "$team.gradient",
-                "name": "$team.name",
-                "logo": "$team.logo"
-            }
-        },
-        {
-            "$group": {
-                "_id": None,
-                "teams": { 
-                    "$push": {
-                        "k": "$acronym",
-                        "v": { "gradient": "$gradient", "logo": "$logo", "name": "$name" }
+            { "$match": { "tournamentId": tournament["_id"] } },
+            {
+                "$lookup": {
+                    "from": "teams",
+                    "localField": "teamId",
+                    "foreignField": "_id",
+                    "as": "team"
+                }
+            },
+            { "$unwind": "$team" },
+            {
+                "$project": {
+                    "_id": 0,
+                    "acronym": "$team.acronym",
+                    "gradient": "$team.gradient",
+                    "name": "$team.name",
+                    "logo": "$team.logo"
+                }
+            },
+            {
+                "$group": {
+                    "_id": None,
+                    "teams": { 
+                        "$push": {
+                            "k": "$acronym",
+                            "v": { "gradient": "$gradient", "logo": "$logo", "name": "$name" }
+                        }
                     }
                 }
+            },
+            {
+                "$replaceRoot": { "newRoot": { "$arrayToObject": "$teams" } }
             }
-        },
-        {
-            "$replaceRoot": { "newRoot": { "$arrayToObject": "$teams" } }
-        }
-    ]
+        ]
+    
+    return list(stageTeams_collection.aggregate(teams_pipeline))
 
-    teams_data = list(stageTeams_collection.aggregate(teams_pipeline))
+def get_tournament_match_data(tournament, groups, teams, venues, stages):
+    teams_data = get_tournament_match_teams_data(tournament)
 
     groups = groups.split(",") if groups else []
     teams = teams.split(",") if teams else []
@@ -419,60 +419,31 @@ def get_tournament_match_data(tournament, groups, teams, venues, stages):
 
     return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"], "ballsPerInnings": tournament["ballsPerInnings"]}
 
-def get_wtc_match_data(id, teams, venues, stages):
-    tournament = tournaments_collection.find_one({"_id": id})
-
-    if not tournament:
-        raise ValueError('Tournament not found')
-
-    teams_pipeline = [
-    { "$match": { "tournamentId": id } },
-
-    {
-        "$lookup": {
-            "from": "teams",
-            "localField": "teamId",
-            "foreignField": "_id",
-            "as": "team"
-        }
-    },
-
-    { "$unwind": "$team" },
-
-    {
-        "$project": {
-            "_id": 0,
-            "acronym": "$team.acronym",
-            "gradient": "$team.gradient",
-            "name": "$team.name",
-            "logo": "$team.logo"
-        }
-    },
-
-    {
-        "$group": {
-            "_id": None,
-            "teams": { 
-                "$push": {
-                    "k": "$acronym",
-                    "v": { "gradient": "$gradient", "logo": "$logo", "name": "$name" }
-                }
-            }
-        }
-    },
-    {
-        "$replaceRoot": { "newRoot": { "$arrayToObject": "$teams" } }
-    }
-    ]
-
-    teams_data = list(stageTeams_collection.aggregate(teams_pipeline))
+def get_wtc_match_data(tournament, teams, venues, stages):
+    teams_data = get_tournament_match_teams_data(tournament)
 
     teams = teams.split(",") if teams else []
     venues = venues.split(",") if venues else []
     stages = [int(stage) for stage in stages.split(",")] if stages else []
 
     pipeline = [
-        { "$match": {"tournamentId": id} },
+        {"$match": {"tournamentId": tournament["_id"]} },
+        {"$lookup": {
+            "from": "series",
+            "localField": "seriesId",
+            "foreignField": "_id",
+            "as": "series"
+        }},
+        {   "$unwind": {
+                "path": "$series",
+                "preserveNullAndEmptyArrays": True
+            }
+        },
+        {
+            "$set": {
+                "series": "$series.name",
+            }
+        },
         {"$lookup": {
             "from": "venues",
             "localField": "venueId",
@@ -574,6 +545,7 @@ def get_wtc_match_data(id, teams, venues, stages):
                 "awayTeam": 0,
                 "venueId": 0,
                 "stageId": 0,
+                "seriesId": 0,
             }
         }
     ]
@@ -596,11 +568,11 @@ def get_wtc_match_data(id, teams, venues, stages):
     if or_condition["$or"]:
         pipeline.append({"$match": or_condition})
 
-    pipeline.append({"$sort": {"matchNumber": 1}})
+    pipeline.append({"$sort": {"date": 1}})
         
     filtered_matches = list(matches_collection.aggregate(pipeline))
 
-    final_match = matches_collection.find({"tournamentId": id}).sort("matchNumber", -1).limit(1)[0]
+    final_match = matches_collection.find({"tournamentId": tournament["_id"]}).sort("date", -1).limit(1)[0]
     
     winner = ""
     if final_match["result"] != "None":
@@ -613,8 +585,8 @@ def get_wtc_match_data(id, teams, venues, stages):
 
             # If final is no result in a franchise tournament, determine winner based on league standings (Higher-seeded team is champion)
             if tournament["category"] == "franchise":
-                last_stage = stages_collection.find({"tournamentId": id}).sort("order", -1).limit(1)[0]
-                standings = get_tournament_standings(id, [last_stage["order"] - 1])
+                last_stage = stages_collection.find({"tournamentId": tournament["_id"]}).sort("order", -1).limit(1)[0]
+                standings = get_tournament_standings(tournament["_id"], [last_stage["order"] - 1])
                 standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
 
                 winner = decide_playoff_no_result(final_match, True, standingsGroup)["teamId"]
@@ -631,8 +603,10 @@ def get_wtc_match_data(id, teams, venues, stages):
             winner = stageTeams_collection.find_one({"_id": ObjectId(final_match["awayStageTeamId"])})["teamId"]
             winner = teams_collection.find_one({"_id": winner})["acronym"]
 
-    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"], "ballsPerInnings": tournament["ballsPerInnings"]}
-    
+    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"]}
+
+
+
 def get_tournaments_standings_data(id):
     groupStageOrders = stages_collection.find({"tournamentId": id, "type": "group"})
     groupStageOrders = [s["order"] for s in groupStageOrders]

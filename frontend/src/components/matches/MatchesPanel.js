@@ -1,6 +1,7 @@
 import MatchScoreCard from "./MatchScoreCard";
 import MatchScoreCardDisplay from "./MatchScoreCardDisplay";
-
+import MatchCard from "./MatchCard";
+import MatchCardDisplay from "./MatchCardDisplay";
 
 function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentId, tournamentName, tournamentEdition }) {
 
@@ -70,9 +71,13 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                     {matchesArray && matchesArray.map(match => (
                         <div key={`${match.matchNumber}`}>
                             {((match.stageStatus === "locked" || match.status === "complete") ? true : (match.stage === "Playoffs" || match.stage === "Final") ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
-                                <MatchScoreCardDisplay
-                                    homeGradient={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.gradient : ""}
-                                    awayGradient={match.awayStageTeam ? teamDictionary[match.awayStageTeam]?.gradient : ""}
+                                (format === "TEST" ? <MatchCardDisplay
+                                    tournamentID={tournamentId}
+                                    tournamentName={tournamentName}
+                                    tournamentEdition={tournamentEdition}
+                                    matchNum={match.matchNumber}
+                                    homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
+                                    awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
                                     homeTeamName={match.homeStageTeam}
                                     awayTeamName={match.awayStageTeam}
                                     homeTeamLogo={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.logo : ""}
@@ -81,68 +86,121 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                                     awaySeed={match.awaySeed}
                                     homeConfirmed={match.homeConfirmed ?? true}
                                     awayConfirmed={match.awayConfirmed ?? true}
-                                    tournamentName={tournamentName}
-                                    tournamentID={tournamentId}
-                                    tournamentEdition={tournamentEdition}
-                                    matchNum={match.matchNumber}
                                     venue={match.venue}
                                     date={match.date}
                                     matchResult={match.result}
                                     onMatchUpdate={onMatchUpdate}
-                                    homeTeamRuns={match.homeTeamRuns}
-                                    homeTeamWickets={match.homeTeamWickets}
-                                    homeTeamBalls={match.homeTeamBalls}
-                                    awayTeamRuns={match.awayTeamRuns}
-                                    awayTeamWickets={match.awayTeamWickets}
-                                    awayTeamBalls={match.awayTeamBalls}
                                     neutralGradient={cardNeutralGradient}
-                                    group={match.group}
                                     stage={match.description ? match.description : match.stage}
-                                    city={match.city}
-                                    format={format}
                                     tossResult={match.tossResult}
                                     tossDecision={match.tossDecision}
-                                    category={category}
-                                    homeMaxBalls={match.homeMaxBalls}
-                                    awayMaxBalls={match.awayMaxBalls}
-                                    inningsBalls={ballsPerInnings}
-                                    target={match.target}
-                                    targetOvertaken={match.targetOvertaken}
-                                /> : <MatchScoreCard
-                                    group={match.group}
-                                    stage={match.description ? match.description : match.stage}
-                                    homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
-                                    awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
-                                    homeTeamName={match.homeStageTeam}
-                                    awayTeamName={match.awayStageTeam}
-                                    homeTeamLogo={teamDictionary[match.homeStageTeam]?.logo}
-                                    awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
-                                    tournamentName={tournamentName}
-                                    tournamentID={tournamentId}
-                                    tournamentEdition={tournamentEdition}
-                                    matchNum={match.matchNumber}
+                                    city={match.city}
                                     format={format}
                                     category={category}
-                                    venue={match.venue}
-                                    city={match.city}
-                                    date={match.date}
-                                    matchResult={match.result}
-                                    onMatchUpdate={onMatchUpdate}
-                                    homeTeamRuns={match.homeTeamRuns}
-                                    homeTeamWickets={match.homeTeamWickets}
-                                    homeTeamBalls={match.homeTeamBalls}
-                                    homeTeamMaxBalls={match.homeMaxBalls}
-                                    awayTeamRuns={match.awayTeamRuns}
-                                    awayTeamWickets={match.awayTeamWickets}
-                                    awayTeamBalls={match.awayTeamBalls}
-                                    awayTeamMaxBalls={match.awayMaxBalls}
-                                    neutralGradient={cardNeutralGradient}
-                                    tossResult={match.tossResult}
-                                    tossDecision={match.tossDecision}
-                                    inningsBalls={ballsPerInnings}
-                                    target={match.target}
-                                    targetOvertaken={match.targetOvertaken}
-                                />
+                                    series={match.series}
+                                    seriesMatchNumber={match.seriesMatchNumber}
+                                /> :
+                                    <MatchScoreCardDisplay
+                                        tournamentID={tournamentId}
+                                        tournamentName={tournamentName}
+                                        tournamentEdition={tournamentEdition}
+                                        matchNum={match.matchNumber}
+                                        homeGradient={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.gradient : ""}
+                                        awayGradient={match.awayStageTeam ? teamDictionary[match.awayStageTeam]?.gradient : ""}
+                                        homeTeamName={match.homeStageTeam}
+                                        awayTeamName={match.awayStageTeam}
+                                        homeTeamLogo={match.homeStageTeam ? teamDictionary[match.homeStageTeam]?.logo : ""}
+                                        awayTeamLogo={match.awayStageTeam ? teamDictionary[match.awayStageTeam]?.logo : ""}
+                                        homeSeed={match.homeSeed}
+                                        awaySeed={match.awaySeed}
+                                        homeConfirmed={match.homeConfirmed ?? true}
+                                        awayConfirmed={match.awayConfirmed ?? true}
+                                        venue={match.venue}
+                                        date={match.date}
+                                        matchResult={match.result}
+                                        onMatchUpdate={onMatchUpdate}
+                                        neutralGradient={cardNeutralGradient}
+                                        stage={match.description ? match.description : match.stage}
+                                        tossResult={match.tossResult}
+                                        tossDecision={match.tossDecision}
+                                        homeTeamRuns={match.homeTeamRuns}
+                                        homeTeamWickets={match.homeTeamWickets}
+                                        homeTeamBalls={match.homeTeamBalls}
+                                        awayTeamRuns={match.awayTeamRuns}
+                                        awayTeamWickets={match.awayTeamWickets}
+                                        awayTeamBalls={match.awayTeamBalls}
+                                        group={match.group}
+                                        city={match.city}
+                                        format={format}
+                                        category={category}
+                                        homeMaxBalls={match.homeMaxBalls}
+                                        awayMaxBalls={match.awayMaxBalls}
+                                        inningsBalls={ballsPerInnings}
+                                        target={match.target}
+                                        targetOvertaken={match.targetOvertaken}
+                                    />) :
+                                (format === "TEST" ?
+                                    <MatchCard
+                                        tournamentID={tournamentId}
+                                        tournamentName={tournamentName}
+                                        tournamentEdition={tournamentEdition}
+                                        matchNum={match.matchNumber}
+                                        homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
+                                        awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
+                                        homeTeamName={match.homeStageTeam}
+                                        awayTeamName={match.awayStageTeam}
+                                        homeTeamLogo={teamDictionary[match.homeStageTeam]?.logo}
+                                        awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
+                                        venue={match.venue}
+                                        date={match.date}
+                                        matchResult={match.result}
+                                        onMatchUpdate={onMatchUpdate}
+                                        neutralGradient={cardNeutralGradient}
+                                        stage={match.description ? match.description : match.stage}
+                                        tossResult={match.tossResult}
+                                        tossDecision={match.tossDecision}
+                                        city={match.city}
+                                        format={format}
+                                        category={category}
+                                        series={match.series}
+                                        seriesMatchNumber={match.seriesMatchNumber}
+                                    /> :
+                                    <MatchScoreCard
+                                        group={match.group}
+                                        stage={match.description ? match.description : match.stage}
+                                        homeGradient={teamDictionary[match.homeStageTeam]?.gradient}
+                                        awayGradient={teamDictionary[match.awayStageTeam]?.gradient}
+                                        homeTeamName={match.homeStageTeam}
+                                        awayTeamName={match.awayStageTeam}
+                                        homeTeamLogo={teamDictionary[match.homeStageTeam]?.logo}
+                                        awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
+                                        tournamentName={tournamentName}
+                                        tournamentID={tournamentId}
+                                        tournamentEdition={tournamentEdition}
+                                        matchNum={match.matchNumber}
+                                        format={format}
+                                        category={category}
+                                        venue={match.venue}
+                                        city={match.city}
+                                        date={match.date}
+                                        matchResult={match.result}
+                                        onMatchUpdate={onMatchUpdate}
+                                        homeTeamRuns={match.homeTeamRuns}
+                                        homeTeamWickets={match.homeTeamWickets}
+                                        homeTeamBalls={match.homeTeamBalls}
+                                        homeTeamMaxBalls={match.homeMaxBalls}
+                                        awayTeamRuns={match.awayTeamRuns}
+                                        awayTeamWickets={match.awayTeamWickets}
+                                        awayTeamBalls={match.awayTeamBalls}
+                                        awayTeamMaxBalls={match.awayMaxBalls}
+                                        neutralGradient={cardNeutralGradient}
+                                        tossResult={match.tossResult}
+                                        tossDecision={match.tossDecision}
+                                        inningsBalls={ballsPerInnings}
+                                        target={match.target}
+                                        targetOvertaken={match.targetOvertaken}
+                                    />
+                                )
                             }
                         </div>
                     ))}
