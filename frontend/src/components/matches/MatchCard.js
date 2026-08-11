@@ -84,14 +84,6 @@ function MatchCard({
         return `${startMonth} ${startDay}–${endMonth} ${endDay}, ${year}`;
     };
 
-    const formattedDate = formattedDateObj.toLocaleDateString("en-US", {
-        weekday: "short",
-        timeZone: timeZone,
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-    });
-
     const formattedTime = formattedDateObj.toLocaleTimeString("en-US", {
         timeZone: timeZone,
         hour: "2-digit",
