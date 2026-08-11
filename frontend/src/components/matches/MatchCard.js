@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faClock, faBullseye, faChevronUp, faChevronDown, faBan, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faChevronUp, faChevronDown, faBan } from "@fortawesome/free-solid-svg-icons";
 import FetchStatusButton from "../buttons/FetchStatusButton";
 
 
