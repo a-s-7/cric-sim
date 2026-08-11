@@ -35,11 +35,11 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                 <tr>
                     <th className="py-2 w-[60px]">POS</th>
                     <th className="py-2 w-[60px]"></th>
-                    <th className={`py-2 ${category === "franchise" ? 'w-[140px]' : format == "TEST" ? 'w-[200px]' : 'w-[240px]'} text-left`}>TEAM</th>
+                    <th className={`py-2 ${category === "franchise" ? 'w-[140px]' : format === "TEST" ? 'w-[200px]' : 'w-[240px]'} text-left`}>TEAM</th>
                     <th className="py-2 w-[60px]">GP</th>
                     <th className="py-2 w-[60px]">W</th>
                     <th className="py-2 w-[60px]">L</th>
-                    {format == "TEST" ?
+                    {format === "TEST" ?
                         <>
                             <th className="py-2 w-[60px]">D</th>
                             <th className="py-2 w-[60px]">DED</th>
@@ -84,7 +84,7 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.played}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.won}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.lost}</td>
-                            {format == "TEST" ? (
+                            {format === "TEST" ? (
                                 <>
                                     <td className="text-center py-3 px-2 border-b border-zinc-200">{team.draw}</td>
                                     <td className="text-center py-3 px-2 border-b border-zinc-200">{team.deductionPoints}</td>

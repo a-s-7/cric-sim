@@ -216,7 +216,6 @@
             "confirmed": false,
             "seed": "G1-1",
             "teamFromPreviousStage": "standings",
-            "teamFromStandingsGroup": "1",
             "teamFromStandingsPosition": 1
         },
         {
@@ -225,7 +224,6 @@
             "confirmed": false,
             "seed": "G1-2",
             "teamFromPreviousStage": "standings",
-            "teamFromStandingsGroup": "1",
             "teamFromStandingsPosition": 2
         }
     ],

@@ -351,9 +351,11 @@ def confirmTeamsForStage(tournamentId, stageOrder):
             prevStageGroups = standings["standings"][0]["groups"]
 
             for team in stageTeams:
-                group_name = team.get("teamFromStandingsGroup") or "LEAGUE"
+                group_name = team.get("teamFromStandingsGroup", "LEAGUE")
+
                 standingsGroup = prevStageGroups[group_name]
                 standingsTeam = standingsGroup[team.get("teamFromStandingsPosition", 1) - 1]
+
                 stageTeams_collection.update_one(
                     {"_id": ObjectId(team["_id"])},
                     {
@@ -372,9 +374,9 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                         standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
                         prevStageGroups = standings["standings"][0]["groups"]
                     
-                    group_name = team["teamFromStandingsGroup"] or "LEAGUE"
-                    standingsGroup = prevStageGroups[group_name]
+                    group_name = team.get("teamFromStandingsGroup", "LEAGUE")
                     
+                    standingsGroup = prevStageGroups[group_name]
                     standingsTeam = standingsGroup[team["teamFromStandingsPosition"] - 1]
                     
                     if verbose:
