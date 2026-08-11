@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from utils import (
     get_tournament_standings_data,
     find_tournament,
-    get_tournament_match_teams_data,
+    get_tournament_teams_data,
     parse_filter_params,
     build_or_filter_condition,
     build_common_match_lookup_stages,
@@ -200,84 +200,76 @@ def get_tournament_matches(tournament_id, groups, teams, venues, stages):
     tournament = find_tournament(tournament_id)
 
     if tournament["name"] == "ICC World Test Championship":
-        return get_wtc_match_data(tournament, teams, venues, stages)
+        return get_tournament_match_data(tournament, groups, teams, venues, stages, is_wtc = True)
     else:
         return get_tournament_match_data(tournament, groups, teams, venues, stages)
     
-def get_tournament_match_data(tournament, groups, teams, venues, stages):
-    teams_data = get_tournament_match_teams_data(tournament)
+def get_tournament_match_data(tournament, groups=None, teams=None, venues=None, stages=None, is_wtc=False):
+    teams_data = get_tournament_teams_data(tournament)
     groups, teams, venues, stages = parse_filter_params(groups, teams, venues, stages)
 
     pipeline = [{"$match": {"tournamentId": tournament["_id"]}}]
-    pipeline.extend(build_common_match_lookup_stages())
-    pipeline.append({
-        "$project": {
-            "_id": 0,
-            "tournamentId": 0,
-            "homeStageTeamId": 0,
-            "awayStageTeamId": 0,
-            "homeTeam": 0,
-            "awayTeam": 0,
-            "venueId": 0,
-            "stageId": 0,
-        }
-    })
 
-    or_condition = build_or_filter_condition(groups, teams, venues, stages)
+    if is_wtc:
+        pipeline.append({"$lookup": {
+            "from": "series",
+            "localField": "seriesId",
+            "foreignField": "_id",
+            "as": "series"
+        }})
+        pipeline.append({"$unwind": {"path": "$series", "preserveNullAndEmptyArrays": True}})
+        pipeline.append({"$set": {"series": "$series.name"}})
+
+    pipeline.extend(build_common_match_lookup_stages())
+
+    project_stage = {
+        "_id": 0,
+        "tournamentId": 0,
+        "homeStageTeamId": 0,
+        "awayStageTeamId": 0,
+        "homeTeam": 0,
+        "awayTeam": 0,
+        "venueId": 0,
+        "stageId": 0,
+    }
+
+    if is_wtc:
+        project_stage["seriesId"] = 0
+
+    pipeline.append({"$project": project_stage})
+
+    filter_groups = [] if is_wtc else groups
+
+    or_condition = build_or_filter_condition(filter_groups, teams, venues, stages)
+    
     if or_condition["$or"]:
         pipeline.append({"$match": or_condition})
 
-    pipeline.append({"$sort": {"matchNumber": 1}})
-        
+    sort_field = "date" if is_wtc else "matchNumber"
+
+    pipeline.append({"$sort": {sort_field: 1}})
+
     filtered_matches = list(matches_collection.aggregate(pipeline))
 
-    final_match = matches_collection.find({"tournamentId": tournament["_id"]}).sort("matchNumber", -1).limit(1)[0]
-    
+    final_match = (
+        matches_collection.find({"tournamentId": tournament["_id"]})
+        .sort(sort_field, -1)
+        .limit(1)[0]
+    )
+
     winner = determine_final_winner(tournament, final_match)
 
-    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"], "ballsPerInnings": tournament["ballsPerInnings"]}
+    result = {
+        "teams": teams_data,
+        "matches": filtered_matches,
+        "winner": winner,
+        "format": tournament["format"],
+        "category": tournament["category"],
+    }
+    if not is_wtc:
+        result["ballsPerInnings"] = tournament["ballsPerInnings"]
 
-def get_wtc_match_data(tournament, teams, venues, stages):
-    teams_data = get_tournament_match_teams_data(tournament)
-    _, teams, venues, stages = parse_filter_params(None, teams, venues, stages)
-
-    pipeline = [{"$match": {"tournamentId": tournament["_id"]}}]
-    pipeline.append({"$lookup": {
-        "from": "series",
-        "localField": "seriesId",
-        "foreignField": "_id",
-        "as": "series"
-    }})
-    pipeline.append({"$unwind": {"path": "$series", "preserveNullAndEmptyArrays": True}})
-    pipeline.append({"$set": {"series": "$series.name"}})
-    pipeline.extend(build_common_match_lookup_stages())
-    pipeline.append({
-        "$project": {
-            "_id": 0,
-            "tournamentId": 0,
-            "homeStageTeamId": 0,
-            "awayStageTeamId": 0,
-            "homeTeam": 0,
-            "awayTeam": 0,
-            "venueId": 0,
-            "stageId": 0,
-            "seriesId": 0,
-        }
-    })
-
-    or_condition = build_or_filter_condition([], teams, venues, stages)
-    if or_condition["$or"]:
-        pipeline.append({"$match": or_condition})
-
-    pipeline.append({"$sort": {"date": 1}})
-        
-    filtered_matches = list(matches_collection.aggregate(pipeline))
-
-    final_match = matches_collection.find({"tournamentId": tournament["_id"]}).sort("date", -1).limit(1)[0]
-    
-    winner = determine_final_winner(tournament, final_match)
-
-    return {"teams": teams_data, "matches": filtered_matches, "winner": winner, "format": tournament["format"], "category": tournament["category"]}
+    return result
 
 def get_tournament_standings(tournament_id):
     return get_tournament_standings_data(tournament_id, None, allGroupStages = True)

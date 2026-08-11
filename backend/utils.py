@@ -43,7 +43,7 @@ def find_tournament(tournament_id):
 
     return tournament
 
-def get_tournament_match_teams_data(tournament):
+def get_tournament_teams_data(tournament):
     teams_pipeline = [
             { "$match": { "tournamentId": tournament["_id"] } },
             {
@@ -101,7 +101,6 @@ def parse_filter_params(groups, teams, venues, stages):
     return groups_list, teams_list, venues_list, stages_list
 
 def build_or_filter_condition(groups, teams, venues, stages):
-    """Build the shared $or filter condition used by both match pipelines."""
     or_condition = {"$or": []}
 
     if groups:
@@ -120,7 +119,6 @@ def build_or_filter_condition(groups, teams, venues, stages):
     return or_condition
     
 def build_common_match_lookup_stages():
-    """Venue, home team, away team, and stage lookups shared by all match pipelines."""
     stages = []
     stages.append({"$lookup": {
         "from": "venues",
@@ -168,8 +166,6 @@ def build_common_match_lookup_stages():
     return stages
 
 def determine_final_winner(tournament, final_match):
-    """Determine the acronym (or acronym#acronym for a shared/undecided result)
-    of the final match's winner, given the tournament's result conventions."""
     if final_match["result"] == "None":
         return ""
 
