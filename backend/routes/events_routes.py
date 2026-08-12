@@ -66,14 +66,10 @@ def clear_tournament_matches(tournament_id):
 
     return jsonify(ms.clear_matches(tournament_id, mode, stage_order, match_nums))
    
-@events_bp.route('/tournaments/<string:id>/match/toss-result/<int:match_num>/<string:toss_result>', methods=['PATCH'])
-def set_match_toss_result(id, match_num, toss_result):
-    try:
-        ms.update_toss_result(id, match_num, toss_result)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
-    return jsonify({"message": f"Match {match_num} for tournament {id} toss result set successfully"})
-
+@events_bp.route('/tournament/<string:tournament_id>/match/toss-result/<int:match_num>/<string:toss_result>', methods=['PATCH'])
+def set_match_toss_result(tournament_id, match_num, toss_result):
+    return jsonify(ms.update_toss_result(tournament_id, match_num, toss_result))
+   
 @events_bp.route('/tournaments/<string:id>/match/toss-decision/<int:match_num>/<string:toss_decision>', methods=['PATCH'])
 def set_match_toss_decision(id, match_num, toss_decision):
     try:

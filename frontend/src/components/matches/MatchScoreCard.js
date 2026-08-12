@@ -345,7 +345,7 @@ function MatchScoreCard({
 
         try {
             const response = await fetch(
-                `/tournaments/${tournamentID}/match/toss-result/${matchNum}/${result}`,
+                `/tournament/${tournamentID}/match/toss-result/${matchNum}/${result}`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
