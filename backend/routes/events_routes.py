@@ -78,13 +78,9 @@ def set_match_toss_decision(tournament_id, match_num, toss_decision):
 def set_match_status(tournament_id, match_num, status):
     return jsonify(ms.update_match_status(tournament_id, match_num, status))
    
-@events_bp.route('/tournaments/<string:id>/match/abandon/<int:match_num>', methods=['PATCH'])
-def abandon_match(id, match_num):
-    try:
-        res = ms.abandon_match(id, match_num)
-        return jsonify(res)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/abandon', methods=['PATCH'])
+def abandon_match(tournament_id, match_num):
+   return jsonify(ms.abandon_match(tournament_id, match_num))
 
 @events_bp.route("/run-match-update", methods=["POST"])
 def run_match_update():

@@ -848,6 +848,7 @@ def commit_and_propagate_match_clear(tournament, t_id, matches, team_acc):
         {"tournamentId": t_id, "matchNumber": {"$in": match_numbers}},
         {"$set": _blank_match_fields(tournament)}
     )
+
     if result.matched_count == 0:
         abort(404, description="No matches found to update")
 

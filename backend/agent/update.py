@@ -10,7 +10,7 @@ def update_match(context, match_result):
       
     Otherwise, the match is updated with the following steps:
         1. clear_tournament_matches     - Clears match data, before update
-        2. update_match_status_and_toss - Updates match status, toss result, and toss decision.
+        2. update_match_status_toss - Updates match status, toss result, and toss decision.
         3. update_result                - Updates match result.
         4. update_max_balls             - Updates max balls for both home and away teams.
         5. update_target_runs           - Updates DLS target runs if a target exists.
@@ -43,7 +43,7 @@ def update_match(context, match_result):
         match_service.clear_tournament_matches(tournament_id, "match-numbers", None, str(match_num))
 
         # Step 2: Update match status, toss result, and toss decision together
-        match_service.update_match_status_and_toss(tournament_id, match_num, status, toss_result, toss_decision)
+        match_service.update_match_status_toss(tournament_id, match_num, status, toss_result, toss_decision)
 
         # Step 3: Update match result
         match_service.update_result(tournament_id, match_num, result)

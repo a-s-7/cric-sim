@@ -453,11 +453,11 @@ def update_match_toss_decision(tournament_id, match_num, toss_decision):
 
     update_toss_field(tournament_id, match_num, "tossDecision", toss_decision, "decision")
 
-def update_match_status(id, match_num, status):
+def update_match_status(tournament_id, match_num, status):
     if status not in ["complete", "incomplete"]:
         abort(400, description=f"Invalid status")
 
-    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
+    match = matches_collection.find_one({"tournamentId": tournament_id, "matchNumber": int(match_num)})
     
     if not match:
         abort(404, description=f"Match not found")
@@ -467,6 +467,49 @@ def update_match_status(id, match_num, status):
         {"$set": {"status": status}}
     )
 
+def update_match_status_toss(tournament_id, match_num, status=None, toss_result=None, toss_decision=None):
+    update_fields = {}
+
+    if status is not None:
+        if status not in ["complete", "incomplete"]:
+            abort(400, description=f"Invalid status")
+
+        update_fields["status"] = status
+    if toss_result is not None:
+        if toss_result not in ["Home-win", "incomplete", "None"]:
+            abort(400, description=f"Invalid match toss result")
+
+        update_fields["tossResult"] = toss_result
+    if toss_decision is not None:
+        if toss_decision not in ["bat", "bowl", "None"]:
+            abort(400, description=f"Invalid match toss decision")
+            
+        update_fields["tossDecision"] = toss_decision
+
+    if not update_fields:
+        abort(400, description=f"No fields found to update")
+
+    result = matches_collection.update_one(
+        {"tournamentId": tournament_id, "matchNumber": int(match_num)},
+        {"$set": update_fields}
+    )
+
+    if result.matched_count == 0:
+        abort(404, description=f"Match not found")
+
+def abandon_match(tournament_id, match_num):
+    clear_matches(tournament_id, "match-numbers", None, str(match_num))
+    
+    tournament = find_tournament(tournament_id)
+
+    abandonResult = "No-result"
+    if tournament["name"] == "ICC World Test Championship":
+        abandonResult = "Draw"
+    
+    update_match_result(tournament_id, match_num, abandonResult)
+
+    update_match_status_toss(tournament_id, match_num, toss_result="None", toss_decision="None")
+    
 def update_target_runs(id, match_num, target_runs):
     match = get_match_with_toss_guard(id, match_num, "updating the target")
     
@@ -732,46 +775,6 @@ def update_max_balls(id, match_num, team, max_balls):
                 )
 
     return {"message": f"Match {match_num} for tournament {id} {team} max balls updated successfully"}
-
-def abandon_match(id, match_num):
-    clear_tournament_matches(id, "match-numbers", None, str(match_num))
-    
-    update_match_result(id, match_num, "No-result")
-
-    matches_collection.update_one(
-        {"tournamentId": id, "matchNumber": int(match_num)},
-        {"$set": {"tossResult": "None", "tossDecision": "None"}}
-    )
-    
-    return {"message": f"Match {match_num} for tournament {id} abandoned successfully"}
-
-def update_match_status_and_toss(id, match_num, status=None, toss_result=None, toss_decision=None):
-    update_fields = {}
-    if status is not None:
-        update_fields["status"] = status
-    if toss_result is not None:
-        update_fields["tossResult"] = toss_result
-    if toss_decision is not None:
-        update_fields["tossDecision"] = toss_decision
-
-    if not update_fields:
-        return {"message": "No fields to update"}
-
-    result = matches_collection.update_one(
-        {"tournamentId": id, "matchNumber": int(match_num)},
-        {"$set": update_fields}
-    )
-    if result.matched_count == 0:
-        raise ValueError("Match not found")
-    return {"message": f"Match {match_num} for tournament {id} updated successfully"}
-
-
-def update_match_status(id, match_num, status):
-    matches_collection.update_one(
-        {"tournamentId": id, "matchNumber": int(match_num)},
-        {"$set": {"status": status}}
-    )
-    return {"message": f"Match {match_num} for tournament {id} updated successfully"}
 
 def run_match_update(tournament_id=None, match_num=None):
     if tournament_id is not None and match_num is not None:

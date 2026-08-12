@@ -204,7 +204,7 @@ function MatchCard({
         } else {
             // Abandon match
             try {
-                const response = await fetch(`/tournaments/${tournamentID}/match/abandon/${matchNum}`, {
+                const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/abandon`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
                 });
