@@ -43,6 +43,14 @@ def find_tournament(tournament_id):
 
     return tournament
 
+def find_limited_overs_tournament(tournament_id):
+    tournament = find_tournament(tournament_id)
+
+    if tournament["name"] == "ICC World Test Championship":
+        abort(403, description=f"Tournament is not a limited-overs tournament")    
+
+    return tournament
+
 def get_tournament_teams_data(tournament):
     teams_pipeline = [
             { "$match": { "tournamentId": tournament["_id"] } },

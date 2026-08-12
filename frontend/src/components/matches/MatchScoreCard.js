@@ -221,10 +221,19 @@ function MatchScoreCard({
         } = parsedScores;
 
         try {
-            const scoreKey = `${homeRunsValue}/${homeWicketsValue}/${homeBallsValue}/${awayRunsValue}/${awayWicketsValue}/${awayBallsValue}`;
+            // const scoreKey = `${homeRunsValue}/${homeWicketsValue}/${homeBallsValue}/${awayRunsValue}/${awayWicketsValue}/${awayBallsValue}`;
+
+            const params = new URLSearchParams();
+
+            params.set("home_runs", homeRunsValue);
+            params.set("home_wickets", homeWicketsValue);
+            params.set("home_balls", homeBallsValue);
+            params.set("away_runs", awayRunsValue);
+            params.set("away_wickets", awayWicketsValue);
+            params.set("away_balls", awayBallsValue);
 
             const response = await fetch(
-                `/tournaments/${tournamentID}/match/score/${matchNum}/${scoreKey}`,
+                `/tournament/${tournamentID}/match/${matchNum}/score?${params}`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
