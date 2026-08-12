@@ -64,7 +64,7 @@ def clear_tournament_matches(tournament_id):
     stage_order = request.args.get("stageOrder", type=int) 
     match_nums = request.args.get("match_nums", "") 
 
-    return jsonify(ms.clear_tournament_matches(tournament_id, mode, stage_order, match_nums))
+    return jsonify(ms.clear_matches(tournament_id, mode, stage_order, match_nums))
    
 @events_bp.route('/tournaments/<string:id>/match/toss-result/<int:match_num>/<string:toss_result>', methods=['PATCH'])
 def set_match_toss_result(id, match_num, toss_result):
