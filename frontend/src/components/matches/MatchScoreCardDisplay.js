@@ -84,7 +84,7 @@ function MatchScoreCardDisplay({
     const handleMatchUnlock = async (e) => {
         try {
             const response = await fetch(
-                `/tournaments/${tournamentID}/match/status/${matchNum}/${'incomplete'}`,
+                `/tournament/${tournamentID}/match/${matchNum}/status/${'incomplete'}`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }

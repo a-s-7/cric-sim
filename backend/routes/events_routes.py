@@ -66,26 +66,18 @@ def clear_tournament_matches(tournament_id):
 
     return jsonify(ms.clear_matches(tournament_id, mode, stage_order, match_nums))
    
-@events_bp.route('/tournament/<string:tournament_id>/match/toss-result/<int:match_num>/<string:toss_result>', methods=['PATCH'])
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/toss-result/<string:toss_result>', methods=['PATCH'])
 def set_match_toss_result(tournament_id, match_num, toss_result):
-    return jsonify(ms.update_toss_result(tournament_id, match_num, toss_result))
+    return jsonify(ms.update_match_toss_result(tournament_id, match_num, toss_result))
    
-@events_bp.route('/tournaments/<string:id>/match/toss-decision/<int:match_num>/<string:toss_decision>', methods=['PATCH'])
-def set_match_toss_decision(id, match_num, toss_decision):
-    try:
-        ms.update_toss_decision(id, match_num, toss_decision)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
-    return jsonify({"message": f"Match {match_num} for tournament {id} toss decision set successfully"})
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/toss-decision/<string:toss_decision>', methods=['PATCH'])
+def set_match_toss_decision(tournament_id, match_num, toss_decision):
+    return jsonify(ms.update_match_toss_decision(tournament_id, match_num, toss_decision))
 
-@events_bp.route('/tournaments/<string:id>/match/status/<int:match_num>/<string:status>', methods=['PATCH'])
-def set_match_status(id, match_num, status):
-    try:
-        ms.update_status(id, match_num, status)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
-    return jsonify({"message": f"Match {match_num} for tournament {id} status set successfully"})
-
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/status/<string:status>', methods=['PATCH'])
+def set_match_status(tournament_id, match_num, status):
+    return jsonify(ms.update_match_status(tournament_id, match_num, status))
+   
 @events_bp.route('/tournaments/<string:id>/match/abandon/<int:match_num>', methods=['PATCH'])
 def abandon_match(id, match_num):
     try:

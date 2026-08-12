@@ -20,7 +20,8 @@ from utils import (
                 update_team_match_loss,
                 update_team_match_no_result,
                 update_team_match_draw,
-                update_team_match_tie)
+                update_team_match_tie,
+                update_toss_field)
 
 from agent.pipeline import run_match_result_agent
 from datetime import datetime
@@ -440,6 +441,32 @@ def simulate_tournament_matches(tournament, stage_num):
 
 ################################################################################################################
 
+def update_match_toss_result(tournament_id, match_num, toss_result):
+    if toss_result not in ["Home-win", "incomplete", "None"]:
+        abort(400, description=f"Invalid match toss result")
+
+    update_toss_field(tournament_id, match_num, "tossResult", toss_result, "result")
+
+def update_match_toss_decision(tournament_id, match_num, toss_decision):
+    if toss_decision not in ["bat", "bowl", "None"]:
+        abort(400, description=f"Invalid match toss decision")
+
+    update_toss_field(tournament_id, match_num, "tossDecision", toss_decision, "decision")
+
+def update_match_status(id, match_num, status):
+    if status not in ["complete", "incomplete"]:
+        abort(400, description=f"Invalid status")
+
+    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
+    
+    if not match:
+        abort(404, description=f"Match not found")
+
+    matches_collection.update_one(
+        {"_id": ObjectId(match["_id"])},
+        {"$set": {"status": status}}
+    )
+
 def update_target_runs(id, match_num, target_runs):
     match = get_match_with_toss_guard(id, match_num, "updating the target")
     
@@ -738,39 +765,6 @@ def update_match_status_and_toss(id, match_num, status=None, toss_result=None, t
         raise ValueError("Match not found")
     return {"message": f"Match {match_num} for tournament {id} updated successfully"}
 
-def update_toss_result(id, match_num, toss_result):
-    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
-    if not match:
-        raise ValueError("Match not found")
-    elif match["target"] != None:
-        raise ValueError("Toss result cannot be changed when target is entered")
-
-    matches_collection.update_one(
-        {"_id": ObjectId(match["_id"])},
-        {"$set": {"tossResult": toss_result}}
-    )
-
-def update_toss_decision(id, match_num, toss_decision):
-    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
-    if not match:
-        raise ValueError("Match not found")
-    elif match["target"] != None:
-        raise ValueError("Toss decision cannot be changed when target is entered")
-
-    matches_collection.update_one(
-        {"_id": ObjectId(match["_id"])},
-        {"$set": {"tossDecision": toss_decision}}
-    )
-
-def update_status(id, match_num, status):
-    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
-    if not match:
-        raise ValueError("Match not found")
-
-    matches_collection.update_one(
-        {"_id": ObjectId(match["_id"])},
-        {"$set": {"status": status}}
-    )
 
 def update_match_status(id, match_num, status):
     matches_collection.update_one(

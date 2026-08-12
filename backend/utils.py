@@ -191,7 +191,6 @@ def determine_final_winner(tournament, final_match):
     # Away-win
     return resolve_team_acronym(final_match["awayStageTeamId"])
 
-
 def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = False):
     tournament = find_tournament(tournament_id)
 
@@ -435,7 +434,6 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                                 "confirmed": False
                             }
                         })
-
 
 def confirmTeamsForGroupStageBasic(tournamentId, stageOrder, currentStage):
     stageTeams_collection.update_many(
@@ -684,8 +682,7 @@ def confirmTeamsFor4TeamPlayoffs(tournamentId, stageOrder, matches):
             {"_id": ObjectId(final["awayStageTeamId"])},
             {"$set": {"teamId": None, "confirmed": False}}
         )
-
-       
+      
 def decide_playoff_no_result(source_match, winner=True, standings=[]):
     homeSt = stageTeams_collection.find_one({"_id": ObjectId(source_match["homeStageTeamId"])}) 
     awaySt = stageTeams_collection.find_one({"_id": ObjectId(source_match["awayStageTeamId"])}) 
@@ -813,7 +810,6 @@ def propagate_match_clear(earliest_stage, t_id, tournament):
             )          
             isFirstNextStage = False
 
-
 def build_clear_filter(t_id, mode, stage_order, match_nums):
     if mode == "all":
         filter_query = {"tournamentId": t_id}
@@ -862,7 +858,6 @@ def commit_and_propagate_match_clear(tournament, t_id, matches, team_acc):
 
     earliest_stage = min(stages_info, key=lambda x: x["order"])
     propagate_match_clear(earliest_stage, t_id, tournament)
-
 
 def get_match_with_toss_guard(id, match_num, action_name):
     match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
@@ -968,4 +963,18 @@ def update_team_match_tie(stageTeamId, points, mode):
         {"$inc": {"tie": m, "matchesPlayed": m, "points": m*points}}
     )
 
+def update_toss_field(tournament_id, match_num, field, value, field_label):
+    tournament = find_tournament(tournament_id)
+
+    match = matches_collection.find_one({"tournamentId": tournament_id, "matchNumber": int(match_num)})
+    if not match:
+        abort(404, description="No match found")
+
+    if tournament["name"] != "ICC World Test Championship" and match["target"] is not None:
+        abort(400, description=f"Toss {field_label} cannot be changed when target is entered")
+
+    matches_collection.update_one(
+        {"_id": ObjectId(match["_id"])},
+        {"$set": {field: value}}
+    )
 

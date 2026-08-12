@@ -225,7 +225,7 @@ function MatchCard({
 
         try {
             const response = await fetch(
-                `/tournaments/${tournamentID}/match/status/${matchNum}/${'complete'}`,
+                `/tournament/${tournamentID}/match/${matchNum}/status/${'complete'}`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
@@ -246,7 +246,7 @@ function MatchCard({
 
         try {
             const response = await fetch(
-                `/tournament/${tournamentID}/match/toss-result/${matchNum}/${result}`,
+                `/tournament/${tournamentID}/match/${matchNum}/toss-result/${result}`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
@@ -266,7 +266,7 @@ function MatchCard({
 
         try {
             const response = await fetch(
-                `/tournaments/${tournamentID}/match/toss-decision/${matchNum}/${battingFirst ? 'bat' : 'bowl'}`,
+                `/tournament/${tournamentID}/match/${matchNum}/toss-decision/${battingFirst ? 'bat' : 'bowl'}`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
