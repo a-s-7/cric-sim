@@ -8,10 +8,9 @@ from bson import ObjectId
 import random
 from collections import defaultdict
 
-from utils import confirmTeamsForStage, is_gemini_quota_error, propagate_match_result
-from data.utils.tournamentsUtils import overs_to_balls
+from utils import confirmTeamsForStage, is_gemini_quota_error, propagate_match_simulation
 from agent.pipeline import run_match_result_agent
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 if os.getenv("RENDER_STATUS") != "TRUE":
@@ -89,7 +88,7 @@ def update_wtc_match_result(tournament, match_num, result):
     if update_db_result.matched_count == 0:
         abort(404, description="No match was found")
 
-    propagate_match_result(t_id, match)
+    propagate_match_simulation(t_id, matchStage)
 
 def update_tournament_match_result(tournament, match_num, result):
     t_id = tournament["_id"]
@@ -150,7 +149,7 @@ def update_tournament_match_result(tournament, match_num, result):
     if update_db_result.matched_count == 0:
         raise ValueError("No match was found")
 
-    propagate_match_result(t_id, match)
+    propagate_match_simulation(t_id, matchStage)
 
 def update_target_runs(id, match_num, target_runs):
     match = _get_match_with_toss_guard(id, match_num, "updating the target")
@@ -661,21 +660,102 @@ def update_status(id, match_num, status):
         {"$set": {"status": status}}
     )
 
-def simulate_tournament_matches(id, stage_num):
-    tournament = tournaments_collection.find_one({"_id": id})
-    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
-    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
+def simulate_matches(tournament_id, stage_num):
+    tournament = find_tournament(tournament_id)
+
+    if tournament["name"] == "ICC World Test Championship":
+        simulate_wtc_matches(tournament, stage_num)
+    else:
+        simulate_tournament_matches(tournament, stage_num)
+
+def simulate_wtc_matches(tournament, stage_num):
+    t_id = tournament["_id"]
+
+    pointsPerWin = 12 
+    pointsPerTie = 6
+    pointsPerDraw = 4
 
     stageToSim = stages_collection.find_one(
         {
-            "tournamentId": id,
+            "tournamentId": t_id,
             "status": "active",
             "order": stage_num
         }
     )
 
     matches = list(matches_collection.find({
-        "tournamentId": id,
+        "tournamentId": t_id,
+        "status" : "incomplete",
+        "stageId": ObjectId(stageToSim["_id"])
+    }))
+
+    team_updates = []
+    match_updates = []
+
+    for match in matches:
+        result = random.choices(
+                    ["Home-win", "Away-win", "Draw", "Tie"],
+                    weights=[0.415, 0.315, 0.265, 0.005]
+                )[0]
+
+        if stageToSim["type"] == "group":
+            home_id = ObjectId(match["homeStageTeamId"])
+            away_id = ObjectId(match["awayStageTeamId"])
+            old_result = match["result"]
+
+            if old_result == "Home-win":
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": -1, "won": -1, "points": -pointsPerWin}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": -1, "lost": -1}}))
+            elif old_result == "Away-win":
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": -1, "won": -1, "points": -pointsPerWin}}))
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": -1, "lost": -1}}))
+            elif old_result == "Draw":
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": -1, "draw": -1, "points": -pointsPerDraw}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": -1, "draw": -1, "points": -pointsPerDraw}}))
+            elif old_result == "Tie":
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": -1, "tied": -1, "points": -pointsPerTie}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": -1, "tied": -1, "points": -pointsPerTie}}))
+
+
+            if result == "Home-win":
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": 1, "won": 1, "points": pointsPerWin}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": 1, "lost": 1}}))
+            elif result == "Away-win":
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": 1, "won": 1, "points": pointsPerWin}}))
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": 1, "lost": 1}}))
+            elif result == "Draw":
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": 1, "draw": 1, "points": pointsPerDraw}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": 1, "draw": 1, "points": pointsPerDraw}}))
+            else:
+                team_updates.append(UpdateOne({"_id": home_id}, {"$inc": {"matchesPlayed": 1, "tied": 1, "points": pointsPerTie}}))
+                team_updates.append(UpdateOne({"_id": away_id}, {"$inc": {"matchesPlayed": 1, "tied": 1, "points": pointsPerTie}}))
+
+        match_updates.append(UpdateOne({"_id": match["_id"]}, {"$set": {"result": result}}))
+
+    if team_updates:
+        stageTeams_collection.bulk_write(team_updates)
+
+    if match_updates:
+        matches_collection.bulk_write(match_updates)    
+
+    propagate_match_simulation(t_id, stageToSim)
+
+def simulate_tournament_matches(tournament, stage_num):
+    t_id = tournament["_id"]
+
+    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
+    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
+
+    stageToSim = stages_collection.find_one(
+        {
+            "tournamentId": t_id,
+            "status": "active",
+            "order": stage_num
+        }
+    )
+
+    matches = list(matches_collection.find({
+        "tournamentId": t_id,
         "status" : "incomplete",
         "stageId": ObjectId(stageToSim["_id"])
     }))
@@ -722,38 +802,7 @@ def simulate_tournament_matches(id, stage_num):
     if match_updates:
         matches_collection.bulk_write(match_updates)    
 
-    not_finished_matches = list(matches_collection.find({
-        "tournamentId": id,
-        "stageId": ObjectId(stageToSim["_id"]),
-        "result": "None"
-    }))
-
-    if len(not_finished_matches) > 0 and not (stageToSim["name"] in ["Playoffs", "Semi-final"]):
-        if verbose:
-            print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageToSim["name"]))
-    else:
-        if stageToSim["name"] == "Final":
-            if verbose:
-                print("Tournament {} has been simulated".format(id))
-        else:
-            if stageToSim["name"] != "Playoffs":
-                stages_collection.update_one(
-                    {"tournamentId": id, "order": stageToSim["order"] + 1},
-                    {"$set": {"status": "active"}}
-                )
-                if verbose:
-                    print("Stage {} for tournament {} is now active".format(stageToSim["order"] + 1, id))
-
-            if stageToSim["name"] == "Playoffs":
-                stage = stages_collection.find_one({"tournamentId": id, "order": stageToSim["order"]})
-            else:
-                stage = stages_collection.find_one({"tournamentId": id, "order": stageToSim["order"] + 1})
-
-            while stage and stage["status"] == "active":
-                confirmTeamsForStage(id, stage["order"])
-                stage = stages_collection.find_one({"tournamentId": id, "order": stage["order"] + 1})
-
-    return {"message": f"Tournament id {id} stage {stageToSim['name']} simulated successfully"}
+    propagate_match_simulation(t_id, stageToSim)
 
 def update_match_status(id, match_num, status):
     matches_collection.update_one(

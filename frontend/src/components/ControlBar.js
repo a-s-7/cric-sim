@@ -211,7 +211,7 @@ function ControlBar({
     const randomlySimIncompleteMatches = async () => {
         setIsSimulating(true);
         try {
-            const response = await fetch(`/tournaments/${urlTag}/match/simulate?stage_num=${stageValues[activeStageIndex].value}`,
+            const response = await fetch(`/tournament/${urlTag}/match/simulate?stage_num=${stageValues[activeStageIndex].value}`,
                 {
                     method: 'PATCH',
                     headers: {

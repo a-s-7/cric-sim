@@ -703,70 +703,38 @@ def decide_playoff_no_result(source_match, winner=True, standings=[]):
             return awaySt if winner else homeSt
 
     return None        
-                
-def propagate_match_result(tournament_id, match):
+        
+def propagate_match_simulation(tournament_id, stageToSim):
     not_finished_matches = list(matches_collection.find({
-        "tournamentId": tournament_id,
-        "stageId": ObjectId(match["stageId"]),
-        "result": "None"
+           "tournamentId": tournament_id,
+           "stageId": ObjectId(stageToSim["_id"]),
+           "result": "None"
     }))
-
-    stageOfChangedMatch = stages_collection.find_one({
-        "_id": ObjectId(match["stageId"])
-    })
-
-    if len(not_finished_matches) > 0 and stageOfChangedMatch["name"] not in ["Playoffs", "Semi-final"]:
+    
+    if len(not_finished_matches) > 0 and not (stageToSim["name"] in ["Playoffs", "Semi-final"]):
         if verbose:
-            print(
-                "{} matches are yet to be played in stage {}".format(
-                    len(not_finished_matches),
-                    stageOfChangedMatch["name"]
-                )
-            )
+            print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageToSim["name"]))
     else:
-        if stageOfChangedMatch["name"] == "Final":
+        if stageToSim["name"] == "Final":
             if verbose:
                 print("Tournament {} has been simulated".format(tournament_id))
         else:
-            if stageOfChangedMatch["name"] != "Playoffs":
+            if stageToSim["name"] != "Playoffs":
                 stages_collection.update_one(
-                    {
-                        "tournamentId": tournament_id,
-                        "order": stageOfChangedMatch["order"] + 1
-                    },
+                    {"tournamentId": tournament_id, "order": stageToSim["order"] + 1},
                     {"$set": {"status": "active"}}
                 )
-
                 if verbose:
-                    print(
-                        "Stage {} for tournament {} is now active".format(
-                            stageOfChangedMatch["order"] + 1,
-                            tournament_id
-                        )
-                    )
+                    print("Stage {} for tournament {} is now active".format(stageToSim["order"] + 1, tournament_id))
 
-            if stageOfChangedMatch["name"] == "Playoffs":
-                stage = stages_collection.find_one({
-                    "tournamentId": tournament_id,
-                    "order": stageOfChangedMatch["order"]
-                })
+            if stageToSim["name"] == "Playoffs":
+                stage = stages_collection.find_one({"tournamentId": tournament_id, "order": stageToSim["order"]})
             else:
-                stage = stages_collection.find_one({
-                    "tournamentId": tournament_id,
-                    "order": stageOfChangedMatch["order"] + 1
-                })
+                stage = stages_collection.find_one({"tournamentId": tournament_id, "order": stageToSim["order"] + 1})
 
             while stage and stage["status"] == "active":
                 confirmTeamsForStage(tournament_id, stage["order"])
-
-                stage = stages_collection.find_one({
-                    "tournamentId": tournament_id,
-                    "order": stage["order"] + 1
-                })
-
-            
-        
-        
+                stage = stages_collection.find_one({"tournamentId": tournament_id, "order": stage["order"] + 1})
 
 
 
