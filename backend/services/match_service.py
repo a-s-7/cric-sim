@@ -686,8 +686,13 @@ def update_match_target_runs(tournament_id, match_num, target_runs):
                     {"$inc": {"ballsBowled": balls_delta}}
                 )
 
-def update_target_overtake_status(id, match_num, target_overtaken):
-    match = get_match_with_toss_guard(id, match_num, "updating target overtaken status")
+def update_target_overtake_status(tournament_id, match_num, target_overtaken):
+    find_limited_overs_tournament(tournament_id)
+
+    match = get_match_with_toss_guard(tournament_id, match_num, "updating target overtaken status")
+
+    if target_overtaken and match["target"] is None:
+        abort(400, description="Cannot mark target as overtaken when no target is set")
 
     if isinstance(target_overtaken, str):
         target_overtaken = target_overtaken.lower() == "true"
@@ -696,8 +701,6 @@ def update_target_overtake_status(id, match_num, target_overtaken):
         {"_id": ObjectId(match["_id"])},
         {"$set": {"targetOvertaken": target_overtaken}}
     )
-
-    return {"message": f"Match {match_num} for tournament {id} updated successfully"}
 
 def update_max_balls(id, match_num, team, max_balls):
     max_balls = int(max_balls)

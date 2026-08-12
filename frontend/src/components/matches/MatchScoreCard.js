@@ -558,7 +558,7 @@ function MatchScoreCard({
         if (tossResultState === 'None') return;
         const newStatus = !targetOvertakenState;
         try {
-            const response = await fetch(`/tournaments/${tournamentID}/match/target-overtaken/${matchNum}/${newStatus}`, {
+            const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/target-overtaken/${newStatus}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
