@@ -702,14 +702,14 @@ def update_target_overtake_status(tournament_id, match_num, target_overtaken):
         {"$set": {"targetOvertaken": target_overtaken}}
     )
 
-def update_max_balls(id, match_num, team, max_balls):
-    max_balls = int(max_balls)
+def update_match_max_balls(tournament_id, match_num, team, max_balls):
+    tournament = find_limited_overs_tournament(tournament_id)
 
     # Safety guard: fetch before writing — toss must be set before max balls can be adjusted.
-    get_match_with_toss_guard(id, match_num, "updating max balls")
+    get_match_with_toss_guard(tournament_id, match_num, "updating max balls")
 
     old_match = matches_collection.find_one_and_update(
-        {"tournamentId": id, "matchNumber": int(match_num)},
+        {"tournamentId": tournament_id, "matchNumber": int(match_num)},
         {"$set": {"{team}MaxBalls".format(team=team): max_balls}},
         return_document=False
     )
@@ -717,8 +717,8 @@ def update_max_balls(id, match_num, team, max_balls):
     if not old_match:
         raise ValueError("Match not found")
 
-    tournament = tournaments_collection.find_one({"_id": id})
-    format_type = tournament["format"] if tournament else None
+    format_type = tournament["format"]
+
     has_score = old_match["homeTeamBalls"] > 0 and old_match["awayTeamBalls"] > 0
     is_tie = has_score and (old_match["homeTeamRuns"] == old_match["awayTeamRuns"])
     is_nrr_active = old_match["result"] != "No-result" or (format_type == "HUNDRED" and old_match["result"] == "No-result" and is_tie)
@@ -787,8 +787,6 @@ def update_max_balls(id, match_num, team, max_balls):
                     {"_id": ObjectId(old_match["homeStageTeamId"])},
                     {"$inc": {"ballsBowled": diff}}
                 )
-
-    return {"message": f"Match {match_num} for tournament {id} {team} max balls updated successfully"}
 
 #######################################################################################################################################
 

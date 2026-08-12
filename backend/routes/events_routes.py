@@ -115,16 +115,13 @@ def update_match_target_runs(tournament_id, match_num, target_runs=None):
 def update_match_target_overtake_status(tournament_id, match_num, target_overtaken):
     return jsonify(ms.update_target_overtake_status(tournament_id, match_num, target_overtaken))
 
-@events_bp.route('/tournaments/<string:id>/match/max-balls/<int:match_num>', methods=['PATCH'])
-def set_match_max_balls(id, match_num):
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/max-balls', methods=['PATCH'])
+def update_match_max_balls(tournament_id, match_num):
     team = request.args.get("team", "")
     max_balls = request.args.get("max_balls", type=int)
-    try:
-        ms.update_max_balls(id, match_num, team, max_balls)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
-    return jsonify({"message": f"Match {match_num} for tournament {id} {team} max balls set successfully"})
-
+    
+    return jsonify(ms.update_match_max_balls(tournament_id, match_num, team, max_balls))
+   
 #######################################################################################################################################
 
 @events_bp.route("/run-match-update", methods=["POST"])

@@ -596,7 +596,7 @@ function MatchScoreCard({
 
         try {
             const response = await fetch(
-                `/tournaments/${tournamentID}/match/max-balls/${matchNum}?${params}`,
+                `/tournament/${tournamentID}/match/${matchNum}/max-balls?${params}`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
