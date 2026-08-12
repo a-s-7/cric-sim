@@ -259,7 +259,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
         for team in stageTeamsData:
             team["totalPointsContested"] = team["played"] * 12
 
-            team["pointsPercentage"] = 0 if (team["totalPointsContested"] == 0) else (team["points"] - team["deductionPoints"]) / team["totalPointsContested"]
+            team["pointsPercentage"] = 0 if (team["totalPointsContested"] == 0) else ((team["points"] - team["deductionPoints"]) / team["totalPointsContested"]) * 100
     else:
         for team in stageTeamsData:
             ballsPerOver = 5 if tournament["format"] == "HUNDRED" else 6
@@ -704,7 +704,66 @@ def decide_playoff_no_result(source_match, winner=True, standings=[]):
 
     return None        
                 
-            
+def propagate_match_result(tournament_id, match):
+    not_finished_matches = list(matches_collection.find({
+        "tournamentId": tournament_id,
+        "stageId": ObjectId(match["stageId"]),
+        "result": "None"
+    }))
+
+    stageOfChangedMatch = stages_collection.find_one({
+        "_id": ObjectId(match["stageId"])
+    })
+
+    if len(not_finished_matches) > 0 and stageOfChangedMatch["name"] not in ["Playoffs", "Semi-final"]:
+        if verbose:
+            print(
+                "{} matches are yet to be played in stage {}".format(
+                    len(not_finished_matches),
+                    stageOfChangedMatch["name"]
+                )
+            )
+    else:
+        if stageOfChangedMatch["name"] == "Final":
+            if verbose:
+                print("Tournament {} has been simulated".format(tournament_id))
+        else:
+            if stageOfChangedMatch["name"] != "Playoffs":
+                stages_collection.update_one(
+                    {
+                        "tournamentId": tournament_id,
+                        "order": stageOfChangedMatch["order"] + 1
+                    },
+                    {"$set": {"status": "active"}}
+                )
+
+                if verbose:
+                    print(
+                        "Stage {} for tournament {} is now active".format(
+                            stageOfChangedMatch["order"] + 1,
+                            tournament_id
+                        )
+                    )
+
+            if stageOfChangedMatch["name"] == "Playoffs":
+                stage = stages_collection.find_one({
+                    "tournamentId": tournament_id,
+                    "order": stageOfChangedMatch["order"]
+                })
+            else:
+                stage = stages_collection.find_one({
+                    "tournamentId": tournament_id,
+                    "order": stageOfChangedMatch["order"] + 1
+                })
+
+            while stage and stage["status"] == "active":
+                confirmTeamsForStage(tournament_id, stage["order"])
+
+                stage = stages_collection.find_one({
+                    "tournamentId": tournament_id,
+                    "order": stage["order"] + 1
+                })
+
             
         
         

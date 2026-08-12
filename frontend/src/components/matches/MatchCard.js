@@ -102,7 +102,7 @@ function MatchCard({
         const gradients = [homeGradient, neutralGradient, awayGradient];
         const isSelected = selected === section && section !== "None";
         const isHovered = hoveredSection === section;
-        const isLoser = selected !== 'None' && selected !== 'No-result' && !isSelected && section !== 'No-result' && section !== 'None';
+        const isLoser = selected !== 'None' && selected !== 'Draw' && !isSelected && section !== 'Draw' && section !== 'None';
 
         const background = isHovered ? 'rgba(0, 0, 0, 0.05)' : (isSelected ? gradients[num] : 'transparent');
         const color = isHovered ? 'black' : (isSelected ? 'white' : (isLoser ? '#959595' : 'black'));
@@ -126,7 +126,7 @@ function MatchCard({
         }
         setSelected(result);
         try {
-            const response = await fetch(`/tournaments/${tournamentID}/match/${matchNum}/${result}`, {
+            const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/${result}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -221,7 +221,7 @@ function MatchCard({
     };
 
     const handleMatchLock = async (e) => {
-        e.stopPropagation(); // Prevents setting the match to "No-result" on click
+        e.stopPropagation(); // Prevents setting the match to "Draw" on click
 
         try {
             const response = await fetch(
@@ -285,8 +285,8 @@ function MatchCard({
         if (selected === 'None') {
             return '';
         }
-        if (selected === "No-result") {
-            return 'No Result';
+        if (selected === "Draw") {
+            return 'Match drawn';
         }
         return selected === 'Home-win' ? homeTeamName + ' won' : awayTeamName + ' won';
     }
@@ -296,7 +296,7 @@ function MatchCard({
             ? "https://static.thenounproject.com/png/2005489-200.png"
             : "https://static.thenounproject.com/png/2485180-200.png";
 
-        const isLoser = selected !== 'None' && selected !== 'No-result' && selected !== section;
+        const isLoser = selected !== 'None' && selected !== 'Draw' && selected !== section;
 
         // Using solid neutral grey and white ring
         const baseColor = "bg-[#d1d5db]";
@@ -379,15 +379,15 @@ function MatchCard({
                     </div>
 
                     <div className='flex flex-col border-l border-r border-gray-100 w-[27%] cursor-pointer'
-                        onClick={() => handleClick('No-result')}
-                        onMouseEnter={() => setHoveredSection("No-result")}
+                        onClick={() => handleClick('Draw')}
+                        onMouseEnter={() => setHoveredSection("Draw")}
                         onMouseLeave={() => setHoveredSection(null)}
-                        style={getStyle("No-result", 1)}>
+                        style={getStyle("Draw", 1)}>
                         <div className={`w-full h-[32%] flex font-bold items-center justify-center text-[0.9vw] ${selected !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formatTestDateRange(date, endDate)}</div>
                         <div className="w-full h-[36%] flex items-center justify-center">
                             <div className={`uppercase text-inherit text-center px-2 ${selected === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: selected !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {selected === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
-                                    <div key={i} className={i > 0 ? selected === "No-result" ? "" : "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.725vw' }}>{line}</div>
+                                    <div key={i} className={i > 0 ? selected === "Draw" ? "" : "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.725vw' }}>{line}</div>
                                 ))}
                             </div>
                         </div>

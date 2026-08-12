@@ -146,7 +146,7 @@ function MatchScoreCard({
         }
         setSelected(result);
         try {
-            const response = await fetch(`/tournaments/${tournamentID}/match/${matchNum}/${result}`, {
+            const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/${result}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });

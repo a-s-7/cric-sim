@@ -1,14 +1,14 @@
-import difflib
+from flask import abort
+from utils import find_tournament
 from re import match
 from datetime import timezone
-from asyncio import mixins
 import os
 from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
 import random
 from collections import defaultdict
 
-from utils import confirmTeamsForStage, is_gemini_quota_error
+from utils import confirmTeamsForStage, is_gemini_quota_error, propagate_match_result
 from data.utils.tournamentsUtils import overs_to_balls
 from agent.pipeline import run_match_result_agent
 from datetime import datetime, timedelta
@@ -28,152 +28,106 @@ matches_collection = db['matches']
 stages_collection = db["stages"]
 verbose = False
 
-def _get_match_with_toss_guard(id, match_num, action_name):
-    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
-    if not match:
-        raise ValueError("Match not found")
-    if match["tossResult"] == "None":
-        raise ValueError(f"Toss result must be set before {action_name}")
-    return match
+def update_match_result(tournament_id, match_num, result):
+    tournament = find_tournament(tournament_id)
 
+    if tournament["name"] == "ICC World Test Championship":
+        update_wtc_match_result(tournament, match_num, result)
+    else:
+        update_tournament_match_result(tournament, match_num, result)
 
-def update_team_match_win(stageTeamId, points, mode):
-    m = 1 if mode == "Apply" else -1
-    stageTeams_collection.update_one(
-        {"_id": ObjectId(stageTeamId)},
-        {"$inc": {"won": m, "points": m*points, "matchesPlayed": m}}
-    )
+def update_wtc_match_result(tournament, match_num, result):
+    t_id = tournament["_id"]
 
-def update_team_match_loss(stageTeamId, mode):
-    m = 1 if mode == "Apply" else -1
-    stageTeams_collection.update_one(
-        {"_id": ObjectId(stageTeamId)},
-        {"$inc": {"lost": m, "matchesPlayed": m}}
-    )
+    pointsPerWin = 12 
+    pointsPerTie = 6
+    pointsPerDraw = 4
 
-def update_team_match_no_result(stageTeamId, points, mode):
-    m = 1 if mode == "Apply" else -1
-    stageTeams_collection.update_one(
-        {"_id": ObjectId(stageTeamId)},
-        {"$inc": {"noResult": m, "matchesPlayed": m, "points": m*points}}
-    )
+    if result not in ["Home-win", "Away-win", "Draw", "Tie"]:
+        abort(400, description=f"Invalid match result")
 
-def _blank_match_fields(tournament):
-    max_balls = tournament["ballsPerInnings"]
-    return {
-        "homeTeamRuns": 0,
-        "homeTeamWickets": 0,
-        "homeTeamBalls": 0,
-        "awayTeamRuns": 0,
-        "awayTeamWickets": 0,
-        "awayTeamBalls": 0,
-        "homeMaxBalls": max_balls,
-        "awayMaxBalls": max_balls,
-        "target": None,
-        "targetOvertaken": False,
-        "tossResult": "Home-win",
-        "tossDecision": "bat",
-        "result": "None",
-    }
-
-def _compute_nrr_contribution(match):
-    """Mirrors update_score's NRR math. Returns per-team runs/balls contribution
-    for the match's *current* stored score/toss/target/maxBalls, or None if no score exists yet."""
-    has_score = match["homeTeamBalls"] > 0 and match["awayTeamBalls"] > 0
-    if not has_score:
-        return None
-
-    toss_result = match["tossResult"]
-    toss_decision = match["tossDecision"]
-    home_batted_first = (toss_result == "Home-win" and toss_decision == "bat") or \
-                        (toss_result == "Away-win" and toss_decision == "bowl")
-    target = match["target"]
-
-    def home_balls_nrr(wickets_val, balls_val):
-        if target is not None and home_batted_first:
-            return match["awayMaxBalls"]
-        return match["homeMaxBalls"] if int(wickets_val) == 10 else int(balls_val)
-
-    def away_balls_nrr(wickets_val, balls_val):
-        if target is not None and not home_batted_first:
-            return match["homeMaxBalls"]
-        return match["awayMaxBalls"] if int(wickets_val) == 10 else int(balls_val)
-
-    home_runs = (target - 1) if (target is not None and home_batted_first) else match["homeTeamRuns"]
-    away_runs = (target - 1) if (target is not None and not home_batted_first) else match["awayTeamRuns"]
-
-    hB = home_balls_nrr(match["homeTeamWickets"], match["homeTeamBalls"])
-    aB = away_balls_nrr(match["awayTeamWickets"], match["awayTeamBalls"])
-
-    return {
-        "home": {"runsScored": home_runs, "runsConceded": away_runs, "ballsFaced": hB, "ballsBowled": aB},
-        "away": {"runsScored": away_runs, "runsConceded": home_runs, "ballsFaced": aB, "ballsBowled": hB},
-    }
-
-
-def _apply_nrr_contribution(match, mode):
-    """mode: 'Apply' adds the contribution, 'Undo' subtracts it."""
-    contribution = _compute_nrr_contribution(match)
-    if contribution is None:
-        return
-
-    m = 1 if mode == "Apply" else -1
-
-    stageTeams_collection.update_one(
-        {"_id": ObjectId(match["homeStageTeamId"])},
-        {"$inc": {
-            "runsScored": m * contribution["home"]["runsScored"],
-            "runsConceded": m * contribution["home"]["runsConceded"],
-            "ballsFaced": m * contribution["home"]["ballsFaced"],
-            "ballsBowled": m * contribution["home"]["ballsBowled"],
-        }}
-    )
-    stageTeams_collection.update_one(
-        {"_id": ObjectId(match["awayStageTeamId"])},
-        {"$inc": {
-            "runsScored": m * contribution["away"]["runsScored"],
-            "runsConceded": m * contribution["away"]["runsConceded"],
-            "ballsFaced": m * contribution["away"]["ballsFaced"],
-            "ballsBowled": m * contribution["away"]["ballsBowled"],
-        }}
-    )
-
-def update_result(id, match_num, result):
-    tournament = tournaments_collection.find_one({"_id": id})
-    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
-    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
-
-    if result not in ["Home-win", "Away-win", "No-result"]:
-        raise ValueError("Invalid result value")
-
-    match = _get_match_with_toss_guard(id, match_num, "updating the match result")
-
+    match = matches_collection.find_one({"tournamentId": t_id, "matchNumber": int(match_num)})
     matchStage = stages_collection.find_one({"_id": ObjectId(match["stageId"])})
 
     if matchStage["type"] == "group":
         # Undo the previous result
+        mode = "Undo"
         if match["result"] == "Home-win":
-            update_team_match_win(match["homeStageTeamId"], pointsPerWin, "Undo")
-            update_team_match_loss(match["awayStageTeamId"], "Undo")
+            update_team_match_win(match["homeStageTeamId"], pointsPerWin, mode)
+            update_team_match_loss(match["awayStageTeamId"],mode)
         elif match["result"] == "Away-win":
-            update_team_match_win(match["awayStageTeamId"], pointsPerWin, "Undo")
-            update_team_match_loss(match["homeStageTeamId"], "Undo")
+            update_team_match_win(match["awayStageTeamId"], pointsPerWin, mode)
+            update_team_match_loss(match["homeStageTeamId"], mode)
+        elif match["result"] == "Draw":
+            update_team_match_draw(match["homeStageTeamId"], pointsPerDraw, mode)
+            update_team_match_draw(match["awayStageTeamId"], pointsPerDraw, mode)
+        elif match["result"] == "Tie":
+            update_team_match_tie(match["homeStageTeamId"], pointsPerTie, mode)
+            update_team_match_tie(match["awayStageTeamId"], pointsPerTie, mode)
+        
+        # Apply the new result
+        mode = "Apply"
+        if result == "Home-win":
+            update_team_match_win(match["homeStageTeamId"], pointsPerWin, mode)
+            update_team_match_loss(match["awayStageTeamId"],mode)
+        elif result == "Away-win":
+            update_team_match_win(match["awayStageTeamId"], pointsPerWin, mode)
+            update_team_match_loss(match["homeStageTeamId"], mode)
+        elif result == "Draw":
+            update_team_match_draw(match["homeStageTeamId"], pointsPerDraw, mode)
+            update_team_match_draw(match["awayStageTeamId"], pointsPerDraw, mode)
+        elif match["result"] == "Tie":
+            update_team_match_tie(match["homeStageTeamId"], pointsPerTie, mode)
+            update_team_match_tie(match["awayStageTeamId"], pointsPerTie, mode)
+
+
+    update_db_result = matches_collection.update_one(
+        {"tournamentId": t_id, "matchNumber": match_num},
+        {"$set": {"result": result}},
+    )
+
+    if update_db_result.matched_count == 0:
+        abort(404, description="No match was found")
+
+    propagate_match_result(t_id, match)
+
+def update_tournament_match_result(tournament, match_num, result):
+    t_id = tournament["_id"]
+
+    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
+    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
+
+    if result not in ["Home-win", "Away-win", "No-result"]:
+        abort(400, description=f"Invalid match result")
+
+    match = _get_match_with_toss_guard(t_id, match_num, "updating the match result")
+    matchStage = stages_collection.find_one({"_id": ObjectId(match["stageId"])})
+
+    if matchStage["type"] == "group":
+        # Undo the previous result
+        mode = "Undo"
+        if match["result"] == "Home-win":
+            update_team_match_win(match["homeStageTeamId"], pointsPerWin, mode)
+            update_team_match_loss(match["awayStageTeamId"], mode)
+        elif match["result"] == "Away-win":
+            update_team_match_win(match["awayStageTeamId"], pointsPerWin, mode)
+            update_team_match_loss(match["homeStageTeamId"], mode)
         elif match["result"] == "No-result":
-            update_team_match_no_result(match["homeStageTeamId"], pointsPerNoResult, "Undo")
-            update_team_match_no_result(match["awayStageTeamId"], pointsPerNoResult, "Undo")
+            update_team_match_no_result(match["homeStageTeamId"], pointsPerNoResult, mode)
+            update_team_match_no_result(match["awayStageTeamId"], pointsPerNoResult, mode)
 
         # Apply the new result
+        mode = "Apply"
         if result == "Home-win":
-            update_team_match_win(match["homeStageTeamId"], pointsPerWin, "Apply")
-            update_team_match_loss(match["awayStageTeamId"], "Apply")
+            update_team_match_win(match["homeStageTeamId"], pointsPerWin, mode)
+            update_team_match_loss(match["awayStageTeamId"], mode)
         elif result == "Away-win":
-            update_team_match_win(match["awayStageTeamId"], pointsPerWin, "Apply")
-            update_team_match_loss(match["homeStageTeamId"], "Apply")
+            update_team_match_win(match["awayStageTeamId"], pointsPerWin, mode)
+            update_team_match_loss(match["homeStageTeamId"], mode)
         elif result == "No-result":
-            update_team_match_no_result(match["homeStageTeamId"], pointsPerNoResult, "Apply")
-            update_team_match_no_result(match["awayStageTeamId"], pointsPerNoResult, "Apply")
+            update_team_match_no_result(match["homeStageTeamId"], pointsPerNoResult, mode)
+            update_team_match_no_result(match["awayStageTeamId"], pointsPerNoResult, mode)
 
-        
         # NRR fields only apply when result isn't No-result. Undo/apply the contribution
         # whenever this change crosses the No-result boundary (except tied matches in HUNDRED format).
         format_type = tournament["format"]
@@ -189,46 +143,14 @@ def update_result(id, match_num, result):
             _apply_nrr_contribution(match, "Apply")
 
     update_db_result = matches_collection.update_one(
-        {"tournamentId": id, "matchNumber": match_num},
+        {"tournamentId": t_id, "matchNumber": match_num},
         {"$set": {"result": result}},
     )
 
     if update_db_result.matched_count == 0:
         raise ValueError("No match was found")
 
-    not_finished_matches = list(matches_collection.find({
-        "tournamentId": id,
-        "stageId": ObjectId(match["stageId"]),
-        "result": "None"
-    }))
-
-    stageOfChangedMatch = stages_collection.find_one({"_id": ObjectId(match["stageId"])})
-
-    if len(not_finished_matches) > 0 and not (stageOfChangedMatch["name"] in ["Playoffs", "Semi-final"]):
-        if verbose:
-            print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageOfChangedMatch["name"]))
-    else:
-        if stageOfChangedMatch["name"] == "Final":
-            if verbose:
-                print("Tournament {} has been simulated".format(id))
-        else:
-            if stageOfChangedMatch["name"] != "Playoffs":
-                stages_collection.update_one(
-                    {"tournamentId": id, "order": stageOfChangedMatch["order"] + 1},
-                    {"$set": {"status": "active"}}
-                )
-
-                if verbose:
-                    print("Stage {} for tournament {} is now active".format(stageOfChangedMatch["order"] + 1, id))
-
-            if stageOfChangedMatch["name"] == "Playoffs":
-                stage = stages_collection.find_one({"tournamentId": id, "order": stageOfChangedMatch["order"]})
-            else:
-                stage = stages_collection.find_one({"tournamentId": id, "order": stageOfChangedMatch["order"] + 1})
-
-            while stage and stage["status"] == "active":
-                confirmTeamsForStage(id, stage["order"])
-                stage = stages_collection.find_one({"tournamentId": id, "order": stage["order"] + 1})
+    propagate_match_result(t_id, match)
 
 def update_target_runs(id, match_num, target_runs):
     match = _get_match_with_toss_guard(id, match_num, "updating the target")
@@ -408,7 +330,6 @@ def update_score(id, match_num, home_runs, home_wickets, home_balls, away_runs, 
             }}
         )
 
-
 def update_max_balls(id, match_num, team, max_balls):
     max_balls = int(max_balls)
 
@@ -496,7 +417,6 @@ def update_max_balls(id, match_num, team, max_balls):
                 )
 
     return {"message": f"Match {match_num} for tournament {id} {team} max balls updated successfully"}
-
 
 def clear_tournament_matches(id, mode, stage_order, match_nums):
     tournament = tournaments_collection.find_one({"_id": id})
@@ -678,7 +598,7 @@ def clear_tournament_matches(id, mode, stage_order, match_nums):
 def abandon_match(id, match_num):
     clear_tournament_matches(id, "match-numbers", None, str(match_num))
     
-    update_result(id, match_num, "No-result")
+    update_match_result(id, match_num, "No-result")
 
     matches_collection.update_one(
         {"tournamentId": id, "matchNumber": int(match_num)},
@@ -876,7 +796,6 @@ def run_match_update(tournament_id=None, match_num=None):
 
     return result
     
-
 def update_target_overtake_status(id, match_num, target_overtaken):
     match = _get_match_with_toss_guard(id, match_num, "updating target overtaken status")
 
@@ -890,3 +809,124 @@ def update_target_overtake_status(id, match_num, target_overtaken):
 
     return {"message": f"Match {match_num} for tournament {id} updated successfully"}
 
+def _get_match_with_toss_guard(id, match_num, action_name):
+    match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
+    if not match:
+        raise ValueError("Match not found")
+    if match["tossResult"] == "None":
+        raise ValueError(f"Toss result must be set before {action_name}")
+    return match
+
+def update_team_match_win(stageTeamId, points, mode):
+    m = 1 if mode == "Apply" else -1
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(stageTeamId)},
+        {"$inc": {"won": m, "points": m*points, "matchesPlayed": m}}
+    )
+
+def update_team_match_loss(stageTeamId, mode):
+    m = 1 if mode == "Apply" else -1
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(stageTeamId)},
+        {"$inc": {"lost": m, "matchesPlayed": m}}
+    )
+
+def update_team_match_no_result(stageTeamId, points, mode):
+    m = 1 if mode == "Apply" else -1
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(stageTeamId)},
+        {"$inc": {"noResult": m, "matchesPlayed": m, "points": m*points}}
+    )
+
+def update_team_match_draw(stageTeamId, points, mode):
+    m = 1 if mode == "Apply" else -1
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(stageTeamId)},
+        {"$inc": {"draw": m, "matchesPlayed": m, "points": m*points}}
+    )
+
+def update_team_match_tie(stageTeamId, points, mode):
+    m = 1 if mode == "Apply" else -1
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(stageTeamId)},
+        {"$inc": {"tie": m, "matchesPlayed": m, "points": m*points}}
+    )
+
+def _blank_match_fields(tournament):
+    max_balls = tournament["ballsPerInnings"]
+    return {
+        "homeTeamRuns": 0,
+        "homeTeamWickets": 0,
+        "homeTeamBalls": 0,
+        "awayTeamRuns": 0,
+        "awayTeamWickets": 0,
+        "awayTeamBalls": 0,
+        "homeMaxBalls": max_balls,
+        "awayMaxBalls": max_balls,
+        "target": None,
+        "targetOvertaken": False,
+        "tossResult": "Home-win",
+        "tossDecision": "bat",
+        "result": "None",
+    }
+
+def _compute_nrr_contribution(match):
+    """Mirrors update_score's NRR math. Returns per-team runs/balls contribution
+    for the match's *current* stored score/toss/target/maxBalls, or None if no score exists yet."""
+    has_score = match["homeTeamBalls"] > 0 and match["awayTeamBalls"] > 0
+    if not has_score:
+        return None
+
+    toss_result = match["tossResult"]
+    toss_decision = match["tossDecision"]
+    home_batted_first = (toss_result == "Home-win" and toss_decision == "bat") or \
+                        (toss_result == "Away-win" and toss_decision == "bowl")
+    target = match["target"]
+
+    def home_balls_nrr(wickets_val, balls_val):
+        if target is not None and home_batted_first:
+            return match["awayMaxBalls"]
+        return match["homeMaxBalls"] if int(wickets_val) == 10 else int(balls_val)
+
+    def away_balls_nrr(wickets_val, balls_val):
+        if target is not None and not home_batted_first:
+            return match["homeMaxBalls"]
+        return match["awayMaxBalls"] if int(wickets_val) == 10 else int(balls_val)
+
+    home_runs = (target - 1) if (target is not None and home_batted_first) else match["homeTeamRuns"]
+    away_runs = (target - 1) if (target is not None and not home_batted_first) else match["awayTeamRuns"]
+
+    hB = home_balls_nrr(match["homeTeamWickets"], match["homeTeamBalls"])
+    aB = away_balls_nrr(match["awayTeamWickets"], match["awayTeamBalls"])
+
+    return {
+        "home": {"runsScored": home_runs, "runsConceded": away_runs, "ballsFaced": hB, "ballsBowled": aB},
+        "away": {"runsScored": away_runs, "runsConceded": home_runs, "ballsFaced": aB, "ballsBowled": hB},
+    }
+
+def _apply_nrr_contribution(match, mode):
+    """mode: 'Apply' adds the contribution, 'Undo' subtracts it."""
+    contribution = _compute_nrr_contribution(match)
+    if contribution is None:
+        return
+
+    m = 1 if mode == "Apply" else -1
+
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(match["homeStageTeamId"])},
+        {"$inc": {
+            "runsScored": m * contribution["home"]["runsScored"],
+            "runsConceded": m * contribution["home"]["runsConceded"],
+            "ballsFaced": m * contribution["home"]["ballsFaced"],
+            "ballsBowled": m * contribution["home"]["ballsBowled"],
+        }}
+    )
+    stageTeams_collection.update_one(
+        {"_id": ObjectId(match["awayStageTeamId"])},
+        {"$inc": {
+            "runsScored": m * contribution["away"]["runsScored"],
+            "runsConceded": m * contribution["away"]["runsConceded"],
+            "ballsFaced": m * contribution["away"]["ballsFaced"],
+            "ballsBowled": m * contribution["away"]["ballsBowled"],
+        }}
+    )

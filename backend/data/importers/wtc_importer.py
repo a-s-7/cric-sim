@@ -311,14 +311,9 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         partialFilterExpression={"matchNumber": {"$exists": True}}
     )
 
-    matches_collection.create_index(
-        [("seriesId", 1), ("seriesMatchNumber", 1)],
-        unique=True,
-        partialFilterExpression={"seriesId": {"$type": "objectId"}}
-    )
-
     matches = json_info["matches"]
 
+    m_num = 1
     for match in matches:
         if match["stageOrder"] == 1:
             match["homeDeductionPoints"] = 0
@@ -350,7 +345,10 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         match["tossDecision"] = "bat"
         match["resultSummary"] = None
         match["autoUpdate"] = auto_update
+        match["matchNumber"] = m_num
         match["tournamentId"] = tournament["_id"]
+
+        m_num += 1
         
     try:
         result = matches_collection.insert_many(matches, ordered=True)
@@ -359,8 +357,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
         print(f"{BLUE}{BOLD}{'SERIES MATCH NO':<20} {'ID':<50}{ENDC}")
         print("─" * 70)
         for i, id in enumerate(result.inserted_ids):
-            m_num = matches[i].get('seriesMatchNumber', matches[i].get('description', f"Match {i+1}"))
-            print(f"{str(m_num):<20} {str(id):<50}")
+            print(f"{str(matches[i].get('matchNumber')):<20} {str(id):<50}")
         print("─" * 70 + "\n")
 
     except (BulkWriteError, DuplicateKeyError):

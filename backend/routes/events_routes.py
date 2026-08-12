@@ -8,7 +8,6 @@ from utils import is_gemini_quota_error
 
 events_bp = Blueprint('events_bp', __name__)
 
-# USED BY: ALL 
 @events_bp.route('/tournaments', methods=['GET'])
 def get_tournaments():
     group_results = request.args.get('grouped', 'false').lower() == 'true'
@@ -17,28 +16,24 @@ def get_tournaments():
 
     return ts.get_tournaments_info(group_results, category, division)
 
-# USED BY: ALL 
 @events_bp.route('/tournament/<string:tournament_id>/teams', methods=['GET'])
 def get_tournament_teams(tournament_id):
    return jsonify(ts.get_tournament_teams(tournament_id))
 
-# USED BY: ALL 
 @events_bp.route('/tournament/<string:tournament_id>/venues', methods=['GET'])
 def get_tournament_venues(tournament_id):
     return jsonify(ts.get_tournament_venues(tournament_id))
 
-# USED BY: ALL 
 @events_bp.route('/tournament/<string:tournament_id>/groups', methods=['GET'])
 def get_tournament_groups(tournament_id):
     return jsonify(ts.get_tournament_groups(tournament_id))
 
-# USED BY: ALL 
 @events_bp.route('/tournament/<string:tournament_id>/stages', methods=['GET'])
 def get_tournament_stages(tournament_id):
     onlyActiveStages = request.args.get("onlyActiveStages") == "true"
     
     return jsonify(ts.get_tournament_stages(tournament_id, onlyActiveStages))
-  
+
 @events_bp.route('/tournament/<string:tournament_id>/matches', methods=['GET'])
 def get_tournament_matches(tournament_id):
     groups = request.args.get("groups", "")
@@ -52,13 +47,11 @@ def get_tournament_matches(tournament_id):
 def get_tournament_standings(tournament_id):
     return jsonify(ts.get_tournament_standings(tournament_id))
 
-@events_bp.route('/tournaments/<string:id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
-def update_tournament_match_result(id, match_num, result):
-    try:
-        ms.update_result(id, match_num, result)
-    except ValueError as e:
-        return jsonify(str(e)), 404
-    return jsonify({"message": f"Tournament id {id} match #{match_num} updated successfully"})
+#######################################################################################################################################
+
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
+def update_tournament_match_result(tournament_id, match_num, result):
+    return jsonify(ms.update_match_result(tournament_id, match_num, result))
 
 @events_bp.route('/tournaments/<string:id>/match/clear', methods=['PATCH'])
 def clear_tournament_matches(id):
