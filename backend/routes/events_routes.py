@@ -106,14 +106,10 @@ def update_match_score(tournament_id, match_num):
 
     return jsonify(ms.update_match_score(tournament_id, match_num, home_runs, home_wickets, home_balls, away_runs, away_wickets, away_balls))
    
-@events_bp.route('/tournaments/<string:id>/match/target/<int:match_num>', methods=['PATCH'])
-@events_bp.route('/tournaments/<string:id>/match/target/<int:match_num>/<int:target_runs>', methods=['PATCH'])
-def set_match_target(id, match_num, target_runs=None):
-    try:
-        ms.update_target_runs(id, match_num, target_runs)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 404
-    return jsonify({"message": f"Match {match_num} for tournament {id} target runs set successfully"})
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/target', methods=['PATCH'])
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/target/<int:target_runs>', methods=['PATCH'])
+def set_match_target(tournament_id, match_num, target_runs=None):
+    return jsonify(ms.update_match_target_runs(tournament_id, match_num, target_runs))
 
 @events_bp.route('/tournaments/<string:id>/match/target-overtaken/<int:match_num>/<string:target_overtaken>', methods=['PATCH'])
 def set_match_target_overtake_status(id, match_num, target_overtaken):

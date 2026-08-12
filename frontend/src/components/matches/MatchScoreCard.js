@@ -619,8 +619,8 @@ function MatchScoreCard({
         }
         const parsed = targetVal === '' || targetVal === null || targetVal === undefined ? null : parseInt(targetVal, 10);
         const url = parsed === null
-            ? `/tournaments/${tournamentID}/match/target/${matchNum}`
-            : `/tournaments/${tournamentID}/match/target/${matchNum}/${parsed}`;
+            ? `/tournament/${tournamentID}/match/${matchNum}/target`
+            : `/tournament/${tournamentID}/match/${matchNum}/target/${parsed}`;
 
         try {
             const response = await fetch(url, {

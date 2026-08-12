@@ -610,19 +610,19 @@ def update_match_score(tournament_id, match_num, home_runs, home_wickets, home_b
             }}
         )
 
-def update_target_runs(id, match_num, target_runs):
-    match = get_match_with_toss_guard(id, match_num, "updating the target")
-    
+def update_match_target_runs(tournament_id, match_num, target_runs):
+    tournament = find_limited_overs_tournament(tournament_id)
+
+    match = get_match_with_toss_guard(tournament_id, match_num, "updating the target")
     old_target = match["target"]
     
-    # 1. Save the new target to MongoDB
     matches_collection.update_one(
         {"_id": ObjectId(match["_id"])},
         {"$set": {"target": target_runs}}
     )
+   
+    format_type = tournament["format"]
 
-    tournament = tournaments_collection.find_one({"_id": id})
-    format_type = tournament["format"] if tournament else None
     has_score = match["homeTeamBalls"] > 0 and match["awayTeamBalls"] > 0
     is_tie = has_score and (match["homeTeamRuns"] == match["awayTeamRuns"])
     is_nrr_active = match["result"] in ["Home-win", "Away-win"] or (format_type == "HUNDRED" and match["result"] == "No-result" and is_tie)
@@ -661,8 +661,8 @@ def update_target_runs(id, match_num, target_runs):
             # batting-second team. Adjust ballsFaced/ballsBowled when a target is added or removed.
             first_team_wickets = match["homeTeamWickets"] if home_batted_first else match["awayTeamWickets"]
             first_team_actual_balls = match["homeTeamBalls"] if home_batted_first else match["awayTeamBalls"]
+            
             first_team_max_balls = match["homeMaxBalls"] if home_batted_first else match["awayMaxBalls"]
-
             second_team_max_balls = match["awayMaxBalls"] if home_batted_first else match["homeMaxBalls"]
 
             # With a DLS target: batting-first team is always credited with the 2nd innings over limit.
