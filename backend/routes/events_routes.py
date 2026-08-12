@@ -58,20 +58,14 @@ def simulate_tournament_matches(tournament_id):
     stage_num = request.args.get("stage_num", type=int)
     return jsonify(ms.simulate_matches(tournament_id, stage_num))
 
-@events_bp.route('/tournaments/<string:id>/match/clear', methods=['PATCH'])
-def clear_tournament_matches(id):
+@events_bp.route('/tournament/<string:tournament_id>/match/clear', methods=['PATCH'])
+def clear_tournament_matches(tournament_id):
     mode = request.args.get("mode", "") 
     stage_order = request.args.get("stageOrder", type=int) 
     match_nums = request.args.get("match_nums", "") 
 
-    try:
-        res = ms.clear_tournament_matches(id, mode, stage_order, match_nums)
-        return jsonify(res)
-    except ValueError as e:
-        if str(e) == "Tournament not found" or str(e) == "Stage not found":
-            return jsonify({"error": str(e)}), 404
-        return jsonify({"error": str(e)}), 400
-
+    return jsonify(ms.clear_tournament_matches(tournament_id, mode, stage_order, match_nums))
+   
 @events_bp.route('/tournaments/<string:id>/match/toss-result/<int:match_num>/<string:toss_result>', methods=['PATCH'])
 def set_match_toss_result(id, match_num, toss_result):
     try:

@@ -147,7 +147,7 @@ function MatchCard({
             const params = new URLSearchParams();
             params.set("match_nums", [matchNum]);
 
-            const response = await fetch(`/tournaments/${tournamentID}/match/clear?mode=match-numbers&${params.toString()}`, {
+            const response = await fetch(`/tournament/${tournamentID}/match/clear?mode=match-numbers&${params.toString()}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });

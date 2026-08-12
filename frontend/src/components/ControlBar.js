@@ -191,7 +191,7 @@ function ControlBar({
                 params.set("stageOrder", stageValues[activeStageIndex].value);
             }
 
-            const response = await fetch(`/tournaments/${urlTag}/match/clear?${params.toString()}`, {
+            const response = await fetch(`/tournament/${urlTag}/match/clear?${params.toString()}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
