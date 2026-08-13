@@ -803,7 +803,11 @@ def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction)
         abort(400, description="Invalid team")
 
     find_wtc_tournament(tournament_id)
-    get_match_with_toss_guard(tournament_id, match_num, "updating team deduction points")
+    match = get_match_with_toss_guard(tournament_id, match_num, "updating team deduction points")
+
+    stage = stages_collection.find_one({"_id": ObjectId(match["stageId"])})
+    if stage and stage["type"] != "group":
+        abort(400, description="Deduction points only apply to group stage matches")
 
     field = team + "DeductionPoints"
 
