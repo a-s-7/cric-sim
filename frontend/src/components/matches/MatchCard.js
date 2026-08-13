@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faChevronUp, faChevronDown, faBan } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faChevronUp, faChevronDown, faBan, faScissors, faMinusCircle } from "@fortawesome/free-solid-svg-icons";
 import FetchStatusButton from "../buttons/FetchStatusButton";
-
+import DeductionInput from "../inputs/DeductionInput";
 
 function MatchCard({
     tournamentID,
@@ -35,6 +35,11 @@ function MatchCard({
 
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
+
+    const [homeDeductionPoints, setHomeDeductionPoints] = useState(0);
+    const [awayDeductionPoints, setAwayDeductionPoints] = useState(0);
+
+    const [showDeductionFields, setShowDeductionFields] = useState(false);
 
     const [isFetching, setIsFetching] = useState(false);
 
@@ -280,6 +285,28 @@ function MatchCard({
         }
     };
 
+    const handleDeductionChange = async (team, deduction) => {
+        try {
+            const response = await fetch(
+                `/tournament/${tournamentID}/match/${matchNum}/team/${team}/deduction/${deduction}`,
+                {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+
+            if (response.ok) {
+                onMatchUpdate();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const toggleDeductionFields = (e) => {
+        e.stopPropagation();
+        setShowDeductionFields(!showDeductionFields);
+    }
 
     const getMatchResult = () => {
         if (selected === 'None') {
@@ -363,6 +390,15 @@ function MatchCard({
                         style={getStyle("Home-win", 0)}>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5 relative">
+                            {(showDeductionFields || homeDeductionPoints > 0) && <DeductionInput
+                                value={homeDeductionPoints}
+                                onChange={(points) => {
+                                    setHomeDeductionPoints(points);
+                                    handleDeductionChange("home", points);
+                                }}
+                                height="h-[3vh]"
+                                displayMessage="DED"
+                            />}
                         </div>
 
                         <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
@@ -461,15 +497,40 @@ function MatchCard({
                                 )}
                                 <button
                                     className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
-                                    onClick={handleAbandonMatch}
-                                    title={`Set match as abandoned`}
+                                    onClick={toggleDeductionFields}
+                                    disabled={tossResultState === 'None'}
+                                    title="Show match deductions"
                                     style={{
-                                        animation: showAbandonGlow ? 'abandonPulse 0.7s ease-in-out 4' : 'none',
-                                        borderColor: showAbandonGlow ? '#ef4444' : '',
-                                        backgroundColor: showAbandonGlow ? '#fee2e2' : '',
+                                        borderColor: showDeductionFields ? '#ef4444' : '',
+                                        backgroundColor: showDeductionFields ? '#fee2e2' : '',
                                     }}
                                 >
-                                    <FontAwesomeIcon icon={faBan} size="lg" style={{ fontSize: '0.9vh', color: tossResultState === 'None' || showAbandonGlow ? '#ef4444' : 'inherit' }} />
+                                    <FontAwesomeIcon
+                                        icon={faMinusCircle}
+                                        size="lg"
+                                        style={{
+                                            fontSize: '0.9vh',
+                                            color: showDeductionFields ? '#ef4444' : 'inherit'
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                    onClick={handleAbandonMatch}
+                                    title="Set match as abandoned"
+                                    style={{
+                                        borderColor: tossResultState === 'None' ? '#ef4444' : '',
+                                        backgroundColor: tossResultState === 'None' ? '#fee2e2' : '',
+                                    }}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faBan}
+                                        size="lg"
+                                        style={{
+                                            fontSize: '0.9vh',
+                                            color: tossResultState === 'None' ? '#ef4444' : 'inherit'
+                                        }}
+                                    />
                                 </button>
                             </div>
                         </div>
@@ -495,6 +556,15 @@ function MatchCard({
                         </div>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5 relative">
+                            {(showDeductionFields || awayDeductionPoints > 0) && <DeductionInput
+                                value={awayDeductionPoints}
+                                onChange={(points) => {
+                                    setAwayDeductionPoints(points);
+                                    handleDeductionChange("away", points);
+                                }}
+                                height="h-[3vh]"
+                                displayMessage="DED"
+                            />}
                         </div>
                     </div>
                 </div>

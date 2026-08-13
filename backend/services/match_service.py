@@ -1,3 +1,5 @@
+from dns import versioned
+from dataclasses import field
 from flask import abort
 from re import match
 from datetime import timezone
@@ -22,6 +24,7 @@ from utils import (
                 update_team_match_draw,
                 update_team_match_tie,
                 find_limited_overs_tournament,
+                find_wtc_tournament,
                 update_toss_field)
 
 from agent.pipeline import run_match_result_agent
@@ -787,6 +790,43 @@ def update_match_max_balls(tournament_id, match_num, team, max_balls):
                     {"_id": ObjectId(old_match["homeStageTeamId"])},
                     {"$inc": {"ballsBowled": diff}}
                 )
+
+#######################################################################################################################################
+
+def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction):
+    if team not in ("home", "away"):
+        abort(400, description="Invalid team")
+
+    find_wtc_tournament(tournament_id)
+    get_match_with_toss_guard(tournament_id, match_num, "updating team deduction points")
+
+    field = team + "DeductionPoints"
+
+    old_match = matches_collection.find_one_and_update(
+        {
+            "tournamentId": tournament_id,
+            "matchNumber": int(match_num)
+        },
+        {
+            "$set": {field: deduction}
+        },
+        return_document=False
+    )
+
+    if not old_match:
+        abort(404, description="Match not found")
+        
+    diff = deduction - old_match[field]
+
+    sid = old_match["homeStageTeamId"] if team == "home" else old_match["awayStageTeamId"]
+
+    result = stageTeams_collection.update_one(
+        {"_id": sid},
+        {"$inc": {"deductionPoints": diff}}
+    )
+
+    if result.matched_count == 0:
+        abort(404, description="Stage team not found")
 
 #######################################################################################################################################
 

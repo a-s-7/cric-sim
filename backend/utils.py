@@ -51,6 +51,14 @@ def find_limited_overs_tournament(tournament_id):
 
     return tournament
 
+def find_wtc_tournament(tournament_id):
+    tournament = find_tournament(tournament_id)
+
+    if tournament["name"] != "ICC World Test Championship":
+        abort(403, description=f"Tournament is not a world-test championship")    
+
+    return tournament
+
 def get_tournament_teams_data(tournament):
     teams_pipeline = [
             { "$match": { "tournamentId": tournament["_id"] } },
@@ -871,9 +879,9 @@ def commit_and_propagate_match_clear(tournament, t_id, matches, team_acc):
 def get_match_with_toss_guard(id, match_num, action_name):
     match = matches_collection.find_one({"tournamentId": id, "matchNumber": int(match_num)})
     if not match:
-        raise ValueError("Match not found")
+        abort(404, description="Match not found")
     if match["tossResult"] == "None":
-        raise ValueError(f"Toss result must be set before {action_name}")
+       abort(400, description=f"Toss result must be set before {action_name}")
     return match
 
 def compute_nrr_contribution(match):

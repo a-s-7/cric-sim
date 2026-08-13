@@ -124,6 +124,13 @@ def update_match_max_balls(tournament_id, match_num):
    
 #######################################################################################################################################
 
+# Methods: Only for WTC tournaments
+@events_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/team/<string:team>/deduction/<int:deduction>', methods=['PATCH'])
+def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction):
+    return jsonify(ms.update_wtc_match_points_deduction(tournament_id, match_num, team, deduction))
+
+#######################################################################################################################################
+
 @events_bp.route("/run-match-update", methods=["POST"])
 def run_match_update():
     try:
