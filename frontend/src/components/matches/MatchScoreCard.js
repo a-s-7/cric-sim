@@ -676,7 +676,7 @@ function MatchScoreCard({
                                 {matchTimeChange && (
                                     <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
                                         <span className="mr-0.5">(</span>
-                                        {/* Home Team Max Balls*/}
+                                        {/* Home Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
                                             mode={format === "HUNDRED" ? "balls" : "overs"}
@@ -696,7 +696,7 @@ function MatchScoreCard({
                                     </div>
                                 )}
                                 <div className="flex justify-end ml-1 shrink-0">
-                                    {/* Home Team Balls*/}
+                                    {/* Home Team Balls */}
                                     <BallsInput
                                         width="4.5ch"
                                         mode={format === "HUNDRED" ? "balls" : "overs"}
@@ -712,8 +712,8 @@ function MatchScoreCard({
                             }
 
                             {selected !== "None" && matchTargetStatus && ((tossResultState === 'Home-win' && !battingFirstToggle) || (tossResultState === 'Away-win' && battingFirstToggle)) && <div className="absolute bottom-2 right-0 flex flex-row items-center justify-end w-full pr-2">
-                                {/* Home Team Target (if enabled and batting second*/}
                                 <span className="mr-0.5 text-[1vh]">TARGET</span>
+                                {/* Home Team Target (if enabled and batting second */}
                                 <RunsInput
                                     value={matchTargetRuns}
                                     onChange={(val) => {
@@ -896,7 +896,7 @@ function MatchScoreCard({
                                     }}
                                 />
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
-                                {/* Away Team Wickets*/}
+                                {/* Away Team Wickets */}
                                 <WicketsInput value={awayWickets}
                                     onChange={(v) => {
                                         setAwayWickets(v);
@@ -906,7 +906,7 @@ function MatchScoreCard({
 
                             </div>}
                             {selected !== 'None' && <div className="flex flex-row items-center justify-start w-full">
-                                {/* Away Team Balls*/}
+                                {/* Away Team Balls */}
                                 <div className="flex justify-start shrink-0">
                                     <BallsInput
                                         width="4.5ch"
@@ -923,7 +923,7 @@ function MatchScoreCard({
                                 {matchTimeChange && (
                                     <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
                                         <span className="mr-0.5">(</span>
-                                        {/* Away Team Max Balls*/}
+                                        {/* Away Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
                                             mode={format === "HUNDRED" ? "balls" : "overs"}
@@ -942,8 +942,8 @@ function MatchScoreCard({
                                     </div>
                                 )}
                                 {selected !== "None" && matchTargetStatus && ((tossResultState === 'Home-win' && battingFirstToggle) || (tossResultState === 'Away-win' && !battingFirstToggle)) && <div className="absolute bottom-2 left-0 flex flex-row items-center justify-start w-full pl-2">
-                                    {/* Away Team Target (if enabled and batting second*/}
                                     <span className="mr-0.5 text-[1vh]">TARGET</span>
+                                    {/*Away Team Target (if enabled and batting second */}
                                     <RunsInput
                                         value={matchTargetRuns}
                                         onChange={(val) => {

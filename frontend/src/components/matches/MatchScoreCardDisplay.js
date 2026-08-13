@@ -2,6 +2,8 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import BallsInput from "../inputs/BallsInput";
+import RunsInput from "../inputs/RunsInput";
+import WicketsInput from "../inputs/WicketsInput";
 
 function MatchScoreCardDisplay({
     tournamentID,
@@ -234,23 +236,22 @@ function MatchScoreCardDisplay({
                             style={{ opacity: homeLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Home Team Runs */}
-                                <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    type="number"
+                                <RunsInput
                                     value={homeTeamRuns === 0 ? '' : (homeTeamRuns ?? '')}
-                                    style={{ color: 'inherit' }}
+                                    readOnly={true}
                                 />
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
                                 {/* Home Team Wickets */}
-                                <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent text-[2.5vh] w-[25%] h-full text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    type="number"
+                                <WicketsInput
                                     value={homeTeamWickets === 0 ? '' : (homeTeamWickets ?? '')}
-                                    style={{ color: 'inherit' }} />
+                                    readOnly={true}
+                                />
                             </div>}
                             {matchResult !== 'None' && <div className="flex flex-row items-center justify-end w-full">
                                 {(homeMaxBalls !== inningsBalls || awayMaxBalls !== inningsBalls) && (
                                     <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
                                         <span className="mr-0.5">(</span>
-                                        {/* Home Team Max Balls*/}
+                                        {/* Home Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
                                             mode={format === "HUNDRED" ? "balls" : "overs"}
@@ -261,7 +262,7 @@ function MatchScoreCardDisplay({
                                     </div>
                                 )}
                                 <div className="flex justify-end ml-1 shrink-0">
-                                    {/* Home Team Balls*/}
+                                    {/* Home Team Balls */}
                                     <BallsInput
                                         width="4.5ch"
                                         mode={format === "HUNDRED" ? "balls" : "overs"}
@@ -274,13 +275,11 @@ function MatchScoreCardDisplay({
 
                             {matchResult !== "None" && target !== null && ((tossResult === 'Home-win' && !battingFirstToggle) || (tossResult === 'Away-win' && battingFirstToggle)) && <div className="absolute bottom-2 right-0 flex flex-row items-center justify-end w-full pr-2">
                                 <span className="mr-0.5 text-[1vh]">TARGET</span>
-                                <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
-                                    type="number"
-                                    min="0"
-                                    max="1000"
+                                {/* Home Team Target (if enabled and batting second */}
+                                <RunsInput
                                     value={target ?? ''}
-                                    onClick={(e) => e.stopPropagation()}
-                                    style={{ color: 'inherit' }}
+                                    className="!w-[3.5ch] !h-[2vh] !text-[1.25vh] shrink-0 ml-1 outline-none focus:outline-none"
+                                    readOnly={true}
                                 />
                             </div>
                             }
@@ -346,17 +345,17 @@ function MatchScoreCardDisplay({
                         <div className="relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5"
                             style={{ opacity: awayLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
-                                {/* Away Team Runs*/}
-                                <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    type="number"
+                                {/* Away Team Runs */}
+                                <RunsInput
                                     value={awayTeamRuns === 0 ? '' : (awayTeamRuns ?? '')}
-                                    style={{ color: 'inherit' }} />
+                                    readOnly={true}
+                                />
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
-                                {/* Away Team Wickets*/}
-                                <input className="font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent text-[2.5vh] w-[25%] h-full text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    type="number"
+                                {/* Away Team Wickets */}
+                                <WicketsInput
                                     value={awayTeamWickets === 0 ? '' : (awayTeamWickets ?? '')}
-                                    style={{ color: 'inherit' }} />
+                                    readOnly={true}
+                                />
                             </div>}
                             {matchResult !== 'None' && <div className="flex flex-row items-center justify-start w-full">
                                 <div className="flex justify-start shrink-0">
@@ -371,7 +370,7 @@ function MatchScoreCardDisplay({
                                 {(homeMaxBalls !== inningsBalls || awayMaxBalls !== inningsBalls) && (
                                     <div className="flex flex-row items-center ml-1 text-[1.75vh] shrink-0">
                                         <span className="mr-0.5">(</span>
-                                        {/* Away Team Max Balls*/}
+                                        {/* Away Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
                                             mode={format === "HUNDRED" ? "balls" : "overs"}
@@ -383,11 +382,11 @@ function MatchScoreCardDisplay({
                                 )}
                                 {matchResult !== "None" && target !== null && ((tossResult === 'Home-win' && battingFirstToggle) || (tossResult === 'Away-win' && !battingFirstToggle)) && <div className="absolute bottom-2 left-0 flex flex-row items-center justify-start w-full pl-2">
                                     <span className="mr-0.5 text-[1vh]">TARGET</span>
-                                    <input className="border border-gray-300 text-[1.25vh] rounded bg-transparent font-['Reem_Kufi_Fun'] text-center w-[3.5ch] h-[2vh] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shrink-0 ml-1 outline-none focus:outline-none"
-                                        type="number"
+                                    {/* Away Team Target (if enabled and batting second */}
+                                    <RunsInput
                                         value={target ?? ''}
-                                        onClick={(e) => e.stopPropagation()}
-                                        style={{ color: 'inherit' }}
+                                        className="!w-[3.5ch] !h-[2vh] !text-[1.25vh] shrink-0 ml-1 outline-none focus:outline-none"
+                                        readOnly={true}
                                     />
                                 </div>
                                 }

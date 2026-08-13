@@ -1,4 +1,4 @@
-function RunsInput({ value, onChange, className = '' }) {
+function RunsInput({ value, onChange, className = '', readOnly = false }) {
     return (
         <input
             className={`font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent w-[40%] h-full text-[2.5vh] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${className}`}
@@ -14,6 +14,7 @@ function RunsInput({ value, onChange, className = '' }) {
             value={value === 0 ? '' : (value ?? '')}
             onClick={(e) => e.stopPropagation()}
             style={{ color: 'inherit' }}
+            readOnly={readOnly}
         />
     );
 }

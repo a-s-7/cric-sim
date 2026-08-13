@@ -1,4 +1,4 @@
-function WicketsInput({ value, onChange, max = 10, className = '' }) {
+function WicketsInput({ value, onChange, max = 10, className = '', readOnly = false }) {
     return (
         <input
             className={`font-['Reem_Kufi_Fun'] rounded border border-gray-300 bg-transparent text-[2.5vh] w-[25%] h-full text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${className}`}
@@ -19,6 +19,7 @@ function WicketsInput({ value, onChange, max = 10, className = '' }) {
             value={value === 0 ? '' : (value ?? '')}
             onClick={(e) => e.stopPropagation()}
             style={{ color: 'inherit' }}
+            readOnly={readOnly}
         />
     );
 }

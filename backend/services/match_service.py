@@ -575,19 +575,20 @@ def update_match_score(tournament_id, match_num, home_runs, home_wickets, home_b
             if target is not None and not home_batted_first:
                 return old_match["homeMaxBalls"]  # DLS: credit away with 2nd-innings limit
             return old_match["awayMaxBalls"] if int(wickets_val) == 10 else int(balls_val)
-
+    
         # Old ball baselines for delta calculation
         # 1. TypeError guard: Only use target - 1 if target is not None
         # 2. Standings guard: If score wasn't committed yet (balls == 0), previous runs/balls contribution was 0
-        hB = home_balls_nrr(old_match["homeTeamWickets"], old_match["homeTeamBalls"]) if old_score_exists else 0
-        aB = away_balls_nrr(old_match["awayTeamWickets"], old_match["awayTeamBalls"]) if old_score_exists else 0
+        old_contributed = old_has_score and old_score_exists
+        hB = home_balls_nrr(old_match["homeTeamWickets"], old_match["homeTeamBalls"]) if old_contributed else 0
+        aB = away_balls_nrr(old_match["awayTeamWickets"], old_match["awayTeamBalls"]) if old_contributed else 0
 
         old_home_runs = (
-            0 if not old_score_exists 
+            0 if not old_contributed 
             else ((target - 1) if (target is not None and home_batted_first) else old_match["homeTeamRuns"])
         )
         old_away_runs = (
-            0 if not old_score_exists 
+            0 if not old_contributed 
             else ((target - 1) if (target is not None and not home_batted_first) else old_match["awayTeamRuns"])
         )
 
