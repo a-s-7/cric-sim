@@ -212,6 +212,8 @@ function MatchCard({
             handleTossResultChange('Home-win');
         } else {
             // Abandon match
+            setShowDeductionFields(false);
+
             try {
                 const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/abandon`, {
                     method: 'PATCH',
@@ -290,6 +292,11 @@ function MatchCard({
     };
 
     const handleDeductionChange = async (team, deduction) => {
+        if (tossResultState === 'None') {
+            triggerAbandonGlow();
+            return;
+        }
+
         try {
             const response = await fetch(
                 `/tournament/${tournamentID}/match/${matchNum}/team/${team}/deduction/${deduction}`,
@@ -491,7 +498,10 @@ function MatchCard({
                                     </div>
                                 )}
                                 <button
-                                    className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                    className={`bg-white transition-all duration-300 shadow-sm border border-zinc-200 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None'
+                                        ? "text-zinc-400 cursor-default"
+                                        : "hover:bg-zinc-100 text-zinc-800 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                        }`}
                                     onClick={toggleDeductionFields}
                                     disabled={tossResultState === 'None'}
                                     title="Show match deductions"
