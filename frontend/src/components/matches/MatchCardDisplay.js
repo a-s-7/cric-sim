@@ -127,7 +127,7 @@ function MatchCardDisplay({
             }
             return matchResult === 'Home-win' ? homeTeamName + ' won' : awayTeamName + ' won';
         } else {
-            if (matchResult === "Home-win" || matchResult == "Away-win") {
+            if (matchResult === "Home-win" || matchResult === "Away-win") {
                 return matchResult === 'Home-win' ? homeTeamName + " " + resultSummary : awayTeamName + " " + resultSummary;
             }
             return resultSummary
