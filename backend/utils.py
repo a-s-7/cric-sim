@@ -857,6 +857,7 @@ def commit_and_propagate_match_clear(tournament, t_id, matches, team_acc):
         UpdateOne({"_id": ObjectId(team_id)}, {"$inc": dict(inc_fields)})
         for team_id, inc_fields in team_acc.items() if team_id is not None
     ]
+
     if operations:
         stageTeams_collection.bulk_write(operations)
 

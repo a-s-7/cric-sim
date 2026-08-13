@@ -28,7 +28,9 @@ function MatchCard({
     format,
     category,
     series,
-    seriesMatchNumber
+    seriesMatchNumber,
+    homeDeductionPoints,
+    awayDeductionPoints
 }) {
     const [battingFirstToggle, setBattingFirstToggle] = useState(tossDecision === "bat");
     const [tossResultState, setTossResultState] = useState(tossResult);
@@ -36,8 +38,8 @@ function MatchCard({
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
 
-    const [homeDeductionPoints, setHomeDeductionPoints] = useState(0);
-    const [awayDeductionPoints, setAwayDeductionPoints] = useState(0);
+    const [homeDeductionPointsValue, setHomeDeductionPointsValue] = useState(homeDeductionPoints);
+    const [awayDeductionPointsValue, setAwayDeductionPointsValue] = useState(awayDeductionPoints);
 
     const [showDeductionFields, setShowDeductionFields] = useState(false);
 
@@ -58,7 +60,9 @@ function MatchCard({
         setSelected(matchResult);
         setTossResultState(tossResult);
         setBattingFirstToggle(tossDecision === "bat");
-    }, [matchResult, tossResult, tossDecision]);
+        setHomeDeductionPointsValue(homeDeductionPoints);
+        setAwayDeductionPointsValue(awayDeductionPoints);
+    }, [matchResult, tossResult, tossDecision, homeDeductionPoints, awayDeductionPoints]);
 
     const goldGlow = "border border-[#D4AF37] shadow-[0_0_1.25rem_rgba(212,175,55,0.8)]";
     const silverGlow = "border border-[#BFC1C2] shadow-[0_0_1.25rem_rgba(191,193,194,0.9)]";
@@ -83,7 +87,7 @@ function MatchCard({
         const year = end.getUTCFullYear();
 
         if (startMonth === endMonth) {
-            return `${startMonth} ${startDay}–${endDay}, ${year}`;
+            return `${startMonth} ${startDay}-${endDay}, ${year}`;
         }
 
         return `${startMonth} ${startDay}–${endMonth} ${endDay}, ${year}`;
@@ -391,9 +395,9 @@ function MatchCard({
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5 relative">
                             {(showDeductionFields || homeDeductionPoints > 0) && <DeductionInput
-                                value={homeDeductionPoints}
+                                value={homeDeductionPointsValue}
                                 onChange={(points) => {
-                                    setHomeDeductionPoints(points);
+                                    setHomeDeductionPointsValue(points);
                                     handleDeductionChange("home", points);
                                 }}
                                 height="h-[3vh]"
@@ -486,15 +490,6 @@ function MatchCard({
                                         </button>
                                     </div>
                                 )}
-                                {tournamentID.slice(-2) === 'ps' && (
-                                    <button
-                                        className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
-                                        onClick={handleMatchLock}
-                                        title={"Lock match"}
-                                    >
-                                        <FontAwesomeIcon icon={faUnlock} size="lg" style={{ fontSize: '0.9vh' }} />
-                                    </button>
-                                )}
                                 <button
                                     className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
                                     onClick={toggleDeductionFields}
@@ -514,6 +509,15 @@ function MatchCard({
                                         }}
                                     />
                                 </button>
+                                {tournamentID.slice(-2) === 'ps' && (
+                                    <button
+                                        className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                                        onClick={handleMatchLock}
+                                        title={"Lock match"}
+                                    >
+                                        <FontAwesomeIcon icon={faUnlock} size="lg" style={{ fontSize: '0.9vh' }} />
+                                    </button>
+                                )}
                                 <button
                                     className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
                                     onClick={handleAbandonMatch}
@@ -557,9 +561,9 @@ function MatchCard({
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5 relative">
                             {(showDeductionFields || awayDeductionPoints > 0) && <DeductionInput
-                                value={awayDeductionPoints}
+                                value={awayDeductionPointsValue}
                                 onChange={(points) => {
-                                    setAwayDeductionPoints(points);
+                                    setAwayDeductionPointsValue(points);
                                     handleDeductionChange("away", points);
                                 }}
                                 height="h-[3vh]"

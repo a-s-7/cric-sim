@@ -820,6 +820,14 @@ function MatchScoreCard({
                                 >
                                     <FontAwesomeIcon icon={faClock} size="lg" style={{ fontSize: '0.9vh' }} />
                                 </button>
+                                <button
+                                    className={`bg-white transition-all duration-300 shadow-sm border border-zinc-200 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None' ? "text-zinc-400 cursor-default" : "hover:bg-zinc-100 text-zinc-800 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"}`}
+                                    onClick={toggleInningsTargetDisplay}
+                                    disabled={tossResultState === 'None'}
+                                    title={tossResultState === 'None' ? null : `Edit match target`}
+                                >
+                                    <FontAwesomeIcon icon={faBullseye} size="lg" style={{ fontSize: '0.9vh' }} />
+                                </button>
                                 {tournamentID.slice(-2) === 'ps' && (
                                     <button
                                         className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
@@ -829,14 +837,6 @@ function MatchScoreCard({
                                         <FontAwesomeIcon icon={faUnlock} size="lg" style={{ fontSize: '0.9vh' }} />
                                     </button>
                                 )}
-                                <button
-                                    className={`bg-white transition-all duration-300 shadow-sm border border-zinc-200 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None' ? "text-zinc-400 cursor-default" : "hover:bg-zinc-100 text-zinc-800 hover:text-black hover:border-zinc-400 hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"}`}
-                                    onClick={toggleInningsTargetDisplay}
-                                    disabled={tossResultState === 'None'}
-                                    title={tossResultState === 'None' ? null : `Edit match target`}
-                                >
-                                    <FontAwesomeIcon icon={faBullseye} size="lg" style={{ fontSize: '0.9vh' }} />
-                                </button>
                                 <button
                                     className={`transition-all duration-300 shadow-sm border flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] ${tossResultState === 'None'
                                         ? "bg-white border-zinc-200 text-zinc-400 cursor-default"

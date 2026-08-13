@@ -335,6 +335,10 @@ def clear_wtc_matches(tournament, mode, stage_order, match_nums):
             continue
         home_id, away_id = match["homeStageTeamId"], match["awayStageTeamId"]
         result = match["result"]
+
+        team_acc[home_id]["deductionPoints"] -= match["homeDeductionPoints"]
+        team_acc[away_id]["deductionPoints"] -= match["awayDeductionPoints"]
+
         if result == "Home-win":
             team_acc[home_id]["won"] -= 1
             team_acc[home_id]["points"] -= pointsPerWin

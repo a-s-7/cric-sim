@@ -86,6 +86,8 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                                     awaySeed={match.awaySeed}
                                     homeConfirmed={match.homeConfirmed ?? true}
                                     awayConfirmed={match.awayConfirmed ?? true}
+                                    homeDeductionPoints={match.homeDeductionPoints}
+                                    awayDeductionPoints={match.awayDeductionPoints}
                                     venue={match.venue}
                                     date={match.date}
                                     endDate={match.endDate}
@@ -152,6 +154,8 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                                         awayTeamName={match.awayStageTeam}
                                         homeTeamLogo={teamDictionary[match.homeStageTeam]?.logo}
                                         awayTeamLogo={teamDictionary[match.awayStageTeam]?.logo}
+                                        homeDeductionPoints={match.homeDeductionPoints}
+                                        awayDeductionPoints={match.awayDeductionPoints}
                                         venue={match.venue}
                                         date={match.date}
                                         endDate={match.endDate}

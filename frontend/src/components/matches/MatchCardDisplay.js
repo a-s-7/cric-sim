@@ -1,6 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import DeductionInput from "../inputs/DeductionInput";
+
 
 function MatchCardDisplay({
     tournamentID,
@@ -30,7 +32,9 @@ function MatchCardDisplay({
     format,
     category,
     series,
-    seriesMatchNumber
+    seriesMatchNumber,
+    homeDeductionPoints,
+    awayDeductionPoints
 }) {
     const battingFirstToggle = tossDecision === "bat";
 
@@ -119,8 +123,8 @@ function MatchCardDisplay({
         if (matchResult === 'None') {
             return '';
         }
-        if (matchResult === "No-result") {
-            return 'No Result';
+        if (matchResult === "Draw") {
+            return 'Match drawn';
         }
         return matchResult === 'Home-win' ? homeTeamName + ' won' : awayTeamName + ' won';
     }
@@ -184,6 +188,14 @@ function MatchCardDisplay({
                         style={getStyle("Home-win", 0)}>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5 relative">
+                            {homeDeductionPoints > 0 && (
+                                <DeductionInput
+                                    value={homeDeductionPoints}
+                                    height="h-[3vh]"
+                                    displayMessage="DED"
+                                    readOnly={true}
+                                />
+                            )}
                         </div>
 
                         <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
@@ -248,6 +260,14 @@ function MatchCardDisplay({
                         </div>
 
                         <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5 relative">
+                            {awayDeductionPoints > 0 && (
+                                <DeductionInput
+                                    value={awayDeductionPoints}
+                                    height="h-[3vh]"
+                                    displayMessage="DED"
+                                    readOnly={true}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
