@@ -749,16 +749,18 @@ def propagate_match_simulation(tournament_id, stageToSim):
                 confirmTeamsForStage(tournament_id, stage["order"])
                 stage = stages_collection.find_one({"tournamentId": tournament_id, "order": stage["order"] + 1})
 
-def _blank_match_fields(tournament):
+def _blank_match_fields(tournament, stage_type="group"):
     if tournament["name"] == "ICC World Test Championship":
-        return {
+        fields = {
             "result": "None",
-            "homeDeductionPoints": 0,
-            "awayDeductionPoints": 0,
             "tossResult": "Home-win",
             "tossDecision": "bat",
             "resultSummary": None,
         }
+        if stage_type == "group":
+            fields["homeDeductionPoints"] = 0
+            fields["awayDeductionPoints"] = 0
+        return fields
 
     max_balls = tournament["ballsPerInnings"]
 
@@ -812,17 +814,23 @@ def propagate_match_clear(earliest_stage, t_id, tournament):
                         "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
                     )
                 else:
-                    # Clear knockout stage slots entirely (teamId: None) and reset stats
-                    stageTeams_collection.update_many(
-                        {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
-                        [{"$set": {"teamId": None, "confirmed": False,
-                        "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
-                    )
+                    # Clear knockout stage team slots entirely, omit runs and balls fields for ICC WTC
+                    if tournament["name"] == "ICC World Test Championship":
+                        stageTeams_collection.update_many(
+                            {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
+                            [{"$set": {"teamId": None, "confirmed": False}}]
+                        )
+                    else:
+                        stageTeams_collection.update_many(
+                            {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
+                            [{"$set": {"teamId": None, "confirmed": False,
+                            "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+                        )
 
             # 4. Wipe all match scorecards in the future stage back to 0-0
             matches_collection.update_many(
                 {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
-                {"$set": _blank_match_fields(tournament)}
+                {"$set": _blank_match_fields(tournament, nextStage["type"])}
             )          
             isFirstNextStage = False
 
@@ -861,13 +869,16 @@ def commit_and_propagate_match_clear(tournament, t_id, matches, team_acc):
     if operations:
         stageTeams_collection.bulk_write(operations)
 
-    result = matches_collection.update_many(
-        {"tournamentId": t_id, "matchNumber": {"$in": match_numbers}},
-        {"$set": _blank_match_fields(tournament)}
-    )
+    match_ops = [
+        UpdateOne(
+            {"_id": m["_id"]},
+            {"$set": _blank_match_fields(tournament, m["stageType"])}
+        )
+        for m in matches
+    ]
 
-    if result.matched_count == 0:
-        abort(404, description="No matches found to update")
+    if match_ops:
+        matches_collection.bulk_write(match_ops)
 
     all_stage_ids = {ObjectId(m["stageId"]) for m in matches}
     stages_info = list(stages_collection.find({"_id": {"$in": list(all_stage_ids)}}))
