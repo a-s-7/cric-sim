@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faChevronUp, faChevronDown, faBan, faScissors, faMinusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclamation, faChevronUp, faChevronDown, faBan, faMinusCircle } from "@fortawesome/free-solid-svg-icons";
 import FetchStatusButton from "../buttons/FetchStatusButton";
 import DeductionInput from "../inputs/DeductionInput";
 
@@ -51,7 +51,7 @@ function MatchCard({
     const [showGenericError, setShowGenericError] = useState(false);
     const genericErrorTimer = useRef(null);
 
-    const [showAbandonGlow, setShowAbandonGlow] = useState(false);
+    // const [showAbandonGlow, setShowAbandonGlow] = useState(false);
     const abandonGlowTimer = useRef(null);
 
     const [drawerOpen, setDrawerOpen] = useState(false);
