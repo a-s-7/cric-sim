@@ -51,7 +51,7 @@ function MatchCard({
     const [showGenericError, setShowGenericError] = useState(false);
     const genericErrorTimer = useRef(null);
 
-    // const [showAbandonGlow, setShowAbandonGlow] = useState(false);
+    const [showAbandonGlow, setShowAbandonGlow] = useState(false);
     const abandonGlowTimer = useRef(null);
 
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -521,20 +521,14 @@ function MatchCard({
                                 <button
                                     className="bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full w-[1.8vh] h-[1.8vh] hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
                                     onClick={handleAbandonMatch}
-                                    title="Set match as abandoned"
+                                    title={`Set match as abandoned`}
                                     style={{
-                                        borderColor: tossResultState === 'None' ? '#ef4444' : '',
-                                        backgroundColor: tossResultState === 'None' ? '#fee2e2' : '',
+                                        animation: showAbandonGlow ? 'abandonPulse 0.7s ease-in-out 4' : 'none',
+                                        borderColor: showAbandonGlow ? '#ef4444' : '',
+                                        backgroundColor: showAbandonGlow ? '#fee2e2' : '',
                                     }}
                                 >
-                                    <FontAwesomeIcon
-                                        icon={faBan}
-                                        size="lg"
-                                        style={{
-                                            fontSize: '0.9vh',
-                                            color: tossResultState === 'None' ? '#ef4444' : 'inherit'
-                                        }}
-                                    />
+                                    <FontAwesomeIcon icon={faBan} size="lg" style={{ fontSize: '0.9vh', color: tossResultState === 'None' || showAbandonGlow ? '#ef4444' : 'inherit' }} />
                                 </button>
                             </div>
                         </div>
