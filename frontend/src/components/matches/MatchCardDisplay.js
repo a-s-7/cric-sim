@@ -34,7 +34,8 @@ function MatchCardDisplay({
     series,
     seriesMatchNumber,
     homeDeductionPoints,
-    awayDeductionPoints
+    awayDeductionPoints,
+    resultSummary
 }) {
     const battingFirstToggle = tossDecision === "bat";
 
@@ -120,13 +121,17 @@ function MatchCardDisplay({
     };
 
     const getMatchResult = () => {
-        if (matchResult === 'None') {
-            return '';
+        if (resultSummary == null) {
+            if (matchResult === "Draw") {
+                return 'Match drawn';
+            }
+            return matchResult === 'Home-win' ? homeTeamName + ' won' : awayTeamName + ' won';
+        } else {
+            if (matchResult === "Home-win" || matchResult == "Away-win") {
+                return matchResult === 'Home-win' ? homeTeamName + " " + resultSummary : awayTeamName + " " + resultSummary;
+            }
+            return resultSummary
         }
-        if (matchResult === "Draw") {
-            return 'Match drawn';
-        }
-        return matchResult === 'Home-win' ? homeTeamName + ' won' : awayTeamName + ' won';
     }
 
     const getTossSpan = (type, section, isTossWinner) => {

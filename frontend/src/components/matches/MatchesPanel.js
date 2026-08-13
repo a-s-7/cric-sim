@@ -92,6 +92,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                                     date={match.date}
                                     endDate={match.endDate}
                                     matchResult={match.result}
+                                    resultSummary={match.resultSummary}
                                     onMatchUpdate={onMatchUpdate}
                                     neutralGradient={cardNeutralGradient}
                                     stage={match.description ? match.description : match.stage}
