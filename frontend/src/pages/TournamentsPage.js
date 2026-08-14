@@ -15,7 +15,7 @@ function TournamentsPage() {
 
     const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
 
-    const fetchTournaments = useCallBack(async (viewIndex, genderIndex) => {
+    const fetchTournaments = useCallback(async (viewIndex, genderIndex) => {
         setActiveView(viewIndex);
         setActiveGender(genderIndex);
 
