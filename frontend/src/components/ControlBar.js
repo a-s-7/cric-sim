@@ -3,6 +3,7 @@ import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack, faGlobe, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../utils/selectStyles";
+import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 
 function ControlBar({
     refreshFunction,
@@ -57,8 +58,7 @@ function ControlBar({
     }, [logo]);
 
     const fetchTeamOptions = async () => {
-        let url = `/api/tournaments/${tournamentId}/teams`;
-        console.log(url);
+        const url = TOURNAMENT_ENDPOINTS.tournamentTeams(tournamentId);
 
         try {
             const response = await fetch(url);
@@ -77,8 +77,7 @@ function ControlBar({
     };
 
     const fetchGroupOptions = async () => {
-        let url = `/api/tournaments/${tournamentId}/groups`;
-        console.log(url);
+        const url = TOURNAMENT_ENDPOINTS.tournamentGroups(tournamentId);
 
         try {
             const response = await fetch(url);
@@ -97,7 +96,7 @@ function ControlBar({
     };
 
     const fetchVenueOptions = async () => {
-        let url = `/api/tournaments/${tournamentId}/venues`;
+        const url = TOURNAMENT_ENDPOINTS.tournamentVenues(tournamentId);
 
         try {
             const response = await fetch(url);
@@ -116,7 +115,7 @@ function ControlBar({
     };
 
     const fetchStageOptions = async () => {
-        let url = `/api/tournaments/${tournamentId}/stages`;
+        const url = TOURNAMENT_ENDPOINTS.tournamentStages(tournamentId);
 
         try {
             const response = await fetch(url);
@@ -135,10 +134,13 @@ function ControlBar({
     };
 
     const fetchActiveStages = async (isInitialLoad = false) => {
-        let url = `/api/tournaments/${tournamentId}/stages?onlyActiveStages=true`;
+        const url = TOURNAMENT_ENDPOINTS.tournamentStages(tournamentId);
+
+        const params = new URLSearchParams();
+        params.set("onlyActiveStages", "true");
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(`${url}?${params.toString()}`);
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }

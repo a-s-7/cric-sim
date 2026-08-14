@@ -15,25 +15,7 @@ function TournamentsPage() {
 
     const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
 
-    const fetchTournaments = async () => {
-        const params = new URLSearchParams();
-        params.set("grouped", "false");
-        params.set("category", "all");
-
-        try {
-            const response = await fetch(TOURNAMENTS_URL + "?" + params.toString());
-            if (!response.ok) {
-                throw new Error("Response was not ok");
-            }
-            const result = await response.json();
-            setTournaments(result);
-            console.log(result);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
-
-    const updateTournaments = async (viewIndex, genderIndex) => {
+    const fetchTournaments = async (viewIndex, genderIndex) => {
         setActiveView(viewIndex);
         setActiveGender(genderIndex);
 
@@ -57,7 +39,7 @@ function TournamentsPage() {
         }
 
         try {
-            const response = await fetch(TOURNAMENTS_URL + "?" + params.toString());
+            const response = await fetch(`${TOURNAMENTS_URL}?${params.toString()}`);
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }
@@ -70,8 +52,7 @@ function TournamentsPage() {
     };
 
     useEffect(() => {
-        fetchTournaments();
-        // fetchWtcs();
+        fetchTournaments(0, 0);
     }, []);
 
     return (
@@ -91,7 +72,7 @@ function TournamentsPage() {
                         {genders.map((gender, indexG) => (
                             <button
                                 key={gender}
-                                onClick={() => updateTournaments(activeView, indexG)}
+                                onClick={() => fetchTournaments(activeView, indexG)}
                                 className={`relative z-10 flex-1 h-full text-[13px] font-bold uppercase tracking-widest transition-colors duration-300 ${activeGender === indexG
                                     ? "text-white"
                                     : "text-gray-500 hover:text-gray-800"
@@ -114,7 +95,7 @@ function TournamentsPage() {
                         {views.map((view, index) => (
                             <button
                                 key={view}
-                                onClick={() => updateTournaments(index, activeGender)}
+                                onClick={() => fetchTournaments(index, activeGender)}
                                 className={`relative z-10 flex-1 h-full text-[13px] font-bold uppercase tracking-widest transition-colors duration-300 ${activeView === index
                                     ? "text-white"
                                     : "text-gray-500 hover:text-gray-800"
