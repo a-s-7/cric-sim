@@ -11,7 +11,7 @@ except ImportError:
 from dotenv import load_dotenv
 load_dotenv()
 
-verbose = True
+verbose = False
 
 connection_string = os.getenv('MONGODB_URI')
 

@@ -1,3 +1,4 @@
+from utils import find_limited_overs_tournament
 from services import match_service
 
 def simulate_limited_overs_match(match_context, match_result):
@@ -20,47 +21,50 @@ def simulate_limited_overs_match(match_context, match_result):
     tournament_id = match_context["tournament_id"]
     match_num = match_context["match_number"]
 
-    result = match_result["result"]
-    toss_result = match_result["tossResult"]
-    toss_decision = match_result["tossDecision"]
-    target = match_result["target"]
-    target_overtaken = match_result["targetOvertaken"]
-    if isinstance(target_overtaken, str):
-        target_overtaken = target_overtaken.lower() == "true"
-    status = "complete"
+    try:
+        result = match_result["result"]
+        toss_result = match_result["tossResult"]
+        toss_decision = match_result["tossDecision"]
+        target = match_result["target"]
+        target_overtaken = match_result["targetOvertaken"]
 
-    try:        
+        if isinstance(target_overtaken, str):
+            target_overtaken = target_overtaken.lower() == "true"
+        status = "complete"
+
         # Case A: Abandon match if no toss occurred, and return
-
         if toss_result == "None":
-            # Step 1: Update match status to "complete"
+            # Step 1
             match_service.update_match_status(tournament_id, match_num, status)
-            # Step 2: Abandon match (clears match, updates toss result and toss decision, updates result to "No-result")
+
+            # Step 2
             match_service.abandon_match(tournament_id, match_num)
-            return 
+            return
 
         # Case B: Update completed match details
 
-        # Step 1: Clear all match data
-        match_service.clear_tournament_matches(tournament_id, "match-numbers", None, str(match_num))
+        tournament = find_limited_overs_tournament(tournament_id)
 
-        # Step 2: Update match status, toss result, and toss decision together
+        # Step 1
+        match_service.clear_tournament_matches(tournament, "match-numbers", None, str(match_num))
+
+        # Step 2
         match_service.update_match_status_toss(tournament_id, match_num, status, toss_result, toss_decision)
 
-        # Step 3: Update match result
-        match_service.update_tournament_match_result(tournament_id, match_num, result)
+        # Step 3
+        match_service.update_tournament_match_result(tournament, match_num, result)
 
-        # Step 4: Update max balls
+        # Step 4
         match_service.update_match_max_balls(tournament_id, match_num, 'home', match_result["homeMaxBalls"])
         match_service.update_match_max_balls(tournament_id, match_num, 'away', match_result["awayMaxBalls"])
 
-        # Step 5: Update target if it exists
+        # Step 5
         if target is not None:
             match_service.update_match_target_runs(tournament_id, match_num, target)
             if target_overtaken:
                 match_service.update_target_overtake_status(tournament_id, match_num, target_overtaken)
 
-        # Step 6: Update score (handles NRR)
+        # Step 6
         match_service.update_match_score(
             tournament_id, match_num,
             match_result['homeTeamRuns'], match_result['homeTeamWickets'], match_result["homeTeamBalls"],
@@ -69,6 +73,5 @@ def simulate_limited_overs_match(match_context, match_result):
 
         return
     except Exception as e:
-        print(f"Error updating match {match_num}: {e}")
-        raise
+        raise RuntimeError(f"Match {match_num} simulation failed - {e}") from e
 

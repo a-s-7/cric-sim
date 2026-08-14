@@ -839,12 +839,6 @@ def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction)
 
 #######################################################################################################################################
 
-def sync_match_data(tournament_id=None, match_num=None):
-    if tournament_id is not None and match_num is not None:
-        return force_sync_match(tournament_id, match_num)
-
-    return auto_sync_matches()
-
 def force_sync_match(tournament_id, match_num):
     match = matches_collection.find_one({
         "tournamentId": tournament_id,

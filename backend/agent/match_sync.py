@@ -35,7 +35,7 @@ def sync_match_result(tournament_id, match_number, verbose=False):
 
     # Step 3: Write the resolved result back to the match document.
     if verbose:
-        print("[3/3] Updating match in database...")
+        print("[3/3] Simulating match with result...")
 
     simulate_limited_overs_match(match_context, match_result)
 
