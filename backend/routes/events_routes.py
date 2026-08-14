@@ -131,16 +131,10 @@ def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction)
 
 #######################################################################################################################################
 
-@events_bp.route("/run-match-update", methods=["POST"])
-def run_match_update():
-    try:
-        tournament_id = request.args.get("tournament_id", None) 
-        match_num = request.args.get("match_num", None, type=int)
+@events_bp.route("/sync-match-data", methods=["POST"])
+def sync_match_data():
+    tournament_id = request.args.get("tournament_id", None) 
+    match_num = request.args.get("match_num", None, type=int)
         
-        result = ms.run_match_update(tournament_id, match_num)
-    except Exception as e:
-        if is_gemini_quota_error(e):
-            return jsonify({"error": "Gemini quota exhausted", "detail": str(e)}), 429
-        return jsonify({"error": str(e)}), 500
-
-    return jsonify({"message": f"{len(result)} matches updated successfully"})
+    return jsonify(ms.sync_match_data(tournament_id, match_num))
+   

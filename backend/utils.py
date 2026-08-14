@@ -8,15 +8,6 @@ try:
 except ImportError:
     GenaiClientError = None
 
-def is_gemini_quota_error(e):
-    """
-    Check if the given exception is a Gemini Quota/Rate Limit (429/RESOURCE_EXHAUSTED) error.
-    """
-    if GenaiClientError and isinstance(e, GenaiClientError) and getattr(e, 'status_code', None) == 429:
-        return True
-    err_str = str(e)
-    return "RESOURCE_EXHAUSTED" in err_str or "429" in err_str
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -1007,3 +998,11 @@ def update_toss_field(tournament_id, match_num, field, value, field_label):
         {"$set": {field: value}}
     )
 
+def is_gemini_quota_error(e):
+    """
+    Check if the given exception is a Gemini Quota/Rate Limit (429/RESOURCE_EXHAUSTED) error.
+    """
+    if GenaiClientError and isinstance(e, GenaiClientError) and getattr(e, 'status_code', None) == 429:
+        return True
+    err_str = str(e)
+    return "RESOURCE_EXHAUSTED" in err_str or "429" in err_str
