@@ -27,7 +27,7 @@ from utils import (
                 find_wtc_tournament,
                 update_toss_field)
 
-from agent.pipeline import run_match_result_agent
+from agent.match_sync import sync_match_result
 from datetime import datetime
 
 if os.getenv("RENDER_STATUS") != "TRUE":
@@ -840,37 +840,51 @@ def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction)
 #######################################################################################################################################
 
 def sync_match_data(tournament_id=None, match_num=None):
-    sync_single_match = tournament_id is not None and match_num is not None
+    if tournament_id is not None and match_num is not None:
+        return force_sync_match(tournament_id, match_num)
 
-    if sync_single_match:
-        # Sync a specific match 
-        match = matches_collection.find_one({
-            "tournamentId": tournament_id,
-            "matchNumber": int(match_num)
-        })
+    return auto_sync_matches()
 
-        if not match:
-            abort(404, description="Match not found")
+def force_sync_match(tournament_id, match_num):
+    match = matches_collection.find_one({
+        "tournamentId": tournament_id,
+        "matchNumber": int(match_num)
+    })
 
-        matches = [match]
-    else:     
-        # Sync all real-world tournaments, by collecting all id's
-        rw_tournaments = tournaments_collection.find({"mode": "real-world"})
-        rw_tournament_ids = [t["_id"] for t in rw_tournaments]
+    if not match:
+        abort(404, description="Match not found")
+        
+    try:
+        res = sync_match_result(match["tournamentId"], match["matchNumber"], verbose=True)
+        return {
+            "tournamentId": match["tournamentId"],
+            "matchNumber": match["matchNumber"],
+            "status": "success",
+            "result": res
+        }
+    except Exception as e:
+        if is_gemini_quota_error(e):
+            abort(429, description="AI resource exhausted")
+        abort(500, description=str(e))
 
-        # Find incomplete, auto-updatable matches from completed tournaments, ordered by end date
-        matches = list(matches_collection.find({
-            "tournamentId": {"$in": rw_tournament_ids},
-            "endDate": {"$lt": datetime.now(timezone.utc)},
-            "autoUpdate": True,
-            "status": "incomplete"
-        }).sort("endDate", 1))
+def auto_sync_matches():
+    rw_tournaments = tournaments_collection.find({"mode": "real-world"})
+    rw_tournament_ids = [t["_id"] for t in rw_tournaments]
+
+    matches = list(matches_collection.find({
+        "tournamentId": {"$in": rw_tournament_ids},
+        "endDate": {"$lt": datetime.now(timezone.utc)},
+        "autoUpdate": True,
+        "status": "incomplete"
+    }).sort("endDate", 1))
 
     synced_matches = []
+    quota_exhausted = False
 
     for match in matches:
         try:
-            res = run_match_result_agent(match["tournamentId"], match["matchNumber"])
+            res = sync_match_result(match["tournamentId"], match["matchNumber"], verbose=True)
+
             synced_matches.append({
                 "tournamentId": match["tournamentId"],
                 "matchNumber": match["matchNumber"],
@@ -878,28 +892,40 @@ def sync_match_data(tournament_id=None, match_num=None):
                 "result": res
             })
         except Exception as e:
-            if sync_single_match:
-                if is_gemini_quota_error(e):
-                    abort(429, description="AI resource exhausted")
-                else:
-                    abort(500, description=f"Failed to sync match: {str(e)}")
-            else:
-                # Only abort batch updates when AI resource is exhausted
-                if is_gemini_quota_error(e):
-                    abort(429, description="AI resource exhausted")
+            if is_gemini_quota_error(e):
                 synced_matches.append({
                     "tournamentId": match["tournamentId"],
                     "matchNumber": match["matchNumber"],
                     "status": "failed",
-                    "error": str(e)
+                    "error": "AI resource exhausted"
                 })
 
-    updated_count = sum(1 for m in synced_matches if m["status"] == "success")
-    failed_count = sum(1 for m in synced_matches if m["status"] == "failed")
+                quota_exhausted = True
+                break
 
-    return {
-        "total_checked": len(matches),
+            synced_matches.append({
+                "tournamentId": match["tournamentId"],
+                "matchNumber": match["matchNumber"],
+                "status": "failed",
+                "error": str(e)
+            })
+
+    updated_count = sum(
+        1 for m in synced_matches if m["status"] == "success"
+    )
+    failed_count = sum(
+        1 for m in synced_matches if m["status"] == "failed"
+    )
+
+    response = {
+        "total_matches": len(matches),
         "updated": updated_count,
         "failed": failed_count,
         "matches": synced_matches
     }
+
+    return response, (
+        429 if quota_exhausted
+        else 500 if failed_count > 0
+        else 200
+    )

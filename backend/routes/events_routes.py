@@ -131,10 +131,10 @@ def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction)
 
 #######################################################################################################################################
 
-@events_bp.route("/sync-match-data", methods=["POST"])
-def sync_match_data():
-    tournament_id = request.args.get("tournament_id", None) 
-    match_num = request.args.get("match_num", None, type=int)
-        
-    return jsonify(ms.sync_match_data(tournament_id, match_num))
-   
+@events_bp.route("/tournament/<tournament_id>/match/<int:match_num>/sync", methods=["PATCH"])
+def force_sync_match(tournament_id, match_num):
+    return jsonify(ms.force_sync_match(tournament_id, match_num))
+
+@events_bp.route("/matches/auto-sync", methods=["POST"])
+def auto_sync_matches():
+    return jsonify(ms.auto_sync_matches())

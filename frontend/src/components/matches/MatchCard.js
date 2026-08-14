@@ -186,8 +186,8 @@ function MatchCard({
         e.stopPropagation();
         setIsFetching(true);
         try {
-            const response = await fetch(`/sync-match-data?tournament_id=${tournamentID}&match_num=${matchNum}`, {
-                method: 'POST',
+            const response = await fetch(`/tournament/${tournament_id}/match/${match_num}/sync`, {
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
