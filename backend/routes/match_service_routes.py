@@ -27,8 +27,6 @@ def clear_tournament_matches(tournament_id):
 
     return jsonify(ms.clear_matches(tournament_id, mode, stage_order, match_nums))
 
-#######################################################################################################################################
-
 # Unified functionality routes
 
 @match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/toss-result/<string:toss_result>', methods=['PATCH'])
@@ -49,8 +47,9 @@ def abandon_match(tournament_id, match_num):
 
 #######################################################################################################################################
 
-# Methods: Only for limited-overs tournaments
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/score', methods=['PATCH'])
+# Limited-overs routes 
+
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/score', methods=['PATCH'])
 def update_match_score(tournament_id, match_num):
     home_runs = request.args.get("home_runs", type=int)
     home_wickets = request.args.get("home_wickets", type=int)
@@ -61,12 +60,12 @@ def update_match_score(tournament_id, match_num):
 
     return jsonify(ms.update_match_score(tournament_id, match_num, home_runs, home_wickets, home_balls, away_runs, away_wickets, away_balls))
    
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/target', methods=['PATCH'])
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/target/<int:target_runs>', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/target', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/target/<int:target_runs>', methods=['PATCH'])
 def update_match_target_runs(tournament_id, match_num, target_runs=None):
     return jsonify(ms.update_match_target_runs(tournament_id, match_num, target_runs))
 
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/target-overtaken/<string:target_overtaken>', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/target-overtaken/<string:target_overtaken>', methods=['PATCH'])
 def update_match_target_overtake_status(tournament_id, match_num, target_overtaken):
     return jsonify(ms.update_target_overtake_status(tournament_id, match_num, target_overtaken))
 

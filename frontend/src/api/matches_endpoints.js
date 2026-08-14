@@ -13,6 +13,14 @@ const MATCHES_ENDPOINTS = {
         `/api/tournaments/${tournamentId}/matches/${matchNum}/status/${status}`,
     abandon: (tournamentId, matchNum) =>
         `/api/tournaments/${tournamentId}/matches/${matchNum}/abandon`,
+    score: (tournamentId, matchNum) =>
+        `/api/tournaments/${tournamentId}/matches/${matchNum}/score`,
+    target: (tournamentId, matchNum, targetRuns = null) =>
+        targetRuns === null
+            ? `/api/tournaments/${tournamentId}/matches/${matchNum}/target`
+            : `/api/tournaments/${tournamentId}/matches/${matchNum}/target/${targetRuns}`,
+    targetOvertaken: (tournamentId, matchNum, targetOvertaken) =>
+        `/api/tournaments/${tournamentId}/matches/${matchNum}/target-overtaken/${targetOvertaken}`,
 };
 
 export default MATCHES_ENDPOINTS;

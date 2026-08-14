@@ -226,7 +226,7 @@ function MatchScoreCard({
         } = parsedScores;
 
         try {
-            // const scoreKey = `${homeRunsValue}/${homeWicketsValue}/${homeBallsValue}/${awayRunsValue}/${awayWicketsValue}/${awayBallsValue}`;
+            const url = MATCHES_ENDPOINTS.score(tournamentID, matchNum);
 
             const params = new URLSearchParams();
 
@@ -237,13 +237,10 @@ function MatchScoreCard({
             params.set("away_wickets", awayWicketsValue);
             params.set("away_balls", awayBallsValue);
 
-            const response = await fetch(
-                `/tournament/${tournamentID}/match/${matchNum}/score?${params}`,
-                {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            );
+            const response = await fetch(`${url}?${params.toString()}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
+            });
 
             if (response.ok) {
                 onMatchUpdate();
@@ -569,18 +566,19 @@ function MatchScoreCard({
     const handleToggleTargetOvertaken = async (e) => {
         e.stopPropagation();
         if (tossResultState === 'None') return;
+
         const newStatus = !targetOvertakenState;
+
         try {
-            const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/target-overtaken/${newStatus}`, {
-                method: 'PATCH',
+            const url = MATCHES_ENDPOINTS.targetOvertaken(tournamentID, matchNum, newStatus);
+
+            const response = await fetch(url, {
+                method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 }
             });
-            if (response.status === 429) {
-                setShowRateLimit(true);
-                return;
-            }
+
             if (!response.ok) {
                 throw new Error("Failed to update target overtaken status");
             }
@@ -589,8 +587,6 @@ function MatchScoreCard({
                 onMatchUpdate();
             }
         } catch (error) {
-            console.error(error);
-            setShowGenericError(true);
         }
     };
 
@@ -630,15 +626,17 @@ function MatchScoreCard({
             triggerAbandonGlow();
             return;
         }
-        const parsed = targetVal === '' || targetVal === null || targetVal === undefined ? null : parseInt(targetVal, 10);
-        const url = parsed === null
-            ? `/tournament/${tournamentID}/match/${matchNum}/target`
-            : `/tournament/${tournamentID}/match/${matchNum}/target/${parsed}`;
+
+        const parsed = targetVal === '' || targetVal === null || targetVal === undefined
+            ? null
+            : parseInt(targetVal, 10);
+
+        const url = MATCHES_ENDPOINTS.target(tournamentID, matchNum, parsed);
 
         try {
             const response = await fetch(url, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' }
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
             });
             if (!response.ok) {
                 // alert("Error: Response not ok");
