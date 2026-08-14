@@ -5,6 +5,7 @@ import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack,
 import { customStyles } from "../utils/selectStyles";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 import { fetchOptions } from "../api/fetchOptions";
+import MATCHES_ENDPOINTS from "../api/matches_endpoints";
 
 function ControlBar({
     refreshFunction,
@@ -180,14 +181,17 @@ function ControlBar({
 
     const randomlySimIncompleteMatches = async () => {
         setIsSimulating(true);
+
+        const url = MATCHES_ENDPOINTS.simulate(tournamentId);
+
+        const params = new URLSearchParams();
+        params.set("stage_num", stageValues[activeStageIndex].value);
+
         try {
-            const response = await fetch(`/tournament/${tournamentId}/match/simulate?stage_num=${stageValues[activeStageIndex].value}`,
-                {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+            const response = await fetch(`${url}?${params.toString()}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
+            });
 
             if (response.ok) {
                 refreshFunction();

@@ -10,11 +10,11 @@ match_service_bp = Blueprint('match_service_bp', __name__)
 
 # Dual functionality routes
 
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/<string:result>', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/result/<string:result>', methods=['PATCH'])
 def update_tournament_match_result(tournament_id, match_num, result):
     return jsonify(ms.update_match_result(tournament_id, match_num, result))
 
-@match_service_bp.route('/tournament/<string:tournament_id>/match/simulate', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/simulate', methods=['PATCH'])
 def simulate_tournament_matches(tournament_id):
     stage_num = request.args.get("stage_num", type=int)
     return jsonify(ms.simulate_matches(tournament_id, stage_num))

@@ -5,6 +5,7 @@ import BallsInput from "../inputs/BallsInput";
 import RunsInput from "../inputs/RunsInput";
 import WicketsInput from "../inputs/WicketsInput";
 import FetchStatusButton from "../buttons/FetchStatusButton";
+import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
 
 function MatchScoreCard({
     tournamentID,
@@ -139,14 +140,18 @@ function MatchScoreCard({
         abandonGlowTimer.current = setTimeout(() => setShowAbandonGlow(false), 2000);
     };
 
-    const handleClick = async (result) => {
+    const handleMatchResultChange = async (result) => {
         if (tossResultState === 'None') {
             triggerAbandonGlow();
             return;
         }
+
         setSelected(result);
+
         try {
-            const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/${result}`, {
+            const url = MATCHES_ENDPOINTS.updateResult(tournamentID, matchNum, result);
+
+            const response = await fetch(url, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -648,7 +653,7 @@ function MatchScoreCard({
             <div className="h-44 w-full flex flex-col bg-white font-['Nunito_Sans']">
                 <div className="flex flex-row h-36">
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
-                        onClick={() => handleClick('Home-win')}
+                        onClick={() => handleMatchResultChange('Home-win')}
                         onMouseEnter={() => setHoveredSection("Home-win")}
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle("Home-win", 0)}>
@@ -741,7 +746,7 @@ function MatchScoreCard({
                     </div>
 
                     <div className='flex flex-col border-l border-r border-gray-100 w-[27%] cursor-pointer'
-                        onClick={() => handleClick('No-result')}
+                        onClick={() => handleMatchResultChange('No-result')}
                         onMouseEnter={() => setHoveredSection("No-result")}
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle("No-result", 1)}>
@@ -868,7 +873,7 @@ function MatchScoreCard({
                     </div>
 
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
-                        onClick={() => handleClick('Away-win')}
+                        onClick={() => handleMatchResultChange('Away-win')}
                         onMouseEnter={() => setHoveredSection('Away-win')}
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle('Away-win', 2)}>
