@@ -159,12 +159,15 @@ function MatchCard({
 
     const resetMatchData = async () => {
         try {
-            const params = new URLSearchParams();
-            params.set("match_nums", [matchNum]);
+            const url = MATCHES_ENDPOINTS.clear(tournamentID);
 
-            const response = await fetch(`/tournament/${tournamentID}/match/clear?mode=match-numbers&${params.toString()}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' }
+            const params = new URLSearchParams();
+            params.set("mode", "match-numbers");
+            params.set("match_nums", matchNum);
+
+            const response = await fetch(`${url}?${params.toString()}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
             });
             if (response.ok) {
                 onMatchUpdate();
@@ -241,13 +244,12 @@ function MatchCard({
         e.stopPropagation(); // Prevents setting the match to "Draw" on click
 
         try {
-            const response = await fetch(
-                `/tournament/${tournamentID}/match/${matchNum}/status/${'complete'}`,
-                {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            );
+            const url = MATCHES_ENDPOINTS.status(tournamentID, matchNum, "complete");
+
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
+            });
             if (response.ok) {
                 onMatchUpdate();
             } else {
@@ -262,13 +264,12 @@ function MatchCard({
         setTossResultState(result);
 
         try {
-            const response = await fetch(
-                `/tournament/${tournamentID}/match/${matchNum}/toss-result/${result}`,
-                {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            );
+            const url = MATCHES_ENDPOINTS.tossResult(tournamentID, matchNum, result);
+
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' }
+            });
             if (!response.ok) {
                 // alert("Error: Response not ok");
             }
@@ -282,13 +283,16 @@ function MatchCard({
         setBattingFirstToggle(battingFirst);
 
         try {
-            const response = await fetch(
-                `/tournament/${tournamentID}/match/${matchNum}/toss-decision/${battingFirst ? 'bat' : 'bowl'}`,
-                {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
-                }
+            const url = MATCHES_ENDPOINTS.tossDecision(
+                tournamentID,
+                matchNum,
+                battingFirst ? "bat" : "bowl"
             );
+
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
+            });
             if (!response.ok) {
                 // alert("Error: Response not ok");
             }

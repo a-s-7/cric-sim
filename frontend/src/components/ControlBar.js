@@ -60,9 +60,9 @@ function ControlBar({
     }, [logo]);
 
     const fetchTeamOptions = async () => {
-        const url = TOURNAMENT_ENDPOINTS.tournamentTeams(tournamentId);
-
         try {
+            const url = TOURNAMENT_ENDPOINTS.tournamentTeams(tournamentId);
+
             const teamsData = await fetchOptions(url, (team) => ({ label: team.name, value: team.id }));
             setTeamOptions(teamsData);
         } catch (error) {
@@ -71,9 +71,9 @@ function ControlBar({
     };
 
     const fetchGroupOptions = async () => {
-        const url = TOURNAMENT_ENDPOINTS.tournamentGroups(tournamentId);
-
         try {
+            const url = TOURNAMENT_ENDPOINTS.tournamentGroups(tournamentId);
+
             const groupsData = await fetchOptions(url, (group) => ({ label: group.name, value: group.name }));
             setGroupOptions(groupsData);
         } catch (error) {
@@ -82,9 +82,9 @@ function ControlBar({
     };
 
     const fetchVenueOptions = async () => {
-        const url = TOURNAMENT_ENDPOINTS.tournamentVenues(tournamentId);
-
         try {
+            const url = TOURNAMENT_ENDPOINTS.tournamentVenues(tournamentId);
+
             const venueOptions = await fetchOptions(url, (venue) => ({ label: `${venue.stadium}, ${venue.city}`, value: venue.stadium }));
             setStadiumOptions(venueOptions);
         } catch (error) {
@@ -93,9 +93,9 @@ function ControlBar({
     };
 
     const fetchStageOptions = async () => {
-        const url = TOURNAMENT_ENDPOINTS.tournamentStages(tournamentId);
-
         try {
+            const url = TOURNAMENT_ENDPOINTS.tournamentStages(tournamentId);
+
             const stageOptions = await fetchOptions(url, (stage) => ({ label: stage.name, value: stage.order }));
             setStageOptions(stageOptions);
         } catch (error) {
@@ -104,12 +104,12 @@ function ControlBar({
     };
 
     const fetchActiveStages = async (isInitialLoad = false) => {
-        const url = TOURNAMENT_ENDPOINTS.tournamentStages(tournamentId);
-
-        const params = new URLSearchParams();
-        params.set("onlyActiveStages", "true");
-
         try {
+            const url = TOURNAMENT_ENDPOINTS.tournamentStages(tournamentId);
+
+            const params = new URLSearchParams();
+            params.set("onlyActiveStages", "true");
+
             const response = await fetch(`${url}?${params.toString()}`);
             if (!response.ok) {
                 throw new Error("Response was not ok");
@@ -162,7 +162,9 @@ function ControlBar({
                 params.set("stageOrder", stageValues[activeStageIndex].value);
             }
 
-            const response = await fetch(`/tournament/${tournamentId}/match/clear?${params.toString()}`, {
+            const url = MATCHES_ENDPOINTS.clear(tournamentId);
+
+            const response = await fetch(`${url}?${params.toString()}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });

@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import DeductionInput from "../inputs/DeductionInput";
+import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
 
 
 function MatchCardDisplay({
@@ -101,13 +102,12 @@ function MatchCardDisplay({
     const handleMatchUnlock = async (e) => {
         e.stopPropagation();
         try {
-            const response = await fetch(
-                `/tournament/${tournamentID}/match/${matchNum}/status/${'incomplete'}`,
-                {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            );
+            const url = MATCHES_ENDPOINTS.status(tournamentID, matchNum, "incomplete");
+
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
+            });
             if (response.ok) {
                 if (onMatchUpdate) {
                     onMatchUpdate();

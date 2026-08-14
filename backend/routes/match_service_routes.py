@@ -19,7 +19,7 @@ def simulate_tournament_matches(tournament_id):
     stage_num = request.args.get("stage_num", type=int)
     return jsonify(ms.simulate_matches(tournament_id, stage_num))
 
-@match_service_bp.route('/tournament/<string:tournament_id>/match/clear', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/clear', methods=['PATCH'])
 def clear_tournament_matches(tournament_id):
     mode = request.args.get("mode", "") 
     stage_order = request.args.get("stageOrder", type=int) 
@@ -31,15 +31,15 @@ def clear_tournament_matches(tournament_id):
 
 # Unified functionality routes
 
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/toss-result/<string:toss_result>', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/toss-result/<string:toss_result>', methods=['PATCH'])
 def set_match_toss_result(tournament_id, match_num, toss_result):
     return jsonify(ms.update_match_toss_result(tournament_id, match_num, toss_result))
    
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/toss-decision/<string:toss_decision>', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/toss-decision/<string:toss_decision>', methods=['PATCH'])
 def set_match_toss_decision(tournament_id, match_num, toss_decision):
     return jsonify(ms.update_match_toss_decision(tournament_id, match_num, toss_decision))
 
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/status/<string:status>', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/status/<string:status>', methods=['PATCH'])
 def set_match_status(tournament_id, match_num, status):
     return jsonify(ms.update_match_status(tournament_id, match_num, status))
    

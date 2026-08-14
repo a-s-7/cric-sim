@@ -4,6 +4,7 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import BallsInput from "../inputs/BallsInput";
 import RunsInput from "../inputs/RunsInput";
 import WicketsInput from "../inputs/WicketsInput";
+import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
 
 function MatchScoreCardDisplay({
     tournamentID,
@@ -85,13 +86,12 @@ function MatchScoreCardDisplay({
 
     const handleMatchUnlock = async (e) => {
         try {
-            const response = await fetch(
-                `/tournament/${tournamentID}/match/${matchNum}/status/${'incomplete'}`,
-                {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            );
+            const url = MATCHES_ENDPOINTS.status(tournamentID, matchNum, "incomplete");
+
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
+            });
             if (response.ok) {
                 onMatchUpdate();
             } else {

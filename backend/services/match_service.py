@@ -451,7 +451,7 @@ def clear_tournament_matches(tournament, mode, stage_order, match_nums):
 # Unified functionality methods
 
 def update_match_toss_result(tournament_id, match_num, toss_result):
-    if toss_result not in ["Home-win", "incomplete", "None"]:
+    if toss_result not in ["Home-win", "Away-win", "None"]:
         abort(400, description=f"Invalid match toss result")
 
     update_toss_field(tournament_id, match_num, "tossResult", toss_result, "result")
