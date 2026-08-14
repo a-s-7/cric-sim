@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft, faLayerGroup, faShuffle, faCircleNotch, faThumbTack, faGlobe, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../utils/selectStyles";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
+import { fetchOptions } from "../api/fetchOptions";
 
 function ControlBar({
     refreshFunction,
@@ -47,7 +48,7 @@ function ControlBar({
         const img = new Image();
         img.onload = () => {
             const ratio = img.width / img.height;
-            console.log(`[Logo Debug] ${logo} — ${img.width}x${img.height}, ratio: ${ratio.toFixed(3)}`);
+            // console.log(`[Logo Debug] ${logo} — ${img.width}x${img.height}, ratio: ${ratio.toFixed(3)}`);
             let scale;
             scale = 75;
 
@@ -61,18 +62,10 @@ function ControlBar({
         const url = TOURNAMENT_ENDPOINTS.tournamentTeams(tournamentId);
 
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Response was not ok");
-            }
-            const result = await response.json();
-            const teamsData = result.map(team => ({
-                label: team.name,
-                value: team.id
-            }));
+            const teamsData = await fetchOptions(url, (team) => ({ label: team.name, value: team.id }));
             setTeamOptions(teamsData);
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.error("Error fetching teams data:", error);
         }
     };
 
@@ -80,18 +73,10 @@ function ControlBar({
         const url = TOURNAMENT_ENDPOINTS.tournamentGroups(tournamentId);
 
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Response was not ok");
-            }
-            const result = await response.json();
-            const groupsData = result.map(group => ({
-                label: group.name,
-                value: group.name
-            }));
+            const groupsData = await fetchOptions(url, (group) => ({ label: group.name, value: group.name }));
             setGroupOptions(groupsData);
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.error("Error fetching groups data:", error);
         }
     };
 
@@ -99,18 +84,10 @@ function ControlBar({
         const url = TOURNAMENT_ENDPOINTS.tournamentVenues(tournamentId);
 
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Response was not ok");
-            }
-            const result = await response.json();
-            const venueOptions = result.map(venue => ({
-                label: venue.stadium + ", " + venue.city,
-                value: venue.stadium
-            }));
+            const venueOptions = await fetchOptions(url, (venue) => ({ label: `${venue.stadium}, ${venue.city}`, value: venue.stadium }));
             setStadiumOptions(venueOptions);
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.error("Error fetching venue data:", error);
         }
     };
 
@@ -118,18 +95,10 @@ function ControlBar({
         const url = TOURNAMENT_ENDPOINTS.tournamentStages(tournamentId);
 
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Response was not ok");
-            }
-            const result = await response.json();
-            const stageOptions = result.map(stage => ({
-                label: stage.name,
-                value: stage.order,
-            }));
+            const stageOptions = await fetchOptions(url, (stage) => ({ label: stage.name, value: stage.order }));
             setStageOptions(stageOptions);
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.error("Error fetching stage data:", error);
         }
     };
 

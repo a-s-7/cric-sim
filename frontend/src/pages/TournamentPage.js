@@ -3,6 +3,7 @@ import ControlBar from "../components/ControlBar";
 import StandingsPanel from "../components/standings/StandingsPanel";
 import MatchesPanel from "../components/matches/MatchesPanel";
 import { calculateStandingsMovement } from "../utils/standingsUtils";
+import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 
 
 function TournamentPage({
@@ -39,17 +40,17 @@ function TournamentPage({
     }
 
     const fetchMatches = async () => {
-        const params = new URLSearchParams();
+        const tournamentId = mode === "real-world" ? tournamentRWID : tournamentPSID
+        const url = TOURNAMENT_ENDPOINTS.tournamentMatches(tournamentId)
 
+        const params = new URLSearchParams();
         params.set("groups", selectedGroups.map(group => group.value).join(","));
         params.set("teams", selectedTeams.map(team => team.value).join(","));
         params.set("venues", selectedStadiums.map(stadium => stadium.value).join(","));
         params.set("stages", selectedStages.map(stage => stage.value).join(","));
 
-        let url = `/api/tournaments/${mode === "real-world" ? tournamentRWID : tournamentPSID}/matches?${params.toString()}`;
-
         try {
-            const response = await fetch(url);
+            const response = await fetch(`${url}?${params.toString()}`);
 
             if (!response.ok) {
                 throw new Error("Response was not ok");
@@ -62,7 +63,8 @@ function TournamentPage({
     };
 
     const fetchStandings = async () => {
-        let url = `/api/tournaments/${mode === "real-world" ? tournamentRWID : tournamentPSID}/standings`;
+        const tournamentId = mode === "real-world" ? tournamentRWID : tournamentPSID
+        const url = TOURNAMENT_ENDPOINTS.tournamentStandings(tournamentId)
 
         try {
             const response = await fetch(url);

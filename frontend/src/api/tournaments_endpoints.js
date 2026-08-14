@@ -5,6 +5,8 @@ const TOURNAMENT_ENDPOINTS = {
     tournamentVenues: (tournamentId) => `/api/tournaments/${tournamentId}/venues`,
     tournamentGroups: (tournamentId) => `/api/tournaments/${tournamentId}/groups`,
     tournamentStages: (tournamentId) => `/api/tournaments/${tournamentId}/stages`,
+    tournamentMatches: (tournamentId) => `/api/tournaments/${tournamentId}/matches`,
+    tournamentStandings: (tournamentId) => `/api/tournaments/${tournamentId}/standings`,
 };
 
 export default TOURNAMENT_ENDPOINTS;
