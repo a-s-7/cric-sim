@@ -1,3 +1,4 @@
+from flask import abort
 import os
 from pymongo import MongoClient
 from utils import (
@@ -26,7 +27,7 @@ matches_collection = db['matches']
 stages_collection = db["stages"]
 teams_collection = db['teams']
 
-def get_tournaments_info(group_results, category, division):
+def get_tournaments(group_results, category, division):
     query = {}
     if category != "all":
         query["category"] = category
@@ -45,21 +46,45 @@ def get_tournaments_info(group_results, category, division):
 
         if key not in paired:
             paired[key] = {
-                "id": key,
-                "rw_id": None,
-                "ps_id": None,
-                "format": tournament["format"],
+                "baseId": key,
+                "category": tournament["category"],
                 "name": tournament["name"],
                 "edition": tournament["edition"],
-                "startDate": tournament["startDate"].isoformat(),
-                "endDate": tournament["endDate"].isoformat(),
-                "structure": tournament["structure"],
-                "gradient": tournament["gradient"],
                 "mainLogo": tournament["mainLogo"],
-                "horizontalLogo": tournament["horizontalLogo"],
-                "pointsTableColor": tournament["pointsTableColor"],
                 "tileBackgroundColor": tournament["tileBackgroundColor"],
-                "category": tournament["category"],
+            }
+    
+    output = list(paired.values())
+
+    return {"tournaments": output, "grouped": group_results}
+
+def get_tournament_info(tournament_base_id):
+    tournaments = list(tournaments_collection.find({ "_id": {"$regex": f"^{tournament_base_id}"}}))
+
+    if len(tournaments) == 0:
+        abort(404, description="Tournament not found")
+    elif len(tournaments) == 1:
+        abort(404, description="Incomplete tournament: expected RW and PS records")
+    elif len(tournaments) > 2:
+        abort(404, description="Multiple tournament records found")
+
+    paired = {}
+
+    for tournament in tournaments:
+        base_id = str(tournament["_id"])
+        key = base_id[:-3]
+
+        if key not in paired:
+            paired[key] = {
+                "rw_id": None,
+                "ps_id": None,
+                "name": tournament["name"],
+                "edition": tournament["edition"],
+                "horizontalLogo": tournament["horizontalLogo"],
+                "gradient": tournament["gradient"],
+                "pointsTableColor": tournament["pointsTableColor"],
+                "structure": tournament["structure"],
+                "format": tournament["format"]
             }
         
         if tournament.get("mode") == "real-world":
@@ -67,9 +92,7 @@ def get_tournaments_info(group_results, category, division):
         else:
             paired[key]["ps_id"] = str(tournament["_id"])
     
-    output = list(paired.values())
-
-    return {"tournaments": output, "grouped": group_results}
+    return paired[key]
 
 def get_tournament_teams(tournament_id):
     find_tournament(tournament_id)

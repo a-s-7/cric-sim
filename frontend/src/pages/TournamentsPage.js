@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 function TournamentsPage() {
     const navigate = useNavigate();
 
-    // const [wtcs, setWtcs] = useState([]);
     const [tournaments, setTournaments] = useState({ grouped: false, tournaments: [] });
 
     const [activeView, setActiveView] = useState(0);
@@ -129,52 +128,25 @@ function TournamentsPage() {
                     {!tournaments["grouped"] &&
                         tournaments["tournaments"].map((tournament, index) => (
                             <div
-                                onClick={() => navigate("/tournaments/" + tournament["id"])}
-                                key={tournament.id + "-" + index}
+                                onClick={() => navigate("/tournaments/" + tournament["baseId"])}
+                                key={tournament["baseId"] + "-" + index}
                                 className="rounded-3xl border border-gray-300 
-                 shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500
-                 hover:scale-105 transition-all duration-300 
-                 cursor-pointer w-full aspect-square flex items-center justify-center relative"
-                                style={{ backgroundColor: tournament.tileBackgroundColor }}
+                                            shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500
+                                            hover:scale-105 transition-all duration-300 
+                                            cursor-pointer w-full aspect-square flex items-center justify-center relative"
+                                style={{ backgroundColor: tournament["tileBackgroundColor"] }}
                             >
                                 <img
-                                    src={tournament.mainLogo}
-                                    alt={tournament.name}
-                                    className={`${tournament.category === "franchise" ? "h-[55%] w-[55%]" : "h-[65%] w-[65%]"} object-contain`}
+                                    src={tournament["mainLogo"]}
+                                    alt={tournament["name"]}
+                                    className={`${tournament["category"] === "franchise" ? "h-[55%] w-[55%]" : "h-[65%] w-[65%]"} object-contain`}
                                 />
-                                {tournament.category === "franchise" && <div className="absolute font-['Outfit'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
-                                    {tournament.edition}
+                                {tournament["category"] === "franchise" && <div className="absolute font-['Outfit'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
+                                    {tournament["edition"]}
                                 </div>}
                             </div>
                         ))}
                 </div>
-                {/* {wtcs.length > 0 && (
-                    <div className="space-y-4">
-                        <h2 className="text-3xl font-bold text-black">
-                            TEST
-                        </h2>
-                        <div className="flex flex-wrap gap-4">
-                            {wtcs.map((wtc) => (
-                                <div onClick={() => navigate("/" + wtc.acronym + "/" + wtc.edition)}
-                                    key={wtc._id || wtc.edition}
-                                    className="bg-black rounded-[36px] border border-gray-300 
-                                    shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500
-                                    hover:scale-105
-                                    transition-all duration-300 
-                                    cursor-pointer w-48 h-48 flex flex-col items-center justify-center relative">
-                                    <img
-                                        src={wtc.logo}
-                                        alt={wtc.name}
-                                        className="h-[65%] w-[65%] object-contain mb-2"
-                                    />
-                                    <div className="absolute font-['Outfit'] bottom-4 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
-                                        {wtc.edition}-{wtc.edition + 2}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )} */}
             </div>
         </div>
     );

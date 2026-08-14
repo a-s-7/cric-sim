@@ -14,7 +14,11 @@ def get_tournaments():
     category = request.args.get('category', 'all').lower()
     division = request.args.get('division', 'all').lower()
 
-    return ts.get_tournaments_info(group_results, category, division)
+    return ts.get_tournaments(group_results, category, division)
+
+@tournament_service_bp.route('/tournament/<string:tournament_base_id>/info', methods=['GET'])
+def get_tournament(tournament_base_id):
+    return ts.get_tournament_info(tournament_base_id)
 
 @tournament_service_bp.route('/tournament/<string:tournament_id>/teams', methods=['GET'])
 def get_tournament_teams(tournament_id):
