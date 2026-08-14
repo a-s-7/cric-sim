@@ -15,7 +15,7 @@ function ControlBar({
     setSelectedStadiums,
     setSelectedGroups,
     setSelectedStages,
-    urlTag,
+    tournamentId,
     logo,
     name,
     color,
@@ -31,7 +31,6 @@ function ControlBar({
     const [stageOptions, setStageOptions] = useState([]);
     const [isSimulating, setIsSimulating] = useState(false);
     const [isResetting, setIsResetting] = useState(false);
-
 
     const [stageValues, setStageValues] = useState([]);
     const [activeStageIndex, setActiveStageIndex] = React.useState(0);
@@ -58,7 +57,7 @@ function ControlBar({
     }, [logo]);
 
     const fetchTeamOptions = async () => {
-        let url = `/tournament/${urlTag}/teams`;
+        let url = `/api/tournaments/${tournamentId}/teams`;
         console.log(url);
 
         try {
@@ -78,7 +77,7 @@ function ControlBar({
     };
 
     const fetchGroupOptions = async () => {
-        let url = `/tournament/${urlTag}/groups`;
+        let url = `/api/tournaments/${tournamentId}/groups`;
         console.log(url);
 
         try {
@@ -98,7 +97,7 @@ function ControlBar({
     };
 
     const fetchVenueOptions = async () => {
-        let url = `/tournament/${urlTag}/venues`;
+        let url = `/api/tournaments/${tournamentId}/venues`;
 
         try {
             const response = await fetch(url);
@@ -117,7 +116,7 @@ function ControlBar({
     };
 
     const fetchStageOptions = async () => {
-        let url = `/tournament/${urlTag}/stages`;
+        let url = `/api/tournaments/${tournamentId}/stages`;
 
         try {
             const response = await fetch(url);
@@ -136,7 +135,7 @@ function ControlBar({
     };
 
     const fetchActiveStages = async (isInitialLoad = false) => {
-        let url = `/tournament/${urlTag}/stages?onlyActiveStages=true`;
+        let url = `/api/tournaments/${tournamentId}/stages?onlyActiveStages=true`;
 
         try {
             const response = await fetch(url);
@@ -191,7 +190,7 @@ function ControlBar({
                 params.set("stageOrder", stageValues[activeStageIndex].value);
             }
 
-            const response = await fetch(`/tournament/${urlTag}/match/clear?${params.toString()}`, {
+            const response = await fetch(`/tournament/${tournamentId}/match/clear?${params.toString()}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -211,7 +210,7 @@ function ControlBar({
     const randomlySimIncompleteMatches = async () => {
         setIsSimulating(true);
         try {
-            const response = await fetch(`/tournament/${urlTag}/match/simulate?stage_num=${stageValues[activeStageIndex].value}`,
+            const response = await fetch(`/tournament/${tournamentId}/match/simulate?stage_num=${stageValues[activeStageIndex].value}`,
                 {
                     method: 'PATCH',
                     headers: {
@@ -243,7 +242,7 @@ function ControlBar({
             hasMounted.current = true;
         });
         // eslint-disable-next-line
-    }, [urlTag]);
+    }, [tournamentId]);
 
 
     useEffect(() => {

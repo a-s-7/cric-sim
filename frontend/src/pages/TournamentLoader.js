@@ -3,13 +3,13 @@ import { useParams } from "react-router-dom";
 import TournamentPage from "./TournamentPage";
 
 function TournamentLoader() {
-    const { tournamentId } = useParams();
+    const { tournamentBaseId } = useParams();
     const [tournament, setTournament] = useState(null);
 
     useEffect(() => {
         const fetchTournament = async () => {
             try {
-                const response = await fetch(`/tournament/${tournamentId}/info`);
+                const response = await fetch(`/api/tournaments/${tournamentBaseId}/info`);
 
                 if (!response.ok) {
                     throw new Error("Response was not ok");
@@ -23,7 +23,7 @@ function TournamentLoader() {
         };
 
         fetchTournament();
-    }, [tournamentId]);
+    }, [tournamentBaseId]);
 
     if (!tournament) {
         return null;

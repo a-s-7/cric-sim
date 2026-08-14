@@ -12,7 +12,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/tournaments" element={<TournamentsPage />} />
-                <Route path="/tournaments/:tournamentId" element={<TournamentLoader />} />
+                <Route path="/tournaments/:tournamentBaseId" element={<TournamentLoader />} />
             </Routes>
         </div>
     );

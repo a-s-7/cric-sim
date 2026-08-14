@@ -13,7 +13,7 @@ function TournamentsPage() {
     const genders = ["All", "Mens", "Womens"];
 
     const fetchTournaments = async () => {
-        let url = '/tournaments';
+        let url = '/api/tournaments';
         const params = new URLSearchParams();
         params.set("grouped", "false");
         params.set("category", "all");
@@ -35,7 +35,7 @@ function TournamentsPage() {
         setActiveView(viewIndex);
         setActiveGender(genderIndex);
 
-        let url = '/tournaments';
+        let url = '/api/tournaments';
         const params = new URLSearchParams();
         params.set("grouped", "false");
 

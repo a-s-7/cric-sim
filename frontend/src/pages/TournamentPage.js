@@ -46,7 +46,7 @@ function TournamentPage({
         params.set("venues", selectedStadiums.map(stadium => stadium.value).join(","));
         params.set("stages", selectedStages.map(stage => stage.value).join(","));
 
-        let url = `/tournament/${mode === "real-world" ? tournamentRWID : tournamentPSID}/matches?${params.toString()}`;
+        let url = `/api/tournaments/${mode === "real-world" ? tournamentRWID : tournamentPSID}/matches?${params.toString()}`;
 
         try {
             const response = await fetch(url);
@@ -62,7 +62,7 @@ function TournamentPage({
     };
 
     const fetchStandings = async () => {
-        let url = `/tournament/${mode === "real-world" ? tournamentRWID : tournamentPSID}/standings`;
+        let url = `/api/tournaments/${mode === "real-world" ? tournamentRWID : tournamentPSID}/standings`;
 
         try {
             const response = await fetch(url);
@@ -108,7 +108,7 @@ function TournamentPage({
                 setSelectedStadiums={setSelectedStadiums}
                 setSelectedGroups={setSelectedGroups}
                 setSelectedStages={setSelectedStages}
-                urlTag={mode === "real-world" ? tournamentRWID : tournamentPSID}
+                tournamentId={mode === "real-world" ? tournamentRWID : tournamentPSID}
                 logo={tournamentLogo}
                 name={tournamentName}
                 color={tournamentGradient}
