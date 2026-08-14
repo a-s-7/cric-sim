@@ -43,7 +43,7 @@ def set_match_toss_decision(tournament_id, match_num, toss_decision):
 def set_match_status(tournament_id, match_num, status):
     return jsonify(ms.update_match_status(tournament_id, match_num, status))
    
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/abandon', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/abandon', methods=['PATCH'])
 def abandon_match(tournament_id, match_num):
    return jsonify(ms.abandon_match(tournament_id, match_num))
 

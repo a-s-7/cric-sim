@@ -11,6 +11,8 @@ const MATCHES_ENDPOINTS = {
         `/api/tournaments/${tournamentId}/matches/${matchNum}/toss-decision/${tossDecision}`,
     status: (tournamentId, matchNum, status) =>
         `/api/tournaments/${tournamentId}/matches/${matchNum}/status/${status}`,
+    abandon: (tournamentId, matchNum) =>
+        `/api/tournaments/${tournamentId}/matches/${matchNum}/abandon`,
 };
 
 export default MATCHES_ENDPOINTS;

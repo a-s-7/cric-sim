@@ -321,9 +321,11 @@ function MatchScoreCard({
         } else {
             // Abandon match
             try {
-                const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/abandon`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
+                const url = MATCHES_ENDPOINTS.abandon(tournamentID, matchNum);
+
+                const response = await fetch(url, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" }
                 });
 
                 if (response.ok) {
