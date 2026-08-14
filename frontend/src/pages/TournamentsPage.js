@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 
@@ -15,7 +15,7 @@ function TournamentsPage() {
 
     const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
 
-    const fetchTournaments = async (viewIndex, genderIndex) => {
+    const fetchTournaments = useCallBack(async (viewIndex, genderIndex) => {
         setActiveView(viewIndex);
         setActiveGender(genderIndex);
 
@@ -49,11 +49,11 @@ function TournamentsPage() {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-    };
+    }, [TOURNAMENTS_URL]);
 
     useEffect(() => {
         fetchTournaments(0, 0);
-    }, []);
+    }, [fetchTournaments]);
 
     return (
         <div className="min-h-screen p-4 bg-gray-50 font-['Reem_Kufi_Fun']">

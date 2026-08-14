@@ -48,7 +48,7 @@ function ControlBar({
         setScaleReady(false);
         const img = new Image();
         img.onload = () => {
-            const ratio = img.width / img.height;
+            // const ratio = img.width / img.height;
             // console.log(`[Logo Debug] ${logo} — ${img.width}x${img.height}, ratio: ${ratio.toFixed(3)}`);
             let scale;
             scale = 75;
