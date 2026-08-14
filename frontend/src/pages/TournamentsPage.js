@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 
 function TournamentsPage() {
     const navigate = useNavigate();
@@ -12,14 +13,15 @@ function TournamentsPage() {
     const views = ["All", "Events", "Leagues"];
     const genders = ["All", "Mens", "Womens"];
 
+    const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
+
     const fetchTournaments = async () => {
-        let url = '/api/tournaments';
         const params = new URLSearchParams();
         params.set("grouped", "false");
         params.set("category", "all");
 
         try {
-            const response = await fetch(url + "?" + params.toString());
+            const response = await fetch(TOURNAMENTS_URL + "?" + params.toString());
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }
@@ -35,7 +37,6 @@ function TournamentsPage() {
         setActiveView(viewIndex);
         setActiveGender(genderIndex);
 
-        let url = '/api/tournaments';
         const params = new URLSearchParams();
         params.set("grouped", "false");
 
@@ -56,7 +57,7 @@ function TournamentsPage() {
         }
 
         try {
-            const response = await fetch(url + "?" + params.toString());
+            const response = await fetch(TOURNAMENTS_URL + "?" + params.toString());
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }
