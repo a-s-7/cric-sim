@@ -32,22 +32,6 @@ function TournamentsPage() {
         }
     };
 
-    // const fetchWtcs = async () => {
-    //     let url = '/wtc/info';
-
-    //     try {
-    //         const response = await fetch(url);
-    //         if (!response.ok) {
-    //             throw new Error("Response was not ok");
-    //         }
-    //         const result = await response.json();
-    //         setWtcs(result);
-    //         console.log(result);
-    //     } catch (error) {
-    //         console.error("Error fetching data:", error);
-    //     }
-    // };
-
     const updateTournaments = async (viewIndex, genderIndex) => {
         setActiveView(viewIndex);
         setActiveGender(genderIndex);
