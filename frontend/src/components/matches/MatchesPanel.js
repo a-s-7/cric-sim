@@ -34,7 +34,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                 block: "center"
             });
         }
-    }, [matchesArray]);
+    }, [currentMatch]);
 
     return (
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
