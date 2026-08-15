@@ -2,6 +2,7 @@ import MatchScoreCard from "./MatchScoreCard";
 import MatchScoreCardDisplay from "./MatchScoreCardDisplay";
 import MatchCard from "./MatchCard";
 import MatchCardDisplay from "./MatchCardDisplay";
+import { useEffect, useRef } from "react";
 
 function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentId, tournamentName, tournamentEdition }) {
 
@@ -11,6 +12,29 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
     const format = matches?.format || "";
     const category = matches?.category || "";
     const ballsPerInnings = matches?.ballsPerInnings || "";
+
+    const currentMatchRef = useRef(null);
+
+    const currentMatch = matchesArray.reduce((closest, match) => {
+        if (!match.date) return closest;
+
+        const matchDate = new Date(match.date);
+
+        if (!closest || Math.abs(matchDate - new Date()) < Math.abs(new Date(closest.date) - new Date())) {
+            return match;
+        }
+
+        return closest;
+    }, null);
+
+    useEffect(() => {
+        if (currentMatch) {
+            currentMatchRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    }, [matchesArray]);
 
     return (
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
@@ -66,10 +90,10 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
             </div>
 
             <div className="flex-1 flex flex-col overflow-hidden">
-
                 <div className="flex-1 flex flex-col gap-8 px-2 pt-0 pb-2 overflow-y-auto no-scrollbar mt-2">
                     {matchesArray && matchesArray.map(match => (
-                        <div key={`${match.matchNumber}`}>
+                        <div key={`${match.matchNumber}`}
+                            ref={match.matchNumber === currentMatch?.matchNumber ? currentMatchRef : null}>
                             {((match.stageStatus === "locked" || match.status === "complete") ? true : (match.stage === "Playoffs" || match.stage === "Final") ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
                                 (format === "TEST" ? <MatchCardDisplay
                                     tournamentID={tournamentId}
