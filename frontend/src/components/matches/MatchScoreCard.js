@@ -596,21 +596,22 @@ function MatchScoreCard({
             triggerAbandonGlow();
             return;
         }
+
         if (max_balls === '' || max_balls === null) {
             return;
         }
+
+        const url = MATCHES_ENDPOINTS.maxBalls(tournamentID, matchNum);
+
         const params = new URLSearchParams();
         params.set("team", team);
         params.set("max_balls", max_balls);
 
         try {
-            const response = await fetch(
-                `/tournament/${tournamentID}/match/${matchNum}/max-balls?${params}`,
-                {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            );
+            const response = await fetch(`${url}?${params.toString()}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
+            });
             if (!response.ok) {
                 // alert("Error: Response not ok");
             }

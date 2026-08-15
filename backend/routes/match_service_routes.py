@@ -69,7 +69,7 @@ def update_match_target_runs(tournament_id, match_num, target_runs=None):
 def update_match_target_overtake_status(tournament_id, match_num, target_overtaken):
     return jsonify(ms.update_target_overtake_status(tournament_id, match_num, target_overtaken))
 
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/max-balls', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/max-balls', methods=['PATCH'])
 def update_match_max_balls(tournament_id, match_num):
     team = request.args.get("team", "")
     max_balls = request.args.get("max_balls", type=int)
