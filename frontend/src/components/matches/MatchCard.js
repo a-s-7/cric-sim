@@ -72,21 +72,19 @@ function MatchCard({
     const formattedDateObj = new Date(date);
     const timeZone = "America/Los_Angeles";
 
+    const dayFmt = new Intl.DateTimeFormat("en-US", { timeZone, day: "numeric" });
+    const monthFmt = new Intl.DateTimeFormat("en-US", { timeZone, month: "short" });
+    const yearFmt = new Intl.DateTimeFormat("en-US", { timeZone, year: "numeric" });
+
     const formatTestDateRange = (date, endDate) => {
         const start = new Date(date);
         const end = new Date(endDate);
 
-        const startDay = start.getUTCDate();
-        const endDay = end.getUTCDate();
-        const startMonth = start.toLocaleDateString("en-US", {
-            month: "short",
-            timeZone: "UTC"
-        });
-        const endMonth = end.toLocaleDateString("en-US", {
-            month: "short",
-            timeZone: "UTC"
-        });
-        const year = end.getUTCFullYear();
+        const startDay = dayFmt.format(start);
+        const endDay = dayFmt.format(end);
+        const startMonth = monthFmt.format(start);
+        const endMonth = monthFmt.format(end);
+        const year = yearFmt.format(end);
 
         if (startMonth === endMonth) {
             return `${startMonth} ${startDay}-${endDay}, ${year}`;
