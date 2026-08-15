@@ -23,6 +23,11 @@ const MATCHES_ENDPOINTS = {
         `/api/tournaments/${tournamentId}/matches/${matchNum}/target-overtaken/${targetOvertaken}`,
     maxBalls: (tournamentId, matchNum) =>
         `/api/tournaments/${tournamentId}/matches/${matchNum}/max-balls`,
+    deduction: (tournamentId, matchNum, team, deduction) =>
+        `/api/tournaments/${tournamentId}/matches/${matchNum}/team/${team}/deduction/${deduction}`,
+    sync: (tournamentId, matchNum) =>
+        `/api/tournaments/${tournamentId}/matches/${matchNum}/sync`,
+    autoSync: "/api/matches/auto-sync"
 };
 
 export default MATCHES_ENDPOINTS;

@@ -286,13 +286,15 @@ function MatchScoreCard({
         genericErrorTimer.current = setTimeout(() => setShowGenericError(false), 10000);
     };
 
-    const handleFetchUpdate = async (e) => {
+    const handleMatchSync = async (e) => {
         e.stopPropagation();
         setIsFetching(true);
         try {
-            const response = await fetch(`/tournament/${tournamentID}/match/${matchNum}/sync`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' }
+            const url = MATCHES_ENDPOINTS.sync(tournamentID, matchNum);
+
+            const response = await fetch(url, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
             });
             if (response.ok) {
                 onMatchUpdate();
@@ -811,7 +813,7 @@ function MatchScoreCard({
                                         />
                                         <button
                                             className="absolute inset-0 bg-white hover:bg-zinc-100 text-zinc-800 hover:text-black transition-all duration-300 shadow-sm border border-zinc-200 hover:border-zinc-400 flex items-center justify-center rounded-full hover:scale-110 hover:shadow-[0_0_8px_rgba(0,0,0,0.1)]"
-                                            onClick={handleFetchUpdate}
+                                            onClick={handleMatchSync}
                                             title="Fetch match update"
                                             style={{
                                                 opacity: (showRateLimit || showGenericError) ? 0 : 1,

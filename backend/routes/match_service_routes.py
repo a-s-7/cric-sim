@@ -79,16 +79,16 @@ def update_match_max_balls(tournament_id, match_num):
 #######################################################################################################################################
 
 # Methods: Only for WTC tournaments
-@match_service_bp.route('/tournament/<string:tournament_id>/match/<int:match_num>/team/<string:team>/deduction/<int:deduction>', methods=['PATCH'])
+@match_service_bp.route('/api/tournaments/<string:tournament_id>/matches/<int:match_num>/team/<string:team>/deduction/<int:deduction>', methods=['PATCH'])
 def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction):
     return jsonify(ms.update_wtc_match_points_deduction(tournament_id, match_num, team, deduction))
 
 #######################################################################################################################################
 
-@match_service_bp.route("/tournament/<tournament_id>/match/<int:match_num>/sync", methods=["PATCH"])
+@match_service_bp.route("/api/tournaments/<string:tournament_id>/matches/<int:match_num>/sync", methods=["PATCH"])
 def force_sync_match(tournament_id, match_num):
     return jsonify(ms.force_sync_match(tournament_id, match_num))
 
-@match_service_bp.route("/matches/auto-sync", methods=["POST"])
+@match_service_bp.route("/api/matches/auto-sync", methods=["POST"])
 def auto_sync_matches():
     return jsonify(ms.auto_sync_matches())
