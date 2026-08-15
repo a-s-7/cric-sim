@@ -44,7 +44,7 @@ matches_collection = db['matches']
 stages_collection = db["stages"]
 verbose = False
 
-# Dual functionality methods
+# Limited-overs + WTC methods  
 
 def update_match_result(tournament_id, match_num, result):
     tournament = find_tournament(tournament_id)
@@ -446,10 +446,6 @@ def clear_tournament_matches(tournament, mode, stage_order, match_nums):
         
     commit_and_propagate_match_clear(tournament, t_id, matches, team_acc)
 
-#######################################################################################################################################
-
-# Unified functionality methods
-
 def update_match_toss_result(tournament_id, match_num, toss_result):
     if toss_result not in ["Home-win", "Away-win", "None"]:
         abort(400, description=f"Invalid match toss result")
@@ -518,10 +514,95 @@ def abandon_match(tournament_id, match_num):
     update_match_result(tournament_id, match_num, abandonResult)
 
     update_match_status_toss(tournament_id, match_num, toss_result="None", toss_decision="None")
-    
+
+def force_sync_match(tournament_id, match_num):
+    match = matches_collection.find_one({
+        "tournamentId": tournament_id,
+        "matchNumber": int(match_num)
+    })
+
+    if not match:
+        abort(404, description="Match not found")
+        
+    try:
+        res = sync_match_result(match["tournamentId"], match["matchNumber"], verbose=True)
+        return {
+            "tournamentId": match["tournamentId"],
+            "matchNumber": match["matchNumber"],
+            "status": "success",
+            "result": res
+        }
+    except Exception as e:
+        if is_gemini_quota_error(e):
+            abort(429, description="AI resource exhausted")
+        abort(500, description=str(e))
+
+def auto_sync_matches():
+    rw_tournaments = tournaments_collection.find({"mode": "real-world"})
+    rw_tournament_ids = [t["_id"] for t in rw_tournaments]
+
+    matches = list(matches_collection.find({
+        "tournamentId": {"$in": rw_tournament_ids},
+        "endDate": {"$lt": datetime.now(timezone.utc)},
+        "autoUpdate": True,
+        "status": "incomplete"
+    }).sort("endDate", 1))
+
+    synced_matches = []
+    quota_exhausted = False
+
+    for match in matches:
+        try:
+            res = sync_match_result(match["tournamentId"], match["matchNumber"], verbose=True)
+
+            synced_matches.append({
+                "tournamentId": match["tournamentId"],
+                "matchNumber": match["matchNumber"],
+                "status": "success",
+                "result": res
+            })
+        except Exception as e:
+            if is_gemini_quota_error(e):
+                synced_matches.append({
+                    "tournamentId": match["tournamentId"],
+                    "matchNumber": match["matchNumber"],
+                    "status": "failed",
+                    "error": "AI resource exhausted"
+                })
+
+                quota_exhausted = True
+                break
+
+            synced_matches.append({
+                "tournamentId": match["tournamentId"],
+                "matchNumber": match["matchNumber"],
+                "status": "failed",
+                "error": str(e)
+            })
+
+    updated_count = sum(
+        1 for m in synced_matches if m["status"] == "success"
+    )
+    failed_count = sum(
+        1 for m in synced_matches if m["status"] == "failed"
+    )
+
+    response = {
+        "total_matches": len(matches),
+        "updated": updated_count,
+        "failed": failed_count,
+        "matches": synced_matches
+    }
+
+    return response, (
+        429 if quota_exhausted
+        else 500 if failed_count > 0
+        else 200
+    )
+
 #######################################################################################################################################
 
-# Limited-overs only methods
+# Limited-overs methods
 
 def update_match_score(tournament_id, match_num, home_runs, home_wickets, home_balls, away_runs, away_wickets, away_balls):
     tournament = find_limited_overs_tournament(tournament_id)
@@ -798,6 +879,8 @@ def update_match_max_balls(tournament_id, match_num, team, max_balls):
 
 #######################################################################################################################################
 
+# WTC methods
+
 def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction):
     if team not in ("home", "away"):
         abort(400, description="Invalid team")
@@ -836,90 +919,3 @@ def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction)
 
     if result.matched_count == 0:
         abort(404, description="Stage team not found")
-
-#######################################################################################################################################
-
-def force_sync_match(tournament_id, match_num):
-    match = matches_collection.find_one({
-        "tournamentId": tournament_id,
-        "matchNumber": int(match_num)
-    })
-
-    if not match:
-        abort(404, description="Match not found")
-        
-    try:
-        res = sync_match_result(match["tournamentId"], match["matchNumber"], verbose=True)
-        return {
-            "tournamentId": match["tournamentId"],
-            "matchNumber": match["matchNumber"],
-            "status": "success",
-            "result": res
-        }
-    except Exception as e:
-        if is_gemini_quota_error(e):
-            abort(429, description="AI resource exhausted")
-        abort(500, description=str(e))
-
-def auto_sync_matches():
-    rw_tournaments = tournaments_collection.find({"mode": "real-world"})
-    rw_tournament_ids = [t["_id"] for t in rw_tournaments]
-
-    matches = list(matches_collection.find({
-        "tournamentId": {"$in": rw_tournament_ids},
-        "endDate": {"$lt": datetime.now(timezone.utc)},
-        "autoUpdate": True,
-        "status": "incomplete"
-    }).sort("endDate", 1))
-
-    synced_matches = []
-    quota_exhausted = False
-
-    for match in matches:
-        try:
-            res = sync_match_result(match["tournamentId"], match["matchNumber"], verbose=True)
-
-            synced_matches.append({
-                "tournamentId": match["tournamentId"],
-                "matchNumber": match["matchNumber"],
-                "status": "success",
-                "result": res
-            })
-        except Exception as e:
-            if is_gemini_quota_error(e):
-                synced_matches.append({
-                    "tournamentId": match["tournamentId"],
-                    "matchNumber": match["matchNumber"],
-                    "status": "failed",
-                    "error": "AI resource exhausted"
-                })
-
-                quota_exhausted = True
-                break
-
-            synced_matches.append({
-                "tournamentId": match["tournamentId"],
-                "matchNumber": match["matchNumber"],
-                "status": "failed",
-                "error": str(e)
-            })
-
-    updated_count = sum(
-        1 for m in synced_matches if m["status"] == "success"
-    )
-    failed_count = sum(
-        1 for m in synced_matches if m["status"] == "failed"
-    )
-
-    response = {
-        "total_matches": len(matches),
-        "updated": updated_count,
-        "failed": failed_count,
-        "matches": synced_matches
-    }
-
-    return response, (
-        429 if quota_exhausted
-        else 500 if failed_count > 0
-        else 200
-    )
