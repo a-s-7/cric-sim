@@ -1,6 +1,6 @@
+import json
 from agent.match_context import get_match_context
 from agent.match_search import get_match_result
-from agent.match_simulate import simulate_limited_overs_match
 
 def sync_match_result(tournament_id, match_number, verbose=False):
     """
@@ -17,29 +17,32 @@ def sync_match_result(tournament_id, match_number, verbose=False):
     match_context = get_match_context(tournament_id, match_number)
 
     if verbose:
-        print(f"       {match_context['home_team_name']} vs {match_context['away_team_name']} on {match_context['date']}")
+        print("=" * 30 + " Match Context " + "=" * 30)
+        print(json.dumps(match_context, indent=2))
 
-    # Step 2: Resolve the official result using an LLM + web search, grounded in the match context, and check for failure
-    if verbose:
-        print("[2/3] Searching for match result...")
+    # # Step 2: Resolve the official result using an LLM + web search, grounded in the match context, and check for failure
+    # if verbose:
+    #     print("[2/3] Searching for match result...")
 
-    match_result = get_match_result(match_context)
+    # match_result = get_match_result(match_context)
 
-    if "error" in match_result:
-        if verbose:
-            print(f"[!] AI could not find a result: {match_result['error']}")
-        raise Exception(match_result["error"])
+    # if "error" in match_result:
+    #     if verbose:
+    #         print(f"[!] AI could not find a result: {match_result['error']}")
+    #     raise Exception(match_result["error"])
 
-    if verbose:
-        print(f"       Result: {match_result}")
+    # if verbose:
+    #     print(f"       Result: {match_result}")
 
-    # Step 3: Write the resolved result back to the match document.
-    if verbose:
-        print("[3/3] Simulating match with result...")
+    # # Step 3: Write the resolved result back to the match document.
+    # if verbose:
+    #     print("[3/3] Simulating match with result...")
 
-    simulate_limited_overs_match(tournament_id, match_context, match_result)
+    # from agent.match_simulate import simulate_limited_overs_match
 
-    if verbose:
-        print(f"       ✓ Match #{match_context['match_number']} updated successfully.")
+    # simulate_limited_overs_match(tournament_id, match_context, match_result)
 
-    return match_result
+    # if verbose:
+    #     print(f"       ✓ Match #{match_context['match_number']} updated successfully.")
+
+    # return match_result
