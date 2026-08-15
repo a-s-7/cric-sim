@@ -1,7 +1,7 @@
 from utils import find_limited_overs_tournament
 from services import match_service
 
-def simulate_limited_overs_match(match_context, match_result):
+def simulate_limited_overs_match(tournament_id, match_num, match_result):
     """
     Updates a limited-overs match by calling the shared match service directly.
     
@@ -17,9 +17,6 @@ def simulate_limited_overs_match(match_context, match_result):
         5. update_target_runs           - Updates DLS target runs if a target exists.
         6. update_score                 - Updates scores and net run rate (NRR).
     """
-
-    tournament_id = match_context["tournament_id"]
-    match_num = match_context["match_number"]
 
     try:
         result = match_result["result"]

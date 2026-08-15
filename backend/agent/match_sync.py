@@ -7,10 +7,10 @@ def sync_match_result(tournament_id, match_number, verbose=False):
     Synchronizes a match result by:
       1. Fetching match context from the database
       2. Using the match context, finding the official result with an LLM and web search
-      3. Using the match context and result, simulates the match
+      3. Using the match result, simulates the match
     """
 
-    # Step 1: Load match context needed to search for the correct result and simulate the match
+    # Step 1: Fetch match context needed to search for the correct result
     if verbose:
         print(f"[1/3] Fetching match context for {tournament_id} - Match #{match_number}...")
 
@@ -37,7 +37,7 @@ def sync_match_result(tournament_id, match_number, verbose=False):
     if verbose:
         print("[3/3] Simulating match with result...")
 
-    simulate_limited_overs_match(match_context, match_result)
+    simulate_limited_overs_match(tournament_id, match_context, match_result)
 
     if verbose:
         print(f"       ✓ Match #{match_context['match_number']} updated successfully.")

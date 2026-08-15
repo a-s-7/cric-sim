@@ -16,34 +16,98 @@ stageTeams_collection = db['stageTeams']
 teams_collection = db['teams']
 matches_collection = db['matches']
 stages_collection = db["stages"]
+series_collection = db["series"]
+venues_collection = db["venues"]
+
+def _lookup_by_id_field(id_field, from_collection, as_name):
+    """Build a $lookup+$match stage that joins on a string field holding an ObjectId."""
+    return {
+        "$lookup": {
+            "from": from_collection,
+            "let": {"targetId": {"$toObjectId": f"${id_field}"}},
+            "pipeline": [
+                {"$match": {"$expr": {"$eq": ["$_id", "$$targetId"]}}}
+            ],
+            "as": as_name,
+        }
+    }
+
 
 def get_match_context(tournament_id, match_number):
-    # Step 0: fetch the tournament
-    tournament = tournaments_collection.find_one({"_id": tournament_id})
-    if not tournament:
-        raise ValueError(f"Tournament not found: {tournament_id}")
+    pipeline = [
+        # 1. Find the match
+        {"$match": {"tournamentId": tournament_id, "matchNumber": match_number}},
 
-    # Step 1: fetch the match
-    match = matches_collection.find_one({"tournamentId": tournament_id, "matchNumber": match_number})
-    if not match:
-        raise ValueError(f"Match not found: {tournament_id} - Match #{match_number}")
+        # 2. Join tournament (string _id, no ObjectId conversion)
+        {"$lookup": {
+            "from": "tournaments",
+            "localField": "tournamentId",
+            "foreignField": "_id",
+            "as": "tournament",
+        }},
+        {"$unwind": "$tournament"},
 
-    # Step 2: resolve home team
-    home_stage_team = stageTeams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
-    home_team = teams_collection.find_one({"_id": home_stage_team["teamId"]})
+        # 3. Join venue, stage (ObjectId-backed)
+        _lookup_by_id_field("venueId", "venues", "venue"),
+        {"$unwind": "$venue"},
 
-    # Step 3: resolve away team
-    away_stage_team = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
-    away_team = teams_collection.find_one({"_id": away_stage_team["teamId"]})
+        _lookup_by_id_field("stageId", "stages", "stage"),
+        {"$unwind": "$stage"},
 
-    return {
-        "match_number": match["matchNumber"],
-        "date": match["date"].strftime("%Y-%m-%d"),
+        # 4. Join home team: match -> stageTeams (ObjectId) -> teams (string _id)
+        _lookup_by_id_field("homeStageTeamId", "stageTeams", "homeStageTeam"),
+        {"$unwind": "$homeStageTeam"},
+        {"$lookup": {
+            "from": "teams",
+            "localField": "homeStageTeam.teamId",
+            "foreignField": "_id",
+            "as": "homeTeam",
+        }},
+        {"$unwind": "$homeTeam"},
+
+        # 5. Join away team: match -> stageTeams (ObjectId) -> teams (string _id)
+        _lookup_by_id_field("awayStageTeamId", "stageTeams", "awayStageTeam"),
+        {"$unwind": "$awayStageTeam"},
+        {"$lookup": {
+            "from": "teams",
+            "localField": "awayStageTeam.teamId",
+            "foreignField": "_id",
+            "as": "awayTeam",
+        }},
+        {"$unwind": "$awayTeam"},
+
+        # 6. Join series (optional — only WTC matches have seriesId)
+        _lookup_by_id_field("seriesId", "series", "series"),
+        {"$unwind": {"path": "$series", "preserveNullAndEmptyArrays": True}},
+    ]
+
+    results = list(matches_collection.aggregate(pipeline))
+    if not results:
+        raise ValueError(f"Match not found: {tournament_id} - #{match_number}")
+
+    return _build_context(results[0])
+
+def _build_context(doc):
+    tournament = doc["tournament"]
+
+    context = {
         "tournament_name": tournament["name"],
         "tournament_edition": tournament["edition"],
-        "tournament_id": tournament["_id"],
-        "home_team_name": home_team["name"],
-        "home_team_acronym": home_team["acronym"],
-        "away_team_name": away_team["name"],
-        "away_team_acronym": away_team["acronym"],
+        "date": doc["date"].strftime("%Y-%m-%d"),
+        "home_team_name": doc["homeTeam"]["name"],
+        "home_team_acronym": doc["homeTeam"]["acronym"],
+        "away_team_name": doc["awayTeam"]["name"],
+        "away_team_acronym": doc["awayTeam"]["acronym"],
+        "stage": doc["stage"]["name"],
+        "venue": doc["venue"]["stadium"],
+        "city": doc["venue"]["city"],
+        "country": doc["venue"]["country"],
     }
+
+    if tournament["name"] == "ICC World Test Championship":
+        context["series_name"] = doc["series"]["name"]
+        context["series_match_number"] = doc["seriesMatchNumber"]
+    else:
+        context["format"] = tournament["format"]
+
+    return context
