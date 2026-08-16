@@ -1,7 +1,8 @@
 import os
 from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
-from flask import jsonify, abort
+from flask import abort
+import re
 
 try:
     from google.genai.errors import ClientError as GenaiClientError
@@ -1006,3 +1007,19 @@ def is_gemini_quota_error(e):
         return True
     err_str = str(e)
     return "RESOURCE_EXHAUSTED" in err_str or "429" in err_str
+
+def validate_result_summary(result_summary):
+    if not isinstance(result_summary, str):
+        return False
+
+    result_summary = result_summary.strip()
+
+    valid_patterns = [
+        r"^Won by \d+ runs$",
+        r"^Won by \d+ wickets$",
+        r"^Won by an innings and \d+ runs$",
+        r"^Match drawn$",
+        r"^Match tied$",
+    ]
+
+    return any(re.fullmatch(pattern, result_summary) for pattern in valid_patterns)

@@ -27,14 +27,19 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
         return closest;
     }, null);
 
+    const hasScrolled = useRef(false);
+
     useEffect(() => {
-        if (currentMatch) {
+        if (currentMatch && !hasScrolled.current) {
             currentMatchRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "center"
             });
+
+            hasScrolled.current = true;
         }
     }, [currentMatch]);
+
 
     return (
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">

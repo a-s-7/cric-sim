@@ -20,29 +20,29 @@ def sync_match_result(tournament_id, match_number, verbose=False):
         print("=" * 30 + " Match Context " + "=" * 30)
         print(json.dumps(match_context, indent=2))
 
-    # # Step 2: Resolve the official result using an LLM + web search, grounded in the match context, and check for failure
-    # if verbose:
-    #     print("[2/3] Searching for match result...")
+    # Step 2: Resolve the official result using an LLM + web search, grounded in the match context, and check for failure
+    if verbose:
+        print("[2/3] Searching for match result...")
 
-    # match_result = get_match_result(match_context)
+    match_result = get_match_result(match_context)
 
-    # if "error" in match_result:
-    #     if verbose:
-    #         print(f"[!] AI could not find a result: {match_result['error']}")
-    #     raise Exception(match_result["error"])
+    if "error" in match_result:
+        if verbose:
+            print(f"[!] AI could not find a result: {match_result['error']}")
+        raise Exception(match_result["error"])
 
-    # if verbose:
-    #     print(f"       Result: {match_result}")
+    if verbose:
+        print(f"       Result: {match_result}")
 
-    # # Step 3: Write the resolved result back to the match document.
-    # if verbose:
-    #     print("[3/3] Simulating match with result...")
+    # Step 3: Write the resolved result back to the match document.
+    if verbose:
+        print("[3/3] Simulating match with result...")
 
-    # from agent.match_simulate import simulate_limited_overs_match
+    from agent.match_simulate import simulate_match
 
-    # simulate_limited_overs_match(tournament_id, match_context, match_result)
+    simulate_match(tournament_id, match_number, match_context["format"], match_result)
 
-    # if verbose:
-    #     print(f"       ✓ Match #{match_context['match_number']} updated successfully.")
+    if verbose:
+        print(f"       ✓ Match #{match_number} updated successfully.")
 
-    # return match_result
+    return match_result

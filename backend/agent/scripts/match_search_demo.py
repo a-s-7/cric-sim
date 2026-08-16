@@ -9,7 +9,7 @@ from agent.match_search import get_match_result
 
 
 tournament_id = "icc-mens-wtc-2025-27-rw"
-match_number = 5
+match_number = 70
 
 
 # Get match context

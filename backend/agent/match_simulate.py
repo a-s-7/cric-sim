@@ -1,6 +1,79 @@
-from utils import find_limited_overs_tournament
+from utils import find_limited_overs_tournament, find_wtc_tournament
 from services import match_service
 
+def simulate_match(tournament_id, match_num, format, match_result):
+    if format == "TEST":
+        simulate_wtc_match(tournament_id, match_num, match_result)
+    else: 
+        simulate_limited_overs_match(tournament_id, match_num, match_result)
+
+def simulate_wtc_match(tournament_id, match_num, match_result):
+    """
+    Updates a WTC match by calling the shared match service directly.
+
+    The match result summary is updated first.
+
+    If no toss occurred, the match is abandoned:
+        1. update_match_status  - Marks the match as complete.
+        2. abandon_match        - Abandons the match and sets the result to No-result.
+
+    Otherwise, the completed match is updated:
+        1. clear_tournament_matches          - Clears existing match data.
+        2. update_match_status_toss          - Updates status and toss information.
+        3. update_tournament_match_result    - Updates the official match result.
+        4. update_wtc_match_points_deduction - Updates WTC points deductions.
+    """
+
+    try:
+        result = match_result["result"]
+        toss_result = match_result["tossResult"]
+        toss_decision = match_result["tossDecision"]
+        home_deduction_points = match_result["homeDeductionPoints"]
+        away_deduction_points = match_result["awayDeductionPoints"]
+        result_summary = match_result["resultSummary"]
+        status = "complete"
+
+        # Case A: Abandon match if no toss occurred
+        if toss_result == "None":
+            print("[WTC] Stage 1: Updating result summary")
+            match_service.update_wtc_match_result_summary(tournament_id, match_num, result_summary)
+
+            print("[WTC] Stage 2: Marking match complete")
+            match_service.update_match_status(tournament_id, match_num, status)
+
+            print("[WTC] Stage 3: Abandoning match")
+            match_service.abandon_match(tournament_id, match_num)
+            return
+
+        # Case B: Update completed match
+        print("[WTC] Stage 1: Finding tournament")
+        tournament = find_wtc_tournament(tournament_id)
+
+        print("[WTC] Stage 2: Clearing existing match data")
+        match_service.clear_wtc_matches(tournament, "match-numbers", None, str(match_num))
+
+        print("[WTC] Stage 3: Updating result summary")
+        match_service.update_wtc_match_result_summary(tournament_id, match_num, result_summary)
+
+        print("[WTC] Stage 4: Updating status and toss")
+        match_service.update_match_status_toss(tournament_id, match_num, status, toss_result, toss_decision)
+
+        print("[WTC] Stage 5: Updating match result")
+        match_service.update_wtc_match_result(tournament, match_num, result)
+
+        print("[WTC] Stage 6: Updating home deduction")
+        match_service.update_wtc_match_points_deduction(tournament_id, match_num, "home", home_deduction_points)
+
+        print("[WTC] Stage 7: Updating away deduction")
+        match_service.update_wtc_match_points_deduction(tournament_id, match_num, "away", away_deduction_points)
+
+        print("[WTC] Match updated successfully")
+
+    except Exception as e:
+        print(f"[WTC] FAILED at stage: {e}")
+        raise RuntimeError(f"Match {match_num} simulation failed - {e}") from e
+
+    
 def simulate_limited_overs_match(tournament_id, match_num, match_result):
     """
     Updates a limited-overs match by calling the shared match service directly.

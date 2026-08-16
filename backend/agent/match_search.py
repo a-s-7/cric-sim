@@ -53,7 +53,7 @@ def get_match_result(context):
     - Do not assume, infer, or deduce tossResult or tossDecision. You must explicitly find and verify 
       both values from the available data before populating them.
     - Sole Exception: if the match was abandoned and the toss could not take place, set result to "No-result",
-      tossResult and tossDecision to "None."
+      tossResult and tossDecision to "None".
     - Only apply this exception if you can confirm from the available data that no toss 
       happened — do not assume "No-result" alone means the toss never occurred, since matches can also be 
       abandoned after a toss has already taken place.
@@ -108,14 +108,14 @@ def get_match_result(context):
             - If the match is an Eliminator or Final and the regular innings are tied, a Super Five is used. 
               Set "result" based on the team that won the Super Five.
 
-    - If the match hasn't finished, return:
-    {{
-        "error": "Match has not finished"
-    }}
-
     - If any of the above mentioned fields in the JSON object cannot be found or verified with confidence, return:
     {{
         "error": "Could not find match result"
+    }}
+
+     - If the match hasn't finished, return:
+    {{
+        "error": "Match has not finished"
     }}
     """
 
@@ -158,7 +158,7 @@ def get_match_result(context):
       and verify both values from the available data before populating them.
 
     - Sole Exception: if the match was abandoned and the toss could not take place, set
-      result to "No-result", tossResult and tossDecision to "None."
+      result to "Draw", tossResult and tossDecision to "None" and "resultSummary" as described below.
         - Only apply this exception if you can confirm from the available data that no toss
           happened — do not assume "No-result" alone means the toss never occurred, since
           matches can also be abandoned after a toss has already taken place.
@@ -172,24 +172,31 @@ def get_match_result(context):
     - If no official WTC points deduction applies to a team, return 0 for that team's
       deduction points.
 
-    - resultSummary must provide a concise description of the official match result:
-        - For "Home-win" or "Away-win", state the winning margin, such as "Won by X runs",
-        "Won by X wickets", or "Won by an innings and X runs".
-        - For "Draw", return exactly "Match drawn".
-        - For "Tie", return exactly "Match tied".
-        
+    - resultSummary must provide a concise description of the official match result and must match exactly one of the following formats:
+      - "Won by X runs" where X is a positive integer.
+      - "Won by X wickets" where X is a positive integer.
+      - "Won by an innings and X runs" where X is a positive integer.
+      - "Match drawn"
+      - "Match tied"
+
+    - Do not include the team name, punctuation, additional explanation, or any other text in resultSummary.
+    - For "Home-win" or "Away-win", use the officially reported winning margin.
+    - For "Draw", return exactly "Match drawn".
+    - For "Tie", return exactly "Match tied".
+    - The resultSummary must correspond to the value of result.
+
     - homeTeamRuns, homeTeamWickets, homeTeamBalls refer to {context['home_team_name']}'s innings
     - awayTeamRuns, awayTeamWickets, awayTeamBalls refer to {context['away_team_name']}'s innings
-
-    - If the match hasn't finished, return:
-    {{
-        "error": "Match has not finished"
-    }}
 
     - If any of the above mentioned fields in the JSON object cannot be found or verified
       with confidence, return:
     {{
         "error": "Could not find match result"
+    }}
+
+      - If the match hasn't finished, return:
+    {{
+        "error": "Match has not finished"
     }}
     """
 

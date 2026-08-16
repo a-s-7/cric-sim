@@ -25,6 +25,7 @@ from utils import (
                 update_team_match_tie,
                 find_limited_overs_tournament,
                 find_wtc_tournament,
+                validate_result_summary,
                 update_toss_field)
 
 from agent.match_sync import sync_match_result
@@ -44,7 +45,7 @@ matches_collection = db['matches']
 stages_collection = db["stages"]
 verbose = False
 
-# Limited-overs + WTC methods  
+# Limited-overs + WTC   
 
 def update_match_result(tournament_id, match_num, result):
     tournament = find_tournament(tournament_id)
@@ -481,7 +482,7 @@ def update_match_status_toss(tournament_id, match_num, status=None, toss_result=
 
         update_fields["status"] = status
     if toss_result is not None:
-        if toss_result not in ["Home-win", "incomplete", "None"]:
+        if toss_result not in ["Home-win", "Away-win", "None"]:
             abort(400, description=f"Invalid match toss result")
 
         update_fields["tossResult"] = toss_result
@@ -882,6 +883,7 @@ def update_match_max_balls(tournament_id, match_num, team, max_balls):
 # WTC methods
 
 def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction):
+
     if team not in ("home", "away"):
         abort(400, description="Invalid team")
 
@@ -919,3 +921,22 @@ def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction)
 
     if result.matched_count == 0:
         abort(404, description="Stage team not found")
+
+def update_wtc_match_result_summary(tournament_id, match_num, result_summary):
+    find_wtc_tournament(tournament_id)
+
+    match = matches_collection.find_one({
+        "tournamentId": tournament_id,
+        "matchNumber": int(match_num)
+    })
+
+    if not match:
+        abort(404, description="Match not found")
+
+    if not validate_result_summary(result_summary):
+        abort(400, description="Invalid result summary")
+
+    matches_collection.update_one(
+        {"_id": match["_id"]},
+        {"$set": {"resultSummary": result_summary}}
+    )
