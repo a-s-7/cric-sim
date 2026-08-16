@@ -138,7 +138,7 @@ function MatchCardDisplay({
             ? "https://static.thenounproject.com/png/2005489-200.png"
             : "https://static.thenounproject.com/png/2485180-200.png";
 
-        const isLoser = matchResult !== 'None' && matchResult !== 'No-result' && matchResult !== section;
+        const isLoser = matchResult !== 'None' && matchResult !== 'Draw' && matchResult !== section;
 
         // Using solid neutral grey and white ring
         const baseColor = "bg-[#d1d5db]";
@@ -216,12 +216,12 @@ function MatchCardDisplay({
                     </div>
 
                     <div className='flex flex-col border-l border-r border-gray-100 w-[27%]'
-                        style={getStyle("No-result", 1)}>
+                        style={getStyle("Draw", 1)}>
                         <div className={`w-full h-[32%] flex font-bold items-center justify-center text-[0.9vw] ${matchResult !== 'None' ? 'opacity-50' : 'opacity-100'}`}>{formatTestDateRange(date, endDate)}</div>
                         <div className="w-full h-[36%] flex items-center justify-center">
                             <div className={`uppercase text-inherit text-center px-2 ${matchResult === 'None' ? 'text-[1.3vw] font-["Reem_Kufi_Fun"] font-medium tracking-wide opacity-80' : 'text-[0.8vw] font-["Reem_Kufi_Fun"] font-bold tracking-wider leading-snug drop-shadow-sm'}`} style={{ WebkitTextStroke: matchResult !== 'None' ? '0.5px currentColor' : '0' }}>
                                 {matchResult === 'None' ? 'VS' : getMatchResult().split('\n').map((line, i) => (
-                                    <div key={i} className={i > 0 ? matchResult === "No-result" ? "" : "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.725vw' }}>{line}</div>
+                                    <div key={i} className={i > 0 ? matchResult === "Draw" ? "" : "text-gray-600" : ""} style={{ fontSize: i === 0 ? '0.9vw' : '0.725vw' }}>{line}</div>
                                 ))}
                             </div>
                         </div>

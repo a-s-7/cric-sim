@@ -1,4 +1,4 @@
-from dns import versioned
+from services.notification_service import send_notification
 from dataclasses import field
 from flask import abort
 from re import match
@@ -527,12 +527,13 @@ def force_sync_match(tournament_id, match_num):
         
     try:
         res = sync_match_result(match["tournamentId"], match["matchNumber"], verbose=True)
-        return {
+        message = {
             "tournamentId": match["tournamentId"],
             "matchNumber": match["matchNumber"],
             "status": "success",
             "result": res
         }
+        return message
     except Exception as e:
         if is_gemini_quota_error(e):
             abort(429, description="AI resource exhausted")

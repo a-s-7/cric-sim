@@ -12,7 +12,7 @@ def sync_match_result(tournament_id, match_number, verbose=False):
 
     # Step 1: Fetch match context needed to search for the correct result
     if verbose:
-        print(f"[1/3] Fetching match context for {tournament_id} - Match #{match_number}...")
+        print(f"\n[1/3] Fetching match context for {tournament_id} - Match #{match_number}...")
 
     match_context = get_match_context(tournament_id, match_number)
 
@@ -22,7 +22,7 @@ def sync_match_result(tournament_id, match_number, verbose=False):
 
     # Step 2: Resolve the official result using an LLM + web search, grounded in the match context, and check for failure
     if verbose:
-        print("[2/3] Searching for match result...")
+        print("\n[2/3] Searching for match result...")
 
     match_result = get_match_result(match_context)
 
@@ -32,17 +32,19 @@ def sync_match_result(tournament_id, match_number, verbose=False):
         raise Exception(match_result["error"])
 
     if verbose:
-        print(f"       Result: {match_result}")
+        print("=" * 30 + " Match Result " + "=" * 30)
+        print(json.dumps(match_result, indent=2))
 
     # Step 3: Write the resolved result back to the match document.
     if verbose:
-        print("[3/3] Simulating match with result...")
+        print("\n[3/3] Simulating match with result...")
 
     from agent.match_simulate import simulate_match
 
     simulate_match(tournament_id, match_number, match_context["format"], match_result)
 
     if verbose:
-        print(f"       ✓ Match #{match_number} updated successfully.")
+        print(f"\n✓ Match #{match_number} updated successfully.")
 
     return match_result
+    
