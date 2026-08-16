@@ -93,6 +93,7 @@ def _build_context(doc):
     context = {
         "tournament_name": tournament["name"],
         "tournament_edition": tournament["edition"],
+        "format": tournament["format"],
         "date": doc["date"].strftime("%Y-%m-%d"),
         "home_team_name": doc["homeTeam"]["name"],
         "home_team_acronym": doc["homeTeam"]["acronym"],
@@ -107,7 +108,5 @@ def _build_context(doc):
     if tournament["name"] == "ICC World Test Championship":
         context["series_name"] = doc["series"]["name"]
         context["series_match_number"] = doc["seriesMatchNumber"]
-    else:
-        context["format"] = tournament["format"]
 
     return context

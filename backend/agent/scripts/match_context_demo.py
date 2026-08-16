@@ -6,7 +6,7 @@ sys.path.append("backend")
 from agent.match_context import get_match_context
 import json
 
-tournament_id = "icc-mens-wtc-2025-27-rw"
+tournament_id = "ipl-2026-rw"
 match_number = 5
 
 start = time.perf_counter()
