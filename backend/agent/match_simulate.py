@@ -35,43 +35,43 @@ def simulate_wtc_match(tournament_id, match_num, match_result):
 
         # Case A: Abandon match if no toss occurred
         if toss_result == "None":
-            print("[WTC] Stage 1: Updating result summary")
+            print("  [WTC] SUB-STAGE 1: Updating result summary")
             match_service.update_wtc_match_result_summary(tournament_id, match_num, result_summary)
 
-            print("[WTC] Stage 2: Marking match complete")
+            print("  [WTC] SUB-STAGE 2: Marking match complete")
             match_service.update_match_status(tournament_id, match_num, status)
 
-            print("[WTC] Stage 3: Abandoning match")
+            print("  [WTC] SUB-STAGE 3: Abandoning match")
             match_service.abandon_match(tournament_id, match_num)
             return
 
         # Case B: Update completed match
-        print("[WTC] Stage 1: Finding tournament")
+        print("  [WTC] SUB-STAGE 1: Finding tournament")
         tournament = find_wtc_tournament(tournament_id)
 
-        print("[WTC] Stage 2: Clearing existing match data")
+        print("  [WTC] SUB-STAGE 2: Clearing existing match data")
         match_service.clear_wtc_matches(tournament, "match-numbers", None, str(match_num))
 
-        print("[WTC] Stage 3: Updating result summary")
+        print("  [WTC] SUB-STAGE 3: Updating result summary")
         match_service.update_wtc_match_result_summary(tournament_id, match_num, result_summary)
 
-        print("[WTC] Stage 4: Updating status and toss")
+        print("  [WTC] SUB-STAGE 4: Updating status and toss")
         match_service.update_match_status_toss(tournament_id, match_num, status, toss_result, toss_decision)
 
-        print("[WTC] Stage 5: Updating match result")
+        print("  [WTC] SUB-STAGE 5: Updating match result")
         match_service.update_wtc_match_result(tournament, match_num, result)
 
-        print("[WTC] Stage 6: Updating home deduction")
+        print("  [WTC] SUB-STAGE 6: Updating home deduction")
         match_service.update_wtc_match_points_deduction(tournament_id, match_num, "home", home_deduction_points)
 
-        print("[WTC] Stage 7: Updating away deduction")
+        print("  [WTC] SUB-STAGE 7: Updating away deduction")
         match_service.update_wtc_match_points_deduction(tournament_id, match_num, "away", away_deduction_points)
 
-        print("[WTC] Match updated successfully")
+        print("  ✓ SIMULATED: Match updated successfully")
 
     except Exception as e:
-        print(f"[WTC] FAILED at stage: {e}")
-        raise RuntimeError(f"Match {match_num} simulation failed - {e}") from e
+        print(f"  ✗ FAILED: {e}")
+        raise RuntimeError(e)
 
     
 def simulate_limited_overs_match(tournament_id, match_num, match_result):
@@ -105,9 +105,11 @@ def simulate_limited_overs_match(tournament_id, match_num, match_result):
         # Case A: Abandon match if no toss occurred, and return
         if toss_result == "None":
             # Step 1
+            print("  [LO] SUB-STAGE 1: Marking match complete")
             match_service.update_match_status(tournament_id, match_num, status)
 
             # Step 2
+            print("  [LO] SUB-STAGE 2: Abandoning match")
             match_service.abandon_match(tournament_id, match_num)
             return
 
@@ -116,32 +118,40 @@ def simulate_limited_overs_match(tournament_id, match_num, match_result):
         tournament = find_limited_overs_tournament(tournament_id)
 
         # Step 1
+        print("  [LO] SUB-STAGE 1: Clearing existing match data")
         match_service.clear_tournament_matches(tournament, "match-numbers", None, str(match_num))
 
         # Step 2
+        print("  [LO] SUB-STAGE 2: Updating status and toss")
         match_service.update_match_status_toss(tournament_id, match_num, status, toss_result, toss_decision)
 
         # Step 3
+        print("  [LO] SUB-STAGE 3: Updating match result")
         match_service.update_tournament_match_result(tournament, match_num, result)
 
         # Step 4
+        print("  [LO] SUB-STAGE 4: Updating max balls")
         match_service.update_match_max_balls(tournament_id, match_num, 'home', match_result["homeMaxBalls"])
         match_service.update_match_max_balls(tournament_id, match_num, 'away', match_result["awayMaxBalls"])
 
         # Step 5
         if target is not None:
+            print("  [LO] SUB-STAGE 5: Updating DLS target")
             match_service.update_match_target_runs(tournament_id, match_num, target)
             if target_overtaken:
                 match_service.update_target_overtake_status(tournament_id, match_num, target_overtaken)
 
         # Step 6
+        print("  [LO] SUB-STAGE 6: Updating score and NRR")
         match_service.update_match_score(
             tournament_id, match_num,
             match_result['homeTeamRuns'], match_result['homeTeamWickets'], match_result["homeTeamBalls"],
             match_result['awayTeamRuns'], match_result['awayTeamWickets'], match_result["awayTeamBalls"]
         )
 
+        print("  [LO] Match updated successfully")
         return
     except Exception as e:
+        print(f"  [LO] FAILED at stage: {e}")
         raise RuntimeError(f"Match {match_num} simulation failed - {e}") from e
 

@@ -1,0 +1,25 @@
+{
+    "limited_overs_result": {
+        "result": "Home-win",
+        "tossResult": "Away-win",
+        "tossDecision": "bowl",
+        "homeTeamRuns": 187,
+        "homeTeamWickets": 6,
+        "homeTeamBalls": 120,
+        "awayTeamRuns": 171,
+        "awayTeamWickets": 9,
+        "awayTeamBalls": 120,
+        "awayMaxBalls": 120,
+        "homeMaxBalls": 120,
+        "target": null,
+        "targetOvertaken": false
+    },
+    "wtc_result": {
+        "result": "Home-win",
+        "tossResult": "Away-win",
+        "tossDecision": "bowl",
+        "homeDeductionPoints": 0,
+        "awayDeductionPoints": 2,
+        "resultSummary": "Won by 4 wickets"
+    }
+}

@@ -846,8 +846,10 @@ def fetch_matches_with_stage_type(filter_query):
         {"$unwind": "$stage"},
         {"$set": {"stageType": "$stage.type"}}
     ]))
+
     if not matches:
-        abort(404, description="No matches found")
+        raise ValueError("No match found")
+
     return matches
 
 def commit_and_propagate_match_clear(tournament, t_id, matches, team_acc):
@@ -1023,3 +1025,51 @@ def validate_result_summary(result_summary):
     ]
 
     return any(re.fullmatch(pattern, result_summary) for pattern in valid_patterns)
+
+def format_auto_sync_log(all_matches, total_matches, updated_count, failed_count, skipped_count):
+    """
+    Formats auto-sync execution metrics and per-match status into a clean single report.
+    """
+    lines = [
+        "**Auto-Sync Execution Report**",
+        f"- Total: {total_matches} | Updated: {updated_count} | Failed: {failed_count} | Skipped: {skipped_count}\n"
+    ]
+
+    for item in all_matches:
+        t_id = item.get("tournamentId") or item.get("tournament_id")
+        m_num = item.get("matchNumber") or item.get("match_number")
+        status = item.get("status")
+
+        if status == "success":
+            ctx = item.get("context") or item.get("context_summary") or {}
+            res = item.get("result") or item.get("result_fetched") or {}
+            timing = item.get("timing") or {}
+
+            t_name = ctx.get("tournament_name", t_id)
+            home = ctx.get("home_team_acronym") or ctx.get("home_team", "Home")
+            away = ctx.get("away_team_acronym") or ctx.get("away_team", "Away")
+            outcome = res.get("result", "N/A")
+
+            lines.append(f"[SUCCESS] **{t_name} — Match #{m_num}**: {home} vs {away}")
+            lines.append(f"   - Outcome: `{outcome}` | Toss: `{res.get('tossResult', 'N/A')}` ({res.get('tossDecision', 'N/A')})")
+            if timing:
+                lines.append(
+                    f"   - Timings — Context: {timing.get('fetch_context_seconds')}s | "
+                    f"AI Search: {timing.get('resolve_result_seconds')}s | "
+                    f"Simulate: {timing.get('simulate_match_seconds')}s | "
+                    f"Total: {timing.get('total_seconds')}s"
+                )
+        elif status == "skipped":
+            ctx = item.get("context") or item.get("context_summary") or {}
+            home = ctx.get("home_team_acronym") or ctx.get("home_team")
+            away = ctx.get("away_team_acronym") or ctx.get("away_team")
+            teams_str = f": {home} vs {away}" if (home and away) else ""
+            lines.append(f"[SKIPPED] **{t_id} — Match #{m_num}**{teams_str} — Skipped (AI quota limits)")
+        else:
+            failed_stage = item.get("failed_stage")
+            stage_str = f" in [{failed_stage}]" if failed_stage else ""
+            lines.append(f"[FAILED] **{t_id} — Match #{m_num}**: Failed{stage_str} — {item.get('error')}")
+
+    return "\n".join(lines)
+
+_format_auto_sync_log = format_auto_sync_log

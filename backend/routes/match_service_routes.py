@@ -43,14 +43,6 @@ def set_match_status(tournament_id, match_num, status):
 def abandon_match(tournament_id, match_num):
    return jsonify(ms.abandon_match(tournament_id, match_num))
 
-@match_service_bp.route("/api/tournaments/<string:tournament_id>/matches/<int:match_num>/sync", methods=["PATCH"])
-def force_sync_match(tournament_id, match_num):
-    return jsonify(ms.force_sync_match(tournament_id, match_num))
-
-@match_service_bp.route("/api/matches/auto-sync", methods=["POST"])
-def auto_sync_matches():
-    return jsonify(ms.auto_sync_matches())
-
 #######################################################################################################################################
 
 # Limited-overs routes 

@@ -9,7 +9,10 @@ load_dotenv()
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-def get_match_result(context):
+def get_match_result(context, sample=None):
+    if sample is not None:
+        return sample
+
     google_search_tool = Tool(google_search=GoogleSearch())
 
     limited_overs_prompt = f"""
@@ -173,9 +176,9 @@ def get_match_result(context):
       deduction points.
 
     - resultSummary must provide a concise description of the official match result and must match exactly one of the following formats:
-      - "Won by X runs" where X is a positive integer.
-      - "Won by X wickets" where X is a positive integer.
-      - "Won by an innings and X runs" where X is a positive integer.
+      - "Won by X runs" where X is a positive integer in numeric digits (e.g. "5", NOT "five").
+      - "Won by X wickets" where X is a positive integer in numeric digits (e.g. "5", NOT "five").
+      - "Won by an innings and X runs" where X is a positive integer in numeric digits (e.g. "5", NOT "five").
       - "Match drawn"
       - "Match tied"
 
@@ -215,8 +218,22 @@ def get_match_result(context):
     raw = response.text.strip()
     raw = re.sub(r"```json|```", "", raw).strip()
 
+    WORD_TO_NUM = {
+        "zero": "0", "one": "1", "two": "2", "three": "3", "four": "4", "five": "5",
+        "six": "6", "seven": "7", "eight": "8", "nine": "9", "ten": "10",
+        "eleven": "11", "twelve": "12", "thirteen": "13", "fourteen": "14", "fifteen": "15"
+    }
+
     try:
-        return json.loads(raw)
+        data = json.loads(raw)
+        if isinstance(data, dict) and "resultSummary" in data and isinstance(data["resultSummary"], str):
+            data["resultSummary"] = re.sub(
+                r'\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen)\b',
+                lambda m: WORD_TO_NUM[m.group(1).lower()],
+                data["resultSummary"].strip(),
+                flags=re.IGNORECASE
+            )
+        return data
     except json.JSONDecodeError as e:
         print(f"[!] Failed to parse model response: {e}\nRaw output: {raw}")
         return {"error": f"Invalid JSON from model: {e}"}
