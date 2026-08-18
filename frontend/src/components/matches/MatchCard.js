@@ -4,6 +4,7 @@ import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclama
 import FetchStatusButton from "../buttons/FetchStatusButton";
 import DeductionInput from "../inputs/DeductionInput";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
+import { timeZone, formatTestDateRange } from "../utils/dateUtils"
 
 function MatchCard({
     tournamentID,
@@ -70,28 +71,6 @@ function MatchCard({
     const silverGlow = "border border-[#BFC1C2] shadow-[0_0_1.25rem_rgba(191,193,194,0.9)]";
 
     const formattedDateObj = new Date(date);
-    const timeZone = "America/Los_Angeles";
-
-    const dayFmt = new Intl.DateTimeFormat("en-US", { timeZone, day: "numeric" });
-    const monthFmt = new Intl.DateTimeFormat("en-US", { timeZone, month: "short" });
-    const yearFmt = new Intl.DateTimeFormat("en-US", { timeZone, year: "numeric" });
-
-    const formatTestDateRange = (date, endDate) => {
-        const start = new Date(date);
-        const end = new Date(endDate);
-
-        const startDay = dayFmt.format(start);
-        const endDay = dayFmt.format(end);
-        const startMonth = monthFmt.format(start);
-        const endMonth = monthFmt.format(end);
-        const year = yearFmt.format(end);
-
-        if (startMonth === endMonth) {
-            return `${startMonth} ${startDay}-${endDay}, ${year}`;
-        }
-
-        return `${startMonth} ${startDay}–${endMonth} ${endDay}, ${year}`;
-    };
 
     const formattedTime = formattedDateObj.toLocaleTimeString("en-US", {
         timeZone: timeZone,

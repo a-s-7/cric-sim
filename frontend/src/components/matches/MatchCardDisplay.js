@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import DeductionInput from "../inputs/DeductionInput";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
-
+import { timeZone, formatTestDateRange } from "../utils/dateUtils"
 
 function MatchCardDisplay({
     tournamentID,
@@ -44,28 +44,6 @@ function MatchCardDisplay({
     const awayLost = matchResult === 'Home-win';
 
     const formattedDateObj = new Date(date);
-    const timeZone = "America/Los_Angeles";
-
-    const dayFmt = new Intl.DateTimeFormat("en-US", { timeZone, day: "numeric" });
-    const monthFmt = new Intl.DateTimeFormat("en-US", { timeZone, month: "short" });
-    const yearFmt = new Intl.DateTimeFormat("en-US", { timeZone, year: "numeric" });
-
-    const formatTestDateRange = (date, endDate) => {
-        const start = new Date(date);
-        const end = new Date(endDate);
-
-        const startDay = dayFmt.format(start);
-        const endDay = dayFmt.format(end);
-        const startMonth = monthFmt.format(start);
-        const endMonth = monthFmt.format(end);
-        const year = yearFmt.format(end);
-
-        if (startMonth === endMonth) {
-            return `${startMonth} ${startDay}-${endDay}, ${year}`;
-        }
-
-        return `${startMonth} ${startDay}–${endMonth} ${endDay}, ${year}`;
-    };
 
     const formattedTime = formattedDateObj.toLocaleTimeString("en-US", {
         timeZone: timeZone,
