@@ -15,7 +15,8 @@ def get_match_result(context, sample=None):
 
     google_search_tool = Tool(google_search=GoogleSearch())
 
-    limited_overs_prompt = f"""
+    if context["format"] != "TEST":
+        prompt = f"""
     You are a limited-overs cricket match data retrieval agent. 
     
     You have been given the following match context:
@@ -116,13 +117,13 @@ def get_match_result(context, sample=None):
         "error": "Could not find match result"
     }}
 
-     - If the match hasn't finished, return:
+      - If the match hasn't finished, return:
     {{
         "error": "Match has not finished"
     }}
     """
-
-    wtc_prompt = f"""
+    else:
+        prompt = f"""
     You are a Test cricket match data retrieval agent, who focuses specifically on the ICC World Test Championship. 
     
     You have been given the following match context:
@@ -202,8 +203,6 @@ def get_match_result(context, sample=None):
         "error": "Match has not finished"
     }}
     """
-
-    prompt = limited_overs_prompt if context["format"] != "TEST" else wtc_prompt
 
     response = client.models.generate_content(
         model="gemini-2.5-flash",

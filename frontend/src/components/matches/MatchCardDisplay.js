@@ -162,7 +162,8 @@ function MatchCardDisplay({
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase'
                         style={getStyle("Home-win", 0)}>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5 relative">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5 relative"
+                            style={{ opacity: homeLost ? 0.4 : 1 }}>
                             {homeDeductionPoints > 0 && (
                                 <DeductionInput
                                     value={homeDeductionPoints}
@@ -234,7 +235,8 @@ function MatchCardDisplay({
                             }
                         </div>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5 relative">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5 relative"
+                            style={{ opacity: awayLost ? 0.4 : 1 }}>
                             {awayDeductionPoints > 0 && (
                                 <DeductionInput
                                     value={awayDeductionPoints}

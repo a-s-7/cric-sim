@@ -41,6 +41,9 @@ function MatchCard({
     const [selected, setSelected] = useState(matchResult);
     const [hoveredSection, setHoveredSection] = useState(null);
 
+    const homeLost = selected !== 'None' && selected !== 'Draw' && selected !== 'Home-win';
+    const awayLost = selected !== 'None' && selected !== 'Draw' && selected !== 'Away-win';
+
     const [homeDeductionPointsValue, setHomeDeductionPointsValue] = useState(homeDeductionPoints);
     const [awayDeductionPointsValue, setAwayDeductionPointsValue] = useState(awayDeductionPoints);
 

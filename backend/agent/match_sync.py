@@ -69,7 +69,10 @@ def sync_match_result(tournament_id, match_number, sample_result=None, verbose=F
     failed_stage = "[1/3] CONTEXT" if failed else None
 
     if verbose:
-        print(json.dumps(match_context, indent=2, default=str))
+        if failed:
+            print(f"[!] Error: {error_message}")
+        else:
+            print(json.dumps(match_context, indent=2, default=str))
 
     match_result = None
     resolve_result_duration = None
@@ -87,7 +90,10 @@ def sync_match_result(tournament_id, match_number, sample_result=None, verbose=F
             failed_stage = "[2/3] RESULT"
 
         if verbose:
-            print(json.dumps(match_result, indent=2, default=str))
+            if failed:
+                print(f"[!] Error: {error_message}")
+            else:
+                print(json.dumps(match_result, indent=2, default=str))
 
     if not failed_stage:
         if verbose:
