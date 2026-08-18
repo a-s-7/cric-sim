@@ -1,3 +1,11 @@
+export const ordinal = (n) => {
+    if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`;
+
+    const suffix = ["th", "st", "nd", "rd"][n % 10] || "th";
+    return `${n}${suffix}`;
+};
+
+
 export const timeZone = "America/Los_Angeles";
 
 const dayFmt = new Intl.DateTimeFormat("en-US", { timeZone, day: "numeric" });

@@ -4,7 +4,7 @@ import { faWandMagicSparkles, faCircleNotch, faUnlock, faBolt, faTriangleExclama
 import FetchStatusButton from "../buttons/FetchStatusButton";
 import DeductionInput from "../inputs/DeductionInput";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
-import { timeZone, formatTestDateRange } from "../utils/dateUtils"
+import { timeZone, formatTestDateRange, ordinal } from "../utils/dateUtils"
 
 function MatchCard({
     tournamentID,
@@ -78,13 +78,6 @@ function MatchCard({
         minute: "2-digit",
         hour12: true
     }).replace("AM", "a.m.").replace("PM", "p.m.");
-
-    const ordinal = (n) => {
-        if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`;
-
-        const suffix = ["th", "st", "nd", "rd"][n % 10] || "th";
-        return `${n}${suffix}`;
-    };
 
     const getStyle = (section, num) => {
         const gradients = [homeGradient, neutralGradient, awayGradient];

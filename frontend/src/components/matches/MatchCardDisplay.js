@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import DeductionInput from "../inputs/DeductionInput";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
-import { timeZone, formatTestDateRange } from "../utils/dateUtils"
+import { timeZone, formatTestDateRange, ordinal } from "../utils/dateUtils"
 
 function MatchCardDisplay({
     tournamentID,
@@ -51,13 +51,6 @@ function MatchCardDisplay({
         minute: "2-digit",
         hour12: true
     }).replace("AM", "a.m.").replace("PM", "p.m.");
-
-    const ordinal = (n) => {
-        if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`;
-
-        const suffix = ["th", "st", "nd", "rd"][n % 10] || "th";
-        return `${n}${suffix}`;
-    };
 
     const getStyle = (section, num) => {
         let background = 'transparent';
