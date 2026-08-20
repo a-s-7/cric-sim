@@ -97,7 +97,6 @@ function MatchCardDisplay({
             return matchResult === 'Home-win' ? homeTeamName + ' won' : awayTeamName + ' won';
         } else {
             if (matchResult === "Home-win" || matchResult === "Away-win") {
-                console.log(resultSummary)
                 return matchResult === 'Home-win' ? homeTeamName + " " + resultSummary : awayTeamName + " " + resultSummary;
             }
             return resultSummary

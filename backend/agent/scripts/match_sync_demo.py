@@ -7,7 +7,7 @@ sys.path.append("backend")
 from agent.match_sync import sync_match_result
 
 tournament_id = "icc-mens-wtc-2025-27-rw"
-match_number = 14
+match_number = 19
 verbose = True
 
 script_dir = os.path.dirname(os.path.abspath(__file__))

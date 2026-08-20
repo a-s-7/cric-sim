@@ -26,8 +26,13 @@ matches_collection = db['matches']
 
 def force_sync_match(tournament_id, match_num):
     """
-    Forces synchronization of a single match by tournament ID and match number.
+    Forces synchronization of a single real-world match by tournament ID and match number.
     """
+    tournament = tournaments_collection.find_one({"_id": tournament_id})
+
+    if not tournament or tournament["mode"] != "real-world":
+        abort(400, description="Match synchronization is only supported for real-world tournaments")
+
     match = matches_collection.find_one({
         "tournamentId": tournament_id,
         "matchNumber": int(match_num)
@@ -38,18 +43,11 @@ def force_sync_match(tournament_id, match_num):
 
     res = sync_match_result(match["tournamentId"], match["matchNumber"], verbose=True)
 
+    status_code = 200
     if res.get("status") == "failed":
-        if res.get("is_quota_error"):
-            abort(429, description="AI resource exhausted")
-        abort(500, description=res.get("error") or "Match sync failed")
+        status_code = 429 if res.get("is_quota_error") else 500
 
-    return {
-        "tournamentId": match["tournamentId"],
-        "matchNumber": match["matchNumber"],
-        "status": "success",
-        "result": res.get("result"),
-        "metrics": res
-    }
+    return res, status_code
 
 def auto_sync_matches():
     """
