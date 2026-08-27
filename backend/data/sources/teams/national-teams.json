@@ -43,6 +43,20 @@
             "type": "national"
         },
         {
+            "acronym": "THA",
+            "name": "Thailand",
+            "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/tha.png",
+            "gradient": "linear-gradient(135deg, red, white, blue)",
+            "type": "national"
+        },
+        {
+            "acronym": "INA",
+            "name": "Indonesia",
+            "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/ina.png",
+            "gradient": "linear-gradient(135deg, red, white, white)",
+            "type": "national"
+        },
+        {
             "acronym": "IND",
             "name": "India",
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/ind.png",
