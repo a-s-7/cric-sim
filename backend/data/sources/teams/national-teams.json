@@ -39,21 +39,21 @@
             "acronym": "HK",
             "name": "Hong Kong",
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/hkg.png",
-            "gradient": "linear-gradient(135deg, red, red, white)",
+            "gradient": "linear-gradient(135deg, #ff0b0b, #d91818, #000000)",
             "type": "national"
         },
         {
             "acronym": "THA",
             "name": "Thailand",
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/tha.png",
-            "gradient": "linear-gradient(135deg, red, white, blue)",
+            "gradient": "linear-gradient(135deg, #b51010, #b51010, #00009e)",
             "type": "national"
         },
         {
             "acronym": "INA",
             "name": "Indonesia",
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/ina.png",
-            "gradient": "linear-gradient(135deg, red, white, white)",
+            "gradient": "linear-gradient(135deg, #ff0c0c, #ff3333, #ffffff)",
             "type": "national"
         },
         {
