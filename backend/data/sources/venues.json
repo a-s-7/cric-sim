@@ -404,6 +404,16 @@
             "stadium": "Galle International Stadium",
             "city": "Galle",
             "country": "Sri Lanka"
+        },
+        {
+            "stadium": "Sportpark Westvliet",
+            "city": "The Hague",
+            "country": "Netherlands"
+        },
+        {
+            "stadium": "The Village",
+            "city": "Dublin",
+            "country": "Ireland"
         }
     ]
 }

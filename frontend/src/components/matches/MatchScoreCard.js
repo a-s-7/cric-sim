@@ -6,6 +6,7 @@ import RunsInput from "../inputs/RunsInput";
 import WicketsInput from "../inputs/WicketsInput";
 import FetchStatusButton from "../buttons/FetchStatusButton";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
+import { getTournamentLogoStyles } from "../../utils/tournamentScaleUtils";
 
 function MatchScoreCard({
     tournamentID,
@@ -657,6 +658,8 @@ function MatchScoreCard({
         return "border-[#cec7c7]";
     };
 
+    const { scaleClass, paddingClass } = getTournamentLogoStyles(tournamentName);
+
     return (
         <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex`}>
             <div className="h-44 w-full flex flex-col bg-white font-['Nunito_Sans']">
@@ -749,8 +752,8 @@ function MatchScoreCard({
                             }
                         </div>
 
-                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
+                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
                         </div>
                     </div>
 
@@ -887,8 +890,8 @@ function MatchScoreCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle('Away-win', 2)}>
 
-                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
+                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">

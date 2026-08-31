@@ -5,6 +5,7 @@ import BallsInput from "../inputs/BallsInput";
 import RunsInput from "../inputs/RunsInput";
 import WicketsInput from "../inputs/WicketsInput";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
+import { getTournamentLogoStyles } from "../../utils/tournamentScaleUtils";
 
 function MatchScoreCardDisplay({
     tournamentID,
@@ -225,6 +226,8 @@ function MatchScoreCardDisplay({
         return "border-[#cec7c7]";
     };
 
+    const { scaleClass, paddingClass } = getTournamentLogoStyles(tournamentName);
+
     return (
         <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex`}>
             <div className="h-44 w-full flex flex-col bg-white font-['Nunito_Sans']">
@@ -293,8 +296,8 @@ function MatchScoreCardDisplay({
                             }
                         </div>
 
-                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
+                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
                         </div>
                     </div>
 
@@ -330,8 +333,8 @@ function MatchScoreCardDisplay({
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         style={getStyle('Away-win', 2)}>
 
-                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
+                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">

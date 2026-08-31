@@ -1,0 +1,477 @@
+{
+    "tournament": {
+        "_id": "etpl-2026",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "ballsPerInnings": 120,
+        "matchDurationMinutes": 240,
+        "name": "European T20 Premier League",
+        "acronym": "ETPL",
+        "edition": "2026",
+        "status": "upcoming",
+        "startDate": "2026-08-26",
+        "endDate": "2026-09-20",
+        "structure": "league",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, darkblue, darkblue, #E3EA00)",
+        "mainLogo": "https://www.etplofficial.com/uploads/etpl-logo-full.png",
+        "horizontalLogo": "https://www.etplofficial.com/uploads/etpl-logo-full.png",
+        "pointsTableColor": "darkblue",
+        "tileBackgroundColor": "darkblue",
+        "teams": [
+            "AMF",
+            "BLW",
+            "ECR",
+            "DBG",
+            "RTD",
+            "GLC"
+        ],
+        "stadiums": [
+            "Sportpark Westvliet",
+            "The Village"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 10,
+                "qualifiersPerGroup": 3
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 3,
+                "numMatches": 2
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "AMF",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "BLW",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "ECR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "DBG",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "RTD",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "GLC",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 31
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2026-08-26 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "RTD",
+            "awayStageTeamId": "AMF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2026-08-27 02:30:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "BLW",
+            "awayStageTeamId": "DBG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2026-08-27 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "ECR",
+            "awayStageTeamId": "GLC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2026-08-28 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "AMF",
+            "awayStageTeamId": "ECR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2026-08-29 02:30:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "GLC",
+            "awayStageTeamId": "DBG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2026-08-29 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "RTD",
+            "awayStageTeamId": "BLW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2026-08-30 02:30:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "AMF",
+            "awayStageTeamId": "BLW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2026-08-30 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "ECR",
+            "awayStageTeamId": "DBG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2026-09-01 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "GLC",
+            "awayStageTeamId": "RTD",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2026-09-02 02:30:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "DBG",
+            "awayStageTeamId": "RTD",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2026-09-02 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "BLW",
+            "awayStageTeamId": "ECR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2026-09-03 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "AMF",
+            "awayStageTeamId": "GLC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2026-09-04 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "GLC",
+            "awayStageTeamId": "BLW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2026-09-05 02:30:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "RTD",
+            "awayStageTeamId": "ECR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2026-09-05 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "DBG",
+            "awayStageTeamId": "AMF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2026-09-06 02:30:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "GLC",
+            "awayStageTeamId": "ECR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2026-09-06 06:15:00",
+            "venue": "Sportpark Westvliet",
+            "homeStageTeamId": "AMF",
+            "awayStageTeamId": "RTD",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2026-09-09 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "DBG",
+            "awayStageTeamId": "BLW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2026-09-10 02:30:00",
+            "venue": "The Village",
+            "homeStageTeamId": "RTD",
+            "awayStageTeamId": "GLC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2026-09-10 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "BLW",
+            "awayStageTeamId": "AMF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2026-09-11 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "DBG",
+            "awayStageTeamId": "ECR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2026-09-12 02:30:00",
+            "venue": "The Village",
+            "homeStageTeamId": "BLW",
+            "awayStageTeamId": "RTD",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2026-09-12 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "DBG",
+            "awayStageTeamId": "GLC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2026-09-13 02:30:00",
+            "venue": "The Village",
+            "homeStageTeamId": "ECR",
+            "awayStageTeamId": "AMF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2026-09-13 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "BLW",
+            "awayStageTeamId": "GLC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2026-09-15 02:30:00",
+            "venue": "The Village",
+            "homeStageTeamId": "AMF",
+            "awayStageTeamId": "DBG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2026-09-15 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "ECR",
+            "awayStageTeamId": "RTD",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2026-09-16 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "GLC",
+            "awayStageTeamId": "AMF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2026-09-17 02:30:00",
+            "venue": "The Village",
+            "homeStageTeamId": "ECR",
+            "awayStageTeamId": "BLW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2026-09-17 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "RTD",
+            "awayStageTeamId": "DBG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 2,
+            "date": "2026-09-19 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "T2",
+            "awayStageTeamId": "T3",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 2,
+            "date": "2026-09-20 06:15:00",
+            "venue": "The Village",
+            "homeStageTeamId": "T1",
+            "awayStageTeamId": "W-Q",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

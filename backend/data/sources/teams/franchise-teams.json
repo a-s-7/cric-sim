@@ -263,6 +263,54 @@
             "gradient": "linear-gradient(135deg, #000000, #D35400, #FFB400)",
             "type": "franchise",
             "league": "THU"
+        },
+        {
+            "acronym": "AMF",
+            "name": "Amsterdam Flames",
+            "logo": "https://www.etplofficial.com/uploads/etpl-team-ams.png",
+            "gradient": "linear-gradient(135deg, #C4121C, #E33A20, #0B0B0B)",
+            "type": "franchise",
+            "league": "ETPL"
+        },
+        {
+            "acronym": "BLW",
+            "name": "Belfast Wolves",
+            "logo": "https://www.etplofficial.com/uploads/etpl-team-bel.png",
+            "gradient": "linear-gradient(135deg, #35C8F2, #20B5E5, #111111)",
+            "type": "franchise",
+            "league": "ETPL"
+        },
+        {
+            "acronym": "ECR",
+            "name": "Edinburgh Castle Rockers",
+            "logo": "https://www.etplofficial.com/uploads/etpl-team-edi.png",
+            "gradient": "linear-gradient(135deg, #F40073, #F40073, #0B0514)",
+            "type": "franchise",
+            "league": "ETPL"
+        },
+        {
+            "acronym": "DBG",
+            "name": "Dublin Guardians",
+            "logo": "https://www.etplofficial.com/uploads/1785665557315-logo--dublin-guardians--1.png",
+            "gradient": "linear-gradient(135deg, #2d8de5, #009B73, #14B83A)",
+            "type": "franchise",
+            "league": "ETPL"
+        },
+        {
+            "acronym": "RTD",
+            "name": "Rotterdam Dockers",
+            "logo": "https://www.etplofficial.com/uploads/etpl-team-rot.png",
+            "gradient": "linear-gradient(135deg, #121F09, #121F09, #CF9F1E)",
+            "type": "franchise",
+            "league": "ETPL"
+        },
+        {
+            "acronym": "GLC",
+            "name": "Glasgow Cosmic",
+            "logo": "https://www.etplofficial.com/uploads/etpl-team-gla.png",
+            "gradient": "linear-gradient(135deg, #17204A, #3567B3, #64AAAE)",
+            "type": "franchise",
+            "league": "ETPL"
         }
     ]
 }
