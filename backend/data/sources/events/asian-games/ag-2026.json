@@ -1,0 +1,183 @@
+{
+    "tournament": {
+        "_id": "ag-2025",
+        "division": "mens",
+        "category": "international",
+        "format": "T20",
+        "ballsPerInnings": 120,
+        "matchDurationMinutes": 240,
+        "name": "Asian Games",
+        "edition": "2026",
+        "status": "upcoming",
+        "startDate": "2026-09-23",
+        "endDate": "2026-10-02",
+        "structure": "groups",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, #F2EDDC, #48008B, #48008B)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/2026_Asian_Games_logo.svg/500px-2026_Asian_Games_logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/2026_Asian_Games_logo.svg/500px-2026_Asian_Games_logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        "pointsTableColor": "#48008b",
+        "tileBackgroundColor": "white",
+        "teams": [
+            "JPN",
+            "AFG",
+            "NEP",
+            "HK",
+            "MAS",
+            "OMA"
+        ],
+        "stadiums": [
+            "Kōrogi Sports Park"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 2,
+                "teamsPerGroup": 3,
+                "matchesPerTeam": 2,
+                "qualifiersPerGroup": 2
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "JPN",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "AFG",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NEP",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "HK",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "MAS",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "OMA",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2026-09-23 17:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "JPN",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2026-09-23 22:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "HK",
+            "awayStageTeamId": "MAS",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2026-09-25 17:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "HK",
+            "awayStageTeamId": "OMA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2026-09-25 22:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "AFG",
+            "awayStageTeamId": "NEP",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2026-09-26 17:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "JPN",
+            "awayStageTeamId": "NEP",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2026-09-26 22:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "MAS",
+            "awayStageTeamId": "OMA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        }
+    ]
+}
