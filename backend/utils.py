@@ -347,66 +347,29 @@ def confirmTeamsForStage(tournamentId, stageOrder):
     else:   
         if stageToConfirm["name"] == "Playoffs":
             confirmTeamsForPlayoffs(tournamentId, stageOrder, stageToConfirm)
-        elif stageToConfirm["name"] == "Quarter-final":
-            stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
+        elif stageToConfirm["name"] in ["Final", "Semi-final", "Quarter-final"]:
+            confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm)
 
-            standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
-            prevStageGroups = standings["standings"][0]["groups"]
+def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
+    stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
+    prevStageGroups = None
 
-            for team in stageTeams:
-                if "teamFromPreviousStage" in team:
-                    group_name = team.get("teamFromStandingsGroup", "LEAGUE")
-
-                    standingsGroup = prevStageGroups[group_name]
-                    standingsTeam = standingsGroup[team.get("teamFromStandingsPosition", 1) - 1]
-
-                    stageTeams_collection.update_one(
-                        {"_id": ObjectId(team["_id"])},
-                        {
-                            "$set": {
-                                "teamId": standingsTeam["teamDbId"],
-                                "confirmed": True
-                            }
-                        })
-        elif stageToConfirm["name"] == "Semi-final":
-            stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
-
-            standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
-            prevStageGroups = standings["standings"][0]["groups"]
-
-            for team in stageTeams:
-                group_name = team.get("teamFromStandingsGroup", "LEAGUE")
-
-                standingsGroup = prevStageGroups[group_name]
-                standingsTeam = standingsGroup[team.get("teamFromStandingsPosition", 1) - 1]
-
-                stageTeams_collection.update_one(
-                    {"_id": ObjectId(team["_id"])},
-                    {
-                        "$set": {
-                            "teamId": standingsTeam["teamDbId"],
-                            "confirmed": True
-                        }
-                    })
-        elif stageToConfirm["name"] == "Final":
-            stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
-            prevStageGroups = None
-
-            for team in stageTeams:
-                if team["teamFromPreviousStage"] == "standings":
-                    if prevStageGroups is None:
-                        standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
-                        prevStageGroups = standings["standings"][0]["groups"]
+    for team in stageTeams:
+        # Standings-based progression 
+        if team.get("teamFromPreviousStage") == "standings":
+            if prevStageGroups is None:
+                standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
+                prevStageGroups = standings["standings"][0]["groups"]
                     
-                    group_name = team.get("teamFromStandingsGroup", "LEAGUE")
+            group_name = team.get("teamFromStandingsGroup", "LEAGUE")
                     
-                    standingsGroup = prevStageGroups[group_name]
-                    standingsTeam = standingsGroup[team["teamFromStandingsPosition"] - 1]
+            standingsGroup = prevStageGroups[group_name]
+            standingsTeam = standingsGroup[team["teamFromStandingsPosition"] - 1]
                     
-                    if verbose:
-                        print(f"{standingsTeam['teamDbId']} (Pos {team['teamFromStandingsPosition']}) progresses to Final")
+            if verbose:
+                print(f"{standingsTeam['teamDbId']} (Pos {team['teamFromStandingsPosition']}) progresses to {stageToConfirm['name']} from group {group_name}")
                     
-                    stageTeams_collection.update_one(
+            stageTeams_collection.update_one(
                         {"_id": ObjectId(team["_id"])},
                         {
                             "$set": {
@@ -414,39 +377,40 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                                     "confirmed": True
                                 }
                             })
-                else:
-                    match = matches_collection.find_one({"tournamentId": tournamentId, "matchNumber": team["teamFromMatchNumber"]})
+        elif "teamFromMatchNumber" in team:
+            # Match-based progression
+            match = matches_collection.find_one({"tournamentId": tournamentId, "matchNumber": team["teamFromMatchNumber"]})
 
-                    id = None
+            id = None
 
-                    if match["result"] == "Home-win":
-                        id = match["homeStageTeamId"]
-                    elif match["result"] == "No-result":
-                        hT = stageTeams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
-                        aT = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
+            if match["result"] == "Home-win":
+                id = match["homeStageTeamId"]
+            elif match["result"] == "No-result":
+                hT = stageTeams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
+                aT = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
 
-                        if verbose:
-                            print(f"Deciding Finalist for 'No-result' in Semi-final {match.get('matchNumber', 'N/A')}: {hT['teamId']} (Pos {hT.get('teamFromStandingsPosition')}) vs {aT['teamId']} (Pos {aT.get('teamFromStandingsPosition')})")
+                if verbose:
+                    print(f"Deciding team for 'No-result' in {stageToConfirm['name']} {match.get('matchNumber', 'N/A')}: {hT['teamId']} (Pos {hT.get('teamFromStandingsPosition')}) vs {aT['teamId']} (Pos {aT.get('teamFromStandingsPosition')})")
 
                         # Note: Comparing teamFromStandingsPosition works for 1st vs 2nd crossover semi-finals.
                         # For 1st vs 1st matches, standings data (points/NRR) would be needed for a proper tie-break.
-                        if hT["teamFromStandingsPosition"] < aT["teamFromStandingsPosition"]:
-                            id = match["homeStageTeamId"]
-                        else:
-                            id = match["awayStageTeamId"]
+                if hT["teamFromStandingsPosition"] < aT["teamFromStandingsPosition"]:
+                    id = match["homeStageTeamId"]
+                else:
+                    id = match["awayStageTeamId"]
 
-                        if verbose:
-                            chosen = hT if id == match["homeStageTeamId"] else aT
-                            print(f"  -> {chosen['teamId']} progresses as the higher-ranked seed.")
+                if verbose:
+                    chosen = hT if id == match["homeStageTeamId"] else aT
+                    print(f"  -> {chosen['teamId']} progresses as the higher-ranked seed.")
 
-                    elif match["result"] == "Away-win":
-                        id = match["awayStageTeamId"]
+            elif match["result"] == "Away-win":
+                id = match["awayStageTeamId"]
 
 
-                    if id:
-                        stageTeam = stageTeams_collection.find_one({"_id": ObjectId(id)})
+            if id:
+                stageTeam = stageTeams_collection.find_one({"_id": ObjectId(id)})
 
-                        stageTeams_collection.update_one(
+                stageTeams_collection.update_one(
                         {"_id": ObjectId(team["_id"])},
                         {
                             "$set": {
@@ -454,8 +418,8 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                                 "confirmed": True
                             }
                         })
-                    else:
-                        stageTeams_collection.update_one(
+            else:
+                stageTeams_collection.update_one(
                             {"_id": ObjectId(team["_id"])},
                         {
                             "$set": {
