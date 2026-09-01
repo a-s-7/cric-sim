@@ -336,19 +336,40 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
     return {"standings": sorted_standings, "category": tournament["category"]}
 
 def confirmTeamsForStage(tournamentId, stageOrder):    
-    currentStage = stages_collection.find_one({"tournamentId": tournamentId, "order": stageOrder})
+    stageToConfirm = stages_collection.find_one({"tournamentId": tournamentId, "order": stageOrder})
 
-    if currentStage["type"] == "group":
-        sample_team = stageTeams_collection.find_one({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])})
+    if stageToConfirm["type"] == "group":
+        sample_team = stageTeams_collection.find_one({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])})
         if "preseededTeamId" in sample_team:
-            confirmTeamsForGroupStageWithPreseeding(tournamentId, stageOrder, currentStage)
+            confirmTeamsForGroupStageWithPreseeding(tournamentId, stageOrder, stageToConfirm)
         else:
-            confirmTeamsForGroupStageBasic(tournamentId, stageOrder, currentStage)
+            confirmTeamsForGroupStageBasic(tournamentId, stageOrder, stageToConfirm)
     else:   
-        if currentStage["name"] == "Playoffs":
-            confirmTeamsForPlayoffs(tournamentId, stageOrder, currentStage)
-        elif currentStage["name"] == "Semi-final":
-            stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])}))
+        if stageToConfirm["name"] == "Playoffs":
+            confirmTeamsForPlayoffs(tournamentId, stageOrder, stageToConfirm)
+        elif stageToConfirm["name"] == "Quarter-final":
+            stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
+
+            standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
+            prevStageGroups = standings["standings"][0]["groups"]
+
+            for team in stageTeams:
+                if "teamFromPreviousStage" in team:
+                    group_name = team.get("teamFromStandingsGroup", "LEAGUE")
+
+                    standingsGroup = prevStageGroups[group_name]
+                    standingsTeam = standingsGroup[team.get("teamFromStandingsPosition", 1) - 1]
+
+                    stageTeams_collection.update_one(
+                        {"_id": ObjectId(team["_id"])},
+                        {
+                            "$set": {
+                                "teamId": standingsTeam["teamDbId"],
+                                "confirmed": True
+                            }
+                        })
+        elif stageToConfirm["name"] == "Semi-final":
+            stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
 
             standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
             prevStageGroups = standings["standings"][0]["groups"]
@@ -367,8 +388,8 @@ def confirmTeamsForStage(tournamentId, stageOrder):
                             "confirmed": True
                         }
                     })
-        elif currentStage["name"] == "Final":
-            stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])}))
+        elif stageToConfirm["name"] == "Final":
+            stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
             prevStageGroups = None
 
             for team in stageTeams:
@@ -716,7 +737,7 @@ def propagate_match_simulation(tournament_id, stageToSim):
            "result": "None"
     }))
     
-    if len(not_finished_matches) > 0 and not (stageToSim["name"] in ["Playoffs", "Semi-final"]):
+    if len(not_finished_matches) > 0 and not (stageToSim["name"] in ["Playoffs", "Semi-final", "Quarter-final"]):
         if verbose:
             print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageToSim["name"]))
     else:
@@ -813,10 +834,35 @@ def propagate_match_clear(earliest_stage, t_id, tournament):
                             [{"$set": {"teamId": None, "confirmed": False}}]
                         )
                     else:
+                        # 1. Reset match stats for all teams in the next stage
                         stageTeams_collection.update_many(
-                            {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
-                            [{"$set": {"teamId": None, "confirmed": False,
-                            "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+                            {
+                                "tournamentId": t_id,
+                                "stageId": ObjectId(nextStage["_id"]),
+                            },
+                            {
+                                "$set": {
+                                    "runsScored": 0,
+                                    "runsConceded": 0,
+                                    "ballsBowled": 0,
+                                    "ballsFaced": 0,
+                                }
+                            },
+                        )
+
+                        # 2. Wipe dynamic qualifier team id's and confirmations
+                        stageTeams_collection.update_many(
+                            {
+                                "tournamentId": t_id,
+                                "stageId": ObjectId(nextStage["_id"]),
+                                "teamFromPreviousStage": {"$exists": True},
+                            },
+                            {
+                                "$set": {
+                                    "teamId": None,
+                                    "confirmed": False,
+                                }
+                            },
                         )
 
             # 4. Wipe all match scorecards in the future stage back to 0-0

@@ -100,9 +100,8 @@ def get_tournament_teams(tournament_id):
     teams = list(stageTeams_collection.aggregate([
         {
             "$match": {
-                "tournamentId": tournament_id,
-                "confirmed": { "$exists": False }
-            }
+                "tournamentId": tournament_id
+        }
         },
         {
             "$lookup": {
