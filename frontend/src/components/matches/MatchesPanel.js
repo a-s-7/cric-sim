@@ -99,7 +99,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                     {matchesArray && matchesArray.map(match => (
                         <div key={`${match.matchNumber}`}
                             ref={match.matchNumber === currentMatch?.matchNumber ? currentMatchRef : null}>
-                            {((match.stageStatus === "locked" || match.status === "complete") ? true : (match.stage === "Playoffs" || match.stage === "Final") ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
+                            {((match.stageStatus === "locked" || match.status === "complete") ? true : (match.stage === "Playoffs" || match.stage === "Semi-final" || match.stage === "Final") ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
                                 (format === "TEST" ? <MatchCardDisplay
                                     tournamentID={tournamentId}
                                     tournamentName={tournamentName}

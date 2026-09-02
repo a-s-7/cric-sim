@@ -52,6 +52,26 @@
                 "numTeams": 8,
                 "numMatches": 4
             }
+        },
+        {
+            "type": "knockout",
+            "order": 3,
+            "name": "Semi-final",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 4,
+            "name": "Final",
+            "status": "locked",
+            "config": {
+                "numTeams": 2,
+                "numMatches": 1
+            }
         }
     ],
     "stageTeams": [
@@ -180,6 +200,54 @@
             "teamFromPreviousStage": "standings",
             "teamFromStandingsGroup": "B",
             "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-QF1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 7
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-QF2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 8
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-QF3",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 9
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-QF4",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 10
+        },
+        {
+            "stageOrder": 4,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-SF1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 11
+        },
+        {
+            "stageOrder": 4,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-SF2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 12
         }
     ],
     "matches": [
@@ -292,6 +360,39 @@
             "result": "None",
             "status": "incomplete",
             "description": "Quarter-final 4"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 3,
+            "date": "2026-09-30 17:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "W-QF1",
+            "awayStageTeamId": "W-QF4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Semi-final 1"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 3,
+            "date": "2026-09-30 22:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "W-QF2",
+            "awayStageTeamId": "W-QF3",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Semi-final 2"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 4,
+            "date": "2026-10-01 22:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "W-SF1",
+            "awayStageTeamId": "W-SF2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
         }
     ]
 }

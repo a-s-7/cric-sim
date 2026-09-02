@@ -5,7 +5,6 @@ import BallsInput from "../inputs/BallsInput";
 import RunsInput from "../inputs/RunsInput";
 import WicketsInput from "../inputs/WicketsInput";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
-import { getTournamentLogoStyles } from "../../utils/tournamentScaleUtils";
 
 function MatchScoreCardDisplay({
     tournamentID,
@@ -226,7 +225,7 @@ function MatchScoreCardDisplay({
         return "border-[#cec7c7]";
     };
 
-    const { scaleClass, paddingClass } = getTournamentLogoStyles(tournamentName);
+    const isEtplMatch = tournamentName?.toLowerCase() === "european t20 premier league";
 
     return (
         <div className={`shadow-lg rounded-[36px] border ${getBorderClass()} overflow-hidden flex`}>
@@ -235,7 +234,7 @@ function MatchScoreCardDisplay({
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         style={getStyle("Home-win", 0)}>
 
-                        <div className="relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5"
+                        <div className="w-[39%] relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end"
                             style={{ opacity: homeLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Home Team Runs */}
@@ -288,7 +287,7 @@ function MatchScoreCardDisplay({
                             }
                         </div>
 
-                        <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
+                        <div className="relative flex items-center justify-end text-[2.25vh] w-[22%] h-full">
                             <span style={{ opacity: homeLost ? 0.4 : 1 }}> {homeConfirmed ? homeTeamName : homeSeed}</span>
 
                             {matchResult !== 'None' && <span className="absolute bottom-3 right-0">
@@ -296,8 +295,8 @@ function MatchScoreCardDisplay({
                             }
                         </div>
 
-                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
+                        <div className={`w-[39%] h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
                         </div>
                     </div>
 
@@ -333,11 +332,11 @@ function MatchScoreCardDisplay({
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         style={getStyle('Away-win', 2)}>
 
-                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
+                        <div className={`w-[39%] h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`}>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
                         </div>
 
-                        <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">
+                        <div className="w-[22%] relative flex items-center justify-start text-[2.25vh] justify-start">
                             <span style={{ opacity: awayLost ? 0.4 : 1 }}>{awayConfirmed ? awayTeamName : awaySeed}</span>
 
                             {matchResult !== 'None' && <span className="absolute bottom-3 left-0">
@@ -345,7 +344,7 @@ function MatchScoreCardDisplay({
                             }
                         </div>
 
-                        <div className="relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5"
+                        <div className="w-[39%] relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start"
                             style={{ opacity: awayLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Away Team Runs */}
