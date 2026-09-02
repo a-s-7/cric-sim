@@ -66,11 +66,11 @@
         {
             "type": "knockout",
             "order": 4,
-            "name": "Final",
+            "name": "Medal Playoffs",
             "status": "locked",
             "config": {
-                "numTeams": 2,
-                "numMatches": 1
+                "numTeams": 4,
+                "numMatches": 2
             }
         }
     ],
@@ -237,6 +237,22 @@
             "stageOrder": 4,
             "teamId": null,
             "confirmed": false,
+            "seed": "L-SF1",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 11
+        },
+        {
+            "stageOrder": 4,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-SF2",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 12
+        },
+        {
+            "stageOrder": 4,
+            "teamId": null,
+            "confirmed": false,
             "seed": "W-SF1",
             "teamFromPreviousStage": "match-winner",
             "teamFromMatchNumber": 11
@@ -386,7 +402,18 @@
         {
             "matchNumber": 13,
             "stageOrder": 4,
-            "date": "2026-10-01 22:00:00",
+            "date": "2026-10-02 17:00:00",
+            "venue": "Kōrogi Sports Park",
+            "homeStageTeamId": "L-SF1",
+            "awayStageTeamId": "L-SF2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "3rd Place Playoff"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 4,
+            "date": "2026-10-02 22:00:00",
             "venue": "Kōrogi Sports Park",
             "homeStageTeamId": "W-SF1",
             "awayStageTeamId": "W-SF2",

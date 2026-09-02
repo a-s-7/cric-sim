@@ -12,7 +12,7 @@ except ImportError:
 from dotenv import load_dotenv
 load_dotenv()
 
-verbose = False
+verbose = True
 
 connection_string = os.getenv('MONGODB_URI')
 
@@ -347,7 +347,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
     else:   
         if stageToConfirm["name"] == "Playoffs":
             confirmTeamsForPlayoffs(tournamentId, stageOrder, stageToConfirm)
-        elif stageToConfirm["name"] in ["Final", "Semi-final", "Quarter-final"]:
+        elif stageToConfirm["name"] in ["Final", "Semi-final", "Quarter-final", "Medal Playoffs"]:
             confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm)
 
 def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
@@ -356,7 +356,7 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
 
     for team in stageTeams:
         # Standings-based progression 
-        if team.get("teamFromPreviousStage") == "standings":
+        if team.get("teamFromPreviousStage", None) == "standings":
             if prevStageGroups is None:
                 standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
                 prevStageGroups = standings["standings"][0]["groups"]
@@ -367,7 +367,7 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
             standingsTeam = standingsGroup[team["teamFromStandingsPosition"] - 1]
                     
             if verbose:
-                print(f"{standingsTeam['teamDbId']} (Pos {team['teamFromStandingsPosition']}) progresses to {stageToConfirm['name']} from group {group_name}")
+                print(f"PROGRESSION: {standingsTeam['teamDbId']} advances from Group {group_name} to {stageToConfirm['name']} as position {team.get('teamFromStandingsPosition')}")
                     
             stageTeams_collection.update_one(
                         {"_id": ObjectId(team["_id"])},
@@ -380,11 +380,12 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
         elif "teamFromMatchNumber" in team:
             # Match-based progression
             match = matches_collection.find_one({"tournamentId": tournamentId, "matchNumber": team["teamFromMatchNumber"]})
+            winner = team["teamFromPreviousStage"] == "match-winner"
 
             id = None
 
             if match["result"] == "Home-win":
-                id = match["homeStageTeamId"]
+                id = match["homeStageTeamId"] if winner else match["awayStageTeamId"]
             elif match["result"] == "No-result":
                 hT = stageTeams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
                 aT = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
@@ -394,18 +395,18 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
 
                         # Note: Comparing teamFromStandingsPosition works for 1st vs 2nd crossover semi-finals.
                         # For 1st vs 1st matches, standings data (points/NRR) would be needed for a proper tie-break.
+                # Higher-ranked seed (lower position number) is treated as the winner for No-result.
                 if hT["teamFromStandingsPosition"] < aT["teamFromStandingsPosition"]:
-                    id = match["homeStageTeamId"]
+                    id = match["homeStageTeamId"] if winner else match["awayStageTeamId"]
                 else:
-                    id = match["awayStageTeamId"]
+                    id = match["awayStageTeamId"] if winner else match["homeStageTeamId"]
 
                 if verbose:
                     chosen = hT if id == match["homeStageTeamId"] else aT
                     print(f"  -> {chosen['teamId']} progresses as the higher-ranked seed.")
 
             elif match["result"] == "Away-win":
-                id = match["awayStageTeamId"]
-
+                id = match["awayStageTeamId"] if winner else match["homeStageTeamId"]
 
             if id:
                 stageTeam = stageTeams_collection.find_one({"_id": ObjectId(id)})
@@ -418,6 +419,10 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
                                 "confirmed": True
                             }
                         })
+
+                if verbose:
+                    source_label = "winner" if winner else "loser"
+                    print(f"PROGRESSION: {stageTeam['teamId']} ({stageTeam.get('teamId')}) goes to {stageToConfirm['name']} as the {source_label} from match {match.get('matchNumber', 'N/A')}")
             else:
                 stageTeams_collection.update_one(
                             {"_id": ObjectId(team["_id"])},
@@ -427,6 +432,9 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
                                 "confirmed": False
                             }
                         })
+
+                if verbose:
+                    print(f"PROGRESSION: no team advanced to {stageToConfirm['name']} from match {match.get('matchNumber', 'N/A')} (result={match.get('result', 'N/A')})")
 
 def confirmTeamsForGroupStageBasic(tournamentId, stageOrder, currentStage):
     stageTeams_collection.update_many(
@@ -705,7 +713,7 @@ def propagate_match_simulation(tournament_id, stageToSim):
         if verbose:
             print("{} matches are yet to be played in stage {}".format(len(not_finished_matches), stageToSim["name"]))
     else:
-        if stageToSim["name"] == "Final":
+        if stageToSim["name"] == "Final" or stageToSim["name"] == "Medal Playoffs":
             if verbose:
                 print("Tournament {} has been simulated".format(tournament_id))
         else:
