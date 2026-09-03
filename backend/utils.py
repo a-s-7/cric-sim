@@ -481,19 +481,55 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
                 aT = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
 
                 if verbose:
-                    print(f"Deciding team for 'No-result' in {stageToConfirm['name']} {match.get('matchNumber', 'N/A')}: {hT['teamId']} (Pos {hT.get('teamFromStandingsPosition')}) vs {aT['teamId']} (Pos {aT.get('teamFromStandingsPosition')})")
+                    requested_role = "winner" if winner else "loser"
+                    print(
+                        f"Deciding {requested_role} for 'No-result' in match "
+                        f"#{match.get('matchNumber', 'N/A')}: "
+                        f"{hT['teamId']} (Pos {hT.get('teamFromStandingsPosition')}) vs "
+                        f"{aT['teamId']} (Pos {aT.get('teamFromStandingsPosition')})"
+                    )
 
-                        # Note: Comparing teamFromStandingsPosition works for 1st vs 2nd crossover semi-finals.
-                        # For 1st vs 1st matches, standings data (points/NRR) would be needed for a proper tie-break.
-                # Higher-ranked seed (lower position number) is treated as the winner for No-result.
-                if hT["teamFromStandingsPosition"] < aT["teamFromStandingsPosition"]:
+                home_position = hT.get("teamFromStandingsPosition")
+                away_position = aT.get("teamFromStandingsPosition")
+
+                if home_position is not None and away_position is not None:
+                    # Higher-ranked standings position (lower number) wins a no-result.
+                    home_is_higher = home_position < away_position
+                    if verbose:
+                        print(
+                            f"  Standings comparison: home position={home_position} "
+                            f"vs away position={away_position}"
+                        )
+                else:
+                    # Direct entrants have no standings position; use tournament seed order.
+                    tournament = find_tournament(tournamentId)
+                    tournament_seed_array = tournament["teams"]
+                    home_team = teams_collection.find_one({"_id": hT["teamId"]})["acronym"]
+                    away_team = teams_collection.find_one({"_id": aT["teamId"]})["acronym"]
+                    home_seed = tournament_seed_array.index(home_team)
+                    away_seed = tournament_seed_array.index(away_team)
+                    home_is_higher = home_seed < away_seed
+
+                    if verbose:
+                        print(
+                            "  Missing teamFromStandingsPosition; using tournament seed order: "
+                            f"{home_team} seed={home_seed + 1} vs "
+                            f"{away_team} seed={away_seed + 1}"
+                        )
+
+                if home_is_higher:
                     id = match["homeStageTeamId"] if winner else match["awayStageTeamId"]
                 else:
                     id = match["awayStageTeamId"] if winner else match["homeStageTeamId"]
 
                 if verbose:
                     chosen = hT if id == match["homeStageTeamId"] else aT
-                    print(f"  -> {chosen['teamId']} progresses as the higher-ranked seed.")
+                    chosen_role = "winner" if winner else "loser"
+                    print(
+                        f"  -> {chosen['teamId']} progresses as the {chosen_role}; "
+                        f"the higher-ranked seed is "
+                        f"{hT['teamId'] if home_is_higher else aT['teamId']}."
+                    )
 
             elif match["result"] == "Away-win":
                 id = match["awayStageTeamId"] if winner else match["homeStageTeamId"]
