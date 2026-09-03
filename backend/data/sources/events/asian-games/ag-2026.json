@@ -19,12 +19,16 @@
         "pointsTableColor": "#48008b",
         "tileBackgroundColor": "white",
         "teams": [
-            "JPN",
+            "IND",
+            "PAK",
+            "BAN",
+            "SL",
             "AFG",
             "NEP",
+            "OMA",
             "HK",
             "MAS",
-            "OMA"
+            "JPN" 
         ],
         "stadiums": [
             "Kōrogi Sports Park"

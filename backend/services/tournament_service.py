@@ -2,6 +2,7 @@ from flask import abort
 import os
 from pymongo import MongoClient
 from utils import (
+    determine_medal_playoffs_podium,
     get_tournament_standings_data,
     find_tournament,
     get_tournament_teams_data,
@@ -273,21 +274,27 @@ def get_tournament_match_data(tournament, groups=None, teams=None, venues=None, 
 
     filtered_matches = list(matches_collection.aggregate(pipeline))
 
-    final_match = (
-        matches_collection.find({"tournamentId": tournament["_id"]})
-        .sort(sort_field, -1)
-        .limit(1)[0]
-    )
-
-    winner = determine_final_winner(tournament, final_match)
-
     result = {
-        "teams": teams_data,
-        "matches": filtered_matches,
-        "winner": winner,
-        "format": tournament["format"],
-        "category": tournament["category"],
-    }
+            "teams": teams_data,
+            "matches": filtered_matches,
+            "format": tournament["format"],
+            "category": tournament["category"],
+        }
+
+    final_stage = stages_collection.find({"tournamentId": tournament["_id"]}).sort("order", -1).limit(1)[0]
+
+    if final_stage["name"] == "Medal Playoffs":
+        final_matches = list(matches_collection.find({"tournamentId": tournament["_id"], "stageId": final_stage["_id"]}).sort(sort_field, 1).limit(2))
+        result["podium"] = determine_medal_playoffs_podium(tournament, final_matches)
+    else:
+        final_match = (
+                matches_collection.find({"tournamentId": tournament["_id"]})
+                .sort(sort_field, -1)
+                .limit(1)[0]
+        )
+        
+        result["winner"] = determine_final_winner(tournament, final_match)
+
     if not is_wtc:
         result["ballsPerInnings"] = tournament["ballsPerInnings"]
 
