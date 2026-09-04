@@ -9,6 +9,16 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
     const matchesArray = matches?.matches || [];
     const teamDictionary = matches?.teams?.[0] || {};
     const winner = matches?.winner || "";
+    const podium = matches?.podium || null;
+    const podiumTeams = podium
+        ? [
+            { key: "second_place", label: "2ND", team: podium.second_place },
+            { key: "first_place", label: "1ST", team: podium.first_place },
+            { key: "third_place", label: "3RD", team: podium.third_place },
+        ].filter(({ team }) => team && teamDictionary[team])
+        : [];
+    const hasPodium = podiumTeams.length > 0;
+    const hasChampion = Boolean(winner) && !hasPodium;
     const format = matches?.format || "";
     const category = matches?.category || "";
     const ballsPerInnings = matches?.ballsPerInnings || "";
@@ -44,28 +54,48 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
     return (
         <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
 
-            <div className={`relative flex flex-row items-center justify-between h-16 overflow-hidden transition-all duration-500 rounded-2xl mx-2`} style={winner ? { padding: "16px" } : {}}>
+            <div className="relative mx-2 flex h-16 flex-row items-center justify-between overflow-hidden rounded-2xl transition-all duration-500" style={hasPodium || hasChampion ? { padding: "8px 16px" } : {}}>
                 <div className="relative z-10 flex items-center gap-4 drop-shadow-md">
-                    <h3 className="text-3xl font-bold text-black font-['Kanit'] uppercase" style={winner ? { color: "white" } : {}}>
+                    <h3 className="text-3xl font-bold text-black font-['Kanit'] uppercase" style={hasPodium || hasChampion ? { color: "white" } : {}}>
                         MATCHES
                     </h3>
-                    <span className="text-xl font-light font-['Kanit']" style={winner ? { color: "rgba(255, 255, 255, 0.7)" } : { color: "rgba(0, 0, 0, 0.5)" }}>
+                    <span className="text-xl font-light font-['Kanit']" style={hasPodium || hasChampion ? { color: "rgba(255, 255, 255, 0.7)" } : { color: "rgba(0, 0, 0, 0.5)" }}>
                         ({matchesArray.length})
                     </span>
                 </div>
 
-                {winner && (
+                {(hasPodium || hasChampion) && (
                     <div
                         className="absolute right-0 top-0 bottom-0 w-[100%] transition-opacity duration-1000"
                         style={{
-                            background: winner.includes("#")
-                                ? `linear-gradient(to right, ${teamDictionary[winner.split("#")[0]]?.gradient?.split(',')[1]?.split(')')[0] || "#333"}, ${teamDictionary[winner.split("#")[1]]?.gradient?.split(',')[1]?.split(')')[0] || "#666"})`
-                                : teamDictionary[winner]?.gradient
+                            background: hasPodium
+                                ? teamDictionary[podiumTeams.find(({ key }) => key === "first_place")?.team]?.gradient || cardNeutralGradient
+                                : winner.includes("#")
+                                    ? `linear-gradient(to right, ${teamDictionary[winner.split("#")[0]]?.gradient?.split(',')[1]?.split(')')[0] || "#333"}, ${teamDictionary[winner.split("#")[1]]?.gradient?.split(',')[1]?.split(')')[0] || "#666"})`
+                                        : teamDictionary[winner]?.gradient
                         }}
                     />
                 )}
 
-                {winner && (
+                {hasPodium ? (
+                    <div className="relative z-10 flex h-full items-center gap-6 pr-1">
+                        {podiumTeams.map(({ key, label, team }) => (
+                            <div key={key} className="flex min-w-0 items-center gap-2">
+                                <span className={`${key === "first_place" ? "text-[15px] text-amber-300" : key === "second_place" ? "text-[13px] text-slate-200" : "text-[12px] text-orange-300"} font-black uppercase tracking-[0.1em] leading-none drop-shadow-sm`}>
+                                    {label}
+                                </span>
+                                <img
+                                    src={teamDictionary[team]?.logo}
+                                    alt={teamDictionary[team]?.name || team}
+                                    className={`${key === "first_place" ? "h-[52px] w-[52px]" : key === "second_place" ? "h-11 w-11" : "h-10 w-10"} object-contain drop-shadow-lg`}
+                                />
+                                <span className={`${key === "first_place" ? "text-[22px]" : key === "second_place" ? "text-[18px]" : "text-[16px]"} whitespace-nowrap font-black uppercase tracking-wide text-white font-['Nunito_Sans'] leading-none drop-shadow-xl`}>
+                                    {teamDictionary[team]?.name || team}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                ) : hasChampion ? (
                     <div className="relative z-10 flex flex-row items-center gap-3">
                         <div className="flex flex-col items-end">
                             <span className="text-[9px] uppercase font-black tracking-[0.4em] text-white/80 leading-none mb-1 drop-shadow-sm">
@@ -73,7 +103,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                             </span>
                             <div className="flex flex-row items-center gap-2">
                                 {winner.split("#").map((w, index, arr) => (
-                                    <h3 key={w} className={`${arr.length > 1 ? "text-lg" : "text-2xl"} font-black tracking-widest text-white font-['Kanit'] uppercase leading-none drop-shadow-xl flex items-center`}>
+                                    <h3 key={w} className={`${arr.length > 1 ? "text-lg" : "text-2xl"} font-black tracking-wide text-white font-['Nunito_Sans'] uppercase leading-none drop-shadow-xl flex items-center`}>
                                         {teamDictionary[w]?.name || w}
                                         {index === 0 && arr.length > 1 && <span className="mx-2 text-white/50 text-xs">&</span>}
                                     </h3>
@@ -91,7 +121,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                             ))}
                         </div>
                     </div>
-                )}
+                ) : null}
             </div>
 
             <div className="flex-1 flex flex-col overflow-hidden">
