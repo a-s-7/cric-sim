@@ -43,6 +43,13 @@
             "type": "national"
         },
         {
+            "acronym": "GBR",
+            "name": "Great Britain",
+            "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/gbr.png",
+            "gradient": "linear-gradient(135deg, #012169, #FFFFFF, #C8102E)",
+            "type": "national"
+        },
+        {
             "acronym": "HK",
             "name": "Hong Kong",
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/hkg.png",
