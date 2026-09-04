@@ -42,6 +42,8 @@ function ControlBar({
     const [smartScale, setSmartScale] = useState(70);
     const [scaleReady, setScaleReady] = useState(false);
     const hasMounted = useRef(false);
+    const activeStageLabel = stageValues.length > 0 ? stageValues[activeStageIndex]?.label || "" : "";
+    const stageLabelScale = activeStageLabel.length > 12 ? "0.55vw" : activeStageLabel.length > 9 ? "0.7vw" : "0.9vw";
 
     useEffect(() => {
         if (!logo) return;
@@ -367,8 +369,11 @@ function ControlBar({
                                 ◀
                             </button>
 
-                            <h1 className="font-['Reem_Kufi_Fun'] uppercase text-[0.7vw] text-white w-[50%] text-center leading-none truncate">
-                                {stageValues.length > 0 ? stageValues[activeStageIndex]?.label || "" : ""}
+                            <h1
+                                className="w-[50%] truncate text-center font-['Reem_Kufi_Fun'] uppercase leading-none text-white"
+                                style={{ fontSize: stageLabelScale }}
+                            >
+                                {activeStageLabel}
                             </h1>
 
                             {/* Right Arrow */}
