@@ -215,13 +215,13 @@ function MatchScoreCardDisplay({
         );
     };
 
-    const goldGlow = "border border-[#D4AF37] shadow-[0_0_1.25rem_rgba(212,175,55,0.8)]";
-    const silverGlow = "border border-[#BFC1C2] shadow-[0_0_1.25rem_rgba(191,193,194,0.9)]";
+    const goldGlow = "border border-[#D4AF37] shadow-[0_0_0.3rem_rgba(212,175,55,0.7),0_0_1rem_rgba(212,175,55,0.45),0_0_1.8rem_rgba(212,175,55,0.2)]";
+    const bronzeGlow = "border border-[#CD7F32] shadow-[0_0_0.2rem_rgba(205,127,50,0.4),0_0_0.7rem_rgba(205,127,50,0.3),0_0_1.2rem_rgba(205,127,50,0.15)]";
 
     const getBorderClass = () => {
         if (!stage) return "border-[#cec7c7]";
         if (stage === "Final") return goldGlow;
-        if (stage.includes("Semi-final")) return silverGlow;
+        if (stage === "Medal Playoffs" || stage.includes("3rd Place")) return bronzeGlow;
         return "border-[#cec7c7]";
     };
 
