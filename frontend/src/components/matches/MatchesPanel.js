@@ -78,18 +78,18 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                 )}
 
                 {hasPodium ? (
-                    <div className="relative z-10 flex h-full items-center gap-6 pr-1">
+                    <div className="relative z-10 flex h-full items-center gap-4 pr-1">
                         {podiumTeams.map(({ key, label, team }) => (
-                            <div key={key} className="flex min-w-0 items-center gap-2">
-                                <span className={`${key === "first_place" ? "text-[15px] text-amber-300" : key === "second_place" ? "text-[13px] text-slate-200" : "text-[12px] text-orange-300"} font-black uppercase tracking-[0.1em] leading-none drop-shadow-sm`}>
+                            <div key={key} className="flex min-w-0 items-center gap-1.5">
+                                <span className={`${key === "first_place" ? "text-[14px] text-amber-300" : key === "second_place" ? "text-[12px] text-slate-200" : "text-[11px] text-orange-300"} font-black uppercase tracking-[0.08em] leading-none drop-shadow-sm`}>
                                     {label}
                                 </span>
                                 <img
                                     src={teamDictionary[team]?.logo}
                                     alt={teamDictionary[team]?.name || team}
-                                    className={`${key === "first_place" ? "h-[52px] w-[52px]" : key === "second_place" ? "h-11 w-11" : "h-10 w-10"} object-contain drop-shadow-lg`}
+                                    className={`${key === "first_place" ? "h-12 w-12" : key === "second_place" ? "h-10 w-10" : "h-9 w-9"} object-contain drop-shadow-lg`}
                                 />
-                                <span className={`${key === "first_place" ? "text-[22px]" : key === "second_place" ? "text-[18px]" : "text-[16px]"} whitespace-nowrap font-black uppercase tracking-wide text-white font-['Nunito_Sans'] leading-none drop-shadow-xl`}>
+                                <span className={`${key === "first_place" ? "text-[20px]" : key === "second_place" ? "text-[16px]" : "text-[14px]"} whitespace-nowrap font-black uppercase tracking-wide text-white font-['Nunito_Sans'] leading-none drop-shadow-xl`}>
                                     {teamDictionary[team]?.name || team}
                                 </span>
                             </div>
