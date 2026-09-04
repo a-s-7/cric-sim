@@ -27,6 +27,7 @@ function TournamentPage({
     const [mode, setMode] = useState("real-world");
 
     const refreshPointsTable = async () => {
+        if (tournamentStructure === "knockout") return;
         await fetchStandings();
     }
 
@@ -63,6 +64,10 @@ function TournamentPage({
     };
 
     const fetchStandings = async () => {
+        if (tournamentStructure === "knockout") {
+            return;
+        }
+
         const tournamentId = mode === "real-world" ? tournamentRWID : tournamentPSID
         const url = TOURNAMENT_ENDPOINTS.tournamentStandings(tournamentId)
 
@@ -122,7 +127,7 @@ function TournamentPage({
 
 
             <div className="flex flex-row w-full flex-1 overflow-hidden">
-                <div className="flex flex-col w-[55%] h-full overflow-auto no-scrollbar">
+                <div className={`flex flex-col ${tournamentStructure === "knockout" ? "w-full" : "w-[55%]"} h-full overflow-auto no-scrollbar`}>
                     <MatchesPanel
                         key={mode === "real-world" ? tournamentRWID : tournamentPSID}
                         onMatchUpdate={handleRefresh}
@@ -130,15 +135,18 @@ function TournamentPage({
                         tournamentId={mode === "real-world" ? tournamentRWID : tournamentPSID}
                         tournamentName={tournamentName}
                         tournamentEdition={tournamentEdition}
-                        cardNeutralGradient={tournamentGradient} />
+                        cardNeutralGradient={tournamentGradient}
+                        structure={tournamentStructure} />
                 </div>
-                <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
-                    <StandingsPanel key={mode === "real-world" ? tournamentRWID : tournamentPSID}
-                        standingsData={standingsData.standings}
-                        category={standingsData.category}
-                        color={tournamentPointsTableColor}
-                        format={tournamentFormat} />
-                </div>
+                {tournamentStructure !== "knockout" && (
+                    <div className="w-[45%] h-full overflow-auto flex flex-col no-scrollbar">
+                        <StandingsPanel key={mode === "real-world" ? tournamentRWID : tournamentPSID}
+                            standingsData={standingsData.standings}
+                            category={standingsData.category}
+                            color={tournamentPointsTableColor}
+                            format={tournamentFormat} />
+                    </div>
+                )}
             </div>
         </div>
     );

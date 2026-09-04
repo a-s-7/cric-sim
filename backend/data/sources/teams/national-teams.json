@@ -29,6 +29,13 @@
             "type": "national"
         },
         {
+            "acronym": "CHN",
+            "name": "China",
+            "logo": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/1484.png",
+            "gradient": "linear-gradient(135deg, #DE2910, #DE2910, #FFD700)",   
+            "type": "national"
+        },
+        {
             "acronym": "ENG",
             "name": "England",
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/eng.png",

@@ -8,6 +8,9 @@ import FetchStatusButton from "../buttons/FetchStatusButton";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
 import { getTournamentLogoStyles } from "../../utils/tournamentScaleUtils";
 
+const SIDE_SECTION_WIDTH = 38;
+const TEAM_NAME_WIDTH = 24;
+
 function MatchScoreCard({
     tournamentID,
     tournamentName,
@@ -670,11 +673,12 @@ function MatchScoreCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle("Home-win", 0)}>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-[39%] relative">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end relative" style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             {selected !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Home Team Runs */}
                                 <RunsInput
                                     value={homeRuns}
+                                    className="!text-[2.25vh]"
                                     onChange={(runs) => {
                                         setHomeRuns(runs);
                                         handleNRRChange({ homeRuns: runs });
@@ -683,6 +687,7 @@ function MatchScoreCard({
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
                                 {/* Home Team Wickets */}
                                 <WicketsInput value={homeWickets}
+                                    className="!text-[2.25vh]"
                                     onChange={(v) => {
                                         setHomeWickets(v);
                                         handleNRRChange({ homeWickets: v });
@@ -744,7 +749,7 @@ function MatchScoreCard({
 
                         </div>
 
-                        <div className="relative flex items-center justify-end text-[2.25vh] w-[22%] h-full">
+                        <div className="relative flex items-center justify-end text-[2.25vh] h-full" style={{ width: `${TEAM_NAME_WIDTH}%` }}>
                             <span>{homeTeamName}</span>
 
                             {selected !== 'None' && <span className="absolute bottom-3 right-0">
@@ -752,7 +757,7 @@ function MatchScoreCard({
                             }
                         </div>
 
-                        <div className={`w-[39%] h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}>
+                        <div className={`h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
                         </div>
                     </div>
@@ -890,11 +895,11 @@ function MatchScoreCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle('Away-win', 2)}>
 
-                        <div className={`w-[39%] h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}>
+                        <div className={`h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
                         </div>
 
-                        <div className="relative flex items-center justify-start text-[2.25vh] w-[22%] justify-start">
+                        <div className="relative flex items-center justify-start text-[2.25vh] justify-start" style={{ width: `${TEAM_NAME_WIDTH}%` }}>
                             <span>{awayTeamName}</span>
 
                             {selected !== 'None' && <span className="absolute bottom-3 left-0">
@@ -902,11 +907,12 @@ function MatchScoreCard({
                             }
                         </div>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-[39%] relative">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start relative" style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             {selected !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Away Team Runs */}
                                 <RunsInput
                                     value={awayRuns}
+                                    className="!text-[2.25vh]"
                                     onChange={(runs) => {
                                         setAwayRuns(runs);
                                         handleNRRChange({ awayRuns: runs });
@@ -915,6 +921,7 @@ function MatchScoreCard({
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
                                 {/* Away Team Wickets */}
                                 <WicketsInput value={awayWickets}
+                                    className="!text-[2.25vh]"
                                     onChange={(v) => {
                                         setAwayWickets(v);
                                         handleNRRChange({ awayWickets: v });

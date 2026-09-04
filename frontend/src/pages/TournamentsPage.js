@@ -45,7 +45,6 @@ function TournamentsPage() {
             }
             const result = await response.json();
             setTournaments(result);
-            console.log(result);
         } catch (error) {
             console.error("Error fetching data:", error);
         }

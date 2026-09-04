@@ -148,26 +148,22 @@
         {
             "stageOrder": 2,
             "teamId": "PAK",
-            "confirmed": true,
-            "seed": "QF1"
+            "confirmed": true
         },
         {
             "stageOrder": 2,
             "teamId": "IND",
-            "confirmed": true,
-            "seed": "QF2"
+            "confirmed": true
         },
         {
             "stageOrder": 2,
             "teamId": "SL",
-            "confirmed": true,
-            "seed": "QF3"
+            "confirmed": true
         },
         {
             "stageOrder": 2,
             "teamId": "BAN",
-            "confirmed": true,
-            "seed": "QF4"
+            "confirmed": true
         },
         {
             "stageOrder": 2,

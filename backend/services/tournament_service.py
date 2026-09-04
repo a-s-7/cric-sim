@@ -301,4 +301,5 @@ def get_tournament_match_data(tournament, groups=None, teams=None, venues=None, 
     return result
 
 def get_tournament_standings(tournament_id):
+
     return get_tournament_standings_data(tournament_id, None, allGroupStages = True)

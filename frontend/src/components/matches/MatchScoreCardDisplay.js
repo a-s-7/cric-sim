@@ -6,6 +6,9 @@ import RunsInput from "../inputs/RunsInput";
 import WicketsInput from "../inputs/WicketsInput";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
 
+const SIDE_SECTION_WIDTH = 38;
+const TEAM_NAME_WIDTH = 24;
+
 function MatchScoreCardDisplay({
     tournamentID,
     tournamentName,
@@ -234,18 +237,20 @@ function MatchScoreCardDisplay({
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         style={getStyle("Home-win", 0)}>
 
-                        <div className="w-[39%] relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end"
-                            style={{ opacity: homeLost ? 0.4 : 1 }}>
+                        <div className="relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end"
+                            style={{ width: `${SIDE_SECTION_WIDTH}%`, opacity: homeLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-end items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Home Team Runs */}
                                 <RunsInput
                                     value={homeTeamRuns === 0 ? '' : (homeTeamRuns ?? '')}
+                                    className="!text-[2.25vh]"
                                     readOnly={true}
                                 />
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
                                 {/* Home Team Wickets */}
                                 <WicketsInput
                                     value={homeTeamWickets === 0 ? '' : (homeTeamWickets ?? '')}
+                                    className="!text-[2.25vh]"
                                     readOnly={true}
                                 />
                             </div>}
@@ -287,15 +292,15 @@ function MatchScoreCardDisplay({
                             }
                         </div>
 
-                        <div className="relative flex items-center justify-end text-[2.25vh] w-[22%] h-full">
-                            <span style={{ opacity: homeLost ? 0.4 : 1 }}> {homeConfirmed ? homeTeamName : homeSeed}</span>
+                        <div className="relative flex items-center justify-end text-[2.25vh] h-full" style={{ width: `${TEAM_NAME_WIDTH}%` }}>
+                            <span style={{ opacity: homeLost ? 0.4 : 1 }}>{homeConfirmed ? homeTeamName : homeSeed}</span>
 
                             {matchResult !== 'None' && <span className="absolute bottom-3 right-0">
                                 {getTossSpan(battingFirstToggle ? 'bat' : 'bowl', 'Home-win', tossResult === 'Home-win')}</span>
                             }
                         </div>
 
-                        <div className={`w-[39%] h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`}>
+                        <div className={`h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
                         </div>
                     </div>
@@ -332,11 +337,11 @@ function MatchScoreCardDisplay({
                     <div className='flex flex-row w-[36.5%] font-["Reem_Kufi_Fun"] uppercase cursor-pointer'
                         style={getStyle('Away-win', 2)}>
 
-                        <div className={`w-[39%] h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`}>
+                        <div className={`h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
                         </div>
 
-                        <div className="w-[22%] relative flex items-center justify-start text-[2.25vh] justify-start">
+                        <div className="relative flex items-center justify-start text-[2.25vh] justify-start" style={{ width: `${TEAM_NAME_WIDTH}%` }}>
                             <span style={{ opacity: awayLost ? 0.4 : 1 }}>{awayConfirmed ? awayTeamName : awaySeed}</span>
 
                             {matchResult !== 'None' && <span className="absolute bottom-3 left-0">
@@ -344,18 +349,20 @@ function MatchScoreCardDisplay({
                             }
                         </div>
 
-                        <div className="w-[39%] relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start"
-                            style={{ opacity: awayLost ? 0.4 : 1 }}>
+                        <div className="relative font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start"
+                            style={{ width: `${SIDE_SECTION_WIDTH}%`, opacity: awayLost ? 0.4 : 1 }}>
                             {matchResult !== 'None' && <div className="flex justify-start items-center font-['Reem_Kufi_Fun'] rounded text-left h-1/5 mb-1">
                                 {/* Away Team Runs */}
                                 <RunsInput
                                     value={awayTeamRuns === 0 ? '' : (awayTeamRuns ?? '')}
+                                    className="!text-[2.25vh]"
                                     readOnly={true}
                                 />
                                 <h2 className="mx-1" style={{ color: 'inherit' }}>/</h2>
                                 {/* Away Team Wickets */}
                                 <WicketsInput
                                     value={awayTeamWickets === 0 ? '' : (awayTeamWickets ?? '')}
+                                    className="!text-[2.25vh]"
                                     readOnly={true}
                                 />
                             </div>}

@@ -292,6 +292,9 @@ def determine_final_winner(tournament, final_match):
 def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = False):
     tournament = find_tournament(tournament_id)
 
+    if tournament.get("structure") == "knockout":
+        abort(403, description="Standings are not available for knockout tournaments")
+
     if allGroupStages:
         stages = stages_collection.find({"tournamentId": tournament_id, "type": "group"})
     else:

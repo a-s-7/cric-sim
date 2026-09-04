@@ -6,6 +6,9 @@ import DeductionInput from "../inputs/DeductionInput";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
 import { timeZone, formatTestDateRange, ordinal } from "../utils/dateUtils"
 
+const SIDE_SECTION_WIDTH = 38;
+const TEAM_NAME_WIDTH = 24;
+
 function MatchCard({
     tournamentID,
     tournamentName,
@@ -383,7 +386,7 @@ function MatchCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle("Home-win", 0)}>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end w-2/5 relative">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-end relative" style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             {(showDeductionFields || homeDeductionPoints > 0) && <DeductionInput
                                 value={homeDeductionPointsValue}
                                 onChange={(points) => {
@@ -395,7 +398,7 @@ function MatchCard({
                             />}
                         </div>
 
-                        <div className="relative flex items-center justify-end text-[2.25vh] w-1/5 h-full">
+                        <div className="relative flex items-center justify-end text-[2.25vh] h-full" style={{ width: `${TEAM_NAME_WIDTH}%` }}>
                             <span>{homeTeamName}</span>
 
                             {selected !== 'None' && <span className="absolute bottom-3 right-0">
@@ -403,7 +406,7 @@ function MatchCard({
                             }
                         </div>
 
-                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
+                        <div className={`h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
                         </div>
                     </div>
@@ -534,11 +537,11 @@ function MatchCard({
                         onMouseLeave={() => setHoveredSection(null)}
                         style={getStyle('Away-win', 2)}>
 
-                        <div className={`w-2/5 h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`}>
+                        <div className={`h-full flex justify-center items-center ${category === "franchise" ? "p-4" : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
                         </div>
 
-                        <div className="relative flex items-center justify-start text-[2.25vh] w-1/5 justify-start">
+                        <div className="relative flex items-center justify-start text-[2.25vh] justify-start" style={{ width: `${TEAM_NAME_WIDTH}%` }}>
                             <span>{awayTeamName}</span>
 
                             {selected !== 'None' && <span className="absolute bottom-3 left-0">
@@ -546,7 +549,7 @@ function MatchCard({
                             }
                         </div>
 
-                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start w-2/5 relative">
+                        <div className="font-['Reem_Kufi_Fun'] text-center flex flex-col justify-center text-[2vh] items-start relative" style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
                             {(showDeductionFields || awayDeductionPoints > 0) && <DeductionInput
                                 value={awayDeductionPointsValue}
                                 onChange={(points) => {
