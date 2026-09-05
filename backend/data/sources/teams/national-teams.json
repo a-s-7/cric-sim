@@ -46,7 +46,7 @@
             "acronym": "GBR",
             "name": "Great Britain",
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/gbr.png",
-            "gradient": "linear-gradient(135deg, #012169, #FFFFFF, #C8102E)",
+            "gradient": "linear-gradient(135deg, #00309C, #A5142D, #C8102E)",
             "type": "national"
         },
         {

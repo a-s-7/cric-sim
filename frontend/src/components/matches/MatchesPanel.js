@@ -81,7 +81,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                     <div className="relative z-10 flex h-full items-center gap-4 pr-1">
                         {podiumTeams.map(({ key, label, team }) => (
                             <div key={key} className="flex min-w-0 items-center gap-1.5">
-                                <span className={`${key === "first_place" ? "text-[14px] text-amber-300" : key === "second_place" ? "text-[12px] text-slate-200" : "text-[11px] text-orange-300"} font-black uppercase tracking-[0.08em] leading-none drop-shadow-sm`}>
+                                <span className={`${key === "first_place" ? "text-[14px] border-amber-300/70 bg-amber-500/55" : key === "second_place" ? "text-[12px] border-slate-300/70 bg-slate-400/55" : "text-[11px] border-[#c96b2c]/70 bg-[#a9531c]/55"} rounded border px-1 py-0.5 font-black uppercase tracking-[0.08em] leading-none text-white backdrop-blur-sm drop-shadow-sm`}>
                                     {label}
                                 </span>
                                 <img

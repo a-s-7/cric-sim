@@ -1,0 +1,196 @@
+{
+    "tournament": {
+        "_id": "oly-2028",
+        "division": "mens",
+        "category": "international",
+        "format": "T20",
+        "ballsPerInnings": 120,
+        "matchDurationMinutes": 240,
+        "name": "Olympics",
+        "edition": "2028",
+        "status": "upcoming",
+        "startDate": "2028-07-22",
+        "endDate": "2028-07-29",
+        "structure": "groups",
+        "currentStageId": null,
+        "gradient": "linear-gradient(135deg, #ffe3c9, #00aaae, #08a3a6)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/2028_Summer_Olympics_Logo.svg/330px-2028_Summer_Olympics_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/2028_Summer_Olympics_Logo.svg/330px-2028_Summer_Olympics_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        "pointsTableColor": "#08a3a6",
+        "tileBackgroundColor": "white",
+        "teams": [
+            "IND",
+            "GBR",
+            "SA",
+            "AUS",
+            "NZ",
+            "USA"
+        ],
+        "stadiums": [
+            "Fairplex"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 2,
+                "teamsPerGroup": 3,
+                "matchesPerTeam": 2,
+                "qualifiersPerGroup": null
+            }
+        },
+        {
+            "type": "group",
+            "order": 2,
+            "name": "Cross-Group Stage",
+            "crossGroup": true,
+            "status": "locked",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 4,
+                "qualifiersPerGroup": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "IND",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "GBR",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "NZ",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "AUS",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SA",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "USA",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2028-07-22 17:00:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "GBR",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2028-07-22 22:00:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "SA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2028-07-23 17:00:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "GBR",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2028-07-23 22:00:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "USA",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2028-07-24 17:00:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "IND",
+            "result": "None",
+            "status": "incomplete",
+            "group": "A"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2028-07-24 22:00:00",
+            "venue": "Fairplex",
+            "homeStageTeamId": "USA",
+            "awayStageTeamId": "AUS",
+            "result": "None",
+            "status": "incomplete",
+            "group": "B"
+        }
+    ]
+}
