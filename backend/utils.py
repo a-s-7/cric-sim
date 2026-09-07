@@ -13,7 +13,7 @@ except ImportError:
 from dotenv import load_dotenv
 load_dotenv()
 
-verbose = True
+verbose = False
 
 connection_string = os.getenv('MONGODB_URI')
 
@@ -190,67 +190,53 @@ def determine_medal_playoffs_podium(tournament, medalMatches):
             print("Medal playoffs podium unavailable: both matches must be completed.")
         return None  # Podium is only available after both matches are completed
 
+    def resolve_match_outcome(match, match_label):
+        hT = stageTeams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
+        aT = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
+        htA = teams_collection.find_one({"_id": hT["teamId"]})["acronym"]
+        aTA = teams_collection.find_one({"_id": aT["teamId"]})["acronym"]
+
+        if match["result"] == "Home-win":
+            return htA, aTA
+        elif match["result"] == "Away-win":
+            return aTA, htA
+        else:
+            home_position = hT.get("teamFromStandingsPosition")
+            away_position = aT.get("teamFromStandingsPosition")
+
+            if home_position is not None and away_position is not None:
+                home_is_higher = home_position < away_position
+                winner = htA if home_is_higher else aTA
+                loser = aTA if home_is_higher else htA
+                if verbose:
+                    print(
+                        f"{match_label} match result '{match.get('result')}' is undecided; "
+                        f"using standings comparison: {htA} position={home_position} vs {aTA} position={away_position} -> "
+                        f"{winner} selected as winner"
+                    )
+                return winner, loser
+            else:
+                tournamentSeedArray = tournament["teams"]
+                homeTeamSeedValue = tournamentSeedArray.index(htA)
+                awayTeamSeedValue = tournamentSeedArray.index(aTA)
+                home_is_higher = homeTeamSeedValue < awayTeamSeedValue
+                winner = htA if home_is_higher else aTA
+                loser = aTA if home_is_higher else htA
+                if verbose:
+                    print(
+                        f"{match_label} match result '{match.get('result')}' is undecided; "
+                        f"using tournament seed order: {htA} seed={homeTeamSeedValue + 1} vs {aTA} seed={awayTeamSeedValue + 1} -> "
+                        f"{winner} selected as winner"
+                    )
+                return winner, loser
+
     # Determine the third place winner
-    if third_place_match["result"] == "Home-win":
-        third_place_team = resolve_team_acronym(third_place_match["homeStageTeamId"])
-    elif third_place_match["result"] == "Away-win":
-        third_place_team = resolve_team_acronym(third_place_match["awayStageTeamId"])
-    else:
-        if verbose:
-            print(
-                f"Third-place match result '{third_place_match['result']}' is undecided; "
-                "using tournament seed order."
-            )
-        tournamentSeedArray = tournament["teams"]
-        htA = resolve_team_acronym(third_place_match["homeStageTeamId"])
-        aTA = resolve_team_acronym(third_place_match["awayStageTeamId"])
-        homeTeamSeedValue = tournamentSeedArray.index(htA)
-        awayTeamSeedValue = tournamentSeedArray.index(aTA)
-
-        if verbose:
-            print(
-                f"Third-place seed comparison: {htA} seed={homeTeamSeedValue + 1} "
-                f"vs {aTA} seed={awayTeamSeedValue + 1} -> "
-                f"{htA if homeTeamSeedValue < awayTeamSeedValue else aTA} selected"
-            )
-
-        third_place_team = htA if homeTeamSeedValue < awayTeamSeedValue else aTA
-
+    third_place_team, _ = resolve_match_outcome(third_place_match, "Third-place")
     if verbose:
         print(f"Third-place team determined: {third_place_team}")
 
-    # Determine the final winner and loser   
-    if final_match["result"] == "Home-win":
-        first_place_team = resolve_team_acronym(final_match["homeStageTeamId"])
-        second_place_team = resolve_team_acronym(final_match["awayStageTeamId"])
-    elif final_match["result"] == "Away-win":
-        first_place_team = resolve_team_acronym(final_match["awayStageTeamId"])
-        second_place_team = resolve_team_acronym(final_match["homeStageTeamId"])
-    else:
-        if verbose:
-            print(
-                f"Final result '{final_match['result']}' is undecided; "
-                "using tournament seed order."
-            )
-        tournamentSeedArray = tournament["teams"]
-        htA = resolve_team_acronym(final_match["homeStageTeamId"])
-        aTA = resolve_team_acronym(final_match["awayStageTeamId"])
-        homeTeamSeedValue = tournamentSeedArray.index(htA)
-        awayTeamSeedValue = tournamentSeedArray.index(aTA)
-
-        if verbose:
-            print(
-                f"Final seed comparison: {htA} seed={homeTeamSeedValue + 1} "
-                f"vs {aTA} seed={awayTeamSeedValue + 1} -> "
-                f"{htA if homeTeamSeedValue < awayTeamSeedValue else aTA} selected as first place"
-            )
-
-        if homeTeamSeedValue < awayTeamSeedValue:
-            first_place_team = htA
-            second_place_team = aTA
-        else:
-            first_place_team = aTA
-            second_place_team = htA
+    # Determine the final winner and runner-up
+    first_place_team, second_place_team = resolve_match_outcome(final_match, "Final")
 
     if verbose:
         print(
