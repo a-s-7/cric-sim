@@ -1,7 +1,7 @@
 {
     "tournament": {
-        "_id": "oly-2028",
-        "division": "mens",
+        "_id": "w-oly-2028",
+        "division": "womens",
         "category": "international",
         "format": "T20",
         "ballsPerInnings": 120,
@@ -9,8 +9,8 @@
         "name": "Olympics",
         "edition": "2028",
         "status": "upcoming",
-        "startDate": "2028-07-22",
-        "endDate": "2028-07-29",
+        "startDate": "2028-07-12",
+        "endDate": "2028-07-20",
         "structure": "groups",
         "currentStageId": null,
         "gradient": "linear-gradient(135deg, #ffe3c9, #00aaae, #08a3a6)",
@@ -19,12 +19,12 @@
         "pointsTableColor": "#08a3a6",
         "tileBackgroundColor": "white",
         "teams": [
-            "IND",
-            "GBR",
-            "SA",
             "AUS",
-            "NZ",
-            "USA"
+            "GBR",
+            "IND",
+            "SA",
+            "USA",
+            "NZ"
         ],
         "stadiums": [
             "Fairgrounds Cricket Stadium"
@@ -261,7 +261,7 @@
         {
             "matchNumber": 1,
             "stageOrder": 1,
-            "date": "2028-07-22 09:00:00",
+            "date": "2028-07-12 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "IND",
             "awayStageTeamId": "GBR",
@@ -272,7 +272,7 @@
         {
             "matchNumber": 2,
             "stageOrder": 1,
-            "date": "2028-07-22 18:00:00",
+            "date": "2028-07-12 18:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "AUS",
             "awayStageTeamId": "SA",
@@ -283,7 +283,7 @@
         {
             "matchNumber": 3,
             "stageOrder": 1,
-            "date": "2028-07-23 09:00:00",
+            "date": "2028-07-13 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "GBR",
             "awayStageTeamId": "NZ",
@@ -294,7 +294,7 @@
         {
             "matchNumber": 4,
             "stageOrder": 1,
-            "date": "2028-07-23 18:00:00",
+            "date": "2028-07-13 18:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "SA",
             "awayStageTeamId": "USA",
@@ -305,7 +305,7 @@
         {
             "matchNumber": 5,
             "stageOrder": 1,
-            "date": "2028-07-24 09:00:00",
+            "date": "2028-07-15 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "NZ",
             "awayStageTeamId": "IND",
@@ -316,7 +316,7 @@
         {
             "matchNumber": 6,
             "stageOrder": 1,
-            "date": "2028-07-24 18:00:00",
+            "date": "2028-07-15 18:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "USA",
             "awayStageTeamId": "AUS",
@@ -327,7 +327,7 @@
         {
             "matchNumber": 7,
             "stageOrder": 2,
-            "date": "2028-07-25 09:00:00",
+            "date": "2028-07-16 18:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "A1",
             "awayStageTeamId": "B2",
@@ -337,7 +337,7 @@
         {
             "matchNumber": 8,
             "stageOrder": 2,
-            "date": "2028-07-25 18:00:00",
+            "date": "2028-07-17 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "A2",
             "awayStageTeamId": "B1",
@@ -347,7 +347,7 @@
         {
             "matchNumber": 9,
             "stageOrder": 2,
-            "date": "2028-07-26 09:00:00",
+            "date": "2028-07-17 18:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "A3",
             "awayStageTeamId": "B2",
@@ -357,7 +357,7 @@
         {
             "matchNumber": 10,
             "stageOrder": 2,
-            "date": "2028-07-26 18:00:00",
+            "date": "2028-07-18 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "A1",
             "awayStageTeamId": "B3",
@@ -367,7 +367,7 @@
         {
             "matchNumber": 11,
             "stageOrder": 2,
-            "date": "2028-07-27 09:00:00",
+            "date": "2028-07-18 18:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "A3",
             "awayStageTeamId": "B1",
@@ -377,7 +377,7 @@
         {
             "matchNumber": 12,
             "stageOrder": 2,
-            "date": "2028-07-27 18:00:00",
+            "date": "2028-07-19 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "A2",
             "awayStageTeamId": "B3",
@@ -387,24 +387,24 @@
         {
             "matchNumber": 13,
             "stageOrder": 3,
-            "date": "2028-07-28 09:00:00",
+            "date": "2028-07-20 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "T3",
             "awayStageTeamId": "T4",
             "result": "None",
             "status": "incomplete",
-            "description": "Men's Bronze Medal Match"
+            "description": "Women's Bronze Medal Match"
         },
         {
             "matchNumber": 14,
             "stageOrder": 3,
-            "date": "2028-07-29 09:00:00",
+            "date": "2028-07-20 18:00:00",
             "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "T1",
             "awayStageTeamId": "T2",
             "result": "None",
             "status": "incomplete",
-            "description": "Men's Gold Medal Match"
+            "description": "Women's Gold Medal Match"
         }
     ]
 }

@@ -25,14 +25,14 @@ TOURNAMENTS = {
     20: {"category": "leagues", "folder": "etpl", "name": "etpl-2026.json"},
     21: {"category": "events", "folder": "asian-games", "name": "ag-2026.json"},
     22: {"category": "events", "folder": "asian-games", "name": "w-ag-2026.json"},
-    23: {"category": "events", "folder": "olympics", "name": "oly-2028.json"}
-
+    23: {"category": "events", "folder": "olympics", "name": "oly-2028.json"},
+    24: {"category": "events", "folder": "olympics", "name": "w-oly-2028.json"}
 }
 
 def main():
     import_venues.main()
     import_teams.main()
-    import_events_leagues.main(TOURNAMENTS, [4, 5, 15, 16, 18, 19, 20, 21, 22, 23])
+    import_events_leagues.main(TOURNAMENTS, [4, 5, 15, 16, 18, 19, 20, 21, 22, 23, 24])
 
 if __name__ == "__main__":
     main()

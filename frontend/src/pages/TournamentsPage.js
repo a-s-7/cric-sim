@@ -55,7 +55,7 @@ function TournamentsPage() {
     }, [fetchTournaments]);
 
     return (
-        <div className="min-h-screen p-4 bg-gray-50 font-['Reem_Kufi_Fun']">
+        <div className="flex-1 overflow-y-auto no-scrollbar p-4 bg-gray-50 font-['Reem_Kufi_Fun']">
             <div className="space-y-4">
                 <div className="relative items-center h-16">
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 flex rounded-full w-[400px] border border-gray-200 shadow-inner bg-gray-100/50 h-12 p-1 items-center ">
