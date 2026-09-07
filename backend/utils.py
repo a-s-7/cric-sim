@@ -2,6 +2,7 @@ import os
 from pymongo import MongoClient, UpdateOne
 from bson import ObjectId
 from flask import abort
+from pprint import pprint
 import re
 
 try:
@@ -436,7 +437,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
         if "preseededTeamId" in sample_team:
             confirmTeamsForGroupStageWithPreseeding(tournamentId, stageOrder, stageToConfirm)
         else:
-            confirmTeamsForGroupStageBasic(tournamentId, stageOrder, stageToConfirm)
+            confirmTeamsForGroupStageBasic(tournamentId, stageToConfirm)
     else:   
         if stageToConfirm["name"] == "Playoffs":
             confirmTeamsForPlayoffs(tournamentId, stageOrder, stageToConfirm)
@@ -460,7 +461,12 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
             standingsTeam = standingsGroup[team["teamFromStandingsPosition"] - 1]
                     
             if verbose:
-                print(f"PROGRESSION: {standingsTeam['teamDbId']} advances from Group {group_name} to {stageToConfirm['name']} as position {team.get('teamFromStandingsPosition')}")
+                position = team["teamFromStandingsPosition"]
+                
+                print(
+                    f"PROGRESSION: {standingsTeam['teamDbId']} advances from Group {group_name} "
+                    f"to {stageToConfirm['name']} as {ordinal(position)} place"
+                )
                     
             stageTeams_collection.update_one(
                         {"_id": ObjectId(team["_id"])},
@@ -565,35 +571,64 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
                 if verbose:
                     print(f"PROGRESSION: no team advanced to {stageToConfirm['name']} from match {match.get('matchNumber', 'N/A')} (result={match.get('result', 'N/A')})")
 
-def confirmTeamsForGroupStageBasic(tournamentId, stageOrder, currentStage):
-    stageTeams_collection.update_many(
-        {"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])},
-        {"$set": {"teamId": None, "confirmed": False}}
-    )
+def confirmTeamsForGroupStageBasic(tournamentId, stageToConfirm):
+    carryOver = stageToConfirm.get("carryOver", False)
 
-    previousStageStandings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
-    prevStageGroups = previousStageStandings["standings"][0]["groups"]
+    stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
+    standings = get_tournament_standings_data(tournamentId, [stageToConfirm["order"] - 1])
+    prevStageGroups = standings["standings"][0]["groups"]                            
 
-    for key, val in prevStageGroups.items():
-        groupName = key 
-        teams = val
+    operations = []
 
-        for i, team in enumerate(teams):
-            seedString = f"{groupName}{i + 1}"
-            
-            slot = stageTeams_collection.find_one({"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": seedString})
-            if slot:
-                if verbose:
-                    print(f"Group {groupName}: {seedString} replaced by {team['teamDbId']} ({i + 1} place)")
-                stageTeams_collection.update_one(
-                    {"_id": slot["_id"]},
-                    {
-                        "$set": {
-                            "teamId": team["teamDbId"],
-                            "confirmed": True
-                        }
+    for team in stageTeams:    
+        group_name = team.get("teamFromStandingsGroup", "LEAGUE")
+                
+        standingsGroup = prevStageGroups[group_name]
+        standingsTeam = standingsGroup[team["teamFromStandingsPosition"] - 1]
+                
+        if verbose:
+            position = team["teamFromStandingsPosition"]
+
+            print(
+                f"PROGRESSION: {standingsTeam['teamDbId']} advances from Group {group_name} "
+                f"to {stageToConfirm['name']} as {ordinal(position)} place"
+            )
+ 
+        vals = {}
+        if carryOver:
+            vals["matchesPlayed"] = standingsTeam["played"]
+            vals["won"] = standingsTeam["won"]
+            vals["lost"] = standingsTeam["lost"]
+            vals["noResult"] = standingsTeam["noResult"]
+            vals["points"] = standingsTeam["points"]
+            vals["runsScored"] = standingsTeam["runsScored"]
+            vals["runsConceded"] = standingsTeam["runsConceded"]
+            vals["ballsFaced"] = standingsTeam["ballsFaced"]
+            vals["ballsBowled"] = standingsTeam["ballsBowled"]
+
+        operations.append(
+            UpdateOne(
+                {"_id": ObjectId(team["_id"])},
+                {
+                    "$set": {
+                        "teamId": standingsTeam["teamDbId"],
+                        "confirmed": True,
+                        **vals
                     }
-                )
+                }
+            )
+        )  
+
+    stageTeams_collection.bulk_write(operations)        
+
+
+def ordinal(n):
+    if 10 <= n % 100 <= 20:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+   
 
 def confirmTeamsForGroupStageWithPreseeding(tournamentId, stageOrder, currentStage):
     stageTeams_collection.update_many(

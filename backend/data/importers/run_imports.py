@@ -32,6 +32,7 @@ TOURNAMENTS = {
 def main():
     import_venues.main()
     import_teams.main()
-    import_events_leagues.main(TOURNAMENTS, [4, 5, 18, 19, 20, 21, 22, 23])
+    import_events_leagues.main(TOURNAMENTS, [4, 5, 15, 16, 18, 19, 20, 21, 22, 23])
+
 if __name__ == "__main__":
     main()

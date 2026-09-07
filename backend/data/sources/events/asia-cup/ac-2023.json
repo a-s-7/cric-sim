@@ -138,7 +138,6 @@
         },
         {
             "stageOrder": 2,
-            "group": "1",
             "teamId": "PAK",
             "confirmed": false,
             "seed": "A1",
@@ -153,7 +152,6 @@
         },
         {
             "stageOrder": 2,
-            "group": "1",
             "teamId": "IND",
             "confirmed": false,
             "seed": "A2",
@@ -168,7 +166,6 @@
         },
         {
             "stageOrder": 2,
-            "group": "1",
             "teamId": "SL",
             "confirmed": false,
             "seed": "B1",
@@ -183,7 +180,6 @@
         },
         {
             "stageOrder": 2,
-            "group": "1",
             "teamId": "BAN",
             "confirmed": false,
             "seed": "B2",

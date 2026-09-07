@@ -27,7 +27,7 @@
             "USA"
         ],
         "stadiums": [
-            "Fairplex"
+            "Fairgrounds Cricket Stadium"
         ]
     },
     "stages": [
@@ -47,13 +47,23 @@
             "type": "group",
             "order": 2,
             "name": "Cross-Group Stage",
-            "crossGroup": true,
+            "carryOver": true,
             "status": "locked",
             "config": {
                 "numberOfGroups": 1,
                 "teamsPerGroup": 6,
                 "matchesPerTeam": 4,
                 "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 3,
+            "name": "Medal Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 2
             }
         }
     ],
@@ -123,14 +133,136 @@
             "noResult": 0,
             "tied": 0,
             "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "A1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "A",
+            "teamFromStandingsPosition": 1,
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "A2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "A",
+            "teamFromStandingsPosition": 2,
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "A3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "A",
+            "teamFromStandingsPosition": 3,
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "B1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "B",
+            "teamFromStandingsPosition": 1,
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "B2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "B",
+            "teamFromStandingsPosition": 2,
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "B3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsGroup": "B",
+            "teamFromStandingsPosition": 3,
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 3,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
         }
     ],
     "matches": [
         {
             "matchNumber": 1,
             "stageOrder": 1,
-            "date": "2028-07-22 17:00:00",
-            "venue": "Fairplex",
+            "date": "2028-07-22 09:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "IND",
             "awayStageTeamId": "GBR",
             "result": "None",
@@ -140,8 +272,8 @@
         {
             "matchNumber": 2,
             "stageOrder": 1,
-            "date": "2028-07-22 22:00:00",
-            "venue": "Fairplex",
+            "date": "2028-07-22 18:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "AUS",
             "awayStageTeamId": "SA",
             "result": "None",
@@ -151,8 +283,8 @@
         {
             "matchNumber": 3,
             "stageOrder": 1,
-            "date": "2028-07-23 17:00:00",
-            "venue": "Fairplex",
+            "date": "2028-07-23 09:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "GBR",
             "awayStageTeamId": "NZ",
             "result": "None",
@@ -162,8 +294,8 @@
         {
             "matchNumber": 4,
             "stageOrder": 1,
-            "date": "2028-07-23 22:00:00",
-            "venue": "Fairplex",
+            "date": "2028-07-23 18:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "SA",
             "awayStageTeamId": "USA",
             "result": "None",
@@ -173,8 +305,8 @@
         {
             "matchNumber": 5,
             "stageOrder": 1,
-            "date": "2028-07-24 17:00:00",
-            "venue": "Fairplex",
+            "date": "2028-07-24 09:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "NZ",
             "awayStageTeamId": "IND",
             "result": "None",
@@ -184,13 +316,95 @@
         {
             "matchNumber": 6,
             "stageOrder": 1,
-            "date": "2028-07-24 22:00:00",
-            "venue": "Fairplex",
+            "date": "2028-07-24 18:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
             "homeStageTeamId": "USA",
             "awayStageTeamId": "AUS",
             "result": "None",
             "status": "incomplete",
             "group": "B"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 2,
+            "date": "2028-07-25 09:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
+            "homeStageTeamId": "A1",
+            "awayStageTeamId": "B2",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 2,
+            "date": "2028-07-25 18:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
+            "homeStageTeamId": "A2",
+            "awayStageTeamId": "B1",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 2,
+            "date": "2028-07-26 09:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
+            "homeStageTeamId": "A3",
+            "awayStageTeamId": "B2",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 2,
+            "date": "2028-07-26 18:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
+            "homeStageTeamId": "A1",
+            "awayStageTeamId": "B3",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 2,
+            "date": "2028-07-27 09:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
+            "homeStageTeamId": "A3",
+            "awayStageTeamId": "B1",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 2,
+            "date": "2028-07-27 18:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
+            "homeStageTeamId": "A2",
+            "awayStageTeamId": "B3",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 3,
+            "date": "2028-07-28 09:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
+            "homeStageTeamId": "T3",
+            "awayStageTeamId": "T4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Bronze Medal Match"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 3,
+            "date": "2028-07-29 09:00:00",
+            "venue": "Fairgrounds Cricket Stadium",
+            "homeStageTeamId": "T1",
+            "awayStageTeamId": "T2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Gold Medal Match"
         }
     ]
 }

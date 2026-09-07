@@ -617,6 +617,9 @@ def update_match_score(tournament_id, match_num, home_runs, home_wickets, home_b
             }}
         )
 
+    matchStage = stages_collection.find_one({"_id": ObjectId(old_match["stageId"])})
+    propagate_match_simulation(tournament_id, matchStage)
+    
 def update_match_target_runs(tournament_id, match_num, target_runs):
     tournament = find_limited_overs_tournament(tournament_id)
 
