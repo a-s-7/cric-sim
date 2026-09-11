@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
+import { SearchBar } from "../components/SearchBar";
 
 function TournamentsPage() {
     const navigate = useNavigate();
 
     const [tournaments, setTournaments] = useState({ grouped: false, tournaments: [] });
+    const [selected, setSelected] = useState(['Active']);
 
     const [activeView, setActiveView] = useState(0);
     const [activeGender, setActiveGender] = useState(0);
@@ -55,9 +57,9 @@ function TournamentsPage() {
     }, [fetchTournaments]);
 
     return (
-        <div className="flex-1 overflow-y-auto no-scrollbar p-4 bg-gray-50 font-['Reem_Kufi_Fun']">
+        <div className="flex-1 overflow-y-auto no-scrollbar p-4 bg-gray-50 font-['Reem_Kufi']">
             <div className="space-y-4">
-                <div className="relative items-center h-16">
+                {/* <div className="relative items-center h-16">
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 flex rounded-full w-[400px] border border-gray-200 shadow-inner bg-gray-100/50 h-12 p-1 items-center ">
                         <div
                             className="absolute transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full shadow-md"
@@ -104,7 +106,57 @@ function TournamentsPage() {
                             </button>
                         ))}
                     </div>
+                </div> */}
+
+                <div>
+                    {/* View + Search + Sorting Bar */}
+                    <div className="flex h-10 sm:h-12 md:h-14 items-center">
+                        <div className="w-1/4 h-full ">LEFT</div>
+                        <div className="w-1/2 h-full "><SearchBar /></div>
+                        <div className="w-1/4 h-full">RIGHT</div>
+                    </div>
+                    <div className="flex h-8 sm:h-10 md:h-12 items-center bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                        <div className="w-1/4 h-full flex flex-row items-center justify-center gap-1 px-1">
+                            {['UPCOMING', 'ACTIVE', 'COMPLETE'].map((option) => {
+                                const isSelected = selected.includes(option);
+
+                              // True sequential linear gradient from solid black -> dark charcoal -> muted dark gray
+            const styles = {
+                UPCOMING: isSelected
+                    ? 'bg-black text-white font-semibold shadow-sm'
+                    : 'text-neutral-500 hover:bg-neutral-100 hover:text-black',
+                ACTIVE: isSelected
+                    ? 'bg-neutral-800 text-white font-semibold shadow-sm'
+                    : 'text-neutral-500 hover:bg-neutral-100 hover:text-black',
+                COMPLETE: isSelected
+                    ? 'bg-neutral-600 text-white font-semibold shadow-sm'
+                    : 'text-neutral-500 hover:bg-neutral-100 hover:text-black',
+            };
+                                return (
+                                    <button
+                                        key={option}
+                                        onClick={() =>
+                                            setSelected((prev) =>
+                                                isSelected
+                                                    ? prev.filter((item) => item !== option)
+                                                    : [...prev, option]
+                                            )
+                                        }
+                                        className={`flex-1 h-3/4 flex items-center justify-center rounded-xl text-xs font-medium transition-colors ${styles[option]}`}
+                                    >
+                                        {option}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <div className="h-3/4 border-l border-gray-200" />
+                        <div className="w-1/2 h-full flex items-center justify-center">CENTER</div>
+                        <div className="h-3/4 border-l border-gray-200" />
+                        <div className="w-1/4 h-full flex items-center justify-center">RIGHT</div>
+                    </div>
                 </div>
+
+
                 <div className="w-full grid grid-cols-9 gap-5">
                     {!tournaments["grouped"] &&
                         tournaments["tournaments"].map((tournament, index) => (

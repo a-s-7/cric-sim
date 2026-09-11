@@ -28,15 +28,9 @@ matches_collection = db['matches']
 stages_collection = db["stages"]
 teams_collection = db['teams']
 
-def get_tournaments(group_results, category, division):
-    query = {}
-    if category != "all":
-        query["category"] = category
-    if division != "all":
-        query["division"] = division
-
+def get_tournaments():
     # Fetch all tournaments within the category to pair real-world and what-if modes
-    tournaments = list(tournaments_collection.find(query).sort("startDate", -1))
+    tournaments = list(tournaments_collection.find().sort("startDate", -1))
 
     paired = {}
 
@@ -48,16 +42,13 @@ def get_tournaments(group_results, category, division):
         if key not in paired:
             paired[key] = {
                 "baseId": key,
-                "category": tournament["category"],
-                "name": tournament["name"],
-                "edition": tournament["edition"],
-                "mainLogo": tournament["mainLogo"],
-                "tileBackgroundColor": tournament["tileBackgroundColor"],
+                **tournament
             }
+            paired[key].pop("_id")
     
     output = list(paired.values())
 
-    return {"tournaments": output, "grouped": group_results}
+    return output
 
 def get_tournament_info(tournament_base_id):
     tournaments = list(tournaments_collection.find({ "_id": {"$regex": f"^{tournament_base_id}"}}))
