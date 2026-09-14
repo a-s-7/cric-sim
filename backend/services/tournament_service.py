@@ -11,6 +11,7 @@ from utils import (
     build_common_match_lookup_stages,
     determine_final_winner,
 )
+from datetime import datetime, timezone
 
 verbose = True
 
@@ -32,21 +33,34 @@ def get_tournaments():
     # Fetch all tournaments within the category to pair real-world and what-if modes
     tournaments = list(tournaments_collection.find().sort("startDate", -1))
 
-    paired = {}
+    paired_tournaments = {}
+
+    today = datetime.now(timezone.utc).date()
 
     for tournament in tournaments:
-        # Group by the base _id (stripping off -rw and -ps suffixes) 
+        # Group by the base _id (strip off -rw and -ps suffixes) 
         base_id = str(tournament["_id"])
         key = base_id[:-3]
 
-        if key not in paired:
-            paired[key] = {
+        if key not in paired_tournaments:
+            start_date = tournament["startDate"].date()
+            end_date = tournament["endDate"].date()
+
+            if today < start_date:
+                status = "upcoming"
+            elif today > end_date:
+                status = "complete"
+            else:
+                status = "active"
+
+            paired_tournaments[key] = {
                 "baseId": key,
-                **tournament
+                "status": status,
+                **tournament,
             }
-            paired[key].pop("_id")
-    
-    output = list(paired.values())
+            paired_tournaments[key].pop("_id")
+            
+    output = list(paired_tournaments.values())
 
     return output
 

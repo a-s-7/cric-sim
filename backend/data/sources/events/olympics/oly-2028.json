@@ -8,7 +8,6 @@
         "matchDurationMinutes": 240,
         "name": "Olympics",
         "edition": "2028",
-        "status": "upcoming",
         "startDate": "2028-07-22",
         "endDate": "2028-07-29",
         "structure": "groups",
