@@ -59,6 +59,7 @@ def get_tournaments():
                 **tournament,
             }
             paired_tournaments[key].pop("_id")
+            paired_tournaments[key].pop("mode")
             
     output = list(paired_tournaments.values())
 

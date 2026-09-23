@@ -7,6 +7,7 @@
         "ballsPerInnings": 120,
         "matchDurationMinutes": 240,
         "name": "ICC Men's T20 World Cup",
+        "acronym": "T20WC24",
         "edition": "2024",
         "startDate": "2024-06-01",
         "endDate": "2024-06-29",

@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 import { SearchBar } from "../components/SearchBar";
 
@@ -11,6 +13,8 @@ function TournamentsPage() {
     const [selectedGenders, setSelectedGenders] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedFormats, setSelectedFormats] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [showFilterBar, setShowFilterBar] = useState(true);
 
     const categoryMap = {
         events: "international",
@@ -20,6 +24,12 @@ function TournamentsPage() {
     const formatOptions = ["T20", "ODI", "TEST", "HUNDRED"]
     const genderOptions = ["mens", "womens"];
     const statusOptions = ["upcoming", "active", "complete"];
+
+    const activeFiltersCount =
+        selectedStatuses.length +
+        selectedGenders.length +
+        selectedCategories.length +
+        selectedFormats.length;
 
     const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
 
@@ -42,15 +52,29 @@ function TournamentsPage() {
     };
 
     const getFilteredTournaments = () => {
-        return tournaments.filter((tournament) =>
-            (selectedStatuses.length === 0 ||
-                selectedStatuses.includes(tournament.status)) &&
-            (selectedGenders.length === 0 ||
-                selectedGenders.includes(tournament.division)) &&
-            (selectedCategories.length === 0 ||
-                selectedCategories.some(category => categoryMap[category] === tournament.category)) &&
-            (selectedFormats.length === 0 ||
-                selectedFormats.includes(tournament.format)));
+        return tournaments.filter((tournament) => {
+            const search = searchQuery.toLowerCase().trim();        
+            const searchableText =`${tournament.name} ${tournament.edition} ${tournament.acronym}`.toLowerCase();
+
+            // console.log("Search:", search);
+            // console.log("Tokens:", search.split(/\s+/));
+            // console.log("Searchable:", searchableText);
+
+            return (
+                (search.length === 0 ||
+                    search.split(/\s+/).every(token =>
+                    searchableText.includes(token)
+                )) && 
+                (selectedStatuses.length === 0 ||
+                    selectedStatuses.includes(tournament.status)) &&
+                (selectedGenders.length === 0 ||
+                    selectedGenders.includes(tournament.division)) &&
+                (selectedCategories.length === 0 ||
+                    selectedCategories.some(category => categoryMap[category] === tournament.category)) &&
+                (selectedFormats.length === 0 ||
+                    selectedFormats.includes(tournament.format))
+            );
+        });
     };
 
     const fetchTournaments = useCallback(async (viewIndex, genderIndex) => {
@@ -76,10 +100,34 @@ function TournamentsPage() {
                 {/* View + Search + Sorting Bar */}
                 <div className="flex h-10 sm:h-12 md:h-14 items-center">
                     <div className="w-1/4 h-full ">LEFT</div>
-                    <div className="w-1/2 h-full "><SearchBar /></div>
-                    <div className="w-1/4 h-full">RIGHT</div>
+                    <div className="w-1/2 h-full "><SearchBar placeholder="Search tournaments..." onChange={setSearchQuery} /></div>
+                    <div className="w-1/4 h-full flex items-center justify-end">
+                        <button
+                            type="button"
+                            onClick={() => setShowFilterBar((prev) => !prev)}
+                            className={`h-9 sm:h-10 md:h-11 px-4 flex items-center gap-2 rounded-2xl text-xs sm:text-sm font-medium transition-all duration-200 shadow-sm border ${
+                                showFilterBar
+                                    ? "bg-black text-white border-black hover:bg-neutral-800"
+                                    : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50 hover:text-black hover:border-stone-300"
+                            }`}
+                        >
+                            <FontAwesomeIcon icon={faFilter} className="text-xs" />
+                            {/* <span>{showFilterBar ? "Hide Filters" : "Show Filters"}</span> */}
+                            {activeFiltersCount > 0 && (
+                                <span
+                                    className={`ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
+                                        showFilterBar ? "bg-white text-black" : "bg-black text-white"
+                                    }`}
+                                >
+                                    {activeFiltersCount}
+                                </span>
+                            )}
+                        </button>
+                    </div>
                 </div>
-                <div className="flex h-8 sm:h-10 md:h-12 items-center bg-white rounded-2xl border border-gray-200 overflow-hidden">
+
+                {showFilterBar && (
+                    <div className="flex h-8 sm:h-10 md:h-12 items-center bg-white rounded-2xl border border-gray-200 overflow-hidden mt-3">
                     <div className="w-1/4 h-full flex flex-row items-center justify-center gap-1 px-1">
                         {statusOptions.map((option) => {
                             const isSelected = selectedStatuses.includes(option);
@@ -171,6 +219,7 @@ function TournamentsPage() {
                     <div className="h-3/4 border-l border-gray-200" />
                     <div className="w-1/4 h-full flex items-center justify-center">RIGHT</div>
                 </div>
+            )}
             </div>
 
 

@@ -6,6 +6,7 @@
     "format": "TEST",
     "matchDurationMinutes": 6240,
     "name": "ICC World Test Championship",
+    "acronym": "WTC27",
     "edition": "2025-27",
     "startDate": "2025-06-17",
     "endDate": "2027-06-13",
