@@ -125,7 +125,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
             </div>
 
             <div className="flex-1 flex flex-col overflow-hidden">
-                <div className={`flex-1 ${structure === "knockout" ? "grid grid-cols-2 gap-4 content-start" : "flex flex-col gap-8"} px-2 pt-0 pb-2 overflow-y-auto no-scrollbar mt-2`}>
+                <div className={`flex-1 ${structure === "knockout" ? "grid grid-cols-2 gap-4 content-start" : "flex flex-col gap-8"} px-2 pt-0 pb-2 overflow-y-auto mt-2`}>
                     {matchesArray && matchesArray.map(match => (
                         <div key={`${match.matchNumber}`}
                             ref={match.matchNumber === currentMatch?.matchNumber ? currentMatchRef : null}>
