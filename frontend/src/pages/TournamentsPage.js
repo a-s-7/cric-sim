@@ -9,10 +9,14 @@ import {
     faRotateLeft,
     faInbox,
     faSquare,
-    faRectangleList
+    faRectangleList,
+    faArrowsRotate,
+    faCircleNotch
 } from "@fortawesome/free-solid-svg-icons";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 import { SearchBar } from "../components/SearchBar";
+import Spinner from "../components/Spinner";
+
 
 function TournamentsPage() {
     const navigate = useNavigate();
@@ -28,6 +32,9 @@ function TournamentsPage() {
     const [showFilterBar, setShowFilterBar] = useState(false);
 
     const [groupField, setGroupField] = useState("all");
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     const categoryMap = {
         events: "international",
@@ -145,8 +152,13 @@ function TournamentsPage() {
         return filtered;
     };
 
-    const fetchTournaments = useCallback(async (viewIndex, genderIndex) => {
+    const fetchTournaments = useCallback(async ( {silent = false } = {}) => {
         try {
+            if (silent) {
+                setIsRefreshing(true);
+            } else {
+                setIsLoading(true);
+            }
             const response = await fetch(TOURNAMENTS_URL);
             if (!response.ok) {
                 throw new Error("Response was not ok");
@@ -155,11 +167,17 @@ function TournamentsPage() {
             setTournaments(result);
         } catch (error) {
             console.error("Error fetching data:", error);
+        } finally {
+            if (silent) {
+                setIsRefreshing(false);
+            } else {
+                setIsLoading(false);
+            }
         }
     }, [TOURNAMENTS_URL]);
 
     useEffect(() => {
-        fetchTournaments(0, 0);
+        fetchTournaments();
     }, [fetchTournaments]);
 
     const filteredTournaments = getFilteredTournaments();
@@ -234,7 +252,6 @@ function TournamentsPage() {
                         </div>
 
                         <div className="flex flex-1 items-center justify-center gap-2">
-
                             <span className="hidden text-xs font-medium text-stone-400 lg:inline">View</span>
                             <div className="flex h-9 items-center gap-0.5 rounded-xl border border-stone-200 bg-white p-1 shadow-sm sm:h-10 md:h-11">
                                 <span title="Card view" className="flex h-7 w-8 items-center justify-center rounded-lg bg-stone-900 text-sm text-white">
@@ -252,8 +269,8 @@ function TournamentsPage() {
                     <div className="h-10 sm:h-full flex items-center justify-center"><SearchBar placeholder="Search tournaments..." value={searchQuery} onChange={setSearchQuery} /></div>
 
                     {/* Sorting Controls + Filter Dropdown */}
-                    <div className="grid h-10 grid-cols-[1fr_auto] items-center gap-2 sm:h-full font-sans">
-                        <div className="flex items-center justify-center gap-1.5">
+                    <div className="flex h-10 items-center justify-end font-sans sm:h-full">
+                        <div className="flex flex-1 items-center justify-center gap-2">
                             <span className="hidden text-xs font-medium text-stone-400 lg:inline">Sort</span>
                             <div className="flex h-9 items-center rounded-xl border border-stone-200 bg-white px-1.5 shadow-sm transition-colors hover:border-stone-300 sm:h-10 md:h-11">
                                 <div className="relative h-full">
@@ -291,13 +308,22 @@ function TournamentsPage() {
                                 </button>
                             </div>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-4">
+                            <button
+                                type="button"
+                                onClick={() => fetchTournaments({silent: true})}
+                                aria-label="Refresh tournaments"
+                                title="Refresh tournaments"
+                                className="flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200 bg-white text-stone-500 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:border-stone-900 hover:bg-stone-900 hover:text-white hover:shadow-md active:translate-y-0 active:scale-95 active:border-stone-950 active:bg-stone-950 active:shadow-inner sm:h-10 sm:w-10 md:h-11 md:w-11"
+                            >
+                                    <FontAwesomeIcon icon={isRefreshing ? faCircleNotch : faArrowsRotate} className={`text-xs ${isRefreshing ? "animate-spin" : ""}`} />                                    
+                            </button>
                             <button
                                 type="button"
                                 onClick={() => setShowFilterBar((prev) => !prev)}
                                 aria-label={showFilterBar ? "Hide filters" : "Show filters"}
                                 title={showFilterBar ? "Hide filters" : "Show filters"}
-                                className={`relative flex h-9 w-9 items-center justify-center rounded-xl border text-sm transition-all duration-200 sm:h-10 sm:w-10 md:h-11 md:w-11 ${showFilterBar
+                                className={`relative flex h-9 w-9 items-center justify-center rounded-xl border text-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95 active:shadow-inner sm:h-10 sm:w-10 md:h-11 md:w-11 ${showFilterBar
                                     ? "border-stone-900 bg-stone-900 text-white shadow-sm"
                                     : "border-stone-200 bg-white text-stone-500 shadow-sm hover:border-stone-300 hover:text-stone-800"
                                     }`}
@@ -433,8 +459,10 @@ function TournamentsPage() {
                     </div>
                 </div>
 
-                {filteredTournaments.length === 0 ? (
-                    <div className="w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4 ">
+                {isLoading ? (
+                    <Spinner key="loading" className="animate-fadeIn"/>
+                ) : filteredTournaments.length === 0 ? (
+                    <div key="empty" className="animate-fadeIn w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4">
                         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-stone-100">
                             <FontAwesomeIcon icon={faInbox} className="text-2xl text-stone-400" />
                         </div>
@@ -460,8 +488,8 @@ function TournamentsPage() {
                             </button>
                         )}
                     </div>
-                ) :
-                    (<div className="w-full flex-1 min-h-0 overflow-y-auto px-4 pb-4">
+                ) : (
+                     (<div key="grid" className="animate-fadeIn w-full flex-1 min-h-0 overflow-y-auto px-4 pb-4">
                         <div className="flex flex-col gap-8">
                             {sortedGroups.map(([group, groupedTournaments]) => (
                                 <div key={group} className="">
@@ -499,6 +527,7 @@ function TournamentsPage() {
                             ))}
                         </div>
                     </div>)
+                )
                 }
             </div>
 
