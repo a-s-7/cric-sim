@@ -12,18 +12,17 @@ function NavBar() {
                     <span className="font-normal text-black">SIM</span>
                 </NavLink>
             </div>
-          <div className="flex flex-row justify-center absolute left-1/2 -translate-x-1/2 h-full p-[10px] gap-[10px]">
-    <NavLink
-        to="/tournaments"
-        className={`flex items-center no-underline p-[10px] text-[1.75vh] font-medium transition-colors duration-300 ease-in-out ${
-            path === "/tournaments"
-                ? "text-black"
-                : "text-gray-400 hover:text-gray-800"
-        }`}
-    >
-        TOURNAMENTS
-    </NavLink>
-</div>
+            <div className="flex flex-row justify-center absolute left-1/2 -translate-x-1/2 h-full p-[10px] gap-[10px]">
+                <NavLink
+                    to="/tournaments"
+                    className={`flex items-center no-underline p-[10px] text-[1.75vh] font-medium transition-colors duration-300 ease-in-out ${path === "/tournaments"
+                            ? "text-black"
+                            : "text-gray-400 hover:text-gray-800"
+                        }`}
+                >
+                    TOURNAMENTS
+                </NavLink>
+            </div>
         </div>
     );
 }

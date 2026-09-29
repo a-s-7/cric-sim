@@ -30,3 +30,41 @@ export const formatTestDateRange = (date) => {
 
     return `${startMonth} ${startDay}–${endMonth} ${endDay}, ${year}`;
 };
+
+export const formatDateRange = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const sameYear = start.getFullYear() === end.getFullYear();
+    const sameMonth = start.getMonth() === end.getMonth();
+
+    const startMonth = start.toLocaleDateString("en-US", {
+        month: "short"
+    });
+
+    const endMonth = end.toLocaleDateString("en-US", {
+        month: "short"
+    });
+
+    const startDay = start.getDate();
+    const endDay = end.getDate();
+
+    const startYear = start.getFullYear();
+    const endYear = end.getFullYear();
+
+    // Same month and same year
+    // Jun 11 - 19, 2026
+    if (sameYear && sameMonth) {
+        return `${startMonth} ${startDay} - ${endDay}, ${endYear}`;
+    }
+
+    // Different month, same year
+    // Jun 11 - Jul 19, 2026
+    if (sameYear) {
+        return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${endYear}`;
+    }
+
+    // Different years
+    // Jun 11, 2025 - Jul 19, 2026
+    return `${startMonth} ${startDay}, ${startYear} - ${endMonth} ${endDay}, ${endYear}`;
+};

@@ -15,6 +15,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 import { SearchBar } from "../components/SearchBar";
+import TournamentIcon from "../components/TournamentIcon";
+import TournamentCard from "../components/TournamentCard";
 import Spinner from "../components/Spinner";
 
 
@@ -35,6 +37,15 @@ function TournamentsPage() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const [viewMode, setViewMode] = useState("icon"); // "icon" | "card"
+
+    const [closedGroups, setClosedGroups] = useState({});
+
+    const viewOptions = [
+        { id: "icon", title: "Icon view", icon: faSquare },
+        { id: "card", title: "Card view", icon: faRectangleList },
+    ];
 
     const categoryMap = {
         events: "international",
@@ -64,8 +75,6 @@ function TournamentsPage() {
         setSelectedGenders([]);
         setSelectedCategories([]);
         setSelectedFormats([]);
-        // setSortField("name");
-        // setSortOrder("asc");
     };
 
     const handleClearSearchAndFilters = () => {
@@ -97,10 +106,6 @@ function TournamentsPage() {
         const filtered = tournaments.filter((tournament) => {
             const search = searchQuery.toLowerCase().trim();
             const searchableText = `${tournament.name} ${tournament.edition} ${tournament.acronym}`.toLowerCase();
-
-            // console.log("Search:", search);
-            // console.log("Tokens:", search.split(/\s+/));
-            // console.log("Searchable:", searchableText);
 
             return (
                 (search.length === 0 ||
@@ -152,7 +157,7 @@ function TournamentsPage() {
         return filtered;
     };
 
-    const fetchTournaments = useCallback(async ( {silent = false } = {}) => {
+    const fetchTournaments = useCallback(async ({ silent = false } = {}) => {
         try {
             if (silent) {
                 setIsRefreshing(true);
@@ -220,10 +225,16 @@ function TournamentsPage() {
         return a[0].localeCompare(b[0]);
     });
 
+    const toggleGroup = (group) => {
+        setClosedGroups((prev) => ({
+            ...prev,
+            [group]: !prev[group]
+        }));
+    };
+
     return (
         <div className="flex-1 overflow-y-auto bg-gray-50">
             <div className="flex flex-col h-full min-h-0">
-                {/* Group + View + Search + Sorting Bar + Filter Dropdown */}
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-[2fr_5fr_2fr] sm:h-12 sm:items-center md:h-14 md:gap-3 p-4">
                     <div className="flex items-center gap-2 font-sans">
                         <span className="hidden text-xs text-stone-400 lg:inline">Group</span>
@@ -254,12 +265,20 @@ function TournamentsPage() {
                         <div className="flex flex-1 items-center justify-center gap-2">
                             <span className="hidden text-xs font-medium text-stone-400 lg:inline">View</span>
                             <div className="flex h-9 items-center gap-0.5 rounded-xl border border-stone-200 bg-white p-1 shadow-sm sm:h-10 md:h-11">
-                                <span title="Card view" className="flex h-7 w-8 items-center justify-center rounded-lg bg-stone-900 text-sm text-white">
-                                    <FontAwesomeIcon icon={faSquare} />
-                                </span>
-                                <span title="Detailed card view" className="flex h-7 w-8 items-center justify-center rounded-lg text-sm text-stone-400">
-                                    <FontAwesomeIcon icon={faRectangleList} />
-                                </span>
+                                {viewOptions.map(({ id, title, icon }) => (
+                                    <button
+                                        key={id}
+                                        type="button"
+                                        title={title}
+                                        onClick={() => setViewMode(id)}
+                                        className={`flex h-7 w-8 items-center justify-center rounded-lg text-sm transition-colors ${viewMode === id
+                                            ? "bg-stone-900 text-white"
+                                            : "text-stone-400 hover:bg-stone-100 hover:text-stone-700"
+                                            }`}
+                                    >
+                                        <FontAwesomeIcon icon={icon} />
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
@@ -292,7 +311,7 @@ function TournamentsPage() {
                                         className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-stone-400"
                                     />
                                 </div>
-                                <div aria-hidden="true" className="mx-1 h-5 border-l border-stone-200" />
+                                <div className="mx-1 h-5 border-l border-stone-200" />
                                 <button
                                     type="button"
                                     onClick={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
@@ -311,17 +330,15 @@ function TournamentsPage() {
                         <div className="flex items-center gap-4">
                             <button
                                 type="button"
-                                onClick={() => fetchTournaments({silent: true})}
-                                aria-label="Refresh tournaments"
+                                onClick={() => fetchTournaments({ silent: true })}
                                 title="Refresh tournaments"
                                 className="flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200 bg-white text-stone-500 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:border-stone-900 hover:bg-stone-900 hover:text-white hover:shadow-md active:translate-y-0 active:scale-95 active:border-stone-950 active:bg-stone-950 active:shadow-inner sm:h-10 sm:w-10 md:h-11 md:w-11"
                             >
-                                    <FontAwesomeIcon icon={isRefreshing ? faCircleNotch : faArrowsRotate} className={`text-xs ${isRefreshing ? "animate-spin" : ""}`} />                                    
+                                <FontAwesomeIcon icon={isRefreshing ? faCircleNotch : faArrowsRotate} className={`text-xs ${isRefreshing ? "animate-spin" : ""}`} />
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setShowFilterBar((prev) => !prev)}
-                                aria-label={showFilterBar ? "Hide filters" : "Show filters"}
                                 title={showFilterBar ? "Hide filters" : "Show filters"}
                                 className={`relative flex h-9 w-9 items-center justify-center rounded-xl border text-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95 active:shadow-inner sm:h-10 sm:w-10 md:h-11 md:w-11 ${showFilterBar
                                     ? "border-stone-900 bg-stone-900 text-white shadow-sm"
@@ -460,7 +477,7 @@ function TournamentsPage() {
                 </div>
 
                 {isLoading ? (
-                    <Spinner key="loading" className="animate-fadeIn"/>
+                    <Spinner key="loading" className="animate-fadeIn" />
                 ) : filteredTournaments.length === 0 ? (
                     <div key="empty" className="animate-fadeIn w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4">
                         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-stone-100">
@@ -489,40 +506,60 @@ function TournamentsPage() {
                         )}
                     </div>
                 ) : (
-                     (<div key="grid" className="animate-fadeIn w-full flex-1 min-h-0 overflow-y-auto px-4 pb-4">
-                        <div className="flex flex-col gap-8">
+                    (<div key="grid" className="[scrollbar-gutter:stable] animate-fadeIn w-full flex-1 min-h-0 overflow-y-auto bg-white">
+                        <div className="flex flex-col gap-4 pb-4">
                             {sortedGroups.map(([group, groupedTournaments]) => (
-                                <div key={group} className="">
-                                    <div className="font-['Kanit'] mb-3 text-xl flex font-medium items-center gap-2 drop-shadow-md ">
-                                        <h2>{groupField === "all" ? "TOURNAMENTS" : group.toUpperCase()}</h2>
+                                <div key={group}>
+                                    <button
+                                        type="button"
+                                        onClick={() => toggleGroup(group)}
+                                        className=" font-['Kanit'] m-4 mb-3 text-xl flex font-medium items-center gap-2 drop-shadow-md rounded-lg"
+                                    >
+                                        <h2>
+                                            {groupField === "all"
+                                                ? "TOURNAMENTS"
+                                                : group.toUpperCase()}
+                                        </h2>
+
                                         <span className="font-['Kanit'] text-md font-light text-black/50">
                                             ({groupedTournaments.length})
                                         </span>
-                                    </div>
 
-                                    <div className="grid grid-cols-9 gap-5">
-                                        {groupedTournaments.map((tournament, index) => (
+                                        <FontAwesomeIcon
+                                            icon={faChevronDown}
+                                            className={`text-xs text-stone-400 transition-transform duration-200 ${closedGroups[group] ? "" : "-rotate-90"
+                                                }`}
+                                        />
+                                    </button>
+
+                                    <div
+                                        className={`px-4 grid transition-[grid-template-rows] ease-in-out ${closedGroups[group]
+                                            ? "grid-rows-[0fr] duration-300 delay-[150ms] pointer-events-none"
+                                            : "grid-rows-[1fr] duration-300 delay-0 pointer-events-auto"
+                                            }`}
+                                    >
+                                        <div className="min-h-0 overflow-visible">
                                             <div
-                                                onClick={() => navigate("/tournaments/" + tournament["baseId"])}
-                                                key={tournament["baseId"] + "-" + index}
-                                                className="rounded-3xl border border-gray-300
-                                                    shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500
-                                                    hover:scale-105 transition-all duration-300 
-                                                    cursor-pointer w-full aspect-square flex items-center justify-center relative"
-                                                style={{ backgroundColor: tournament["tileBackgroundColor"] }}
+                                                className={`transition-[transform,opacity] ease-out ${closedGroups[group]
+                                                    ? "translate-y-2 opacity-0 duration-200 delay-0"
+                                                    : "translate-y-0 opacity-100 duration-250 delay-[220ms]"
+                                                    }`}
                                             >
-                                                <img
-                                                    src={tournament["mainLogo"]}
-                                                    alt={tournament["name"]}
-                                                    className={`${tournament["category"] === "franchise" ? "h-[55%] w-[55%]" : "h-[65%] w-[65%]"} object-contain`}
-                                                />
-                                                {tournament["category"] === "franchise" && <div className="absolute font-['Kanit'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
-                                                    {tournament["edition"]}
-                                                </div>}
+                                                <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,130px),1fr))] sm:grid-cols-[repeat(auto-fill,minmax(min(100%,160px),1fr))] justify-start gap-5">                                                    
+                                                    {groupedTournaments.map((tournament, index) => {
+                                                    const Card = viewMode === "icon" ? TournamentIcon : TournamentCard;
+                                                    return (
+                                                        <Card
+                                                            key={tournament["baseId"] + "-" + index}
+                                                            tournament={tournament}
+                                                            onClick={() => navigate("/tournaments/" + tournament["baseId"])}
+                                                        />
+                                                    );
+                                                })}
+                                                </div>
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
-
                                 </div>
                             ))}
                         </div>
@@ -530,6 +567,7 @@ function TournamentsPage() {
                 )
                 }
             </div>
+
 
         </div>
 
