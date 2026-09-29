@@ -1,11 +1,12 @@
 import { formatDateRange } from "./utils/dateUtils";
+import { tournamentTileStyle } from "./utils/tileStyles";
 
 function TournamentCard({ tournament, onClick }) {
     const tags = [tournament.status, tournament.format, tournament.division].filter(Boolean);
     return (
         <div
             onClick={onClick}
-className="col-span-3 grid grid-cols-subgrid rounded-3xl bg-white ring-1 ring-gray-300 shadow-lg shadow-gray-300 hover:shadow-xl hover:shadow-gray-500 hover:scale-[1.02] transition-all duration-300 cursor-pointer overflow-hidden"        >
+            className={`${tournamentTileStyle} col-span-3 grid grid-cols-subgrid overflow-hidden bg-white`}>
             {/* Left third: same size as one icon */}
             <div
                 className="aspect-square flex items-center justify-center"

@@ -479,7 +479,7 @@ function TournamentsPage() {
                 {isLoading ? (
                     <Spinner key="loading" className="animate-fadeIn" />
                 ) : filteredTournaments.length === 0 ? (
-                    <div key="empty" className="animate-fadeIn w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4">
+                    <div key="empty" className="animate-fadeIn w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4 bg-white">
                         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-stone-100">
                             <FontAwesomeIcon icon={faInbox} className="text-2xl text-stone-400" />
                         </div>

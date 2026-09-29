@@ -1,9 +1,12 @@
+import { tournamentTileStyle } from "./utils/tileStyles";
+
 function TournamentIcon({ tournament, onClick }) {
     const isFranchise = tournament.category === "franchise";
     return (
         <div
             onClick={onClick}
-            className="rounded-3xl ring-1 ring-gray-300 shadow-lg shadow-gray-300 hover:shadow-xl hover:shadow-gray-500 hover:scale-105 transition-all duration-300 cursor-pointer w-full aspect-square flex items-center justify-center relative shrink-0" style={{ backgroundColor: tournament.tileBackgroundColor }}
+            className={`${tournamentTileStyle} w-full aspect-square flex items-center justify-center relative shrink-0`}
+            style={{ backgroundColor: tournament.tileBackgroundColor }}
         >
             <img
                 src={tournament.mainLogo}
