@@ -8,10 +8,10 @@ import {
     faFilter,
     faRotateLeft,
     faInbox,
-    faSquare,
-    faRectangleList,
     faArrowsRotate,
-    faCircleNotch
+    faCircleNotch,
+    faTableCellsLarge,
+    faTableList
 } from "@fortawesome/free-solid-svg-icons";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 import { SearchBar } from "../components/SearchBar";
@@ -43,8 +43,8 @@ function TournamentsPage() {
     const [closedGroups, setClosedGroups] = useState({});
 
     const viewOptions = [
-        { id: "icon", title: "Icon view", icon: faSquare },
-        { id: "card", title: "Card view", icon: faRectangleList },
+        { id: "icon", title: "Icon view", icon: faTableCellsLarge },
+        { id: "card", title: "Card view", icon: faTableList },
     ];
 
     const categoryMap = {
@@ -264,16 +264,22 @@ function TournamentsPage() {
 
                         <div className="flex flex-1 items-center justify-center gap-2">
                             <span className="hidden text-xs font-medium text-stone-400 lg:inline">View</span>
-                            <div className="flex h-9 items-center gap-0.5 rounded-xl border border-stone-200 bg-white p-1 shadow-sm sm:h-10 md:h-11">
+                            <div className="relative flex h-9 items-center gap-0.5 rounded-xl border border-stone-200 bg-white p-1 shadow-sm sm:h-10 md:h-11">
+                                {/* Sliding pill */}
+                                <div
+                                    className="absolute left-1 h-7 w-8 rounded-lg bg-stone-900 transition-transform duration-500 ease-out"
+                                    style={{
+                                        transform: `translateX(${viewOptions.findIndex(o => o.id === viewMode) * 34}px)`,
+                                    }}
+                                />
+
                                 {viewOptions.map(({ id, title, icon }) => (
                                     <button
                                         key={id}
                                         type="button"
                                         title={title}
                                         onClick={() => setViewMode(id)}
-                                        className={`flex h-7 w-8 items-center justify-center rounded-lg text-sm transition-colors ${viewMode === id
-                                            ? "bg-stone-900 text-white"
-                                            : "text-stone-400 hover:bg-stone-100 hover:text-stone-700"
+                                        className={`relative z-10 flex h-7 w-8 items-center justify-center rounded-lg text-sm transition-colors duration-300 ${viewMode === id ? "text-white" : "text-stone-400 hover:text-stone-700"
                                             }`}
                                     >
                                         <FontAwesomeIcon icon={icon} />
@@ -545,17 +551,17 @@ function TournamentsPage() {
                                                     : "translate-y-0 opacity-100 duration-250 delay-[220ms]"
                                                     }`}
                                             >
-                                                <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,130px),1fr))] sm:grid-cols-[repeat(auto-fill,minmax(min(100%,160px),1fr))] justify-start gap-5">                                                    
+                                                <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,130px),1fr))] sm:grid-cols-[repeat(auto-fill,minmax(min(100%,160px),1fr))] justify-start gap-5">
                                                     {groupedTournaments.map((tournament, index) => {
-                                                    const Card = viewMode === "icon" ? TournamentIcon : TournamentCard;
-                                                    return (
-                                                        <Card
-                                                            key={tournament["baseId"] + "-" + index}
-                                                            tournament={tournament}
-                                                            onClick={() => navigate("/tournaments/" + tournament["baseId"])}
-                                                        />
-                                                    );
-                                                })}
+                                                        const Card = viewMode === "icon" ? TournamentIcon : TournamentCard;
+                                                        return (
+                                                            <Card
+                                                                key={tournament["baseId"] + "-" + index}
+                                                                tournament={tournament}
+                                                                onClick={() => navigate("/tournaments/" + tournament["baseId"])}
+                                                            />
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         </div>
