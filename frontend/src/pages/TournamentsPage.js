@@ -519,21 +519,21 @@ function TournamentsPage() {
                                     <button
                                         type="button"
                                         onClick={() => toggleGroup(group)}
-                                        className=" font-['Kanit'] m-4 mb-3 text-xl flex font-medium items-center gap-2 drop-shadow-md rounded-lg"
-                                    >
-                                        <h2>
-                                            {groupField === "all"
-                                                ? "TOURNAMENTS"
-                                                : group.toUpperCase()}
+                                        className="group font-['Kanit'] m-4 mb-3 text-xl flex font-medium items-center gap-2 text-black
+                                        transition-transform duration-150 active:scale-[0.98]
+                                        focus-visible:outline-none"
+                                                                >
+                                        <h2 className="underline decoration-transparent decoration-2 underline-offset-4 transition-colors duration-200 [@media(hover:hover)]:group-hover:decoration-black">
+                                            {groupField === "all" ? "TOURNAMENTS" : group.toUpperCase()}
                                         </h2>
 
-                                        <span className="font-['Kanit'] text-md font-light text-black/50">
+                                        <span className="font-['Kanit'] text-md font-light text-black/50 transition-colors duration-200 [@media(hover:hover)]:group-hover:text-black">
                                             ({groupedTournaments.length})
                                         </span>
 
                                         <FontAwesomeIcon
                                             icon={faChevronDown}
-                                            className={`text-xs text-stone-400 transition-transform duration-200 ${closedGroups[group] ? "" : "-rotate-90"
+                                            className={`text-xs text-stone-400 transition-all duration-200 [@media(hover:hover)]:group-hover:text-black ${closedGroups[group] ? "-rotate-90" : ""
                                                 }`}
                                         />
                                     </button>
