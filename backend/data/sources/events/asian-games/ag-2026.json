@@ -13,11 +13,11 @@
         "endDate": "2026-10-02",
         "structure": "groups",
         "currentStageId": null,
-        "gradient": "linear-gradient(135deg, #F2EDDC, #48008B, #48008B)",
+        "gradient": "linear-gradient(135deg, #f1e8de, #48008B, #48008B)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/2026_Asian_Games_logo.svg/500px-2026_Asian_Games_logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
         "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/2026_Asian_Games_logo.svg/500px-2026_Asian_Games_logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
         "pointsTableColor": "#48008b",
-        "tileBackgroundColor": "white",
+        "tileBackgroundColor": "#f1e8de",
         "teams": [
             "IND",
             "PAK",
@@ -347,7 +347,7 @@
         {
             "matchNumber": 8,
             "stageOrder": 2,
-            "date": "2026-09-27 22:00:00",
+            "date": "2026-09-27 21:30:00",
             "venue": "Kōrogi Sports Park",
             "homeStageTeamId": "IND",
             "awayStageTeamId": "GA-2",
@@ -369,7 +369,7 @@
         {
             "matchNumber": 10,
             "stageOrder": 2,
-            "date": "2026-09-28 22:00:00",
+            "date": "2026-09-28 21:30:00",
             "venue": "Kōrogi Sports Park",
             "homeStageTeamId": "BAN",
             "awayStageTeamId": "GB-1",
@@ -391,7 +391,7 @@
         {
             "matchNumber": 12,
             "stageOrder": 3,
-            "date": "2026-09-30 22:00:00",
+            "date": "2026-09-30 21:30:00",
             "venue": "Kōrogi Sports Park",
             "homeStageTeamId": "W-QF2",
             "awayStageTeamId": "W-QF3",
@@ -413,7 +413,7 @@
         {
             "matchNumber": 14,
             "stageOrder": 4,
-            "date": "2026-10-02 22:00:00",
+            "date": "2026-10-02 21:30:00",
             "venue": "Kōrogi Sports Park",
             "homeStageTeamId": "W-SF1",
             "awayStageTeamId": "W-SF2",

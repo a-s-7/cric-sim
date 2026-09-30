@@ -17,7 +17,7 @@
         "mainLogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/2028_Summer_Olympics_Logo.svg/330px-2028_Summer_Olympics_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
         "horizontalLogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/2028_Summer_Olympics_Logo.svg/330px-2028_Summer_Olympics_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
         "pointsTableColor": "#08a3a6",
-        "tileBackgroundColor": "white",
+        "tileBackgroundColor": "#E2F9FF",
         "teams": [
             "IND",
             "GBR",

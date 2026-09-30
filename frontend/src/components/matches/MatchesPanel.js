@@ -130,7 +130,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                         <div key={`${match.matchNumber}`}
                             ref={match.matchNumber === currentMatch?.matchNumber ? currentMatchRef : null}>
                             {((match.stageStatus === "locked" || match.status === "complete") ? true : (match.stage === "Playoffs" || match.stage === "Medal Playoffs" || match.stage === "Semi-final" || match.stage === "Final") ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
-                                (format === "TEST" ? <MatchCardDisplay
+                                (format === "Test" ? <MatchCardDisplay
                                     tournamentID={tournamentId}
                                     tournamentName={tournamentName}
                                     tournamentEdition={tournamentEdition}
@@ -202,7 +202,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                                         target={match.target}
                                         targetOvertaken={match.targetOvertaken}
                                     />) :
-                                (format === "TEST" ?
+                                (format === "Test" ?
                                     <MatchCard
                                         tournamentID={tournamentId}
                                         tournamentName={tournamentName}

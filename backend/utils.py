@@ -326,7 +326,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
             "numQualifiers": "$stage.config.qualifiersPerGroup"
         }
 
-    if tournament["format"] == "TEST":
+    if tournament["format"] == "Test":
         tournamentCriteria =  {"draw": "$draw",
                              "tied": "$tied",
                              "deductionPoints": "$deductionPoints"}
@@ -342,7 +342,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
 
     stageTeamsData = list(stageTeams_collection.aggregate(stageTeamsPipeline))
 
-    if tournament["format"] == "TEST":
+    if tournament["format"] == "Test":
         for team in stageTeamsData:
             team["totalPointsContested"] = team["played"] * 12
 
@@ -386,7 +386,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
     # # Sort stages by stageOrder (your data is a list, not dict)
     sorted_standings = [standings[key] for key in sorted(standings.keys())]
 
-    if tournament["format"] == "TEST":
+    if tournament["format"] == "Test":
         sort_key = lambda team: (
             team.get("played", 0) == 0,
             -team.get("pointsPercentage", 0),

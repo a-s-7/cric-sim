@@ -1,33 +1,56 @@
+import { Fragment } from "react";
 import { formatDateRange } from "./utils/dateUtils";
 import { tournamentTileStyle } from "./utils/tileStyles";
 
+const STATUS_STYLE = {
+    active: { dot: "bg-emerald-500", text: "text-emerald-700" },
+    upcoming: { dot: "bg-sky-500", text: "text-sky-700" },
+    complete: { dot: "bg-stone-400", text: "text-stone-500" },
+};
+
+const DIVISION_LABEL = { mens: "Men's", womens: "Women's" };
+
 function TournamentCard({ tournament, onClick }) {
-    const tags = [tournament.status, tournament.format, tournament.division].filter(Boolean);
+    const status = STATUS_STYLE[tournament.status?.toLowerCase()] ?? STATUS_STYLE.complete;
+    const division = DIVISION_LABEL[tournament.division?.toLowerCase()] ?? tournament.division;
+    const meta = [tournament.edition, tournament.format, division].filter(Boolean);
+
     return (
         <div
             onClick={onClick}
-            className={`${tournamentTileStyle} col-span-3 grid grid-cols-subgrid overflow-hidden bg-white`}>
-            {/* Left third: same size as one icon */}
+            className={`${tournamentTileStyle} font-sans col-span-3 grid grid-cols-subgrid overflow-hidden bg-white`}>
             <div
-                className="aspect-square flex items-center justify-center"
+                className="aspect-square flex items-center justify-center border-r border-black/[0.02]"
                 style={{ backgroundColor: tournament.tileBackgroundColor }}
             >
                 <img src={tournament.mainLogo} alt={tournament.name} className="h-[65%] w-[65%] object-contain" />
             </div>
 
-            {/* Right two thirds: text, positioned so it can't change the height */}
             <div className="relative col-span-2 min-w-0">
                 <div className="absolute inset-0 flex flex-col justify-center overflow-hidden pr-4">
-                    <h3 className="truncate text-md font-semibold text-stone-800">{tournament.name}</h3>
-                    <p className="truncate text-base text-stone-500">{tournament.edition}</p>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                        {tags.map((tag) => (
-                            <span key={tag} className="rounded-full bg-stone-100 px-2.5 py-1 text-xs font-medium uppercase text-stone-600">
-                                {tag}
-                            </span>
+                    {/* Tier 1: status */}
+                    <div className={`flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest ${status.text}`}>
+                        <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
+                        {tournament.status}
+                    </div>
+
+                    {/* Tier 2: identity */}
+                    <h3 className="mt-1.5 truncate text-lg font-semibold leading-tight tracking-tight text-stone-900">
+                        {tournament.name}
+                    </h3>
+                    <div className="mt-1 flex items-center gap-2 overflow-hidden whitespace-nowrap text-sm text-stone-600">
+                        {meta.map((item, i) => (
+                            <Fragment key={`${item}-${i}`}>
+                                {i > 0 && (
+                                    <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-stone-400" aria-hidden="true" />
+                                )}
+                                <span>{item}</span>
+                            </Fragment>
                         ))}
                     </div>
-                    <p className="mt-2 truncate text-sm text-stone-400">
+
+                    {/* Tier 3: when */}
+                    <p className="mt-3 truncate text-sm font-medium tabular-nums text-stone-800">
                         {formatDateRange(tournament.startDate, tournament.endDate)}
                     </p>
                 </div>

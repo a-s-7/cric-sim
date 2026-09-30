@@ -59,7 +59,7 @@ function TournamentsPage() {
         franchise: "leagues"
     };
     const categoryFrontendOptions = ["events", "leagues"];
-    const formatOptions = ["T20", "ODI", "TEST", "HUNDRED"]
+    const formatOptions = ["T20", "ODI", "Test"]
     const genderOptions = ["mens", "womens"];
     const statusOptions = ["upcoming", "active", "complete"];
 
@@ -210,7 +210,7 @@ function TournamentsPage() {
     };
 
     const formatOrder = {
-        TEST: 3,
+        Test: 3,
         ODI: 1,
         T20: 0,
     };

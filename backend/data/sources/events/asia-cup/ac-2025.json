@@ -17,7 +17,7 @@
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/f/fd/2025_ACC_Asia_Cup.png",
         "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/f/fd/2025_ACC_Asia_Cup.png",
         "pointsTableColor": "darkblue",
-        "tileBackgroundColor": "white",
+        "tileBackgroundColor": "#DEE8F8",
         "teams": [
             "IND",
             "PAK",

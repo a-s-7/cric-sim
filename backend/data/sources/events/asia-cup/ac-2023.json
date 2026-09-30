@@ -17,7 +17,7 @@
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/c/c7/2023_Asia_Cup_logo.png",
         "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/c/c7/2023_Asia_Cup_logo.png",
         "pointsTableColor": "darkblue",
-        "tileBackgroundColor": "white",
+        "tileBackgroundColor": "#DEE8F8",
         "teams": [
             "AFG",
             "BAN",
