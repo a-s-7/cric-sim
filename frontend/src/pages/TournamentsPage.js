@@ -5,11 +5,9 @@ import {
     faArrowDown,
     faArrowUp,
     faChevronDown,
-    faFilter,
     faRotateLeft,
     faExpandAlt,
     faCompressAlt,
-    faInbox,
     faArrowsRotate,
     faTableCellsLarge,
     faTableList,
@@ -20,6 +18,7 @@ import { SearchBar } from "../components/SearchBar";
 import TournamentIcon from "../components/TournamentIcon";
 import TournamentCard from "../components/TournamentCard";
 import Spinner from "../components/Spinner";
+import TournamentEmptyState from "../components/TournamentEmptyState";
 
 
 function TournamentsPage() {
@@ -91,17 +90,21 @@ function TournamentsPage() {
             return 'text-neutral-500 hover:bg-neutral-100 hover:text-black';
         }
 
-        if (option === 'UPCOMING') {
+        const normalizedOption = option.toUpperCase();
+
+        if (normalizedOption === 'UPCOMING') {
             return 'bg-black text-white font-semibold shadow-sm';
         }
 
-        if (option === 'ACTIVE') {
+        if (normalizedOption === 'ACTIVE') {
             return 'bg-neutral-800 text-white font-semibold shadow-sm';
         }
 
-        if (option === 'COMPLETE') {
+        if (normalizedOption === 'COMPLETE') {
             return 'bg-neutral-600 text-white font-semibold shadow-sm';
         }
+
+        return 'bg-stone-900 text-white font-semibold shadow-sm';
     };
 
     const getFilteredTournaments = () => {
@@ -279,7 +282,6 @@ function TournamentsPage() {
                                 type="button"
                                 onClick={toggleAll}
                                 title={allClosed ? "Expand all" : "Collapse all"}
-                                aria-label={allClosed ? "Expand all groups" : "Collapse all groups"}
                                 className="flex h-8 w-8 items-center justify-center rounded-lg text-xs text-stone-500 transition-all duration-[400ms] ease-in-out hover:bg-stone-900 hover:text-white hover:shadow-md active:scale-95 active:bg-stone-950 active:shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
                             >
                                 <FontAwesomeIcon
@@ -307,8 +309,6 @@ function TournamentsPage() {
                                         type="button"
                                         title={title}
                                         onClick={() => setViewMode(id)}
-                                        aria-label={title}
-                                        aria-pressed={viewMode === id}
                                         className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-lg text-xs transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 ${viewMode === id ? "text-white" : "text-stone-500 hover:text-stone-900"
                                             }`}
                                     >
@@ -354,8 +354,6 @@ function TournamentsPage() {
                                     title={sortOrder === "desc"
                                         ? (sortField === "name" ? "Z to A" : "Latest to earliest")
                                         : (sortField === "name" ? "A to Z" : "Earliest to latest")}
-                                    aria-label={sortOrder === "desc" ? "Sort ascending" : "Sort descending"}
-                                    aria-pressed={sortOrder === "desc"}
                                     className="flex h-8 w-8 items-center justify-center rounded-lg bg-stone-900 text-xs text-white transition-all duration-150 hover:bg-stone-800 active:scale-95 active:bg-stone-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
                                 >
                                     <FontAwesomeIcon icon={sortOrder === "desc" ? faArrowUp : faArrowDown} />
@@ -367,7 +365,6 @@ function TournamentsPage() {
                                 type="button"
                                 onClick={() => fetchTournaments({ silent: true })}
                                 title="Refresh tournaments"
-                                aria-label="Refresh tournaments"
                                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-xs text-stone-500 shadow-sm transition-all duration-200 ease-in-out hover:border-stone-900 hover:bg-stone-900 hover:text-white hover:shadow-md active:scale-95 active:border-stone-950 active:bg-stone-950 active:shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 md:h-11 md:w-11"
                             >
                                 <FontAwesomeIcon icon={faArrowsRotate} className={`text-xs ${isRefreshing ? "animate-spin" : ""}`} />
@@ -376,8 +373,6 @@ function TournamentsPage() {
                                 type="button"
                                 onClick={() => setShowFilterBar((prev) => !prev)}
                                 title={showFilterBar ? "Hide filters" : "Show filters"}
-                                aria-label={showFilterBar ? "Hide filters" : "Show filters"}
-                                aria-pressed={showFilterBar}
                                 className={`relative flex h-10 w-10 items-center justify-center rounded-xl border text-xs transition-all duration-200 ease-in-out hover:border-stone-900 hover:bg-stone-900 hover:text-white hover:shadow-md active:scale-95 active:border-stone-950 active:bg-stone-950 active:shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 md:h-11 md:w-11 ${showFilterBar
                                     ? "border-stone-900 bg-stone-900 text-white shadow-sm"
                                     : "border-stone-200 bg-white text-stone-500 shadow-sm"
@@ -396,9 +391,6 @@ function TournamentsPage() {
                         </div>
                     </div>
                 </div>
-
-
-
                 <div
                     className={`grid transition-all duration-300 ease-in-out p-4 ${showFilterBar
                         ? "grid-rows-[1fr] opacity-100 mt-3"
@@ -407,10 +399,12 @@ function TournamentsPage() {
                 >
                     <div className="overflow-hidden">
                         <div
-                            className={`flex h-8 sm:h-10 md:h-12 items-center bg-white rounded-2xl border border-gray-200 overflow-hidden transition-transform duration-300 ease-in-out ${showFilterBar ? "translate-y-0" : "-translate-y-2"
+                            className={`flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 transition-transform duration-300 ease-in-out ${showFilterBar ? "translate-y-0" : "-translate-y-2"
                                 }`}
                         >
-                            <div className="w-1/4 h-full flex flex-row items-center justify-center gap-1 px-1">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-medium text-stone-400">Status</span>
+                                <div className="flex min-h-12 items-center gap-1 rounded-2xl border border-stone-200 bg-white px-2 py-2 shadow-sm">
                                 {statusOptions.map((option) => {
                                     const isSelected = selectedStatuses.includes(option);
 
@@ -424,15 +418,17 @@ function TournamentsPage() {
                                                         : [...prev, option]
                                                 )
                                             }
-                                            className={`flex-1 h-3/4 flex items-center justify-center rounded-xl text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
+                                            className={`h-8 px-2 sm:px-3 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
                                         >
                                             {option.toUpperCase()}
                                         </button>
                                     );
                                 })}
+                                </div>
                             </div>
-                            <div className="h-3/4 border-l border-gray-200" />
-                            <div className="flex-1 h-full flex items-center justify-center">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-medium text-stone-400">Gender</span>
+                                <div className="flex min-h-12 items-center gap-1 rounded-2xl border border-stone-200 bg-white px-2 py-2 shadow-sm">
                                 {genderOptions.map((option) => {
                                     const isSelected = selectedGenders.includes(option);
 
@@ -446,13 +442,17 @@ function TournamentsPage() {
                                                         : [...prev, option]
                                                 )
                                             }
-                                            className={`flex-1 h-3/4 flex items-center justify-center rounded-xl text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
+                                            className={`h-8 px-2 sm:px-3 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
                                         >
                                             {option.toUpperCase()}
                                         </button>
                                     );
                                 })}
-                                <div className="h-3/4 border-l border-gray-200" />
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-medium text-stone-400">Format</span>
+                                <div className="flex min-h-12 items-center gap-1 rounded-2xl border border-stone-200 bg-white px-2 py-2 shadow-sm">
                                 {formatOptions.map((option) => {
                                     const isSelected = selectedFormats.includes(option);
 
@@ -466,16 +466,17 @@ function TournamentsPage() {
                                                         : [...prev, option]
                                                 )
                                             }
-                                            className={`flex-1 h-3/4 flex items-center justify-center rounded-xl text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
+                                            className={`h-8 px-2 sm:px-3 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
                                         >
                                             {option.toUpperCase()}
                                         </button>
                                     );
                                 })}
-
-                                <div className="h-3/4 border-l border-gray-200" />
-
-
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-medium text-stone-400">Category</span>
+                                <div className="flex min-h-12 items-center gap-1 rounded-2xl border border-stone-200 bg-white px-2 py-2 shadow-sm">
                                 {categoryFrontendOptions.map((option) => {
                                     const isSelected = selectedCategories.includes(option);
 
@@ -489,30 +490,26 @@ function TournamentsPage() {
                                                         : [...prev, option]
                                                 )
                                             }
-                                            className={`flex-1 h-3/4 flex items-center justify-center rounded-xl text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
+                                            className={`h-8 px-2 sm:px-3 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
                                         >
                                             {option.toUpperCase()}
                                         </button>
                                     );
                                 })}
-
-
+                                </div>
                             </div>
-                            <div className="h-3/4 border-l border-gray-200" />
-                            <div className="h-full flex items-center justify-center px-1.5 sm:px-2">
-                                <button
-                                    type="button"
-                                    onClick={handleClearFilters}
-                                    disabled={!hasActiveControls}
-                                    title="Clear filters"
-                                    className={`h-3/4 px-4 flex items-center justify-center rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${hasActiveControls
-                                        ? "text-stone-600 hover:text-red-600 hover:bg-red-50 active:scale-95 cursor-pointer"
-                                        : "text-stone-300 cursor-not-allowed"
-                                        }`}
-                                >
-                                    <FontAwesomeIcon icon={faRotateLeft} className="text-xs sm:text-sm transition-transform duration-300" />
-                                </button>
-                            </div>
+                            <button
+                                type="button"
+                                onClick={handleClearFilters}
+                                disabled={!hasActiveControls}
+                                title="Clear filters"
+                                className={`flex h-10 w-10 items-center justify-center rounded-xl border text-xs shadow-sm transition-all duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 md:h-11 md:w-11 ${hasActiveControls
+                                    ? "border-stone-200 bg-white text-stone-500 hover:border-red-200 hover:bg-red-50 hover:text-red-600 hover:shadow-md active:scale-95 active:border-red-200 active:bg-red-100"
+                                    : "cursor-not-allowed border-stone-200 bg-white text-stone-300"
+                                    }`}
+                            >
+                                <FontAwesomeIcon icon={faRotateLeft} className="text-xs" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -520,32 +517,9 @@ function TournamentsPage() {
                 {isLoading ? (
                     <Spinner key="loading" className="animate-fadeIn" />
                 ) : filteredTournaments.length === 0 ? (
-                    <div key="empty" className="animate-fadeIn w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4 bg-white">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-stone-100">
-                            <FontAwesomeIcon icon={faInbox} className="text-2xl text-stone-400" />
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-base font-semibold text-stone-700">No tournaments found</p>
-                            <p className="text-sm text-stone-400">
-                                {hasSearchQuery && hasActiveControls
-                                    ? "Try adjusting your search or filters"
-                                    : hasSearchQuery
-                                        ? "Try adjusting your search"
-                                        : hasActiveControls
-                                            ? "Try adjusting your filters"
-                                            : "Check back soon"}
-                            </p>
-                        </div>
-                        {(hasActiveControls || hasSearchQuery) && (
-                            <button
-                                type="button"
-                                onClick={handleClearSearchAndFilters}
-                                className="mt-1 rounded-xl bg-stone-900 px-4 py-2 text-xs font-medium text-white transition-all hover:bg-stone-800 active:scale-95"
-                            >
-                                {hasActiveControls && hasSearchQuery ? "Clear search and filters" : hasActiveControls ? "Clear filters" : "Clear search"}
-                            </button>
-                        )}
-                    </div>
+                    <TournamentEmptyState hasActiveControls={hasActiveControls} 
+                                          hasSearchQuery={hasSearchQuery} 
+                                          onClear={handleClearSearchAndFilters}/>
                 ) : (
                     (<div key="grid" className="[scrollbar-gutter:stable] animate-fadeIn w-full flex-1 min-h-0 overflow-y-auto bg-white">
                         <div className="flex flex-col gap-4 pb-4">
