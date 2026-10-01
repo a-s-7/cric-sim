@@ -3,7 +3,7 @@ import { faInbox } from "@fortawesome/free-solid-svg-icons";
 
 function TournamentEmptyState({hasSearchQuery, hasActiveControls, onClear}) {
     return (
-        <div key="empty" className="animate-fadeIn w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4 bg-white">
+        <div key="empty" className="animate-fadeIn w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-stone-100">
                 <FontAwesomeIcon icon={faInbox} className="text-2xl text-stone-400" />
             </div>

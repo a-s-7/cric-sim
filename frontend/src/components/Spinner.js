@@ -1,6 +1,6 @@
-function Spinner({ label = "Loading...", size = 60, strokeWidth = 2 }) {
+function Spinner({ label = "", size = 60, strokeWidth = 2, className = "" }) {
     return (
-        <div className="w-full flex-1 flex flex-col items-center justify-center gap-4 text-center px-4">
+        <div className={`w-full flex-1 flex flex-col items-center justify-center gap-4 px-4 ${className}`}>
             <svg
                 width={size}
                 height={size}
@@ -16,7 +16,7 @@ function Spinner({ label = "Loading...", size = 60, strokeWidth = 2 }) {
                     strokeDasharray="90 150"
                 />
             </svg>
-            {label && <p className="text-sm text-stone-400">{label}</p>}
+            {label && <p className="text-sm text-stone-400 bg-blue-100">{label}</p>}
         </div>
     );
 }

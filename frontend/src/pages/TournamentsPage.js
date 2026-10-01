@@ -1,24 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faArrowDown,
-    faArrowUp,
-    faChevronDown,
-    faRotateLeft,
-    faExpandAlt,
-    faCompressAlt,
-    faArrowsRotate,
-    faTableCellsLarge,
-    faTableList,
-    faSliders
-} from "@fortawesome/free-solid-svg-icons";
+import { faTableCellsLarge, faTableList } from "@fortawesome/free-solid-svg-icons";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
-import { SearchBar } from "../components/SearchBar";
-import TournamentIcon from "../components/TournamentIcon";
-import TournamentCard from "../components/TournamentCard";
 import Spinner from "../components/Spinner";
 import TournamentEmptyState from "../components/TournamentEmptyState";
+import TournamentGroups from "../components/TournamentGroups";
+import TournamentFilterBar from "../components/TournamentFilterBar";
+import TournamentsControlBar from "../components/TournamentsControlBar";
 
 
 function TournamentsPage() {
@@ -57,10 +46,6 @@ function TournamentsPage() {
         international: "events",
         franchise: "leagues"
     };
-    const categoryFrontendOptions = ["events", "leagues"];
-    const formatOptions = ["T20", "ODI", "Test"]
-    const genderOptions = ["mens", "womens"];
-    const statusOptions = ["upcoming", "active", "complete"];
 
     const activeFiltersCount =
         selectedStatuses.length +
@@ -84,28 +69,6 @@ function TournamentsPage() {
     };
 
     const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
-
-    const getStatusButtonStyle = (option, isSelected) => {
-        if (!isSelected) {
-            return 'text-neutral-500 hover:bg-neutral-100 hover:text-black';
-        }
-
-        const normalizedOption = option.toUpperCase();
-
-        if (normalizedOption === 'UPCOMING') {
-            return 'bg-black text-white font-semibold shadow-sm';
-        }
-
-        if (normalizedOption === 'ACTIVE') {
-            return 'bg-neutral-800 text-white font-semibold shadow-sm';
-        }
-
-        if (normalizedOption === 'COMPLETE') {
-            return 'bg-neutral-600 text-white font-semibold shadow-sm';
-        }
-
-        return 'bg-stone-900 text-white font-semibold shadow-sm';
-    };
 
     const getFilteredTournaments = () => {
         const filtered = tournaments.filter((tournament) => {
@@ -247,343 +210,69 @@ function TournamentsPage() {
         );
     };
 
+    const handleTournamentClick = (tournament) => {
+        navigate("/tournaments/" + tournament.baseId);
+    }
+
+    const categoryFrontendOptions = ["events", "leagues"];
+    const formatOptions = ["T20", "ODI", "Test"]
+    const genderOptions = ["mens", "womens"];
+    const statusOptions = ["upcoming", "active", "complete"];
+
+    const filterGroups = [
+        { label: "Status", options: statusOptions, state: selectedStatuses, setter: setSelectedStatuses },
+        { label: "Gender", options: genderOptions, state: selectedGenders, setter: setSelectedGenders },
+        { label: "Format", options: formatOptions, state: selectedFormats, setter: setSelectedFormats },
+        { label: "Category", options: categoryFrontendOptions, state: selectedCategories, setter: setSelectedCategories }
+    ];
+
     return (
         <div className="flex-1 overflow-y-auto bg-gray-50">
             <div className="flex flex-col h-full min-h-0">
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-[2fr_5fr_2fr] sm:h-12 sm:items-center md:h-14 md:gap-3 p-4">
-                    <div className="flex items-center gap-2 font-sans">
-                        <span className="hidden text-xs font-medium text-stone-400 lg:inline">Group</span>
-                        <div className="flex h-10 items-center rounded-xl border border-stone-200 bg-white px-1.5 shadow-sm transition-colors hover:border-stone-300 md:h-11">
-                            <div className="relative h-full">
-                                <select
-                                    id="tournament-group-field"
-                                    value={groupField}
-                                    onChange={(event) => {
-                                        setGroupField(event.target.value);
-                                    }}
-                                    className="h-full min-w-26 appearance-none rounded-lg bg-transparent py-0 pl-2 pr-7 text-sm font-medium text-stone-700 outline-none"
-                                >
-                                    <option value="all">All</option>
-                                    <option value="status">Status</option>
-                                    <option value="gender">Gender</option>
-                                    <option value="format">Format</option>
-                                    <option value="category">Category</option>
-                                    <option value="name">Name</option>
-                                </select>
-                                <FontAwesomeIcon
-                                    icon={faChevronDown}
-                                    className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-stone-400"
-                                />
-                            </div>
+                <TournamentsControlBar 
+                    groupField={groupField}
+                    setGroupField={setGroupField}
+                    toggleAll={toggleAll}
+                    allClosed={allClosed}
+                    viewOptions={viewOptions}
+                    viewMode={viewMode}
+                    setViewMode={setViewMode}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    sortField={sortField}
+                    setSortField={setSortField}
+                    sortOrder={sortOrder}
+                    setSortOrder={setSortOrder}
+                    fetchTournaments={fetchTournaments}
+                    isRefreshing={isRefreshing}
+                    showFilterBar={showFilterBar}
+                    setShowFilterBar={setShowFilterBar}
+                    activeFiltersCount={activeFiltersCount}
+                />
 
-                            <div className="mx-1 h-5 border-l border-stone-200" />
+                <TournamentFilterBar showFilterBar={showFilterBar} filterGroups={filterGroups} handleClearFilters={handleClearFilters} hasActiveControls={hasActiveControls} />
 
-                            <button
-                                type="button"
-                                onClick={toggleAll}
-                                title={allClosed ? "Expand all" : "Collapse all"}
-                                className="flex h-8 w-8 items-center justify-center rounded-lg text-xs text-stone-500 transition-all duration-[400ms] ease-in-out hover:bg-stone-900 hover:text-white hover:shadow-md active:scale-95 active:bg-stone-950 active:shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
-                            >
-                                <FontAwesomeIcon
-                                    icon={allClosed ? faExpandAlt : faCompressAlt}
-                                    className="text-xs"
-                                />
-                            </button>
-
-                        </div>
-
-                        <div className="flex flex-1 items-center justify-center gap-2">
-                            <span className="hidden text-xs font-medium text-stone-400 lg:inline">View</span>
-                            <div className="relative flex h-10 items-center gap-0.5 rounded-xl border border-stone-200 bg-white p-1 shadow-sm transition-colors hover:border-stone-300 md:h-11">
-                                {/* Sliding pill */}
-                                <div
-                                    className="pointer-events-none absolute left-1 h-8 w-8 rounded-lg bg-stone-900 transition-transform duration-300 ease-out"
-                                    style={{
-                                        transform: `translateX(${viewOptions.findIndex(o => o.id === viewMode) * 34}px)`,
-                                    }}
-                                />
-
-                                {viewOptions.map(({ id, title, icon }) => (
-                                    <button
-                                        key={id}
-                                        type="button"
-                                        title={title}
-                                        onClick={() => setViewMode(id)}
-                                        className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-lg text-xs transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 ${viewMode === id ? "text-white" : "text-stone-500 hover:text-stone-900"
-                                            }`}
-                                    >
-                                        <FontAwesomeIcon icon={icon} />
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                    </div>
-
-                    {/* Search Controls */}
-                    <div className="h-10 sm:h-full flex items-center justify-center"><SearchBar placeholder="Search tournaments..." value={searchQuery} onChange={setSearchQuery} /></div>
-
-                    {/* Sorting Controls + Filter Dropdown */}
-                    <div className="flex h-10 items-center justify-end font-sans sm:h-full">
-                        <div className="flex flex-1 items-center justify-center gap-2">
-                            <span className="hidden text-xs font-medium text-stone-400 lg:inline">Sort</span>
-                            <div className="flex h-10 items-center rounded-xl border border-stone-200 bg-white px-1.5 shadow-sm transition-colors hover:border-stone-300 md:h-11">
-                                <div className="relative h-full">
-                                    <select
-                                        id="tournament-sort-field"
-                                        value={sortField}
-                                        onChange={(event) => {
-                                            setSortField(event.target.value);
-                                            setSortOrder((previousOrder) => previousOrder || "asc");
-                                        }}
-                                        className="h-full min-w-28 appearance-none rounded-lg bg-transparent py-0 pl-2 pr-7 text-sm font-medium text-stone-700 outline-none"
-                                    >
-                                        <option value="name">Name</option>
-                                        <option value="startDate">Start date</option>
-                                        <option value="endDate">End date</option>
-                                    </select>
-                                    <FontAwesomeIcon
-                                        icon={faChevronDown}
-                                        className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-stone-400"
-                                    />
-                                </div>
-                                <div className="mx-1 h-5 border-l border-stone-200" />
-                                <button
-                                    type="button"
-                                    onClick={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
-                                    title={sortOrder === "desc"
-                                        ? (sortField === "name" ? "Z to A" : "Latest to earliest")
-                                        : (sortField === "name" ? "A to Z" : "Earliest to latest")}
-                                    className="flex h-8 w-8 items-center justify-center rounded-lg bg-stone-900 text-xs text-white transition-all duration-150 hover:bg-stone-800 active:scale-95 active:bg-stone-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
-                                >
-                                    <FontAwesomeIcon icon={sortOrder === "desc" ? faArrowUp : faArrowDown} />
-                                </button>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <button
-                                type="button"
-                                onClick={() => fetchTournaments({ silent: true })}
-                                title="Refresh tournaments"
-                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-xs text-stone-500 shadow-sm transition-all duration-200 ease-in-out hover:border-stone-900 hover:bg-stone-900 hover:text-white hover:shadow-md active:scale-95 active:border-stone-950 active:bg-stone-950 active:shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 md:h-11 md:w-11"
-                            >
-                                <FontAwesomeIcon icon={faArrowsRotate} className={`text-xs ${isRefreshing ? "animate-spin" : ""}`} />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setShowFilterBar((prev) => !prev)}
-                                title={showFilterBar ? "Hide filters" : "Show filters"}
-                                className={`relative flex h-10 w-10 items-center justify-center rounded-xl border text-xs transition-all duration-200 ease-in-out hover:border-stone-900 hover:bg-stone-900 hover:text-white hover:shadow-md active:scale-95 active:border-stone-950 active:bg-stone-950 active:shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 md:h-11 md:w-11 ${showFilterBar
-                                    ? "border-stone-900 bg-stone-900 text-white shadow-sm"
-                                    : "border-stone-200 bg-white text-stone-500 shadow-sm"
-                                    }`}
-                            >
-                                <FontAwesomeIcon icon={faSliders} />
-                                {activeFiltersCount > 0 && (
-                                    <span
-                                        className={`absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full border border-stone-200 px-1 text-[10px] font-bold ${showFilterBar ? "bg-white text-black shadow-sm" : "bg-stone-900 text-white"
-                                            }`}
-                                    >
-                                        {activeFiltersCount}
-                                    </span>
-                                )}
-                            </button>
-                        </div>
-                    </div>
+                <div className="[scrollbar-gutter:stable] flex w-full flex-1 min-h-0 flex-col overflow-y-auto bg-white">
+                    {isLoading ? (
+                        <Spinner key="loading" className="animate-fadeIn" />
+                    ) : filteredTournaments.length === 0 ? (
+                        <TournamentEmptyState
+                            hasActiveControls={hasActiveControls}
+                            hasSearchQuery={hasSearchQuery}
+                            onClear={handleClearSearchAndFilters}
+                        />
+                    ) : (
+                        <TournamentGroups
+                            sortedGroups={sortedGroups}
+                            toggleGroup={toggleGroup}
+                            groupField={groupField}
+                            closedGroups={closedGroups}
+                            viewMode={viewMode}
+                            handleTournamentClick={handleTournamentClick}
+                        />
+                    )}
                 </div>
-                <div
-                    className={`grid transition-all duration-300 ease-in-out p-4 ${showFilterBar
-                        ? "grid-rows-[1fr] opacity-100 mt-3"
-                        : "grid-rows-[0fr] opacity-0 mt-0 pointer-events-none"
-                        }`}
-                >
-                    <div className="overflow-hidden">
-                        <div
-                            className={`flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 transition-transform duration-300 ease-in-out ${showFilterBar ? "translate-y-0" : "-translate-y-2"
-                                }`}
-                        >
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-medium text-stone-400">Status</span>
-                                <div className="flex min-h-12 items-center gap-1 rounded-2xl border border-stone-200 bg-white px-2 py-2 shadow-sm">
-                                {statusOptions.map((option) => {
-                                    const isSelected = selectedStatuses.includes(option);
-
-                                    return (
-                                        <button
-                                            key={option}
-                                            onClick={() =>
-                                                setSelectedStatuses((prev) =>
-                                                    isSelected
-                                                        ? prev.filter((item) => item !== option)
-                                                        : [...prev, option]
-                                                )
-                                            }
-                                            className={`h-8 px-2 sm:px-3 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
-                                        >
-                                            {option.toUpperCase()}
-                                        </button>
-                                    );
-                                })}
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-medium text-stone-400">Gender</span>
-                                <div className="flex min-h-12 items-center gap-1 rounded-2xl border border-stone-200 bg-white px-2 py-2 shadow-sm">
-                                {genderOptions.map((option) => {
-                                    const isSelected = selectedGenders.includes(option);
-
-                                    return (
-                                        <button
-                                            key={option}
-                                            onClick={() =>
-                                                setSelectedGenders((prev) =>
-                                                    isSelected
-                                                        ? prev.filter((item) => item !== option)
-                                                        : [...prev, option]
-                                                )
-                                            }
-                                            className={`h-8 px-2 sm:px-3 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
-                                        >
-                                            {option.toUpperCase()}
-                                        </button>
-                                    );
-                                })}
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-medium text-stone-400">Format</span>
-                                <div className="flex min-h-12 items-center gap-1 rounded-2xl border border-stone-200 bg-white px-2 py-2 shadow-sm">
-                                {formatOptions.map((option) => {
-                                    const isSelected = selectedFormats.includes(option);
-
-                                    return (
-                                        <button
-                                            key={option}
-                                            onClick={() =>
-                                                setSelectedFormats((prev) =>
-                                                    isSelected
-                                                        ? prev.filter((item) => item !== option)
-                                                        : [...prev, option]
-                                                )
-                                            }
-                                            className={`h-8 px-2 sm:px-3 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
-                                        >
-                                            {option.toUpperCase()}
-                                        </button>
-                                    );
-                                })}
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-medium text-stone-400">Category</span>
-                                <div className="flex min-h-12 items-center gap-1 rounded-2xl border border-stone-200 bg-white px-2 py-2 shadow-sm">
-                                {categoryFrontendOptions.map((option) => {
-                                    const isSelected = selectedCategories.includes(option);
-
-                                    return (
-                                        <button
-                                            key={option}
-                                            onClick={() =>
-                                                setSelectedCategories((prev) =>
-                                                    isSelected
-                                                        ? prev.filter((item) => item !== option)
-                                                        : [...prev, option]
-                                                )
-                                            }
-                                            className={`h-8 px-2 sm:px-3 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${getStatusButtonStyle(option, isSelected)}`}
-                                        >
-                                            {option.toUpperCase()}
-                                        </button>
-                                    );
-                                })}
-                                </div>
-                            </div>
-                            <button
-                                type="button"
-                                onClick={handleClearFilters}
-                                disabled={!hasActiveControls}
-                                title="Clear filters"
-                                className={`flex h-10 w-10 items-center justify-center rounded-xl border text-xs shadow-sm transition-all duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 md:h-11 md:w-11 ${hasActiveControls
-                                    ? "border-stone-200 bg-white text-stone-500 hover:border-red-200 hover:bg-red-50 hover:text-red-600 hover:shadow-md active:scale-95 active:border-red-200 active:bg-red-100"
-                                    : "cursor-not-allowed border-stone-200 bg-white text-stone-300"
-                                    }`}
-                            >
-                                <FontAwesomeIcon icon={faRotateLeft} className="text-xs" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                {isLoading ? (
-                    <Spinner key="loading" className="animate-fadeIn" />
-                ) : filteredTournaments.length === 0 ? (
-                    <TournamentEmptyState hasActiveControls={hasActiveControls} 
-                                          hasSearchQuery={hasSearchQuery} 
-                                          onClear={handleClearSearchAndFilters}/>
-                ) : (
-                    (<div key="grid" className="[scrollbar-gutter:stable] animate-fadeIn w-full flex-1 min-h-0 overflow-y-auto bg-white">
-                        <div className="flex flex-col gap-4 pb-4">
-                            {sortedGroups.map(([group, groupedTournaments]) => (
-                                <div key={group}>
-                                    <button
-                                        type="button"
-                                        onClick={() => toggleGroup(group)}
-                                        className="group font-['Kanit'] m-4 mb-3 text-xl flex font-medium items-center gap-2 text-black
-                                        transition-transform duration-150 active:scale-[0.98]
-                                        focus-visible:outline-none"
-                                    >
-                                        <h2 className="underline decoration-transparent decoration-2 underline-offset-4 transition-colors duration-200 [@media(hover:hover)]:group-hover:decoration-black">
-                                            {groupField === "all" ? "TOURNAMENTS" : group.toUpperCase()}
-                                        </h2>
-
-                                        <span className="font-['Kanit'] text-md font-light text-black/50 transition-colors duration-200 [@media(hover:hover)]:group-hover:text-black">
-                                            ({groupedTournaments.length})
-                                        </span>
-
-                                        <FontAwesomeIcon
-                                            icon={faChevronDown}
-                                            className={`text-xs text-stone-400 transition-all duration-200 [@media(hover:hover)]:group-hover:text-black ${closedGroups[group] ? "-rotate-90" : ""
-                                                }`}
-                                        />
-                                    </button>
-
-                                    <div
-                                        className={`px-4 grid transition-[grid-template-rows] ease-in-out ${closedGroups[group]
-                                            ? "grid-rows-[0fr] duration-300 delay-[150ms] pointer-events-none"
-                                            : "grid-rows-[1fr] duration-300 delay-0 pointer-events-auto"
-                                            }`}
-                                    >
-                                        <div className="min-h-0 overflow-visible">
-                                            <div
-                                                className={`transition-[transform,opacity] ease-out ${closedGroups[group]
-                                                    ? "translate-y-2 opacity-0 duration-200 delay-0"
-                                                    : "translate-y-0 opacity-100 duration-250 delay-[220ms]"
-                                                    }`}
-                                            >
-                                                <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,130px),1fr))] sm:grid-cols-[repeat(auto-fill,minmax(min(100%,160px),1fr))] justify-start gap-5">
-                                                    {groupedTournaments.map((tournament, index) => {
-                                                        const Card = viewMode === "icon" ? TournamentIcon : TournamentCard;
-                                                        return (
-                                                            <Card
-                                                                key={tournament["baseId"] + "-" + index}
-                                                                tournament={tournament}
-                                                                onClick={() => navigate("/tournaments/" + tournament["baseId"])}
-                                                            />
-                                                        );
-                                                    })}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>)
-                )
-                }
             </div>
-
-
         </div>
 
     );
