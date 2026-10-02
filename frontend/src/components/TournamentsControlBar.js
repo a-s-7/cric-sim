@@ -3,15 +3,23 @@ import { SearchBar } from "./SearchBar";
 import {
     faArrowDown,
     faArrowUp,
+    faTableCellsLarge,
     faChevronDown,
     faExpandAlt,
     faCompressAlt,
     faArrowsRotate,
+    faTableList,
     faSliders
 } from "@fortawesome/free-solid-svg-icons";
 
-function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed, viewOptions, viewMode, setViewMode, sortField, setSortField, 
+function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed, viewMode, setViewMode, sortField, setSortField, 
                                 sortOrder, setSortOrder, searchQuery, setSearchQuery, fetchTournaments, isRefreshing, showFilterBar, setShowFilterBar, activeFiltersCount}) {
+    
+    const viewOptions = [
+        { id: "icon", title: "Icon view", icon: faTableCellsLarge },
+        { id: "card", title: "Card view", icon: faTableList },
+    ];
+
     return (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-[2fr_5fr_2fr] sm:h-12 sm:items-center md:h-14 md:gap-3 p-4">
             <div className="flex items-center gap-2 font-sans">

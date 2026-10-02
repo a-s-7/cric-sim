@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTableCellsLarge, faTableList } from "@fortawesome/free-solid-svg-icons";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
 import Spinner from "../components/Spinner";
 import TournamentEmptyState from "../components/TournamentEmptyState";
@@ -13,29 +11,29 @@ import TournamentsControlBar from "../components/TournamentsControlBar";
 function TournamentsPage() {
     const navigate = useNavigate();
 
+    const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
+    
     const [tournaments, setTournaments] = useState([]);
-    const [selectedStatuses, setSelectedStatuses] = useState([]);
-    const [selectedGenders, setSelectedGenders] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [selectedFormats, setSelectedFormats] = useState([]);
-    const [sortField, setSortField] = useState("endDate");
-    const [sortOrder, setSortOrder] = useState("desc");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [showFilterBar, setShowFilterBar] = useState(false);
 
     const [groupField, setGroupField] = useState("all");
+    const [closedGroups, setClosedGroups] = useState({});
+
+    const [viewMode, setViewMode] = useState("icon"); // "icon" | "card"
+
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const [sortField, setSortField] = useState("endDate");
+    const [sortOrder, setSortOrder] = useState("desc");
 
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const [viewMode, setViewMode] = useState("icon"); // "icon" | "card"
+    const [showFilterBar, setShowFilterBar] = useState(false);
 
-    const [closedGroups, setClosedGroups] = useState({});
-
-    const viewOptions = [
-        { id: "icon", title: "Icon view", icon: faTableCellsLarge },
-        { id: "card", title: "Card view", icon: faTableList },
-    ];
+    const [selectedStatuses, setSelectedStatuses] = useState([]);
+    const [selectedGenders, setSelectedGenders] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedFormats, setSelectedFormats] = useState([]);
 
     const categoryMap = {
         events: "international",
@@ -45,6 +43,18 @@ function TournamentsPage() {
     const reverseCategoryMap = {
         international: "events",
         franchise: "leagues"
+    };
+
+     const statusOrder = {
+        active: 0,
+        upcoming: 1,
+        complete: 2
+    };
+
+    const formatOrder = {
+        Test: 3,
+        ODI: 1,
+        T20: 0,
     };
 
     const activeFiltersCount =
@@ -67,8 +77,6 @@ function TournamentsPage() {
         handleClearFilters();
         setSearchQuery("");
     };
-
-    const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
 
     const getFilteredTournaments = () => {
         const filtered = tournaments.filter((tournament) => {
@@ -169,18 +177,6 @@ function TournamentsPage() {
         return groups;
     }, {});
 
-    const statusOrder = {
-        active: 0,
-        upcoming: 1,
-        complete: 2
-    };
-
-    const formatOrder = {
-        Test: 3,
-        ODI: 1,
-        T20: 0,
-    };
-
     const sortedGroups = Object.entries(groupedTournaments).sort((a, b) => {
         if (groupField === "status") {
             return statusOrder[a[0]] - statusOrder[b[0]];
@@ -215,9 +211,9 @@ function TournamentsPage() {
     }
 
     const categoryFrontendOptions = ["events", "leagues"];
-    const formatOptions = ["T20", "ODI", "Test"]
-    const genderOptions = ["mens", "womens"];
     const statusOptions = ["upcoming", "active", "complete"];
+    const genderOptions = ["mens", "womens"];
+    const formatOptions = ["T20", "ODI", "Test"]
 
     const filterGroups = [
         { label: "Status", options: statusOptions, state: selectedStatuses, setter: setSelectedStatuses },
@@ -229,12 +225,11 @@ function TournamentsPage() {
     return (
         <div className="flex-1 overflow-y-auto bg-gray-50">
             <div className="flex flex-col h-full min-h-0">
-                <TournamentsControlBar 
+                <TournamentsControlBar
                     groupField={groupField}
                     setGroupField={setGroupField}
                     toggleAll={toggleAll}
                     allClosed={allClosed}
-                    viewOptions={viewOptions}
                     viewMode={viewMode}
                     setViewMode={setViewMode}
                     searchQuery={searchQuery}
