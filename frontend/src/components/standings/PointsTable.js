@@ -59,8 +59,12 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
             <tbody className="font-['Nunito_Sans']">
                 {pointsTableTeamsData.map((team, index) => {
                     const isTopQualifier = index < topQualifiers;
+                    const displayName = team.confirmed === false
+                        ? team.seed
+                        : category === "franchise" ? team.teamId : team.name;
+
                     return (
-                        <tr key={team.name} className={`${isTopQualifier ? 'bg-gray-100' : ''} group hover:bg-[#e4e4e4] transition-colors duration-200 text-sm`}>
+                        <tr key={team.teamDbId || team.seed} className={`${isTopQualifier ? 'bg-gray-100' : ''} group hover:bg-[#e4e4e4] transition-colors duration-200 text-sm`}>
                             <td
                                 className="text-center py-3 px-2 border-b border-zinc-200 border-l-4 transition-colors font-['Reem_Kufi_Fun'] text-black text-[2.25vh]"
                                 style={{
@@ -75,9 +79,9 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
                             </td>
                             <td className="py-1 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] uppercase text-black whitespace-nowrap">
                                 <div className="flex flex-row items-center h-[5vh]">
-                                    <img src={team.logo} alt={team.name + "Logo"} className={`${category === "franchise" ? "w-[4.5vh]" : "w-[3.75vh] border border-zinc-200 bg-red-500"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false ? 'blur(2px)' : 'none' }} />
+                                    <img src={team.logo || "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} alt={`${displayName} logo`} className={`${category === "franchise" ? "w-[4.5vh]" : "w-[3.75vh] border border-zinc-200 bg-red-500"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false && team.logo ? 'blur(2px)' : 'none' }} />
                                     <span className={category === "franchise" ? "text-[1.75vh]" : "text-[1.5vh]"}>
-                                        {team.confirmed === false ? team.seed : category === "franchise" ? team.teamId : team.name}
+                                        {displayName}
                                     </span>
                                 </div>
                             </td>

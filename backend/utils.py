@@ -297,7 +297,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
             "foreignField": "_id",
             "as": "team"
         }},
-        {"$unwind": "$team"},
+        {"$unwind": {"path": "$team", "preserveNullAndEmptyArrays": True}},
         {"$lookup": {
             "from": "stages",
             "localField": "stageId",
