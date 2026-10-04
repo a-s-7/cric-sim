@@ -9,19 +9,30 @@
         "name": "ICC Men's Cricket World Cup",
         "acronym": "CWC27",
         "edition": "2027",
-        "startDate": "2027-10-04",
+        "startDate": "2027-10-02",
         "endDate": "2027-11-21",
-        "structure": "league",
+        "structure": "groups",
         "currentStageId": null,
-        "gradient": "linear-gradient(135deg, #ffffff, #431011, #431011)",
+        "gradient": "linear-gradient(135deg, #3A0007, #3A0007, #3A0007)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/2027_Cricket_World_Cup_Logo.svg/500px-2027_Cricket_World_Cup_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/2027_Cricket_World_Cup_Logo.svg/500px-2027_Cricket_World_Cup_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-        "pointsTableColor": "#30156E",
-        "tileBackgroundColor": "#ffffff",
+        "horizontalLogo": "https://images.icc-cricket.com/image/private/t_q-best/v1786338411/prd/assets/tournaments/icc-cricket-world-cup-2027/logo-cwc27-new-new.svg",
+        "pointsTableColor": "#3A0007",
+        "tileBackgroundColor": "#E2CDAA",
         "teams": [
-            "IRE",
-            "NAM",
-            "NED"
+            "SA",
+            "ZIM",
+            "IND",
+            "AFG",
+            "PAK",
+            "ENG",
+            "NZ",
+            "SL",
+            "BAN",
+            "AUS",
+            "Q-A",
+            "QF1",
+            "QF2",
+            "QF3"
         ],
         "stadiums": [
             "Mangaung Oval",
@@ -50,12 +61,57 @@
                 "matchesPerTeam": 2,
                 "qualifiersPerGroup": 1
             }
+        },
+        {
+            "type": "group",
+            "order": 2,
+            "name": "Group Stage",
+            "status": "locked",
+            "config": {
+                "numberOfGroups": 2,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 5,
+                "qualifiersPerGroup": 3,
+                "nextBestQualifier": true
+            }
+        },
+        {
+            "type": "group",
+            "order": 3,
+            "name": "Super 7",
+            "status": "locked",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 7,
+                "matchesPerTeam": 6,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 4,
+            "name": "Semi-final",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 2
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 5,
+            "name": "Final",
+            "status": "locked",
+            "config": {
+                "numTeams": 2,
+                "numMatches": 1
+            }
         }
     ],
     "stageTeams": [
         {
             "stageOrder": 1,
-            "teamId": "IRE",
+            "teamId": "QF1",
             "matchesPlayed": 0,
             "won": 0,
             "lost": 0,
@@ -65,7 +121,7 @@
         },
         {
             "stageOrder": 1,
-            "teamId": "NAM",
+            "teamId": "QF2",
             "matchesPlayed": 0,
             "won": 0,
             "lost": 0,
@@ -75,7 +131,143 @@
         },
         {
             "stageOrder": 1,
-            "teamId": "NED",
+            "teamId": "QF3",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "Q-A",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "Q-B",
+            "group": "B",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1,
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "AFG",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "AUS",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "IND",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "PAK",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "ZIM",
+            "group": "A",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "BAN",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "ENG",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "NZ",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "SA",
+            "group": "B",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "tied": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": "SL",
+            "group": "B",
             "matchesPlayed": 0,
             "won": 0,
             "lost": 0,
@@ -88,30 +280,130 @@
         {
             "matchNumber": 1,
             "stageOrder": 1,
-            "date": "2027-10-04 14:00:00",
+            "date": "2027-10-02 01:00:00",
             "venue": "Namibia Cricket Ground",
-            "homeStageTeamId": "NAM",
-            "awayStageTeamId": "IRE",
+            "homeStageTeamId": "QF1",
+            "awayStageTeamId": "QF3",
             "result": "None",
             "status": "incomplete"
         },
         {
             "matchNumber": 2,
             "stageOrder": 1,
-            "date": "2027-10-05 14:00:00",
+            "date": "2027-10-04 01:00:00",
             "venue": "Namibia Cricket Ground",
-            "homeStageTeamId": "IRE",
-            "awayStageTeamId": "NED",
+            "homeStageTeamId": "QF1",
+            "awayStageTeamId": "QF2",
             "result": "None",
             "status": "incomplete"
         },
         {
             "matchNumber": 3,
             "stageOrder": 1,
-            "date": "2027-10-06 14:00:00",
+            "date": "2027-10-06 01:00:00",
             "venue": "Namibia Cricket Ground",
-            "homeStageTeamId": "NAM",
-            "awayStageTeamId": "NED",
+            "homeStageTeamId": "QF2",
+            "awayStageTeamId": "QF3",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 2,
+            "date": "2027-10-07 01:00:00",
+            "venue": "Newlands Cricket Ground",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "AUS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 2,
+            "date": "2027-10-08 01:00:00",
+            "venue": "SuperSport Park",
+            "homeStageTeamId": "PAK",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 2,
+            "date": "2027-10-08 03:30:00",
+            "venue": "Namibia Cricket Ground",
+            "homeStageTeamId": "ENG",
+            "awayStageTeamId": "BAN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 2,
+            "date": "2027-10-09 01:00:00",
+            "venue": "Queens Sports Club",
+            "homeStageTeamId": "ZIM",
+            "awayStageTeamId": "Q-A",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 2,
+            "date": "2027-10-09 03:30:00",
+            "venue": "Newlands Cricket Ground",
+            "homeStageTeamId": "SA",
+            "awayStageTeamId": "NZ",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 2,
+            "date": "2027-10-10 01:00:00",
+            "venue": "The Wanderers Stadium",
+            "homeStageTeamId": "IND",
+            "awayStageTeamId": "PAK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 2,
+            "date": "2027-10-10 03:30:00",
+            "venue": "Namibia Cricket Ground",
+            "homeStageTeamId": "SL",
+            "awayStageTeamId": "Q-B",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 2,
+            "date": "2027-10-11 03:30:00",
+            "venue": "Queens Sports Club",
+            "homeStageTeamId": "ZIM",
+            "awayStageTeamId": "AFG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 2,
+            "date": "2027-10-12 01:00:00",
+            "venue": "Boland Park",
+            "homeStageTeamId": "AUS",
+            "awayStageTeamId": "Q-A",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 2,
+            "date": "2027-10-12 03:30:00",
+            "venue": "Buffalo Park",
+            "homeStageTeamId": "NZ",
+            "awayStageTeamId": "BAN",
             "result": "None",
             "status": "incomplete"
         }

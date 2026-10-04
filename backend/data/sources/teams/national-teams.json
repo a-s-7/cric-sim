@@ -209,6 +209,34 @@
             "logo": "https://images.icc-cricket.com/image/upload/t_q-good/prd/assets/flags/zim.png",
             "gradient": "linear-gradient(135deg, #8B0000, #D71A28, #FFD700)",
             "type": "national"
+        },
+        {
+            "acronym": "Q-A",
+            "name": "Qualifier A",
+            "logo": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14",
+            "gradient": "linear-gradient(135deg, #FFB800, #A3520A, #3A0007)",
+            "type": "national"
+        },
+        {
+            "acronym": "QF1",
+            "name": "Qualifier 1",
+            "logo": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14",
+            "gradient": "linear-gradient(135deg, #FFE600, #8C5A2B, #3A0007)",
+            "type": "national"
+        },
+        {
+            "acronym": "QF2",
+            "name": "Qualifier 2",
+            "logo": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14",
+            "gradient": "linear-gradient(135deg, #F4D03F, #800020, #3A0007)",
+            "type": "national"
+        },
+        {
+            "acronym": "QF3",
+            "name": "Qualifier 3",
+            "logo": "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14",
+            "gradient": "linear-gradient(135deg, #00A86B, #C59B27, #3A0007)",
+            "type": "national"
         }
     ]
 }

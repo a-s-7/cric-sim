@@ -566,7 +566,10 @@ def confirmTeamsForGroupStageBasic(tournamentId, stageToConfirm):
 
     operations = []
 
-    for team in stageTeams:    
+    for team in stageTeams:  
+        if "teamFromPreviousStage" not in team:
+            continue    
+          
         group_name = team.get("teamFromStandingsGroup", "LEAGUE")
                 
         standingsGroup = prevStageGroups[group_name]
@@ -941,12 +944,70 @@ def propagate_match_clear(earliest_stage, t_id, tournament):
             else:
                 # Otherwise, completely wipe all team stats and qualifications for future stages
                 if nextStage["type"] == "group":
-                    # Revert group stages back to their original pre-seeded teams (or null) and reset stats
+                    
+                    # A dynamic slot is a slot whose team will be determined by the previous stage.
+                    # Check whether the teamFromPreviousStage field exists on the stage team.
+                    dynamic_slot = {
+                        "$ne": [{"$type": "$teamFromPreviousStage"}, "missing"]
+                    }
+
                     stageTeams_collection.update_many(
+                        # Only update stage teams belonging to this tournament and the next stage.
                         {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
-                        [{"$set": {"teamId": {"$ifNull": ["$preseededTeamId", None]}, "confirmed": False,
-                        "matchesPlayed": 0, "points": 0, "won": 0, "lost": 0, "noResult": 0,
-                        "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+                        [{
+                            "$set": {
+                                # Set the team assigned to this slot.
+                                #
+                                # 1. If the slot has a preseeded team, use the preseeded team.
+                                # 2. Otherwise, if this is a dynamic slot, clear teamId because
+                                #    the actual team will be determined from the previous stage.
+                                # 3. Otherwise, keep the existing teamId.
+                                "teamId": {
+                                    "$ifNull": [
+                                        "$preseededTeamId",
+                                        {
+                                            "$cond": [
+                                                dynamic_slot,
+                                                None,
+                                                "$teamId"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                # Only explicitly set confirmed to False for slots that need to
+                                # wait for team assignment:
+                                #
+                                # 1. Preseeded team -> not confirmed yet.
+                                # 2. Dynamic slot -> not confirmed until the previous-stage team
+                                #    is determined.
+                                # 3. Normal existing team -> do not modify the confirmed field.
+                                #
+                                # $$REMOVE prevents confirmed from being changed/created in case 3.
+                                "confirmed": {
+                                    "$cond": [
+                                        {"$ifNull": ["$preseededTeamId", False]},
+                                        False,
+                                        {
+                                            "$cond": [
+                                                dynamic_slot,
+                                                False,
+                                                "$$REMOVE"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                # Reset all match/statistics data for the next stage.
+                                "matchesPlayed": 0,
+                                "points": 0,
+                                "won": 0,
+                                "lost": 0,
+                                "noResult": 0,
+                                "runsScored": 0,
+                                "runsConceded": 0,
+                                "ballsBowled": 0,
+                                "ballsFaced": 0
+                            }
+                        }]
                     )
                 else:
                     # Clear knockout stage team slots entirely, omit runs and balls fields for ICC WTC
