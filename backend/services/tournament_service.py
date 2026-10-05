@@ -122,10 +122,16 @@ def get_tournament_teams(tournament_id):
             "$unwind": "$team"
         },
         {
+            "$group": {
+                "_id": "$team._id",
+                "name": {"$first": "$team.name"}
+            }
+        },
+        {
             "$project": {
                 "_id": 0,
-                "name": "$team.name",
-                "id": { "$toString": "$team._id" }
+                "name": "$name",
+                "id": { "$toString": "$_id" }
             }
         },
         {
