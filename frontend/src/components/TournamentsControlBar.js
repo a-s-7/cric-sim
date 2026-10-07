@@ -22,7 +22,7 @@ function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed,
 
     return (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-[2fr_5fr_2fr] sm:h-12 sm:items-center md:h-14 md:gap-3 p-4">
-            <div className="flex items-center gap-2 font-sans">
+            <div className="flex items-center gap-2 font-['Nunito_Sans']">
                 <span className="hidden text-xs font-medium text-stone-400 lg:inline">Group</span>
                 <div className="flex h-10 items-center rounded-xl border border-stone-200 bg-white px-1.5 shadow-sm transition-colors hover:border-stone-300 md:h-11">
                     <div className="relative h-full">
@@ -99,7 +99,7 @@ function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed,
             <div className="h-10 sm:h-full flex items-center justify-center"><SearchBar placeholder="Search tournaments..." value={searchQuery} onChange={setSearchQuery} /></div>
 
             {/* Sorting Controls + Refresh Button + Filter Button */}
-            <div className="flex h-10 items-center justify-end font-sans sm:h-full">
+            <div className="flex h-10 items-center justify-end font-['Nunito_Sans'] sm:h-full">
                 <div className="flex flex-1 items-center justify-center gap-2">
                     <span className="hidden text-xs font-medium text-stone-400 lg:inline">Sort</span>
                     <div className="flex h-10 items-center rounded-xl border border-stone-200 bg-white px-1.5 shadow-sm transition-colors hover:border-stone-300 md:h-11">

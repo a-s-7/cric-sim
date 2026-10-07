@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "w-oly-2028",
+        "isBeta": true,
         "division": "womens",
         "category": "international",
         "format": "T20",

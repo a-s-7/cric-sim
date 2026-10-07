@@ -18,7 +18,7 @@ function TournamentCard({ tournament, onClick }) {
     return (
         <div
             onClick={onClick}
-            className={`${tournamentTileStyle} font-sans col-span-3 grid grid-cols-subgrid overflow-hidden bg-white`}>
+            className={`${tournamentTileStyle} font-['Nunito_Sans'] col-span-3 grid grid-cols-subgrid overflow-hidden bg-white`}>
             <div
                 className="aspect-square flex items-center justify-center border-r border-black/[0.02]"
                 style={{ backgroundColor: tournament.tileBackgroundColor }}
@@ -32,6 +32,11 @@ function TournamentCard({ tournament, onClick }) {
                     <div className={`flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest ${status.text}`}>
                         <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
                         {tournament.status}
+                        {tournament.isBeta && (
+                            <span className="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-amber-800">
+                                BETA
+                            </span>
+                        )}
                     </div>
 
                     {/* Tier 2: identity */}
@@ -42,7 +47,7 @@ function TournamentCard({ tournament, onClick }) {
                         {meta.map((item, i) => (
                             <Fragment key={`${item}-${i}`}>
                                 {i > 0 && (
-                                    <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-stone-400" aria-hidden="true" />
+                                    <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-stone-400" />
                                 )}
                                 <span>{item}</span>
                             </Fragment>

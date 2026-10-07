@@ -14,7 +14,7 @@ function TournamentIcon({ tournament, onClick }) {
                 className={"h-[65%] w-[65%] object-contain"}
             />
             {isFranchise && (
-                <div className="absolute font-['Kanit'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
+                <div className="absolute font-['Reem_Kufi'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
                     {tournament.edition}
                 </div>
             )}

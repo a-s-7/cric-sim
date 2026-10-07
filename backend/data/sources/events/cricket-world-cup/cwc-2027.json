@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "icc-mens-cwc-2027",
+        "isBeta": true,
         "division": "mens",
         "category": "international",
         "format": "ODI",
@@ -364,7 +365,7 @@
             "teamId": "ENG",
             "confirmed": false,
             "seed": "AB4",
-            "seedToGroupMapping": "AB4",
+            "seedToGroupMapping": "B4",
             "preseededTeamId": "ENG",
             "matchesPlayed": 0,
             "won": 0,

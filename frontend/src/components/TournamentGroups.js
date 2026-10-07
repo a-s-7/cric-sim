@@ -12,7 +12,7 @@ function TournamentGroups({ sortedGroups, toggleGroup, groupField, closedGroups,
                     <button
                         type="button"
                         onClick={() => toggleGroup(group)}
-                        className="group font-['Kanit'] m-4 mb-3 text-xl flex font-medium items-center gap-2 text-black
+                        className="group font-['Reem_Kufi'] m-4 mb-3 text-xl flex font-medium items-center gap-2 text-black
                                         transition-transform duration-150 active:scale-[0.98]
                                         focus-visible:outline-none"
                     >
@@ -20,7 +20,7 @@ function TournamentGroups({ sortedGroups, toggleGroup, groupField, closedGroups,
                             {groupField === "all" ? "TOURNAMENTS" : group.toUpperCase()}
                         </h2>
 
-                        <span className="font-['Kanit'] text-md font-light text-black/50 transition-colors duration-200 [@media(hover:hover)]:group-hover:text-black">
+                        <span className="font-['Nunito_Sans'] text-md font-light text-black/50 transition-colors duration-200 [@media(hover:hover)]:group-hover:text-black">
                             ({groupedTournaments.length})
                         </span>
 

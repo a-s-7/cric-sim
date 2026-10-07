@@ -223,7 +223,7 @@ function TournamentsPage() {
     ];
 
     return (
-        <div className="flex-1 overflow-y-auto bg-gray-50">
+        <div className="flex-1 overflow-y-auto bg-gray-50 font-['Nunito_Sans']">
             <div className="flex flex-col h-full min-h-0">
                 <TournamentsControlBar
                     groupField={groupField}

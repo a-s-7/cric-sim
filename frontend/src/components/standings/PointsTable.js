@@ -2,7 +2,7 @@ import React from 'react';
 import { faCaretUp, faCaretDown, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingleTable, category, format }) {
+function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, nextBestTeamId, isSingleTable, category, format }) {
     const ballsPerOver = format === "HUNDRED" ? 5 : 6
 
     const getDiffDisplay = (diff) => {
@@ -59,17 +59,18 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
             <tbody className="font-['Nunito_Sans']">
                 {pointsTableTeamsData.map((team, index) => {
                     const isTopQualifier = index < topQualifiers;
+                    const isNextBestQualifier = team.teamId === nextBestTeamId;
                     const displayName = team.confirmed === false
                         ? team.seed
                         : category === "franchise" ? team.teamId : team.name;
 
                     return (
-                        <tr key={team.teamDbId || team.seed} className={`${isTopQualifier ? 'bg-gray-100' : ''} group hover:bg-[#e4e4e4] transition-colors duration-200 text-sm`}>
+                        <tr key={team.teamDbId || team.seed} className={`${isTopQualifier ? 'bg-gray-100' : isNextBestQualifier ? 'bg-[#f5f5f5]' : ''} group hover:bg-[#e4e4e4] transition-colors duration-200 text-sm`}>
                             <td
                                 className="text-center py-3 px-2 border-b border-zinc-200 border-l-4 transition-colors font-['Reem_Kufi_Fun'] text-black text-[2.25vh]"
                                 style={{
-                                    borderLeftColor: isTopQualifier ? headerColor : 'transparent',
-                                    fontWeight: isTopQualifier ? 'bold' : 'normal'
+                                    borderLeftColor: isNextBestQualifier ? '#a1a1aa' : isTopQualifier ? headerColor : 'transparent',
+                                    fontWeight: isTopQualifier || isNextBestQualifier ? 'bold' : 'normal'
                                 }}
                             >
                                 {index + 1}.

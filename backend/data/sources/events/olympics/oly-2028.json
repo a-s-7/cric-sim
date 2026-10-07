@@ -1,6 +1,7 @@
 {
     "tournament": {
         "_id": "oly-2028",
+        "isBeta": true,
         "division": "mens",
         "category": "international",
         "format": "T20",
