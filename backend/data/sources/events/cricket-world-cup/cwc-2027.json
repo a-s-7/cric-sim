@@ -115,7 +115,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -125,7 +124,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -135,7 +133,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -146,7 +143,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -161,7 +157,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -172,7 +167,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -183,7 +177,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -194,7 +187,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -205,7 +197,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -216,7 +207,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -227,7 +217,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -238,7 +227,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -249,7 +237,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -260,7 +247,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -271,7 +257,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -285,7 +270,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -299,7 +283,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -313,7 +296,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -327,7 +309,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -341,7 +322,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -355,7 +335,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -369,7 +348,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -380,7 +358,7 @@
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
-         {
+        {
             "stageOrder": 4,
             "teamId": null,
             "confirmed": false,
@@ -573,7 +551,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 15,
             "stageOrder": 2,
             "group": "B",
@@ -683,7 +661,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 25,
             "stageOrder": 2,
             "group": "B",
@@ -716,7 +694,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 28,
             "stageOrder": 2,
             "group": "A",
@@ -727,7 +705,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 29,
             "stageOrder": 2,
             "group": "A",
@@ -749,7 +727,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 31,
             "stageOrder": 2,
             "group": "B",
@@ -812,7 +790,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 37,
             "stageOrder": 3,
             "date": "2027-10-28 01:00:00",
@@ -872,7 +850,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 43,
             "stageOrder": 3,
             "date": "2027-11-03 03:30:00",
@@ -902,7 +880,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 46,
             "stageOrder": 3,
             "date": "2027-11-06 03:30:00",
@@ -942,7 +920,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 50,
             "stageOrder": 3,
             "date": "2027-11-10 01:00:00",
@@ -952,7 +930,7 @@
             "result": "None",
             "status": "incomplete"
         },
-         {
+        {
             "matchNumber": 51,
             "stageOrder": 3,
             "date": "2027-11-11 01:00:00",
