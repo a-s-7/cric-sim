@@ -352,7 +352,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
             team["pointsPercentage"] = 0 if (team["totalPointsContested"] == 0) else ((team["points"] - team["deductionPoints"]) / team["totalPointsContested"]) * 100
     else:
         for team in stageTeamsData:
-            ballsPerOver = 5 if tournament["format"] == "HUNDRED" else 6
+            ballsPerOver = 5 if tournament["ballsPerInnings"] == 100 else 6
             
             totalOversFaced = team["ballsFaced"] / ballsPerOver
             totalOversBowled = team["ballsBowled"] / ballsPerOver

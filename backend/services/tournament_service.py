@@ -91,7 +91,8 @@ def get_tournament_info(tournament_base_id):
                 "gradient": tournament["gradient"],
                 "pointsTableColor": tournament["pointsTableColor"],
                 "structure": tournament["structure"],
-                "format": tournament["format"]
+                "format": tournament["format"],
+                "ballsPerInnings": tournament.get("ballsPerInnings")
             }
         
         if tournament.get("mode") == "real-world":

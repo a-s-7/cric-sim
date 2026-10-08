@@ -152,7 +152,7 @@ function MatchScoreCardDisplay({
 
             return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}\n${dlsSuffix}`;
         } else {
-            return `Match Tied\n${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the ${format === "HUNDRED" ? "Super Five" : "Super Over"}`;
+            return `Match Tied\n${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the ${inningsBalls === 100 ? "Super Five" : "Super Over"}`;
         }
     }
 
@@ -163,7 +163,7 @@ function MatchScoreCardDisplay({
 
         const isTied = homeTeamBalls > 0 && awayTeamBalls > 0 && homeTeamRuns === awayTeamRuns;
 
-        if (isTied && format === "HUNDRED" && stage === "Group Stage") {
+        if (isTied && inningsBalls === 100 && stage === "Group Stage") {
             return 'Match Tied';
         }
 
@@ -261,7 +261,7 @@ function MatchScoreCardDisplay({
                                         {/* Home Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
-                                            mode={format === "HUNDRED" ? "balls" : "overs"}
+                                            mode={inningsBalls === 100 ? "balls" : "overs"}
                                             value={homeMaxBalls}
                                             readOnly={true}
                                         />
@@ -272,7 +272,7 @@ function MatchScoreCardDisplay({
                                     {/* Home Team Balls */}
                                     <BallsInput
                                         width="4.5ch"
-                                        mode={format === "HUNDRED" ? "balls" : "overs"}
+                                        mode={inningsBalls === 100 ? "balls" : "overs"}
                                         value={homeTeamBalls === 0 ? '' : (homeTeamBalls ?? '')}
                                         readOnly={true}
                                     />
@@ -371,7 +371,7 @@ function MatchScoreCardDisplay({
                                     {/* Away Team Balls*/}
                                     <BallsInput
                                         width="4.5ch"
-                                        mode={format === "HUNDRED" ? "balls" : "overs"}
+                                        mode={inningsBalls === 100 ? "balls" : "overs"}
                                         value={awayTeamBalls === 0 ? '' : (awayTeamBalls ?? '')}
                                         readOnly={true}
                                     />
@@ -382,7 +382,7 @@ function MatchScoreCardDisplay({
                                         {/* Away Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
-                                            mode={format === "HUNDRED" ? "balls" : "overs"}
+                                            mode={inningsBalls === 100 ? "balls" : "overs"}
                                             value={awayMaxBalls}
                                             readOnly={true}
                                         />

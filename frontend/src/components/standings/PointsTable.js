@@ -1,34 +1,6 @@
-import React from 'react';
-import { faCaretUp, faCaretDown, faMinus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import StandingsMovementIndicator from "./StandingsMovementIndicator";
 
-function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, nextBestTeamId, isSingleTable, category, format }) {
-    const ballsPerOver = format === "HUNDRED" ? 5 : 6
-
-    const getDiffDisplay = (diff) => {
-        if (diff > 0) {
-            return (
-                <div className="mx-auto w-fit min-w-[36px] flex flex-row items-center justify-center font-['Reem_Kufi_Fun'] px-1.5 py-0.5 rounded-md bg-green-50 text-green-600 border border-green-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-                    <FontAwesomeIcon icon={faCaretUp} size="sm" className="mr-1" />
-                    <span className="font-bold text-[1.4vh] leading-none mt-[1px]">{diff}</span>
-                </div>
-            );
-        } else if (diff < 0) {
-            return (
-                <div className="mx-auto w-fit min-w-[36px] flex flex-row items-center justify-center font-['Reem_Kufi_Fun'] px-1.5 py-0.5 rounded-md bg-red-50 text-red-600 border border-red-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-                    <FontAwesomeIcon icon={faCaretDown} size="sm" className="mr-1" />
-                    <span className="font-bold text-[1.4vh] leading-none mt-[1px]">{diff * -1}</span>
-                </div>
-            );
-        } else {
-            return (
-                <div className="mx-auto w-fit min-w-[36px] flex flex-row items-center justify-center font-['Reem_Kufi_Fun'] px-1.5 py-0.5 rounded-md bg-zinc-50 text-zinc-400 border border-zinc-200">
-                    <FontAwesomeIcon icon={faMinus} size="xs" />
-                </div>
-            );
-        }
-    }
-
+function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, nextBestTeamId, isSingleTable, category, format, ballsPerInnings}) {
     return (
         <table className={`w-full border-separate border-spacing-0 bg-white rounded-[10px] shadow-[0_4px_8px_rgba(0,0,0,0.2)] border border-zinc-200 overflow-hidden table-fixed ${isSingleTable ? 'h-full' : ''}`}>
             <thead style={{ background: headerColor }} className="font-['Reem_Kufi_Fun'] text-white text-center text-[1.75vh] whitespace-nowrap">
@@ -63,6 +35,9 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, nextBes
                     const displayName = team.confirmed === false
                         ? team.seed
                         : category === "franchise" ? team.teamId : team.name;
+                    const ballsPerOver = format === "Test"
+                        ? null
+                        : (Number(ballsPerInnings) === 100 ? 5 : 6);
 
                     return (
                         <tr key={team.teamDbId || team.seed} className={`${isTopQualifier ? 'bg-gray-100' : isNextBestQualifier ? 'bg-[#f5f5f5]' : ''} group hover:bg-[#e4e4e4] transition-colors duration-200 text-sm`}>
@@ -76,7 +51,7 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, nextBes
                                 {index + 1}.
                             </td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200 italic">
-                                {getDiffDisplay(team.diff)}
+                                <StandingsMovementIndicator diff={team.diff} />
                             </td>
                             <td className="py-1 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] uppercase text-black whitespace-nowrap">
                                 <div className="flex flex-row items-center h-[5vh]">

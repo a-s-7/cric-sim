@@ -129,7 +129,7 @@ function QualificationPicturePane({ stage, standingsData, color, isActive, isOpe
                 >
                     <div className="mb-2 flex items-start justify-between gap-3 border-b border-zinc-100 pb-2">
                         <div className="min-w-0">
-                            <h4 className="truncate text-[13px] font-['Reem_Kufi'] font-extrabold uppercase tracking-wide text-zinc-900">
+                            <h4 className="truncate text-[12px] font-['Reem_Kufi'] font-extrabold uppercase tracking-wide text-zinc-900">
                                 {stage.stageName} Qualification Picture
                             </h4>
                             <p className="mt-0.5 text-[10px] font-medium normal-case tracking-normal text-zinc-500">

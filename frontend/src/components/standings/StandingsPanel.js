@@ -61,7 +61,7 @@ function getNextBestTeamId(stage) {
     return bestCandidate ? bestCandidate.team.teamId : null;
 }
 
-function StandingsPanel({ standingsData, category, color, format }) {
+function StandingsPanel({ standingsData, category, color, format, ballsPerInnings}) {
     function getFarthestActiveIndex(stages) {
         let farthest = 0;
 
@@ -180,6 +180,7 @@ function StandingsPanel({ standingsData, category, color, format }) {
                                     isSingleTable={array.length === 1}
                                     category={category}
                                     format={format}
+                                    ballsPerInnings={ballsPerInnings}
                                 />
                             </div>
                         </div>

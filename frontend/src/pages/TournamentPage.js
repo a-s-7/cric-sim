@@ -15,7 +15,8 @@ function TournamentPage({
     tournamentGradient,
     tournamentPointsTableColor,
     tournamentStructure,
-    tournamentFormat
+    tournamentFormat,
+    tournamentBallsPerInnings
 }) {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [selectedStadiums, setSelectedStadiums] = useState([]);
@@ -144,7 +145,8 @@ function TournamentPage({
                             standingsData={standingsData.standings}
                             category={standingsData.category}
                             color={tournamentPointsTableColor}
-                            format={tournamentFormat} />
+                            format={tournamentFormat}
+                            ballsPerInnings={tournamentBallsPerInnings}/>
                     </div>
                 )}
             </div>
