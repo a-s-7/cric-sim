@@ -21,9 +21,9 @@ function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed,
     ];
 
     return (
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-[2fr_5fr_2fr] sm:h-12 sm:items-center md:h-14 md:gap-3 p-4">
+        <div className="grid min-h-12 grid-cols-1 gap-2 p-4 sm:grid-cols-[2fr_5fr_2fr] sm:items-center md:min-h-14 md:gap-3">
             <div className="flex items-center gap-2 font-['Nunito_Sans']">
-                <span className="hidden text-xs font-medium text-stone-400 lg:inline">Group</span>
+                <span className="hidden text-xs font-medium text-stone-600 lg:inline">Group</span>
                 <div className="flex h-10 items-center rounded-xl border border-stone-200 bg-white px-1.5 shadow-sm transition-colors hover:border-stone-300 md:h-11">
                     <div className="relative h-full">
                         <select
@@ -66,7 +66,7 @@ function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed,
                 </div>
 
                 <div className="flex flex-1 items-center justify-center gap-2">
-                    <span className="hidden text-xs font-medium text-stone-400 lg:inline">View</span>
+                    <span className="hidden text-xs font-medium text-stone-600 lg:inline">View</span>
                     <div className="relative flex h-10 items-center gap-0.5 rounded-xl border border-stone-200 bg-white p-1 shadow-sm transition-colors hover:border-stone-300 md:h-11">
                         {/* Sliding pill */}
                         <div
@@ -96,12 +96,12 @@ function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed,
             </div>
 
             {/* Search Controls */}
-            <div className="h-10 sm:h-full flex items-center justify-center"><SearchBar placeholder="Search tournaments..." value={searchQuery} onChange={setSearchQuery} /></div>
+            <div className="min-w-0 flex h-10 items-center justify-center sm:h-full"><SearchBar placeholder="Search tournaments..." value={searchQuery} onChange={setSearchQuery} /></div>
 
             {/* Sorting Controls + Refresh Button + Filter Button */}
             <div className="flex h-10 items-center justify-end font-['Nunito_Sans'] sm:h-full">
                 <div className="flex flex-1 items-center justify-center gap-2">
-                    <span className="hidden text-xs font-medium text-stone-400 lg:inline">Sort</span>
+                    <span className="hidden text-xs font-medium text-stone-600 lg:inline">Sort</span>
                     <div className="flex h-10 items-center rounded-xl border border-stone-200 bg-white px-1.5 shadow-sm transition-colors hover:border-stone-300 md:h-11">
                         <div className="relative h-full">
                             <select
@@ -111,7 +111,7 @@ function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed,
                                     setSortField(event.target.value);
                                     setSortOrder((previousOrder) => previousOrder || "asc");
                                 }}
-                                className="h-full min-w-28 appearance-none rounded-lg bg-transparent py-0 pl-2 pr-7 text-sm font-medium text-stone-700 outline-none"
+                                className="h-full min-w-28 appearance-none rounded-lg bg-transparent py-0 pl-2 pr-7 font-['Nunito_Sans'] text-sm font-medium text-stone-700 outline-none"
                             >
                                 <option value="name">Name</option>
                                 <option value="startDate">Start date</option>

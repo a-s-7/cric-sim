@@ -7,7 +7,6 @@ import TournamentGroups from "../components/TournamentGroups";
 import TournamentFilterBar from "../components/TournamentFilterBar";
 import TournamentsControlBar from "../components/TournamentsControlBar";
 
-
 function TournamentsPage() {
     const navigate = useNavigate();
 
@@ -34,6 +33,7 @@ function TournamentsPage() {
     const [selectedGenders, setSelectedGenders] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedFormats, setSelectedFormats] = useState([]);
+    const [dateRange, setDateRange] = useState({ start: null, end: null });
 
     const categoryMap = {
         events: "international",
@@ -57,11 +57,14 @@ function TournamentsPage() {
         T20: 0,
     };
 
+    const isDateRangeActive = Boolean(dateRange.start || dateRange.end);
+
     const activeFiltersCount =
         selectedStatuses.length +
         selectedGenders.length +
         selectedCategories.length +
-        selectedFormats.length;
+        selectedFormats.length +
+        (isDateRangeActive ? 1 : 0);
 
     const hasActiveControls = activeFiltersCount > 0;
     const hasSearchQuery = searchQuery.trim().length > 0;
@@ -71,6 +74,7 @@ function TournamentsPage() {
         setSelectedGenders([]);
         setSelectedCategories([]);
         setSelectedFormats([]);
+        setDateRange({ start: null, end: null });
     };
 
     const handleClearSearchAndFilters = () => {
@@ -82,6 +86,25 @@ function TournamentsPage() {
         const filtered = tournaments.filter((tournament) => {
             const search = searchQuery.toLowerCase().trim();
             const searchableText = `${tournament.name} ${tournament.edition} ${tournament.acronym}`.toLowerCase();
+
+            const normalizeDate = (val) => {
+                if (!val) return null;
+                const time = Date.parse(val);
+                if (Number.isNaN(time)) return null;
+                return new Date(time).toISOString().slice(0, 10);
+            };
+
+            const matchesDateRange = () => {
+                if (!dateRange.start && !dateRange.end) return true;
+                const tStart = normalizeDate(tournament.startDate);
+                const tEnd = normalizeDate(tournament.endDate) || tStart;
+
+                if (!tStart && !tEnd) return false;
+
+                if (dateRange.start && tEnd && tEnd < dateRange.start) return false;
+                if (dateRange.end && tStart && tStart > dateRange.end) return false;
+                return true;
+            };
 
             return (
                 (search.length === 0 ||
@@ -95,7 +118,8 @@ function TournamentsPage() {
                 (selectedCategories.length === 0 ||
                     selectedCategories.some(category => categoryMap[category] === tournament.category)) &&
                 (selectedFormats.length === 0 ||
-                    selectedFormats.includes(tournament.format))
+                    selectedFormats.includes(tournament.format)) &&
+                matchesDateRange()
             );
         });
 
@@ -245,7 +269,14 @@ function TournamentsPage() {
                     activeFiltersCount={activeFiltersCount}
                 />
 
-                <TournamentFilterBar showFilterBar={showFilterBar} filterGroups={filterGroups} handleClearFilters={handleClearFilters} hasActiveControls={hasActiveControls} />
+                <TournamentFilterBar
+                    showFilterBar={showFilterBar}
+                    filterGroups={filterGroups}
+                    handleClearFilters={handleClearFilters}
+                    hasActiveControls={hasActiveControls}
+                    dateRange={dateRange}
+                    setDateRange={setDateRange}
+                />
 
                 <div className="[scrollbar-gutter:stable] flex w-full flex-1 min-h-0 flex-col overflow-y-auto bg-white">
                     {isLoading ? (

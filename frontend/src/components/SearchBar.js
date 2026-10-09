@@ -56,7 +56,7 @@ export function SearchBar({
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         autoFocus={autoFocus}
-        className="w-full rounded-2xl border border-stone-200 bg-white py-3 pl-11 pr-11 font-['Nunito_Sans'] text-sm font-medium text-stone-700 placeholder-stone-400 shadow-sm outline-none transition-all duration-200 focus:border-stone-400 focus:ring-0"
+        className="w-full rounded-2xl border border-stone-200 bg-white py-3 pl-11 pr-11 font-['Nunito_Sans'] text-sm font-medium text-stone-700 placeholder-stone-500 shadow-sm outline-none transition-all duration-200 focus:border-stone-400 focus:ring-0"
       />
       {current && (
         <button
