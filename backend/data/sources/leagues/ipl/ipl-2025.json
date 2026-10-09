@@ -4,12 +4,9 @@
         "division": "mens",
         "category": "franchise",
         "format": "T20",
-        "ballsPerInnings": 120,
-        "matchDurationMinutes": 240,
         "name": "Indian Premier League",
         "acronym": "IPL",
         "edition": "2025",
-        "status": "upcoming",
         "startDate": "2025-03-22",
         "endDate": "2025-06-03",
         "structure": "league",
@@ -79,7 +76,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -89,7 +85,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -99,7 +94,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -109,7 +103,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -119,7 +112,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -129,7 +121,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -139,7 +130,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -149,7 +139,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -159,7 +148,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -169,7 +157,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {

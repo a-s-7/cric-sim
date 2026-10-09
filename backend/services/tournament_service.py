@@ -11,6 +11,7 @@ from utils import (
     build_common_match_lookup_stages,
     determine_final_winner,
 )
+from datetime import datetime, timezone
 
 verbose = True
 
@@ -28,36 +29,41 @@ matches_collection = db['matches']
 stages_collection = db["stages"]
 teams_collection = db['teams']
 
-def get_tournaments(group_results, category, division):
-    query = {}
-    if category != "all":
-        query["category"] = category
-    if division != "all":
-        query["division"] = division
-
+def get_tournaments():
     # Fetch all tournaments within the category to pair real-world and what-if modes
-    tournaments = list(tournaments_collection.find(query).sort("startDate", -1))
+    tournaments = list(tournaments_collection.find().sort("startDate", -1))
 
-    paired = {}
+    paired_tournaments = {}
+
+    today = datetime.now(timezone.utc).date()
 
     for tournament in tournaments:
-        # Group by the base _id (stripping off -rw and -ps suffixes) 
+        # Group by the base _id (strip off -rw and -ps suffixes) 
         base_id = str(tournament["_id"])
         key = base_id[:-3]
 
-        if key not in paired:
-            paired[key] = {
-                "baseId": key,
-                "category": tournament["category"],
-                "name": tournament["name"],
-                "edition": tournament["edition"],
-                "mainLogo": tournament["mainLogo"],
-                "tileBackgroundColor": tournament["tileBackgroundColor"],
-            }
-    
-    output = list(paired.values())
+        if key not in paired_tournaments:
+            start_date = tournament["startDate"].date()
+            end_date = tournament["endDate"].date()
 
-    return {"tournaments": output, "grouped": group_results}
+            if today < start_date:
+                status = "upcoming"
+            elif today > end_date:
+                status = "complete"
+            else:
+                status = "active"
+
+            paired_tournaments[key] = {
+                "baseId": key,
+                "status": status,
+                **tournament,
+            }
+            paired_tournaments[key].pop("_id")
+            paired_tournaments[key].pop("mode")
+            
+    output = list(paired_tournaments.values())
+
+    return output
 
 def get_tournament_info(tournament_base_id):
     tournaments = list(tournaments_collection.find({ "_id": {"$regex": f"^{tournament_base_id}"}}))
@@ -85,7 +91,8 @@ def get_tournament_info(tournament_base_id):
                 "gradient": tournament["gradient"],
                 "pointsTableColor": tournament["pointsTableColor"],
                 "structure": tournament["structure"],
-                "format": tournament["format"]
+                "format": tournament["format"],
+                "ballsPerInnings": tournament.get("ballsPerInnings")
             }
         
         if tournament.get("mode") == "real-world":
@@ -116,10 +123,16 @@ def get_tournament_teams(tournament_id):
             "$unwind": "$team"
         },
         {
+            "$group": {
+                "_id": "$team._id",
+                "name": {"$first": "$team.name"}
+            }
+        },
+        {
             "$project": {
                 "_id": 0,
-                "name": "$team.name",
-                "id": { "$toString": "$team._id" }
+                "name": "$name",
+                "id": { "$toString": "$_id" }
             }
         },
         {

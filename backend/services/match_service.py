@@ -113,8 +113,10 @@ def update_wtc_match_result(tournament, match_num, result):
 def update_tournament_match_result(tournament, match_num, result):
     t_id = tournament["_id"]
 
-    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
-    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
+    isHundred = tournament["ballsPerInnings"] == 100
+    
+    pointsPerWin = 4 if isHundred else 2
+    pointsPerNoResult = 2 if isHundred else 1
 
     if result not in ["Home-win", "Away-win", "No-result"]:
         abort(400, description=f"Invalid match result")
@@ -148,13 +150,13 @@ def update_tournament_match_result(tournament, match_num, result):
             update_team_match_no_result(match["awayStageTeamId"], pointsPerNoResult, mode)
 
         # NRR fields only apply when result isn't No-result. Undo/apply the contribution
-        # whenever this change crosses the No-result boundary (except tied matches in HUNDRED format).
-        format_type = tournament["format"]
+        # whenever this change crosses the No-result boundary (except tied matches in The Hundred).
+        isHundred = tournament["ballsPerInnings"] == 100
         has_score = match["homeTeamBalls"] > 0 and match["awayTeamBalls"] > 0
         was_tie = has_score and (match["homeTeamRuns"] == match["awayTeamRuns"])
 
-        was_active = match["result"] in ["Home-win", "Away-win"] or (format_type == "HUNDRED" and match["result"] == "No-result" and was_tie)
-        will_be_active = result in ["Home-win", "Away-win"] or (format_type == "HUNDRED" and result == "No-result" and was_tie)
+        was_active = match["result"] in ["Home-win", "Away-win"] or (isHundred and match["result"] == "No-result" and was_tie)
+        will_be_active = result in ["Home-win", "Away-win"] or (isHundred and result == "No-result" and was_tie)
 
         if was_active and not will_be_active:
             apply_nrr_contribution(match, "Undo")
@@ -254,8 +256,9 @@ def simulate_wtc_matches(tournament, stage_num):
 def simulate_tournament_matches(tournament, stage_num):
     t_id = tournament["_id"]
 
-    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
-    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
+    isHundred = tournament["ballsPerInnings"] == 100
+    pointsPerWin = 4 if isHundred else 2
+    pointsPerNoResult = 2 if isHundred else 1
 
     stageToSim = stages_collection.find_one(
         {
@@ -372,8 +375,9 @@ def clear_tournament_matches(tournament, mode, stage_order, match_nums):
 
     team_acc = defaultdict(lambda: defaultdict(int))
 
-    pointsPerWin = 4 if tournament["format"] == "HUNDRED" else 2
-    pointsPerNoResult = 2 if tournament["format"] == "HUNDRED" else 1
+    isHundred = tournament["ballsPerInnings"] == 100
+    pointsPerWin = 4 if isHundred else 2
+    pointsPerNoResult = 2 if isHundred else 1
 
     for match in matches:
         target = match["target"]
@@ -391,9 +395,10 @@ def clear_tournament_matches(tournament, mode, stage_order, match_nums):
         home_id = match["homeStageTeamId"]
         away_id = match["awayStageTeamId"]
 
-        format_type = tournament["format"]
+
+        isHundred = tournament["ballsPerInnings"] == 100
         is_tie = has_score and (match["homeTeamRuns"] == match["awayTeamRuns"])
-        is_nrr_active = match["result"] != "No-result" or (format_type == "HUNDRED" and match["result"] == "No-result" and is_tie)
+        is_nrr_active = match["result"] != "No-result" or (isHundred and match["result"] == "No-result" and is_tie)
 
         if has_score and toss_known and is_nrr_active:
             home_runs = (target - 1) if (target is not None and home_batted_first) else match["homeTeamRuns"]
@@ -541,15 +546,15 @@ def update_match_score(tournament_id, match_num, home_runs, home_wickets, home_b
     if not old_match:
         abort(404, description=f"No match was found")
 
-    format_type = tournament["format"]
+    isHundred = tournament["ballsPerInnings"] == 100
 
     old_has_score = old_match["homeTeamBalls"] > 0 and old_match["awayTeamBalls"] > 0
     old_is_tie = old_has_score and (old_match["homeTeamRuns"] == old_match["awayTeamRuns"])
-    old_score_exists = (old_match["result"] != "No-result") or (format_type == "HUNDRED" and old_match["result"] == "No-result" and old_is_tie)
+    old_score_exists = (old_match["result"] != "No-result") or (isHundred and old_match["result"] == "No-result" and old_is_tie)
 
     new_has_score = home_balls > 0 and away_balls > 0
     new_is_tie = new_has_score and (int(home_runs) == int(away_runs))
-    new_score_active = (old_match["result"] != "No-result") or (format_type == "HUNDRED" and old_match["result"] == "No-result" and new_is_tie)
+    new_score_active = (old_match["result"] != "No-result") or (isHundred and old_match["result"] == "No-result" and new_is_tie)
 
     if old_score_exists or new_score_active:
         toss_result = old_match["tossResult"]
@@ -631,11 +636,11 @@ def update_match_target_runs(tournament_id, match_num, target_runs):
         {"$set": {"target": target_runs}}
     )
    
-    format_type = tournament["format"]
+    isHundred = tournament["ballsPerInnings"] == 100
 
     has_score = match["homeTeamBalls"] > 0 and match["awayTeamBalls"] > 0
     is_tie = has_score and (match["homeTeamRuns"] == match["awayTeamRuns"])
-    is_nrr_active = match["result"] in ["Home-win", "Away-win"] or (format_type == "HUNDRED" and match["result"] == "No-result" and is_tie)
+    is_nrr_active = match["result"] in ["Home-win", "Away-win"] or (isHundred and match["result"] == "No-result" and is_tie)
 
     if is_nrr_active:
         if has_score:
@@ -727,11 +732,11 @@ def update_match_max_balls(tournament_id, match_num, team, max_balls):
     if not old_match:
         raise ValueError("Match not found")
 
-    format_type = tournament["format"]
+    isHundred = tournament["ballsPerInnings"] == 100
 
     has_score = old_match["homeTeamBalls"] > 0 and old_match["awayTeamBalls"] > 0
     is_tie = has_score and (old_match["homeTeamRuns"] == old_match["awayTeamRuns"])
-    is_nrr_active = old_match["result"] != "No-result" or (format_type == "HUNDRED" and old_match["result"] == "No-result" and is_tie)
+    is_nrr_active = old_match["result"] != "No-result" or (isHundred and old_match["result"] == "No-result" and is_tie)
 
     if is_nrr_active:
         target = old_match["target"]

@@ -152,7 +152,7 @@ function MatchScoreCardDisplay({
 
             return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}\n${dlsSuffix}`;
         } else {
-            return `Match Tied\n${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the ${format === "HUNDRED" ? "Super Five" : "Super Over"}`;
+            return `Match Tied\n${matchResult === "Home-win" ? scores["Home"].name : scores["Away"].name} won the ${inningsBalls === 100 ? "Super Five" : "Super Over"}`;
         }
     }
 
@@ -163,7 +163,7 @@ function MatchScoreCardDisplay({
 
         const isTied = homeTeamBalls > 0 && awayTeamBalls > 0 && homeTeamRuns === awayTeamRuns;
 
-        if (isTied && format === "HUNDRED" && stage === "Group Stage") {
+        if (isTied && inningsBalls === 100 && stage === "Group Stage") {
             return 'Match Tied';
         }
 
@@ -261,7 +261,7 @@ function MatchScoreCardDisplay({
                                         {/* Home Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
-                                            mode={format === "HUNDRED" ? "balls" : "overs"}
+                                            mode={inningsBalls === 100 ? "balls" : "overs"}
                                             value={homeMaxBalls}
                                             readOnly={true}
                                         />
@@ -272,7 +272,7 @@ function MatchScoreCardDisplay({
                                     {/* Home Team Balls */}
                                     <BallsInput
                                         width="4.5ch"
-                                        mode={format === "HUNDRED" ? "balls" : "overs"}
+                                        mode={inningsBalls === 100 ? "balls" : "overs"}
                                         value={homeTeamBalls === 0 ? '' : (homeTeamBalls ?? '')}
                                         readOnly={true}
                                     />
@@ -301,7 +301,7 @@ function MatchScoreCardDisplay({
                         </div>
 
                         <div className={`h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(2px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
                         </div>
                     </div>
 
@@ -338,7 +338,7 @@ function MatchScoreCardDisplay({
                         style={getStyle('Away-win', 2)}>
 
                         <div className={`h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(4px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
+                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(2px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] justify-start" style={{ width: `${TEAM_NAME_WIDTH}%` }}>
@@ -371,7 +371,7 @@ function MatchScoreCardDisplay({
                                     {/* Away Team Balls*/}
                                     <BallsInput
                                         width="4.5ch"
-                                        mode={format === "HUNDRED" ? "balls" : "overs"}
+                                        mode={inningsBalls === 100 ? "balls" : "overs"}
                                         value={awayTeamBalls === 0 ? '' : (awayTeamBalls ?? '')}
                                         readOnly={true}
                                     />
@@ -382,7 +382,7 @@ function MatchScoreCardDisplay({
                                         {/* Away Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
-                                            mode={format === "HUNDRED" ? "balls" : "overs"}
+                                            mode={inningsBalls === 100 ? "balls" : "overs"}
                                             value={awayMaxBalls}
                                             readOnly={true}
                                         />

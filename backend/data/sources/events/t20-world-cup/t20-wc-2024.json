@@ -4,11 +4,9 @@
         "division": "mens",
         "category": "international",
         "format": "T20",
-        "ballsPerInnings": 120,
-        "matchDurationMinutes": 240,
         "name": "ICC Men's T20 World Cup",
+        "acronym": "T20WC24",
         "edition": "2024",
-        "status": "active",
         "startDate": "2024-06-01",
         "endDate": "2024-06-29",
         "structure": "groups",
@@ -107,7 +105,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -118,7 +115,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -129,7 +125,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -140,7 +135,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -151,7 +145,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -162,7 +155,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -173,7 +165,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -184,7 +175,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -195,7 +185,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -206,7 +195,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -217,7 +205,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -228,7 +215,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -239,7 +225,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -250,7 +235,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -261,7 +245,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -272,7 +255,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -283,7 +265,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -294,7 +275,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -305,7 +285,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -316,7 +295,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -331,7 +309,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -346,7 +323,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -361,7 +337,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -376,7 +351,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -391,7 +365,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -406,7 +379,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -421,7 +393,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -436,7 +407,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {

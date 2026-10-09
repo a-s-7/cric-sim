@@ -13,7 +13,7 @@ except ImportError:
 from dotenv import load_dotenv
 load_dotenv()
 
-verbose = False
+verbose = True
 
 connection_string = os.getenv('MONGODB_URI')
 
@@ -297,7 +297,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
             "foreignField": "_id",
             "as": "team"
         }},
-        {"$unwind": "$team"},
+        {"$unwind": {"path": "$team", "preserveNullAndEmptyArrays": True}},
         {"$lookup": {
             "from": "stages",
             "localField": "stageId",
@@ -323,10 +323,13 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
             "points": "$points",
             "confirmed": "$confirmed",
             "seed": "$seed",
-            "numQualifiers": "$stage.config.qualifiersPerGroup"
+            "seedToGroupMapping": "$seedToGroupMapping",
+            "numQualifiers": "$stage.config.qualifiersPerGroup",
+            "preseededTeamId": "$preseededTeamId",
+            "nextBestTeam": "$stage.config.nextBestQualifier"
         }
 
-    if tournament["format"] == "TEST":
+    if tournament["format"] == "Test":
         tournamentCriteria =  {"draw": "$draw",
                              "tied": "$tied",
                              "deductionPoints": "$deductionPoints"}
@@ -342,14 +345,14 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
 
     stageTeamsData = list(stageTeams_collection.aggregate(stageTeamsPipeline))
 
-    if tournament["format"] == "TEST":
+    if tournament["format"] == "Test":
         for team in stageTeamsData:
             team["totalPointsContested"] = team["played"] * 12
 
             team["pointsPercentage"] = 0 if (team["totalPointsContested"] == 0) else ((team["points"] - team["deductionPoints"]) / team["totalPointsContested"]) * 100
     else:
         for team in stageTeamsData:
-            ballsPerOver = 5 if tournament["format"] == "HUNDRED" else 6
+            ballsPerOver = 5 if tournament["ballsPerInnings"] == 100 else 6
             
             totalOversFaced = team["ballsFaced"] / ballsPerOver
             totalOversBowled = team["ballsBowled"] / ballsPerOver
@@ -367,7 +370,8 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
         stageStatus = team["stageStatus"]
         stageName = team["stageName"]
         group = team.get("group") or "LEAGUE"
-        numQualifiers = team["numQualifiers"]
+        numQualifiers = team.pop("numQualifiers", None)
+        nextBestTeam = team.pop("nextBestTeam", None)
 
         if stageOrder not in standings:
             standings[stageOrder] = {
@@ -375,8 +379,14 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
                 "stageStatus": stageStatus,
                 "stageOrder": stageOrder,
                 "numQualifiers": numQualifiers,
-                "groups": {}
+                "hasPreseededTeams": False,
+                "groups": {},
+                **({"nextBestTeam": nextBestTeam} if nextBestTeam is not None else {})
             }
+
+        # Let the frontend know whether this stage needs a qualification picture.
+        if team.get("preseededTeamId"):
+            standings[stageOrder]["hasPreseededTeams"] = True
         
         if group not in standings[stageOrder]["groups"]:
             standings[stageOrder]["groups"][group] = []
@@ -386,7 +396,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
     # # Sort stages by stageOrder (your data is a list, not dict)
     sorted_standings = [standings[key] for key in sorted(standings.keys())]
 
-    if tournament["format"] == "TEST":
+    if tournament["format"] == "Test":
         sort_key = lambda team: (
             team.get("played", 0) == 0,
             -team.get("pointsPercentage", 0),
@@ -566,7 +576,10 @@ def confirmTeamsForGroupStageBasic(tournamentId, stageToConfirm):
 
     operations = []
 
-    for team in stageTeams:    
+    for team in stageTeams:  
+        if "teamFromPreviousStage" not in team:
+            continue    
+          
         group_name = team.get("teamFromStandingsGroup", "LEAGUE")
                 
         standingsGroup = prevStageGroups[group_name]
@@ -617,19 +630,274 @@ def ordinal(n):
    
 
 def confirmTeamsForGroupStageWithPreseeding(tournamentId, stageOrder, currentStage):
+    # Restore original preseeded teams so a prior qualifier replacement isn't
+    # mistaken for an original seed during reconfirmation.
     stageTeams_collection.update_many(
         {"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])},
         [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
     )
 
+    # Retrieve the previous stage's standings to determine which teams qualified for this stage.
     previousStageStandings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
 
+    # Get the groups from the previous stage's standings
     prevStageGroups = previousStageStandings["standings"][0]["groups"]
 
-    for key, val in prevStageGroups.items():
-        groupName = key 
-        teams = val
+    previousStage = stages_collection.find_one({"tournamentId": tournamentId, "order": stageOrder - 1})
 
+    if previousStage["type"] == "group" and previousStage["config"]["qualifiersPerGroup"] == 2:
+        handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups)
+    elif previousStage["type"] == "group" and previousStage["config"]["qualifiersPerGroup"] == 3:
+        handle3TeamPreseedingWithNextBest(tournamentId, currentStage, previousStage, prevStageGroups)
+    else:
+        raise ValueError(f"Unsupported pre-seeding configuration: {previousStage['type']} with {previousStage['config']['qualifiersPerGroup']} qualifiers per group")
+
+def handle3TeamPreseedingWithNextBest(tournamentId, currentStage, previousStage, prevStageGroups):
+    qualifiersPerGroup = previousStage["config"]["qualifiersPerGroup"]
+
+    groupAQualifiers = []
+    groupBQualifiers = []
+
+    groupToArray = {'A': groupAQualifiers, 'B': groupBQualifiers}
+
+    qualifierIds = set()
+    qualifierIdList = []
+
+    for groupName, teams in prevStageGroups.items():
+       if verbose:
+            print(
+                f"PRESEED: Group {groupName} qualification candidates "
+                f"(team, points, wins, NRR): "
+                f"{[(team['teamId'], team['points'], team['won'], team['netRunRate']) for team in teams[:qualifiersPerGroup + 1]]}"
+            )
+
+       for i in range(qualifiersPerGroup+1):
+            groupToArray[groupName].append(teams[i])
+            qualifierIds.add(teams[i]["teamDbId"])
+            qualifierIdList.append(teams[i]["teamDbId"])
+
+    nextBestGroupATeam = groupAQualifiers[qualifiersPerGroup]
+    nextBestGroupBTeam = groupBQualifiers[qualifiersPerGroup]
+
+    if (
+        nextBestGroupATeam["points"],
+        nextBestGroupATeam["won"],
+        nextBestGroupATeam["netRunRate"]
+    ) > (
+        nextBestGroupBTeam["points"],
+        nextBestGroupBTeam["won"],
+        nextBestGroupBTeam["netRunRate"]
+    ):
+        eliminatedTeam = nextBestGroupBTeam
+        groupBQualifiers.pop()
+    else:
+        eliminatedTeam = nextBestGroupATeam
+        groupAQualifiers.pop()
+
+    qualifierIds.remove(eliminatedTeam["teamDbId"])
+    qualifierIdList.remove(eliminatedTeam["teamDbId"])
+
+    if verbose:
+        print(
+            f"PRESEED: After eliminating {eliminatedTeam['teamId']} from the fourth-place comparison, "
+            f"qualifiers are Group A: {[team['teamId'] for team in groupAQualifiers]}, "
+            f"Group B: {[team['teamId'] for team in groupBQualifiers]}"
+        )
+
+    # Compare the list count with the existing set count to detect missing or duplicate IDs.
+    if len(qualifierIdList) != 7 or len(qualifierIds) != 7:
+        raise ValueError(
+            "Expected exactly 7 unique qualifying team IDs; "
+            f"found {len(qualifierIdList)} IDs: {qualifierIdList}"
+        )
+
+    # Retrieve all stage teams and their ids
+    seededTeams = list(
+        stageTeams_collection.find(
+            {"tournamentId": tournamentId, "stageId": currentStage["_id"]}
+        ).sort("seedToGroupMapping", 1)
+    )
+    seededIds = {team["teamId"] for team in seededTeams}
+
+    # Qualifying teams that werent seeded
+    qualifyingTeamIdsNotSeeded = qualifierIds - seededIds
+
+    # All exact pre-seeded teams qualified, confirm their spots
+    if len(qualifyingTeamIdsNotSeeded) == 0:
+        if verbose:
+            print(f"All seeded teams qualified, confirming as-is")
+
+        stageTeams_collection.update_many(
+            {"tournamentId": tournamentId, "stageId": currentStage["_id"]},
+            {
+                "$set": {
+                    "confirmed": True
+                }
+            })
+
+        return
+
+    # Qualifying teams that were seeded
+    qualifyingTeamIdsSeeded = seededIds & qualifierIds
+
+    def slot(team):
+        return None if team["teamId"] in qualifyingTeamIdsSeeded else team
+
+    groupA = [slot(t) for t in seededTeams if t["seedToGroupMapping"].startswith("A")]
+    groupB = [slot(t) for t in seededTeams if t["seedToGroupMapping"].startswith("B")]
+    groupASlotMappings = [t["seedToGroupMapping"] for t in seededTeams if t["seedToGroupMapping"].startswith("A")]
+    groupBSlotMappings = [t["seedToGroupMapping"] for t in seededTeams if t["seedToGroupMapping"].startswith("B")]
+
+    def slot_standing(team):
+        return None if team["teamDbId"] in qualifyingTeamIdsSeeded else team
+
+    currentGroupA = [slot_standing(t) for t in groupAQualifiers]
+    currentGroupB = [slot_standing(t) for t in groupBQualifiers]
+
+    groupAPointer = 0
+
+    # Each entry maps an unqualified pre-seeded slot ID to the qualified team's database ID.
+    mods = []
+
+    for i in range(len(currentGroupA)):
+        team = currentGroupA[i]
+
+        if verbose:
+            print(
+                f"PRESEED: Group A qualifier {i + 1}: "
+                f"{team['teamId'] if team is not None else 'already pre-seeded'}; "
+                f"A slots={[(mapping, 'open' if slot is not None else 'occupied') for mapping, slot in zip(groupASlotMappings, groupA)]}; "
+                f"B slots={[(mapping, 'open' if slot is not None else 'occupied') for mapping, slot in zip(groupBSlotMappings, groupB)]}"
+            )
+
+        if team != None:
+            while groupAPointer < 3 and groupA[groupAPointer] == None:
+                if verbose:
+                    print(f"PRESEED: Skipping occupied Group A slot {groupASlotMappings[groupAPointer]}")
+                groupAPointer += 1
+
+            if groupAPointer < 3:
+                if verbose:
+                    print(
+                        f"PRESEED: Placing Group A qualifier {team['teamId']} in "
+                        f"{groupA[groupAPointer]['seedToGroupMapping']}"
+                    )
+                mods.append((groupA[groupAPointer]["teamId"],team["teamDbId"]))
+                groupA[groupAPointer] = None
+                currentGroupA[i] = None
+            # If we are trying to slot a team and no slot remains in group A, we pivot to the lowest available slot in Group B
+            else:
+                groupBPointer = len(groupB) - 1
+
+                if verbose:
+                    print(
+                        f"PRESEED: No A slot remains for {team['teamId']}; "
+                        f"searching Group B from lowest-ranked slot: "
+                        f"{[(mapping, 'open' if slot is not None else 'occupied') for mapping, slot in zip(groupBSlotMappings, groupB)]}"
+                    )
+
+                while groupB[groupBPointer] == None:
+                    if verbose:
+                        print(f"PRESEED: Skipping occupied Group B slot {groupBSlotMappings[groupBPointer]}")
+                    groupBPointer -= 1
+
+                if verbose:
+                    print(
+                        f"PRESEED: Placing Group A qualifier {team['teamId']} in "
+                        f"{groupB[groupBPointer]['seedToGroupMapping']}"
+                    )
+                mods.append((groupB[groupBPointer]["teamId"], team["teamDbId"]))
+                groupB[groupBPointer] = None
+                currentGroupA[i] = None
+
+
+    groupBPointer = 0
+
+    for i in range(len(currentGroupB)):
+        team = currentGroupB[i]
+
+        if verbose:
+            print(
+                f"PRESEED: Group B qualifier {i + 1}: "
+                f"{team['teamId'] if team is not None else 'already pre-seeded'}; "
+                f"B slots={[(mapping, 'open' if slot is not None else 'occupied') for mapping, slot in zip(groupBSlotMappings, groupB)]}"
+            )
+
+        if team != None:
+            while groupBPointer < len(groupB) and groupB[groupBPointer] == None:
+                if verbose:
+                    print(
+                        f"PRESEED: Skipping occupied Group B slot {groupBSlotMappings[groupBPointer]}"
+                    )
+                groupBPointer += 1
+
+            if groupBPointer == len(groupB):
+                raise ValueError(
+                    f"No open Group B slot for {team['teamId']}; "
+                    f"slots={[(mapping, 'open' if slot is not None else 'occupied') for mapping, slot in zip(groupBSlotMappings, groupB)]}; "
+                    f"assignments so far={mods}"
+                )
+
+            if verbose:
+                print(
+                    f"PRESEED: Placing Group B qualifier {team['teamId']} in "
+                    f"{groupB[groupBPointer]['seedToGroupMapping']}"
+                )
+            mods.append((groupB[groupBPointer]["teamId"],team["teamDbId"]))
+            groupB[groupBPointer] = None
+            currentGroupB[i] = None
+
+    expectedQualifierCount = 7
+    replacementTeamIds = [newTeamDbId for _, newTeamDbId in mods]
+    alreadySeededTeamIds = list(qualifyingTeamIdsSeeded)
+    allQualifiedTeamIds = replacementTeamIds + alreadySeededTeamIds
+
+    # Ensure the replacements and already-seeded qualifiers together account for all seven spots.
+    if len(mods) + len(qualifyingTeamIdsSeeded) != expectedQualifierCount:
+        raise ValueError(
+            f"Expected {expectedQualifierCount} qualified teams, but found "
+            f"{len(mods)} replacements and {len(qualifyingTeamIdsSeeded)} already-seeded teams"
+        )
+
+    # Ensure no team appears more than once in the final qualifier list.
+    if len(allQualifiedTeamIds) != len(set(allQualifiedTeamIds)):
+        raise ValueError(f"Duplicate qualified team IDs found: {allQualifiedTeamIds}")
+
+    # Replace each non-qualifying seeded team with its assigned qualifier and confirm the slot.
+    replacementOperations = []
+    for slotTeamId, newTeamDbId in mods:
+        replacementOperations.append(
+            UpdateOne(
+                {
+                    "tournamentId": tournamentId,
+                    "stageId": currentStage["_id"],
+                    "teamId": slotTeamId,
+                },
+                {"$set": {"teamId": newTeamDbId, "confirmed": True}}
+            )
+        )
+
+    # Already-qualified seeds keep their IDs; only mark their stage-team records confirmed.
+    seededConfirmationOperations = []
+    for teamId in alreadySeededTeamIds:
+        seededConfirmationOperations.append(
+            UpdateOne(
+                {
+                    "tournamentId": tournamentId,
+                    "stageId": currentStage["_id"],
+                    "teamId": teamId,
+                },
+                {"$set": {"confirmed": True}}
+            )
+        )
+
+    # Apply replacements and confirmations together in one database round trip.
+    stageTeamOperations = replacementOperations + seededConfirmationOperations
+    stageTeams_collection.bulk_write(stageTeamOperations)
+
+
+def handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups):
+    for groupName, teams in prevStageGroups.items():
         # Get the top 2 teams from the previous stage's group
         firstPlaceTeam = teams[0]
         secondPlaceTeam = teams[1]
@@ -941,12 +1209,70 @@ def propagate_match_clear(earliest_stage, t_id, tournament):
             else:
                 # Otherwise, completely wipe all team stats and qualifications for future stages
                 if nextStage["type"] == "group":
-                    # Revert group stages back to their original pre-seeded teams (or null) and reset stats
+                    
+                    # A dynamic slot is a slot whose team will be determined by the previous stage.
+                    # Check whether the teamFromPreviousStage field exists on the stage team.
+                    dynamic_slot = {
+                        "$ne": [{"$type": "$teamFromPreviousStage"}, "missing"]
+                    }
+
                     stageTeams_collection.update_many(
+                        # Only update stage teams belonging to this tournament and the next stage.
                         {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
-                        [{"$set": {"teamId": {"$ifNull": ["$preseededTeamId", None]}, "confirmed": False,
-                        "matchesPlayed": 0, "points": 0, "won": 0, "lost": 0, "noResult": 0,
-                        "runsScored": 0, "runsConceded": 0, "ballsBowled": 0, "ballsFaced": 0}}]
+                        [{
+                            "$set": {
+                                # Set the team assigned to this slot.
+                                #
+                                # 1. If the slot has a preseeded team, use the preseeded team.
+                                # 2. Otherwise, if this is a dynamic slot, clear teamId because
+                                #    the actual team will be determined from the previous stage.
+                                # 3. Otherwise, keep the existing teamId.
+                                "teamId": {
+                                    "$ifNull": [
+                                        "$preseededTeamId",
+                                        {
+                                            "$cond": [
+                                                dynamic_slot,
+                                                None,
+                                                "$teamId"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                # Only explicitly set confirmed to False for slots that need to
+                                # wait for team assignment:
+                                #
+                                # 1. Preseeded team -> not confirmed yet.
+                                # 2. Dynamic slot -> not confirmed until the previous-stage team
+                                #    is determined.
+                                # 3. Normal existing team -> do not modify the confirmed field.
+                                #
+                                # $$REMOVE prevents confirmed from being changed/created in case 3.
+                                "confirmed": {
+                                    "$cond": [
+                                        {"$ifNull": ["$preseededTeamId", False]},
+                                        False,
+                                        {
+                                            "$cond": [
+                                                dynamic_slot,
+                                                False,
+                                                "$$REMOVE"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                # Reset all match/statistics data for the next stage.
+                                "matchesPlayed": 0,
+                                "points": 0,
+                                "won": 0,
+                                "lost": 0,
+                                "noResult": 0,
+                                "runsScored": 0,
+                                "runsConceded": 0,
+                                "ballsBowled": 0,
+                                "ballsFaced": 0
+                            }
+                        }]
                     )
                 else:
                     # Clear knockout stage team slots entirely, omit runs and balls fields for ICC WTC

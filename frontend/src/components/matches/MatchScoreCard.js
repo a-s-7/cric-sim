@@ -469,7 +469,7 @@ function MatchScoreCard({
 
             return `${scores[teamBattingFirst].name} won by ${runsMargin} ${runsMargin === 1 ? 'run' : 'runs'}\n${dlsSuffix}`;
         } else {
-            return `Match Tied\n${selected === "Home-win" ? scores["Home"].name : scores["Away"].name} won the ${format === "HUNDRED" ? "Super Five" : "Super Over"}`;
+            return `Match Tied\n${selected === "Home-win" ? scores["Home"].name : scores["Away"].name} won the ${inningsBalls === 100 ? "Super Five" : "Super Over"}`;
         }
 
     }
@@ -487,7 +487,7 @@ function MatchScoreCard({
             parsedScores.homeBallsValue > 0 && parsedScores.awayBallsValue > 0 &&
             parsedScores.homeRunsValue === parsedScores.awayRunsValue;
 
-        if (isTied && format === "HUNDRED" && stage === "Group Stage") {
+        if (isTied && inningsBalls === 100 && stage === "Group Stage") {
             return 'Match Tied';
         }
 
@@ -701,7 +701,7 @@ function MatchScoreCard({
                                         {/* Home Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
-                                            mode={format === "HUNDRED" ? "balls" : "overs"}
+                                            mode={inningsBalls === 100 ? "balls" : "overs"}
                                             max={inningsBalls}
                                             value={homeMaxBalls}
                                             onChange={async (balls) => {
@@ -721,7 +721,7 @@ function MatchScoreCard({
                                     {/* Home Team Balls */}
                                     <BallsInput
                                         width="4.5ch"
-                                        mode={format === "HUNDRED" ? "balls" : "overs"}
+                                        mode={inningsBalls === 100 ? "balls" : "overs"}
                                         max={homeMaxBalls}
                                         value={homeBalls === 0 ? '' : (homeBalls ?? '')}
                                         onChange={(balls) => {
@@ -934,7 +934,7 @@ function MatchScoreCard({
                                 <div className="flex justify-start shrink-0">
                                     <BallsInput
                                         width="4.5ch"
-                                        mode={format === "HUNDRED" ? "balls" : "overs"}
+                                        mode={inningsBalls === 100 ? "balls" : "overs"}
                                         max={awayMaxBalls}
                                         value={awayBalls === 0 ? '' : (awayBalls ?? '')}
                                         onChange={(balls) => {
@@ -950,7 +950,7 @@ function MatchScoreCard({
                                         {/* Away Team Max Balls */}
                                         <BallsInput
                                             width="3ch"
-                                            mode={format === "HUNDRED" ? "balls" : "overs"}
+                                            mode={inningsBalls === 100 ? "balls" : "overs"}
                                             max={inningsBalls}
                                             value={awayMaxBalls}
                                             onChange={async (balls) => {

@@ -1,45 +1,170 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TOURNAMENT_ENDPOINTS from "../api/tournaments_endpoints";
+import Spinner from "../components/Spinner";
+import TournamentEmptyState from "../components/TournamentEmptyState";
+import TournamentGroups from "../components/TournamentGroups";
+import TournamentFilterBar from "../components/TournamentFilterBar";
+import TournamentsControlBar from "../components/TournamentsControlBar";
 
 function TournamentsPage() {
     const navigate = useNavigate();
 
-    const [tournaments, setTournaments] = useState({ grouped: false, tournaments: [] });
-
-    const [activeView, setActiveView] = useState(0);
-    const [activeGender, setActiveGender] = useState(0);
-
-    const views = ["All", "Events", "Leagues"];
-    const genders = ["All", "Mens", "Womens"];
-
     const TOURNAMENTS_URL = TOURNAMENT_ENDPOINTS.tournaments;
+    
+    const [tournaments, setTournaments] = useState([]);
 
-    const fetchTournaments = useCallback(async (viewIndex, genderIndex) => {
-        setActiveView(viewIndex);
-        setActiveGender(genderIndex);
+    const [groupField, setGroupField] = useState("all");
+    const [closedGroups, setClosedGroups] = useState({});
 
-        const params = new URLSearchParams();
-        params.set("grouped", "false");
+    const [viewMode, setViewMode] = useState("icon"); // "icon" | "card"
 
-        if (viewIndex === 0) {
-            params.set("category", "all");
-        } else if (viewIndex === 1) {
-            params.set("category", "international");
-        } else {
-            params.set("category", "franchise");
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const [sortField, setSortField] = useState("endDate");
+    const [sortOrder, setSortOrder] = useState("desc");
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const [showFilterBar, setShowFilterBar] = useState(false);
+
+    const [selectedStatuses, setSelectedStatuses] = useState([]);
+    const [selectedGenders, setSelectedGenders] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedFormats, setSelectedFormats] = useState([]);
+    const [dateRange, setDateRange] = useState({ start: null, end: null });
+
+    const categoryMap = {
+        events: "international",
+        leagues: "franchise"
+    };
+
+    const reverseCategoryMap = {
+        international: "events",
+        franchise: "leagues"
+    };
+
+     const statusOrder = {
+        active: 0,
+        upcoming: 1,
+        complete: 2
+    };
+
+    const formatOrder = {
+        Test: 3,
+        ODI: 1,
+        T20: 0,
+    };
+
+    const isDateRangeActive = Boolean(dateRange.start || dateRange.end);
+
+    const activeFiltersCount =
+        selectedStatuses.length +
+        selectedGenders.length +
+        selectedCategories.length +
+        selectedFormats.length +
+        (isDateRangeActive ? 1 : 0);
+
+    const hasActiveControls = activeFiltersCount > 0;
+    const hasSearchQuery = searchQuery.trim().length > 0;
+
+    const handleClearFilters = () => {
+        setSelectedStatuses([]);
+        setSelectedGenders([]);
+        setSelectedCategories([]);
+        setSelectedFormats([]);
+        setDateRange({ start: null, end: null });
+    };
+
+    const handleClearSearchAndFilters = () => {
+        handleClearFilters();
+        setSearchQuery("");
+    };
+
+    const getFilteredTournaments = () => {
+        const filtered = tournaments.filter((tournament) => {
+            const search = searchQuery.toLowerCase().trim();
+            const searchableText = `${tournament.name} ${tournament.edition} ${tournament.acronym}`.toLowerCase();
+
+            const normalizeDate = (val) => {
+                if (!val) return null;
+                const time = Date.parse(val);
+                if (Number.isNaN(time)) return null;
+                return new Date(time).toISOString().slice(0, 10);
+            };
+
+            const matchesDateRange = () => {
+                if (!dateRange.start && !dateRange.end) return true;
+                const tStart = normalizeDate(tournament.startDate);
+                const tEnd = normalizeDate(tournament.endDate) || tStart;
+
+                if (!tStart && !tEnd) return false;
+
+                if (dateRange.start && tEnd && tEnd < dateRange.start) return false;
+                if (dateRange.end && tStart && tStart > dateRange.end) return false;
+                return true;
+            };
+
+            return (
+                (search.length === 0 ||
+                    search.split(/\s+/).every(token =>
+                        searchableText.includes(token)
+                    )) &&
+                (selectedStatuses.length === 0 ||
+                    selectedStatuses.includes(tournament.status)) &&
+                (selectedGenders.length === 0 ||
+                    selectedGenders.includes(tournament.division)) &&
+                (selectedCategories.length === 0 ||
+                    selectedCategories.some(category => categoryMap[category] === tournament.category)) &&
+                (selectedFormats.length === 0 ||
+                    selectedFormats.includes(tournament.format)) &&
+                matchesDateRange()
+            );
+        });
+
+        if (sortOrder) {
+            const direction = sortOrder === "asc" ? 1 : -1;
+
+            return [...filtered].sort((a, b) => {
+                if (sortField === "name") {
+                    const nameComparison = (a.name || "").localeCompare(b.name || "");
+                    const editionComparison = (a.edition || "").localeCompare(b.edition || "");
+
+                    return direction * (nameComparison || editionComparison);
+                }
+
+                const aDate = Date.parse(a[sortField]);
+                const bDate = Date.parse(b[sortField]);
+                const aHasValidDate = Number.isFinite(aDate);
+                const bHasValidDate = Number.isFinite(bDate);
+
+                if (!aHasValidDate || !bHasValidDate) {
+                    if (aHasValidDate === bHasValidDate) {
+                        return (a.name || "").localeCompare(b.name || "");
+                    }
+
+                    return aHasValidDate ? -1 : 1;
+                }
+
+                const dateComparison = aDate - bDate;
+                const nameComparison = (a.name || "").localeCompare(b.name || "");
+
+                return direction * (dateComparison || nameComparison);
+            });
         }
 
-        if (genderIndex === 0) {
-            params.set("division", "all");
-        } else if (genderIndex === 1) {
-            params.set("division", "mens");
-        } else {
-            params.set("division", "womens");
-        }
+        return filtered;
+    };
 
+    const fetchTournaments = useCallback(async ({ silent = false } = {}) => {
         try {
-            const response = await fetch(`${TOURNAMENTS_URL}?${params.toString()}`);
+            if (silent) {
+                setIsRefreshing(true);
+            } else {
+                setIsLoading(true);
+            }
+            const response = await fetch(TOURNAMENTS_URL);
             if (!response.ok) {
                 throw new Error("Response was not ok");
             }
@@ -47,89 +172,135 @@ function TournamentsPage() {
             setTournaments(result);
         } catch (error) {
             console.error("Error fetching data:", error);
+        } finally {
+            if (silent) {
+                setIsRefreshing(false);
+            } else {
+                setIsLoading(false);
+            }
         }
     }, [TOURNAMENTS_URL]);
 
     useEffect(() => {
-        fetchTournaments(0, 0);
+        fetchTournaments();
     }, [fetchTournaments]);
 
+    const filteredTournaments = getFilteredTournaments();
+
+    const groupedTournaments = filteredTournaments.reduce((groups, tournament) => {
+        const keyMap = { "status": tournament.status, "gender": tournament.division, "format": tournament.format, "category": reverseCategoryMap[tournament.category], "name": tournament.name };
+
+        const key = keyMap[groupField];
+
+        if (!groups[key]) {
+            groups[key] = [];
+        }
+
+        groups[key].push(tournament);
+
+        return groups;
+    }, {});
+
+    const sortedGroups = Object.entries(groupedTournaments).sort((a, b) => {
+        if (groupField === "status") {
+            return statusOrder[a[0]] - statusOrder[b[0]];
+        }
+
+        if (groupField === "format") {
+            return formatOrder[a[0]] - formatOrder[b[0]];
+        }
+
+        return a[0].localeCompare(b[0]);
+    });
+
+    const toggleGroup = (group) => {
+        setClosedGroups((prev) => ({
+            ...prev,
+            [group]: !prev[group]
+        }));
+    };
+
+    const groupNames = sortedGroups.map(([group]) => group);
+
+    const allClosed = groupNames.every((group) => closedGroups[group]);
+
+    const toggleAll = () => {
+        setClosedGroups(
+            Object.fromEntries(groupNames.map((group) => [group, !allClosed]))
+        );
+    };
+
+    const handleTournamentClick = (tournament) => {
+        navigate("/tournaments/" + tournament.baseId);
+    }
+
+    const categoryFrontendOptions = ["events", "leagues"];
+    const statusOptions = ["upcoming", "active", "complete"];
+    const genderOptions = ["mens", "womens"];
+    const formatOptions = ["T20", "ODI", "Test"]
+
+    const filterGroups = [
+        { label: "Status", options: statusOptions, state: selectedStatuses, setter: setSelectedStatuses },
+        { label: "Gender", options: genderOptions, state: selectedGenders, setter: setSelectedGenders },
+        { label: "Format", options: formatOptions, state: selectedFormats, setter: setSelectedFormats },
+        { label: "Category", options: categoryFrontendOptions, state: selectedCategories, setter: setSelectedCategories }
+    ];
+
     return (
-        <div className="flex-1 overflow-y-auto no-scrollbar p-4 bg-gray-50 font-['Reem_Kufi_Fun']">
-            <div className="space-y-4">
-                <div className="relative items-center h-16">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex rounded-full w-[400px] border border-gray-200 shadow-inner bg-gray-100/50 h-12 p-1 items-center ">
-                        <div
-                            className="absolute transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full shadow-md"
-                            style={{
-                                width: `calc((100% - 8px) / 3)`,
-                                left: `calc(4px + ${activeGender} * (100% - 8px) / 3)`,
-                                height: 'calc(100% - 8px)',
-                                background: 'black',
-                            }}
+        <div className="flex-1 overflow-y-auto bg-gray-50 font-['Nunito_Sans']">
+            <div className="flex flex-col h-full min-h-0">
+                <TournamentsControlBar
+                    groupField={groupField}
+                    setGroupField={setGroupField}
+                    toggleAll={toggleAll}
+                    allClosed={allClosed}
+                    viewMode={viewMode}
+                    setViewMode={setViewMode}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    sortField={sortField}
+                    setSortField={setSortField}
+                    sortOrder={sortOrder}
+                    setSortOrder={setSortOrder}
+                    fetchTournaments={fetchTournaments}
+                    isRefreshing={isRefreshing}
+                    showFilterBar={showFilterBar}
+                    setShowFilterBar={setShowFilterBar}
+                    activeFiltersCount={activeFiltersCount}
+                />
+
+                <TournamentFilterBar
+                    showFilterBar={showFilterBar}
+                    filterGroups={filterGroups}
+                    handleClearFilters={handleClearFilters}
+                    hasActiveControls={hasActiveControls}
+                    dateRange={dateRange}
+                    setDateRange={setDateRange}
+                />
+
+                <div className="[scrollbar-gutter:stable] flex w-full flex-1 min-h-0 flex-col overflow-y-auto bg-white">
+                    {isLoading ? (
+                        <Spinner key="loading" className="animate-fadeIn" />
+                    ) : filteredTournaments.length === 0 ? (
+                        <TournamentEmptyState
+                            hasActiveControls={hasActiveControls}
+                            hasSearchQuery={hasSearchQuery}
+                            onClear={handleClearSearchAndFilters}
                         />
-                        {genders.map((gender, indexG) => (
-                            <button
-                                key={gender}
-                                onClick={() => fetchTournaments(activeView, indexG)}
-                                className={`relative z-10 flex-1 h-full text-[13px] font-bold uppercase tracking-widest transition-colors duration-300 ${activeGender === indexG
-                                    ? "text-white"
-                                    : "text-gray-500 hover:text-gray-800"
-                                    }`}
-                            >
-                                {gender}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex rounded-full w-[400px] border border-gray-200 shadow-inner bg-gray-100/50 h-12 p-1 items-center ">
-                        <div
-                            className="absolute transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full shadow-md"
-                            style={{
-                                width: `calc((100% - 8px) / 3)`,
-                                left: `calc(4px + ${activeView} * (100% - 8px) / 3)`,
-                                height: 'calc(100% - 8px)',
-                                background: 'black',
-                            }}
+                    ) : (
+                        <TournamentGroups
+                            sortedGroups={sortedGroups}
+                            toggleGroup={toggleGroup}
+                            groupField={groupField}
+                            closedGroups={closedGroups}
+                            viewMode={viewMode}
+                            handleTournamentClick={handleTournamentClick}
                         />
-                        {views.map((view, index) => (
-                            <button
-                                key={view}
-                                onClick={() => fetchTournaments(index, activeGender)}
-                                className={`relative z-10 flex-1 h-full text-[13px] font-bold uppercase tracking-widest transition-colors duration-300 ${activeView === index
-                                    ? "text-white"
-                                    : "text-gray-500 hover:text-gray-800"
-                                    }`}
-                            >
-                                {view}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-                <div className="w-full grid grid-cols-9 gap-5">
-                    {!tournaments["grouped"] &&
-                        tournaments["tournaments"].map((tournament, index) => (
-                            <div
-                                onClick={() => navigate("/tournaments/" + tournament["baseId"])}
-                                key={tournament["baseId"] + "-" + index}
-                                className="rounded-3xl border border-gray-300 
-                                            shadow-lg shadow-gray-400 hover:shadow-xl hover:shadow-gray-500
-                                            hover:scale-105 transition-all duration-300 
-                                            cursor-pointer w-full aspect-square flex items-center justify-center relative"
-                                style={{ backgroundColor: tournament["tileBackgroundColor"] }}
-                            >
-                                <img
-                                    src={tournament["mainLogo"]}
-                                    alt={tournament["name"]}
-                                    className={`${tournament["category"] === "franchise" ? "h-[55%] w-[55%]" : "h-[65%] w-[65%]"} object-contain`}
-                                />
-                                {tournament["category"] === "franchise" && <div className="absolute font-['Outfit'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
-                                    {tournament["edition"]}
-                                </div>}
-                            </div>
-                        ))}
+                    )}
                 </div>
             </div>
         </div>
+
     );
 }
 

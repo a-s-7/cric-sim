@@ -15,7 +15,7 @@ def get_match_result(context, sample=None):
 
     google_search_tool = Tool(google_search=GoogleSearch())
 
-    if context["format"] != "TEST":
+    if context["format"] != "Test":
         prompt = f"""
     You are a limited-overs cricket match data retrieval agent. 
     

@@ -2,7 +2,7 @@ from utils import find_limited_overs_tournament, find_wtc_tournament
 from services import match_service
 
 def simulate_match(tournament_id, match_num, format, match_result):
-    if format == "TEST":
+    if format == "Test":
         simulate_wtc_match(tournament_id, match_num, match_result)
     else: 
         simulate_limited_overs_match(tournament_id, match_num, match_result)

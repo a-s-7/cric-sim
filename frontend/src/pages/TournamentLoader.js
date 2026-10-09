@@ -41,6 +41,7 @@ function TournamentLoader() {
             tournamentPointsTableColor={tournament.pointsTableColor}
             tournamentStructure={tournament.structure}
             tournamentFormat={tournament.format}
+            tournamentBallsPerInnings={tournament.ballsPerInnings}
         />
     );
 }

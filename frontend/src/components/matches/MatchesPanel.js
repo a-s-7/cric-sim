@@ -56,10 +56,10 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
 
             <div className="relative mx-2 flex h-16 flex-row items-center justify-between overflow-hidden rounded-2xl transition-all duration-500" style={hasPodium || hasChampion ? { padding: "8px 16px" } : {}}>
                 <div className="relative z-10 flex items-center gap-4 drop-shadow-md">
-                    <h3 className="text-3xl font-bold text-black font-['Kanit'] uppercase" style={hasPodium || hasChampion ? { color: "white" } : {}}>
+                    <h3 className="text-2xl font-bold text-black font-['Reem_Kufi'] uppercase" style={hasPodium || hasChampion ? { color: "white" } : {}}>
                         MATCHES
                     </h3>
-                    <span className="text-xl font-light font-['Kanit']" style={hasPodium || hasChampion ? { color: "rgba(255, 255, 255, 0.7)" } : { color: "rgba(0, 0, 0, 0.5)" }}>
+                    <span className="text-xl font-light font-['Nunito_Sans']" style={hasPodium || hasChampion ? { color: "rgba(255, 255, 255, 0.7)" } : { color: "rgba(0, 0, 0, 0.5)" }}>
                         ({matchesArray.length})
                     </span>
                 </div>
@@ -125,12 +125,12 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
             </div>
 
             <div className="flex-1 flex flex-col overflow-hidden">
-                <div className={`flex-1 ${structure === "knockout" ? "grid grid-cols-2 gap-4 content-start" : "flex flex-col gap-8"} px-2 pt-0 pb-2 overflow-y-auto no-scrollbar mt-2`}>
+                <div className={`[scrollbar-gutter:stable] flex-1 ${structure === "knockout" ? "grid grid-cols-2 gap-4 content-start" : "flex flex-col gap-8"} px-2 pt-0 pb-2 overflow-y-auto mt-2`}>
                     {matchesArray && matchesArray.map(match => (
                         <div key={`${match.matchNumber}`}
                             ref={match.matchNumber === currentMatch?.matchNumber ? currentMatchRef : null}>
                             {((match.stageStatus === "locked" || match.status === "complete") ? true : (match.stage === "Playoffs" || match.stage === "Medal Playoffs" || match.stage === "Semi-final" || match.stage === "Final") ? match.awayStageTeam && match.homeStageTeam ? false : true : false) ?
-                                (format === "TEST" ? <MatchCardDisplay
+                                (format === "Test" ? <MatchCardDisplay
                                     tournamentID={tournamentId}
                                     tournamentName={tournamentName}
                                     tournamentEdition={tournamentEdition}
@@ -202,7 +202,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                                         target={match.target}
                                         targetOvertaken={match.targetOvertaken}
                                     />) :
-                                (format === "TEST" ?
+                                (format === "Test" ?
                                     <MatchCard
                                         tournamentID={tournamentId}
                                         tournamentName={tournamentName}

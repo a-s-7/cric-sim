@@ -9,11 +9,7 @@ tournament_service_bp = Blueprint('tournament_service_bp', __name__)
 
 @tournament_service_bp.route('/api/tournaments', methods=['GET'])
 def get_tournaments():
-    group_results = request.args.get('grouped', 'false').lower() == 'true'
-    category = request.args.get('category', 'all').lower()
-    division = request.args.get('division', 'all').lower()
-
-    return jsonify(ts.get_tournaments(group_results, category, division))
+    return jsonify(ts.get_tournaments())
 
 @tournament_service_bp.route('/api/tournaments/<string:tournament_base_id>/info', methods=['GET'])
 def get_tournament(tournament_base_id):

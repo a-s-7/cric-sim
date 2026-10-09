@@ -1,45 +1,17 @@
-import React from 'react';
-import { faCaretUp, faCaretDown, faMinus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import StandingsMovementIndicator from "./StandingsMovementIndicator";
 
-function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingleTable, category, format }) {
-    const ballsPerOver = format === "HUNDRED" ? 5 : 6
-
-    const getDiffDisplay = (diff) => {
-        if (diff > 0) {
-            return (
-                <div className="mx-auto w-fit min-w-[36px] flex flex-row items-center justify-center font-['Reem_Kufi_Fun'] px-1.5 py-0.5 rounded-md bg-green-50 text-green-600 border border-green-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-                    <FontAwesomeIcon icon={faCaretUp} size="sm" className="mr-1" />
-                    <span className="font-bold text-[1.4vh] leading-none mt-[1px]">{diff}</span>
-                </div>
-            );
-        } else if (diff < 0) {
-            return (
-                <div className="mx-auto w-fit min-w-[36px] flex flex-row items-center justify-center font-['Reem_Kufi_Fun'] px-1.5 py-0.5 rounded-md bg-red-50 text-red-600 border border-red-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-                    <FontAwesomeIcon icon={faCaretDown} size="sm" className="mr-1" />
-                    <span className="font-bold text-[1.4vh] leading-none mt-[1px]">{diff * -1}</span>
-                </div>
-            );
-        } else {
-            return (
-                <div className="mx-auto w-fit min-w-[36px] flex flex-row items-center justify-center font-['Reem_Kufi_Fun'] px-1.5 py-0.5 rounded-md bg-zinc-50 text-zinc-400 border border-zinc-200">
-                    <FontAwesomeIcon icon={faMinus} size="xs" />
-                </div>
-            );
-        }
-    }
-
+function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, nextBestTeamId, isSingleTable, category, format, ballsPerInnings}) {
     return (
         <table className={`w-full border-separate border-spacing-0 bg-white rounded-[10px] shadow-[0_4px_8px_rgba(0,0,0,0.2)] border border-zinc-200 overflow-hidden table-fixed ${isSingleTable ? 'h-full' : ''}`}>
             <thead style={{ background: headerColor }} className="font-['Reem_Kufi_Fun'] text-white text-center text-[1.75vh] whitespace-nowrap">
                 <tr>
                     <th className="py-2 w-[60px]">POS</th>
                     <th className="py-2 w-[60px]"></th>
-                    <th className={`py-2 ${category === "franchise" ? 'w-[140px]' : format === "TEST" ? 'w-[200px]' : 'w-[240px]'} text-left`}>TEAM</th>
+                    <th className={`py-2 ${category === "franchise" ? 'w-[140px]' : format === "Test" ? 'w-[200px]' : 'w-[240px]'} text-left`}>TEAM</th>
                     <th className="py-2 w-[60px]">GP</th>
                     <th className="py-2 w-[60px]">W</th>
                     <th className="py-2 w-[60px]">L</th>
-                    {format === "TEST" ?
+                    {format === "Test" ?
                         <>
                             <th className="py-2 w-[60px]">D</th>
                             <th className="py-2 w-[60px]">DED</th>
@@ -59,32 +31,40 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, isSingl
             <tbody className="font-['Nunito_Sans']">
                 {pointsTableTeamsData.map((team, index) => {
                     const isTopQualifier = index < topQualifiers;
+                    const isNextBestQualifier = team.teamId === nextBestTeamId;
+                    const displayName = team.confirmed === false
+                        ? team.seed
+                        : category === "franchise" ? team.teamId : team.name;
+                    const ballsPerOver = format === "Test"
+                        ? null
+                        : (Number(ballsPerInnings) === 100 ? 5 : 6);
+
                     return (
-                        <tr key={team.name} className={`${isTopQualifier ? 'bg-gray-100' : ''} group hover:bg-[#e4e4e4] transition-colors duration-200 text-sm`}>
+                        <tr key={team.teamDbId || team.seed} className={`${isTopQualifier ? 'bg-gray-100' : isNextBestQualifier ? 'bg-[#f5f5f5]' : ''} group hover:bg-[#e4e4e4] transition-colors duration-200 text-sm`}>
                             <td
                                 className="text-center py-3 px-2 border-b border-zinc-200 border-l-4 transition-colors font-['Reem_Kufi_Fun'] text-black text-[2.25vh]"
                                 style={{
-                                    borderLeftColor: isTopQualifier ? headerColor : 'transparent',
-                                    fontWeight: isTopQualifier ? 'bold' : 'normal'
+                                    borderLeftColor: isNextBestQualifier ? '#a1a1aa' : isTopQualifier ? headerColor : 'transparent',
+                                    fontWeight: isTopQualifier || isNextBestQualifier ? 'bold' : 'normal'
                                 }}
                             >
                                 {index + 1}.
                             </td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200 italic">
-                                {getDiffDisplay(team.diff)}
+                                <StandingsMovementIndicator diff={team.diff} />
                             </td>
                             <td className="py-1 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] uppercase text-black whitespace-nowrap">
                                 <div className="flex flex-row items-center h-[5vh]">
-                                    <img src={team.logo} alt={team.name + "Logo"} className={`${category === "franchise" ? "w-[4.5vh]" : "w-[3.75vh] border border-zinc-200 bg-red-500"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false ? 'blur(2px)' : 'none' }} />
+                                    <img src={team.logo || "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} alt={`${displayName} logo`} className={`${category === "franchise" ? "w-[4.5vh]" : "w-[3.75vh] border border-zinc-200 bg-red-500"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false && team.logo ? 'blur(2px)' : 'none' }} />
                                     <span className={category === "franchise" ? "text-[1.75vh]" : "text-[1.5vh]"}>
-                                        {team.confirmed === false ? team.seed : category === "franchise" ? team.teamId : team.name}
+                                        {displayName}
                                     </span>
                                 </div>
                             </td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.played}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.won}</td>
                             <td className="text-center py-3 px-2 border-b border-zinc-200">{team.lost}</td>
-                            {format === "TEST" ? (
+                            {format === "Test" ? (
                                 <>
                                     <td className="text-center py-3 px-2 border-b border-zinc-200">{team.draw}</td>
                                     <td className="text-center py-3 px-2 border-b border-zinc-200">{team.deductionPoints}</td>

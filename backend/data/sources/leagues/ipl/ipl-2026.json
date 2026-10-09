@@ -4,21 +4,18 @@
         "division": "mens",
         "category": "franchise",
         "format": "T20",
-        "ballsPerInnings": 120,
-        "matchDurationMinutes": 240,
         "name": "Indian Premier League",
         "acronym": "IPL",
         "edition": "2026",
-        "status": "upcoming",
         "startDate": "2026-03-27",
         "endDate": "2026-05-31",
         "structure": "league",
         "currentStageId": null,
-        "gradient": "linear-gradient(135deg, darkblue, darkblue, orange)",
-        "mainLogo": "https://documents.iplt20.com//ipl/assets/images/ipl-logo-new-old.png",
-        "horizontalLogo": "https://documents.iplt20.com//ipl/assets/images/ipl-logo-new-old.png",
-        "pointsTableColor": "darkblue",
-        "tileBackgroundColor": "#00008B",
+        "gradient": "linear-gradient(135deg, #19388A, #142959, orange)",
+        "mainLogo": "https://www.iplt20.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fjot2qw8s50z1%2F68BTfjWpntEFEBXMhfs9Jf%2F27b791fb9dc3ee514ef5cddb5e6defb8%2Fimage.png&w=256&q=75",
+        "horizontalLogo": "https://www.iplt20.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fjot2qw8s50z1%2F68BTfjWpntEFEBXMhfs9Jf%2F27b791fb9dc3ee514ef5cddb5e6defb8%2Fimage.png&w=256&q=75",
+        "pointsTableColor": "#19388A",
+        "tileBackgroundColor": "#19388A",
         "teams": [
             "CSK",
             "MI",
@@ -79,7 +76,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -89,7 +85,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -99,7 +94,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -109,7 +103,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -119,7 +112,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -129,7 +121,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -139,7 +130,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -149,7 +139,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -159,7 +148,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
@@ -169,7 +157,6 @@
             "won": 0,
             "lost": 0,
             "noResult": 0,
-            "tied": 0,
             "points": 0
         },
         {
