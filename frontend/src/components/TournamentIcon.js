@@ -11,13 +11,13 @@ function TournamentIcon({ tournament, onClick }) {
             <img
                 src={tournament.mainLogo}
                 alt={tournament.name}
-                className={"h-[65%] w-[65%] object-contain"}
+                className={"h-[60%] w-[60%] object-contain"}
             />
-            {isFranchise && (
+            {/* {isFranchise && (
                 <div className="absolute font-['Reem_Kufi'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-2xl border border-white/20 text-white text-xs font-bold shadow-sm whitespace-nowrap">
                     {tournament.edition}
                 </div>
-            )}
+            )} */}
         </div>
     );
 }

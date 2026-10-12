@@ -1,0 +1,637 @@
+{
+    "tournament": {
+        "_id": "bbl-2026-27",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "Big Bash League",
+        "acronym": "BBL",
+        "edition": "2026-27",
+        "startDate": "2026-12-12",
+        "endDate": "2027-01-26",
+        "structure": "league",
+        "gradient": "linear-gradient(135deg, #000000, #000000, #D9A900)",
+        "mainLogo": "https://upload.wikimedia.org/wikipedia/en/c/c0/Big_Bash_League_%28logo%29.png",
+        "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/c/c0/Big_Bash_League_%28logo%29.png",
+        "pointsTableColor": "black",
+        "tileBackgroundColor": "black",
+        "teams": [
+            "STR",
+            "HEA",
+            "HUR",
+            "REN",
+            "STA",
+            "SCO",
+            "SIX",
+            "THU"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 8,
+                "matchesPerTeam": 10,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "STR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "HEA",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "HUR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "REN",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "STA",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SCO",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SIX",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "THU",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "T4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 41
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-K",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 42
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 41
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-C",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 43
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2026-12-12 02:10:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2026-12-15 01:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2026-12-16 01:15:00",
+            "venue": "Manuka Oval",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2026-12-17 01:15:00",
+            "venue": "Ninja Stadium",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2026-12-18 01:15:00",
+            "venue": "Melbourne Cricket Ground",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2026-12-19 01:15:00",
+            "venue": "ENGIE Stadium",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2026-12-20 01:15:00",
+            "venue": "Optus Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2026-12-21 01:15:00",
+            "venue": "Junction Oval",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2026-12-22 01:15:00",
+            "venue": "Sydney Cricket Ground",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2026-12-23 01:15:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2026-12-24 01:15:00",
+            "venue": "Junction Oval",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2026-12-26 00:05:00",
+            "venue": "Sydney Cricket Ground",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2026-12-26 03:15:00",
+            "venue": "Optus Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2026-12-27 01:15:00",
+            "venue": "ENGIE Stadium",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2026-12-28 01:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2026-12-29 01:15:00",
+            "venue": "Ninja Stadium",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2026-12-30 01:15:00",
+            "venue": "Optus Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2026-12-31 01:15:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2026-12-31 22:00:00",
+            "venue": "Melbourne Cricket Ground",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2027-01-01 01:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2027-01-02 01:15:00",
+            "venue": "ENGIE Stadium",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2027-01-03 01:15:00",
+            "venue": "Manuka Oval",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2027-01-04 00:05:00",
+            "venue": "Melbourne Cricket Ground",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2027-01-04 03:15:00",
+            "venue": "Optus Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2027-01-05 01:15:00",
+            "venue": "Ninja Stadium",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2027-01-06 01:15:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2027-01-07 01:15:00",
+            "venue": "Melbourne Cricket Ground",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2027-01-08 01:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2027-01-09 01:15:00",
+            "venue": "University of Tasmania Stadium",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "STR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2027-01-09 20:10:00",
+            "venue": "Sydney Cricket Ground",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 1,
+            "date": "2027-01-10 01:15:00",
+            "venue": "Junction Oval",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "HEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 1,
+            "date": "2027-01-11 01:15:00",
+            "venue": "Manuka Oval",
+            "homeStageTeamId": "THU",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 1,
+            "date": "2027-01-12 01:15:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 1,
+            "date": "2027-01-13 01:15:00",
+            "venue": "Optus Stadium",
+            "homeStageTeamId": "SCO",
+            "awayStageTeamId": "REN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 35,
+            "stageOrder": 1,
+            "date": "2027-01-14 01:15:00",
+            "venue": "Melbourne Cricket Ground",
+            "homeStageTeamId": "STA",
+            "awayStageTeamId": "HUR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 36,
+            "stageOrder": 1,
+            "date": "2027-01-15 01:15:00",
+            "venue": "Sydney Cricket Ground",
+            "homeStageTeamId": "SIX",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 37,
+            "stageOrder": 1,
+            "date": "2027-01-15 22:00:00",
+            "venue": "Adelaide Oval",
+            "homeStageTeamId": "STR",
+            "awayStageTeamId": "SCO",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 38,
+            "stageOrder": 1,
+            "date": "2027-01-16 01:15:00",
+            "venue": "Melbourne Cricket Ground",
+            "homeStageTeamId": "REN",
+            "awayStageTeamId": "STA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 39,
+            "stageOrder": 1,
+            "date": "2027-01-16 19:40:00",
+            "venue": "Ninja Stadium",
+            "homeStageTeamId": "HUR",
+            "awayStageTeamId": "SIX",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 40,
+            "stageOrder": 1,
+            "date": "2027-01-17 01:15:00",
+            "venue": "The Gabba",
+            "homeStageTeamId": "HEA",
+            "awayStageTeamId": "THU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 41,
+            "stageOrder": 2,
+            "date": "2027-01-19 01:30:00",
+            "venue": "TBC",
+            "homeStageTeamId": "T1",
+            "awayStageTeamId": "T2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "The Qualifier"
+        },
+        {
+            "matchNumber": 42,
+            "stageOrder": 2,
+            "date": "2027-01-20 01:30:00",
+            "venue": "TBC",
+            "homeStageTeamId": "T3",
+            "awayStageTeamId": "T4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "The Knockout"
+        },
+        {
+            "matchNumber": 43,
+            "stageOrder": 2,
+            "date": "2027-01-23 01:30:00",
+            "venue": "TBC",
+            "homeStageTeamId": "L-Q",
+            "awayStageTeamId": "W-K",
+            "result": "None",
+            "status": "incomplete",
+            "description": "The Challenger"
+        },
+        {
+            "matchNumber": 44,
+            "stageOrder": 2,
+            "date": "2027-01-26 01:30:00",
+            "venue": "TBC",
+            "homeStageTeamId": "W-Q",
+            "awayStageTeamId": "W-C",
+            "result": "None",
+            "status": "incomplete",
+            "description": "The Final"
+        }
+    ]
+}

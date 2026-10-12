@@ -311,6 +311,70 @@
             "gradient": "linear-gradient(135deg, #17204A, #3567B3, #64AAAE)",
             "type": "franchise",
             "league": "ETPL"
+        },
+        {
+            "acronym": "STR",
+            "name": "Adelaide Strikers",
+            "logo": "https://cdn.worldvectorlogo.com/logos/adelaide-strikers.svg",
+            "gradient": "linear-gradient(135deg, lightblue, lightblue, steelblue)",
+            "type": "franchise",
+            "league": "BBL"
+        },
+        {
+            "acronym": "HEA",
+            "name": "Brisbane Heat",
+            "logo": "https://upload.wikimedia.org/wikipedia/en/8/89/Brisbane_heat.png",
+            "gradient": "linear-gradient(135deg, teal, teal, #002521)",
+            "type": "franchise",
+            "league": "BBL"
+        },
+        {
+            "acronym": "HUR",
+            "name": "Hobart Hurricanes",
+            "logo": "https://resources.hobart-hurricanes.pulselive.com/hobart-hurricanes/document/2023/04/26/b594f8de-da0f-4a1c-a701-0c3691dbaa09/hobart.svg",
+            "gradient": "linear-gradient(135deg, #6D28D9, #6D28D9, #1A001F)",
+            "type": "franchise",
+            "league": "BBL"
+        },
+        {
+            "acronym": "REN",
+            "name": "Melbourne Renegades",
+            "logo": "https://thumb.wikimedia.org/wikipedia/en/thumb/6/63/Melbourne_Renegades_Logo.svg/500px-Melbourne_Renegades_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+            "gradient": "linear-gradient(135deg, #A50000, #A50000, #420000)",
+            "type": "franchise",
+            "league": "BBL"
+        },
+        {
+            "acronym": "STA",
+            "name": "Melbourne Stars",
+            "logo": "https://resources.bigbash.pulselive.com/bigbash/document/2024/07/22/9e61e982-0472-4131-83f5-2e88e562526a/melbourne-stars.svg",
+            "gradient": "linear-gradient(135deg, #00A651, #00A651, #003500)",
+            "type": "franchise",
+            "league": "BBL"
+        },
+        {
+            "acronym": "SCO",
+            "name": "Perth Scorchers",
+            "logo": "https://resources.bigbash.pulselive.com/bigbash/document/2024/07/22/00862a65-bb8c-4cb3-bb81-c8d91dec6645/perth-scorchers.svg",
+            "gradient": "linear-gradient(135deg, #D35400, #D35400, yellow)",
+            "type": "franchise",
+            "league": "BBL"
+        },
+        {
+            "acronym": "SIX",
+            "name": "Sydney Sixers",
+            "logo": "https://resources.bigbash.pulselive.com/bigbash/document/2024/07/22/00f1af01-40fb-49af-9cb6-8f0536934ac3/sydney-sixers.svg",
+            "gradient": "linear-gradient(135deg, #FF6996, #DC145A, #4B0023)",
+            "type": "franchise",
+            "league": "BBL"
+        },
+        {
+            "acronym": "THU",
+            "name": "Sydney Thunder",
+            "logo": "https://resources.bigbash.pulselive.com/bigbash/document/2024/07/22/6ea4796d-e4e0-49ca-8b71-69a12e060fc5/sydney-thunder.svg",
+            "gradient": "linear-gradient(135deg, #A4C400, #7FA600, #263800)",
+            "type": "franchise",
+            "league": "BBL"
         }
     ]
 }

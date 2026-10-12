@@ -43,6 +43,14 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     db = client["events"]
 
     tournament = json_info["tournament"]
+    
+    stadiums = []
+    for match in json_info.get("matches", []):
+        venue = match.get("venue")
+        if venue and venue not in stadiums:
+            stadiums.append(venue)
+
+    tournament["stadiums"] = stadiums
 
     print(f"\n{CYAN}{BOLD}{'=' * 80}{ENDC}")
     print(

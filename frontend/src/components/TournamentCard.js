@@ -23,7 +23,7 @@ function TournamentCard({ tournament, onClick }) {
                 className="aspect-square flex items-center justify-center border-r border-black/[0.02]"
                 style={{ backgroundColor: tournament.tileBackgroundColor }}
             >
-                <img src={tournament.mainLogo} alt={tournament.name} className="h-[65%] w-[65%] object-contain" />
+                <img src={tournament.mainLogo} alt={tournament.name} className="h-[60%] w-[60%] object-contain" />
             </div>
 
             <div className="relative col-span-2 min-w-0">

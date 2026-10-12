@@ -16,6 +16,36 @@
             "country": "Australia"
         },
         {
+            "stadium": "ENGIE Stadium",
+            "city": "Sydney",
+            "country": "Australia"
+        },
+        {
+            "stadium": "C.ex Coffs International Stadium",
+            "city": "Coffs Harbour",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Manuka Oval",
+            "city": "Canberra",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Ninja Stadium",
+            "city": "Hobart",
+            "country": "Australia"
+        },
+         {
+            "stadium": "University of Tasmania Stadium",
+            "city": "Launceston",
+            "country": "Australia"
+        },
+        {
+            "stadium": "Junction Oval",
+            "city": "Melbourne",
+            "country": "Australia"
+        },
+        {
             "stadium": "Marrara Stadium",
             "city": "Darwin",
             "country": "Australia"
@@ -26,6 +56,11 @@
             "country": "Australia"
         },
         {
+            "stadium": "Marvel Stadium",
+            "city": "Melbourne",
+            "country": "Australia"
+        },
+        {
             "stadium": "Sydney Cricket Ground",
             "city": "Sydney",
             "country": "Australia"
@@ -33,6 +68,11 @@
         {
             "stadium": "Melbourne Cricket Ground",
             "city": "Melbourne",
+            "country": "Australia"
+        },
+        {
+            "stadium": "GMHBA Stadium",
+            "city": "Geelong",
             "country": "Australia"
         },
         {

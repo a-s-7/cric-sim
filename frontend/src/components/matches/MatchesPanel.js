@@ -52,7 +52,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
 
 
     return (
-        <div className="w-full h-full flex flex-col font-['Nunito_Sans']">
+        <div className="w-full h-full flex flex-col font-['Reem_Kufi']">
 
             <div className="relative mx-2 flex h-16 flex-row items-center justify-between overflow-hidden rounded-2xl transition-all duration-500" style={hasPodium || hasChampion ? { padding: "8px 16px" } : {}}>
                 <div className="relative z-10 flex items-center gap-4 drop-shadow-md">
@@ -103,7 +103,7 @@ function MatchesPanel({ onMatchUpdate, matches, cardNeutralGradient, tournamentI
                             </span>
                             <div className="flex flex-row items-center gap-2">
                                 {winner.split("#").map((w, index, arr) => (
-                                    <h3 key={w} className={`${arr.length > 1 ? "text-lg" : "text-2xl"} font-black tracking-wide text-white font-['Nunito_Sans'] uppercase leading-none drop-shadow-xl flex items-center`}>
+                                    <h3 key={w} className={`${arr.length > 1 ? "text-lg" : "text-2xl"} font-black tracking-wide text-white font-['Reem_Kufi'] uppercase leading-none drop-shadow-xl flex items-center`}>
                                         {teamDictionary[w]?.name || w}
                                         {index === 0 && arr.length > 1 && <span className="mx-2 text-white/50 text-xs">&</span>}
                                     </h3>
