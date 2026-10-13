@@ -66,7 +66,8 @@ def get_tournaments():
     return output
 
 def get_tournament_info(tournament_base_id):
-    tournaments = list(tournaments_collection.find({ "_id": {"$regex": f"^{tournament_base_id}"}}))
+    tournament_ids = [f"{tournament_base_id}-rw", f"{tournament_base_id}-ps"]
+    tournaments = list(tournaments_collection.find({"_id": {"$in": tournament_ids}}))
 
     if len(tournaments) == 0:
         abort(404, description="Tournament not found")

@@ -10,12 +10,11 @@
         "startDate": "2025-01-11",
         "endDate": "2025-02-09",
         "structure": "league",
-        "currentStageId": null,
-        "gradient": "linear-gradient(135deg, purple, purple, pink)",
-        "mainLogo": "https://www.ilt20.ae/static-assets/images/ilt20.svg?v=1.55",
-        "horizontalLogo": "https://www.ilt20.ae/static-assets/images/ilt20.svg?v=1.55",
-        "pointsTableColor": "purple",
-        "tileBackgroundColor": "purple",
+        "gradient": "linear-gradient(135deg, #320a4c, #320a4c, #E32DBD)",
+        "mainLogo": "https://www.ilt20.ae/assets/logo.png",
+        "horizontalLogo": "https://www.ilt20.ae/assets/logo.png",
+        "pointsTableColor": "#320a4c",
+        "tileBackgroundColor": "#320a4c",
         "teams": [
             "ADKR",
             "DV",
@@ -23,11 +22,6 @@
             "GG",
             "MIE",
             "SW"
-        ],
-        "stadiums": [
-            "Dubai International Cricket Stadium",
-            "Sharjah Cricket Stadium",
-            "Sheikh Zayed Stadium"
         ]
     },
     "stages": [
@@ -113,7 +107,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
@@ -121,7 +115,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 2
         },
@@ -129,7 +123,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T3",
+            "seed": "P3",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 3
         },
@@ -137,7 +131,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T4",
+            "seed": "P4",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 4
         },
@@ -145,7 +139,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "L-Q",
+            "seed": "L-Q1",
             "teamFromPreviousStage": "match-loser",
             "teamFromMatchNumber": 31
         },
@@ -161,7 +155,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "W-Q",
+            "seed": "W-Q1",
             "teamFromPreviousStage": "match-winner",
             "teamFromMatchNumber": 31
         },
@@ -169,7 +163,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "W-C",
+            "seed": "W-Q2",
             "teamFromPreviousStage": "match-winner",
             "teamFromMatchNumber": 33
         }
@@ -480,19 +474,19 @@
             "stageOrder": 2,
             "date": "2025-02-05 06:30:00",
             "venue": "Dubai International Cricket Stadium",
-            "homeStageTeamId": "T1",
-            "awayStageTeamId": "T2",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
             "result": "None",
             "status": "incomplete",
-            "description": "Qualifier"
+            "description": "Qualifier 1"
         },
         {
             "matchNumber": 32,
             "stageOrder": 2,
             "date": "2025-02-06 06:30:00",
             "venue": "Sheikh Zayed Stadium",
-            "homeStageTeamId": "T3",
-            "awayStageTeamId": "T4",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
             "result": "None",
             "status": "incomplete",
             "description": "Eliminator"
@@ -502,19 +496,19 @@
             "stageOrder": 2,
             "date": "2025-02-07 06:30:00",
             "venue": "Sharjah Cricket Stadium",
-            "homeStageTeamId": "L-Q",
+            "homeStageTeamId": "L-Q1",
             "awayStageTeamId": "W-E",
             "result": "None",
             "status": "incomplete",
-            "description": "Challenger"
+            "description": "Qualifier 2"
         },
         {
             "matchNumber": 34,
             "stageOrder": 2,
             "date": "2025-02-09 06:00:00",
             "venue": "Dubai International Cricket Stadium",
-            "homeStageTeamId": "W-Q",
-            "awayStageTeamId": "W-C",
+            "homeStageTeamId": "W-Q1",
+            "awayStageTeamId": "W-Q2",
             "result": "None",
             "status": "incomplete",
             "description": "Final"

@@ -1,0 +1,517 @@
+{
+    "tournament": {
+        "_id": "ilt20-2026",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "International League T20",
+        "acronym": "ILT20",
+        "edition": "2026",
+        "startDate": "2026-11-21",
+        "endDate": "2026-12-20",
+        "structure": "league",
+        "gradient": "linear-gradient(135deg, #320a4c, #320a4c, #E32DBD)",
+        "mainLogo": "https://www.ilt20.ae/assets/logo.png",
+        "horizontalLogo": "https://www.ilt20.ae/assets/logo.png",
+        "pointsTableColor": "#320a4c",
+        "tileBackgroundColor": "#320a4c",
+        "teams": [
+            "ADKR",
+            "DV",
+            "DC",
+            "GG",
+            "MIE",
+            "SW"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 10,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "ADKR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "DV",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "DC",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "GG",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "MIE",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SW",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q1",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 31
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 32
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 31
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 33
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2026-11-21 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DV",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2026-11-22 03:00:00",
+            "venue": "Sharjah Cricket Stadium",
+            "homeStageTeamId": "SW",
+            "awayStageTeamId": "GG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2026-11-22 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "ADKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2026-11-23 07:30:00",
+            "venue": "Sharjah Cricket Stadium",
+            "homeStageTeamId": "SW",
+            "awayStageTeamId": "DV",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2026-11-24 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "GG",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2026-11-25 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "DV",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2026-11-26 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "ADKR",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2026-11-27 07:30:00",
+            "venue": "Sharjah Cricket Stadium",
+            "homeStageTeamId": "SW",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2026-11-28 03:00:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "DV",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2026-11-28 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "GG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2026-11-29 03:00:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "ADKR",
+            "awayStageTeamId": "SW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2026-11-29 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DV",
+            "awayStageTeamId": "GG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2026-11-30 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "ADKR",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2026-12-01 07:30:00",
+            "venue": "Sharjah Cricket Stadium",
+            "homeStageTeamId": "SW",
+            "awayStageTeamId": "GG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2026-12-02 03:00:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "ADKR",
+            "awayStageTeamId": "DV",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2026-12-02 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2026-12-03 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "ADKR",
+            "awayStageTeamId": "GG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2026-12-04 07:30:00",
+            "venue": "Sharjah Cricket Stadium",
+            "homeStageTeamId": "SW",
+            "awayStageTeamId": "DV",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2026-12-05 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "ADKR",
+            "awayStageTeamId": "GG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2026-12-06 03:00:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "MIE",
+            "awayStageTeamId": "SW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2026-12-06 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "DV",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2026-12-07 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "GG",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2026-12-08 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "SW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2026-12-09 07:30:00",
+            "venue": "Sharjah Cricket Stadium",
+            "homeStageTeamId": "SW",
+            "awayStageTeamId": "ADKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2026-12-10 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "GG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2026-12-11 07:30:00",
+            "venue": "Sharjah Cricket Stadium",
+            "homeStageTeamId": "SW",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2026-12-12 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "ADKR",
+            "awayStageTeamId": "DV",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2026-12-13 03:00:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "MIE",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2026-12-13 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "DV",
+            "awayStageTeamId": "GG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2026-12-14 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "ADKR",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 2,
+            "date": "2026-12-16 07:30:00",
+            "venue": "Sheikh Zayed Stadium",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 1"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 2,
+            "date": "2026-12-17 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Eliminator"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 2,
+            "date": "2026-12-18 07:30:00",
+            "venue": "Sharjah Cricket Stadium",
+            "homeStageTeamId": "L-Q1",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 2"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 2,
+            "date": "2026-12-20 07:30:00",
+            "venue": "Dubai International Cricket Stadium",
+            "homeStageTeamId": "W-Q1",
+            "awayStageTeamId": "W-Q2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

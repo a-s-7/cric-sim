@@ -127,7 +127,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
@@ -135,7 +135,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 2
         },
@@ -143,7 +143,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T3",
+            "seed": "P3",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 3
         },
@@ -151,7 +151,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T4",
+            "seed": "P4",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 4
         },
@@ -594,8 +594,8 @@
             "stageOrder": 2,
             "date": "2025-01-21 00:30:00",
             "venue": "Ninja Stadium",
-            "homeStageTeamId": "T1",
-            "awayStageTeamId": "T2",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
             "result": "None",
             "status": "incomplete",
             "description": "The Qualifier"
@@ -605,8 +605,8 @@
             "stageOrder": 2,
             "date": "2025-01-22 00:30:00",
             "venue": "ENGIE Stadium",
-            "homeStageTeamId": "T3",
-            "awayStageTeamId": "T4",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
             "result": "None",
             "status": "incomplete",
             "description": "The Knockout"
