@@ -127,8 +127,8 @@ function TournamentPage({
             />
 
 
-            <div className="flex flex-row w-full flex-1 overflow-hidden">
-                <div className={`flex flex-col ${tournamentStructure === "knockout" ? "w-full" : "w-[55%]"} h-full overflow-auto`}>
+            <div className="flex flex-col sm:flex-row w-full flex-1 overflow-hidden">
+                <div className={`flex flex-col ${tournamentStructure === "knockout" ? "w-full" : "order-2 w-full sm:order-1 sm:w-[55%]"} h-full overflow-auto`}>
                     <MatchesPanel
                         key={mode === "real-world" ? tournamentRWID : tournamentPSID}
                         onMatchUpdate={handleRefresh}
@@ -140,7 +140,7 @@ function TournamentPage({
                         structure={tournamentStructure} />
                 </div>
                 {tournamentStructure !== "knockout" && (
-                    <div className="w-[45%] h-full overflow-auto flex flex-col">
+                    <div className="order-1 w-full sm:order-2 sm:w-[45%] h-full overflow-auto flex flex-col">
                         <StandingsPanel key={mode === "real-world" ? tournamentRWID : tournamentPSID}
                             standingsData={standingsData.standings}
                             category={standingsData.category}
