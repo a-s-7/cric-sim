@@ -1061,8 +1061,31 @@ def confirmTeamsFor4TeamPlayoffs(tournamentId, stageOrder, matches):
     standings = get_tournament_standings_data(tournamentId, [stageOrder - 1])
     standingsGroup = standings["standings"][0]["groups"]["LEAGUE"]
 
-    # Get matches for the current playoffs stage 
-    q1, elim, q2, final = matches[0], matches[1], matches[2], matches[3]
+    # The first two fixtures may be listed in either order and tournament
+    # descriptions vary. Identify the qualifier (seeds 1 vs 2) and eliminator
+    # (seeds 3 vs 4) from their stage-team seed metadata instead.
+    firstRoundMatches = {}
+    for match in matches[:2]:
+        seedPositions = set()
+        for slot in ("homeStageTeamId", "awayStageTeamId"):
+            stageTeam = stageTeams_collection.find_one({"_id": ObjectId(match[slot])})
+            seedPositions.add(stageTeam.get("teamFromStandingsPosition") if stageTeam else None)
+
+        if seedPositions == {1, 2}:
+            firstRoundMatches["qualifier"] = match
+        elif seedPositions == {3, 4}:
+            firstRoundMatches["eliminator"] = match
+
+    q1 = firstRoundMatches.get("qualifier")
+    elim = firstRoundMatches.get("eliminator")
+    if q1 is None or elim is None:
+        raise ValueError(
+            "Could not identify the first two four-team playoff matches from "
+            "their standings seed positions (1 vs 2 and 3 vs 4)."
+        )
+
+    remainingMatches = [match for match in matches if match not in (q1, elim)]
+    q2, final = remainingMatches[0], remainingMatches[1]
 
     # Initial assignments for Q1 and Eliminator
     for match in [q1, elim]:

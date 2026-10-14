@@ -4,7 +4,7 @@
             "acronym": "CSK",
             "name": "Chennai Super Kings",
             "logo": "https://documents.iplt20.com/ipl/CSK/logos/Logooutline/CSKoutline.png",
-            "gradient": "linear-gradient(135deg, gold, gold, orange)",
+            "gradient": "linear-gradient(135deg, #FFD700, #E68A00, #4f5acc)",
             "type": "franchise",
             "league": "IPL"
         },
@@ -12,7 +12,7 @@
             "acronym": "MI",
             "name": "Mumbai Indians",
             "logo": "https://documents.iplt20.com/ipl/MI/Logos/Logooutline/MIoutline.png",
-            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #ffd700)",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #D4A017)",
             "type": "franchise",
             "league": "IPL"
         },
@@ -44,7 +44,7 @@
             "acronym": "SRH",
             "name": "Sunrisers Hyderabad",
             "logo": "https://documents.iplt20.com/ipl/SRH/Logos/Logooutline/SRHoutline.png",
-            "gradient": "linear-gradient(135deg, #000000, #D35400, #FFB400)",
+            "gradient": "linear-gradient(135deg, #FF8A00, #E84A00, #1A0B05)",
             "type": "franchise",
             "league": "IPL"
         },
@@ -52,7 +52,7 @@
             "acronym": "RR",
             "name": "Rajasthan Royals",
             "logo": "https://documents.iplt20.com/ipl/RR/Logos/Logooutline/RRoutline.png",
-            "gradient": "linear-gradient(135deg, #8AB8FF, #FF3D8A, #FF2D7A)",
+            "gradient": "linear-gradient(135deg, #FF3D8A, #FF3D8A, #82A3FF)",
             "type": "franchise",
             "league": "IPL"
         },
@@ -68,7 +68,7 @@
             "acronym": "LSG",
             "name": "Lucknow Super Giants",
             "logo": "https://documents.iplt20.com/ipl/LSG/Logos/Logooutline/LSGoutline.png",
-            "gradient": "linear-gradient(135deg, #D10005, #D10005, darkblue)",
+            "gradient": "linear-gradient(135deg, #D10005, #D10005, #0B1F5C)",
             "type": "franchise",
             "league": "IPL"
         },
@@ -84,7 +84,7 @@
             "acronym": "MINY",
             "name": "MI New York",
             "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/mi-newyork.png",
-            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #ffd700)",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #D4A017)",
             "type": "franchise",
             "league": "MLC"
         },
@@ -92,7 +92,7 @@
             "acronym": "SFU",
             "name": "San Francisco Unicorns",
             "logo": "https://i.namu.wiki/i/pyr0g_CQZJ73mO3fJ-nkcZSg50wbpHgkvOM7CjlCkY2joMQVWqu15qjHjSuBr4rxb9S53Sz2Xq6Gez7IHq3MFQ.webp",
-            "gradient": "linear-gradient(135deg, lightblue, lightblue, #ff9f7d)",
+            "gradient": "linear-gradient(135deg, #E87524, #C6531C, #2455C3)",
             "type": "franchise",
             "league": "MLC"
         },
@@ -100,7 +100,7 @@
             "acronym": "WF",
             "name": "Washington Freedom",
             "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/freedom_primary.png",
-            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #E4002B)",
+            "gradient": "linear-gradient(135deg, #002778, #002778, #E4002B)",
             "type": "franchise",
             "league": "MLC"
         },
@@ -108,7 +108,7 @@
             "acronym": "TSK",
             "name": "Texas Super Kings",
             "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/tsk.png",
-            "gradient": "linear-gradient(135deg, gold, gold, orange)",
+            "gradient": "linear-gradient(135deg, #F5C443, #F2B01E, #c35f52)",
             "type": "franchise",
             "league": "MLC"
         },
@@ -124,7 +124,7 @@
             "acronym": "SEA",
             "name": "Seattle Orcas",
             "logo": "https://www.majorleaguecricket.com/assets/images/teams/full/orcas.png",
-            "gradient": "linear-gradient(135deg, lightgreen, green, darkgreen)",
+            "gradient": "linear-gradient(135deg, #90D96B, #008744, #003B50)",
             "type": "franchise",
             "league": "MLC"
         },
@@ -140,7 +140,7 @@
             "acronym": "DV",
             "name": "Desert Vipers",
             "logo": "https://www.ilt20.ae/assets/3990_.png",
-            "gradient": "linear-gradient(135deg, #00A86B, #006B45, black)",
+            "gradient": "linear-gradient(135deg, #00B374, #00694A, #04120C)",
             "type": "franchise",
             "league": "ILT20"
         },
@@ -148,7 +148,7 @@
             "acronym": "DC",
             "name": "Dubai Capitals",
             "logo": "https://www.ilt20.ae/assets/3985_.png",
-            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #E4002B)",
+            "gradient": "linear-gradient(135deg, #E4002B, #E4002B, #0033A0)",
             "type": "franchise",
             "league": "ILT20"
         },
@@ -164,7 +164,7 @@
             "acronym": "MIE",
             "name": "MI Emirates",
             "logo": "https://www.ilt20.ae/assets/3987_.png",
-            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #ffd700)",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #D4A017)",
             "type": "franchise",
             "league": "ILT20"
         },
@@ -252,7 +252,7 @@
             "acronym": "MSG",
             "name": "Manchester Super Giants",
             "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/manchester-super-giants.svg",
-            "gradient": "linear-gradient(135deg, #D10005, #D10005, darkblue)",
+            "gradient": "linear-gradient(135deg, #D10005, #D10005, #0B1F5C)",
             "type": "franchise",
             "league": "THU"
         },
@@ -260,7 +260,7 @@
             "acronym": "SRL",
             "name": "Sunrisers Leeds",
             "logo": "https://www.thehundred.com/resources/v3.1.16/i/team-logos/sunrisers-leeds.svg",
-            "gradient": "linear-gradient(135deg, #000000, #D35400, #FFB400)",
+            "gradient": "linear-gradient(135deg, #FF8A00, #E84A00, #1A0B05)",
             "type": "franchise",
             "league": "THU"
         },
@@ -375,6 +375,54 @@
             "gradient": "linear-gradient(135deg, #A4C400, #7FA600, #263800)",
             "type": "franchise",
             "league": "BBL"
+        },
+        {
+            "acronym": "MICT",
+            "name": "MI Cape Town",
+            "logo": "https://media-cdn.incrowdsports.com/9edbb326-a937-4404-9f06-69461885636b.png?width=3840&quality=100&format=webp",
+            "gradient": "linear-gradient(135deg, #0033A0, #0033A0, #D4A017)",
+            "type": "franchise",
+            "league": "SA20"
+        },
+        {
+            "acronym": "PR",
+            "name": "Paarl Royals",
+            "logo": "https://media-cdn.cortextech.io/3333480d-3355-4c67-a74c-4e1d4f44ac3b.png?width=3840&quality=100&format=webp",
+            "gradient": "linear-gradient(135deg, #FF3D8A, #FF3D8A, #1E3A8A)",
+            "type": "franchise",
+            "league": "SA20"
+        },
+        {
+            "acronym": "PC",
+            "name": "Pretoria Capitals",
+            "logo": "https://media-cdn.incrowdsports.com/90577bf4-2d0f-41ab-817a-55be156eb819.png?width=3840&quality=100&format=webp",
+            "gradient": "linear-gradient(135deg, #5AADE0, #3988C5, #C93650)",
+            "type": "franchise",
+            "league": "SA20"
+        },
+        {
+            "acronym": "JSK",
+            "name": "Joburg Super Kings",
+            "logo": "https://media-cdn.incrowdsports.com/dbcb8a14-c960-4442-b269-c8aa65badce5.png?width=3840&quality=100&format=webp",
+            "gradient": "linear-gradient(135deg, #E5AD00, #E5AD00, #1F7A3A)",
+            "type": "franchise",
+            "league": "SA20"
+        },
+        {
+            "acronym": "SEC",
+            "name": "Sunrisers Eastern Cape",
+            "logo": "https://media-cdn.incrowdsports.com/ac9593af-80d0-4532-8716-548bf5ff839e.png?width=3840&quality=100&format=webp",
+            "gradient": "linear-gradient(135deg, #FF8A00, #E84A00, #1A0B05)",
+            "type": "franchise",
+            "league": "SA20"
+        },
+        {
+            "acronym": "DSG",
+            "name": "Durban's Super Giants",
+            "logo": "https://media-cdn.incrowdsports.com/b78e715f-53dd-4a0b-86b6-1e7466dc8db1.png?width=3840&quality=100&format=webp",
+            "gradient": "linear-gradient(135deg, #D10005, #D10005, #0B1F5C)",
+            "type": "franchise",
+            "league": "SA20"
         }
     ]
 }

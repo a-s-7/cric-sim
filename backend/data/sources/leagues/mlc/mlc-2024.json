@@ -1,0 +1,427 @@
+{
+    "tournament": {
+        "_id": "mlc-2024",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "Major League Cricket",
+        "acronym": "MLC",
+        "edition": "2024",
+        "startDate": "2024-07-05",
+        "endDate": "2024-07-28",
+        "structure": "league",
+        "gradient": "linear-gradient(135deg, #EBECF3, #C8102E, #102A56)",
+        "mainLogo": "https://www.majorleaguecricket.com/assets/images/MLC_Logo_RGB_Foooter.png",
+        "horizontalLogo": "https://www.majorleaguecricket.com/assets/images/MLC_Logo_RGB_Foooter.png",
+        "pointsTableColor": "#C8102E",
+        "tileBackgroundColor": "#EBECF3",
+        "teams": [
+            "MINY",
+            "SFU",
+            "WF",
+            "TSK",
+            "LAKR",
+            "SEA"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 7,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "SEA",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "MINY",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "TSK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "LAKR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "WF",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SFU",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 23
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 22
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 23
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-C",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 24
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2024-07-05 12:30:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2024-07-05 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2024-07-06 12:00:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "MINY",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2024-07-07 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2024-07-08 12:30:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "TSK",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2024-07-09 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "SEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2024-07-10 12:00:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "SFU",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2024-07-11 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2024-07-12 12:00:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "MINY",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2024-07-13 12:00:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2024-07-14 12:30:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "WF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2024-07-14 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "TSK",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2024-07-15 12:30:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "SFU",
+            "awayStageTeamId": "SEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2024-07-16 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2024-07-17 12:00:00",
+            "venue": "Church Street Park",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "LAKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2024-07-18 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "SFU",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2024-07-19 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "TSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2024-07-20 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "SEA",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2024-07-21 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "LAKR",
+            "awayStageTeamId": "MINY",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2024-07-22 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "WF",
+            "awayStageTeamId": "SFU",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2024-07-23 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "TSK",
+            "awayStageTeamId": "SEA",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 2,
+            "date": "2024-07-24 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Eliminator"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 2,
+            "date": "2024-07-25 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 2,
+            "date": "2024-07-26 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "L-Q",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Challenger"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 2,
+            "date": "2024-07-28 17:30:00",
+            "venue": "Grand Prairie Stadium",
+            "homeStageTeamId": "W-Q",
+            "awayStageTeamId": "W-C",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

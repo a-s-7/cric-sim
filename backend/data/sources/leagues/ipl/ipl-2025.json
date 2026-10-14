@@ -10,12 +10,11 @@
         "startDate": "2025-03-22",
         "endDate": "2025-06-03",
         "structure": "league",
-        "currentStageId": null,
-        "gradient": "linear-gradient(135deg, darkblue, darkblue, orange)",
-        "mainLogo": "https://documents.iplt20.com//ipl/assets/images/ipl-logo-new-old.png",
-        "horizontalLogo": "https://documents.iplt20.com//ipl/assets/images/ipl-logo-new-old.png",
-        "pointsTableColor": "darkblue",
-        "tileBackgroundColor": "#00008B",
+        "gradient": "linear-gradient(135deg, #19388A, #142959, #FF9E00)",
+        "mainLogo": "https://www.iplt20.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fjot2qw8s50z1%2F68BTfjWpntEFEBXMhfs9Jf%2F27b791fb9dc3ee514ef5cddb5e6defb8%2Fimage.png&w=256&q=75",
+        "horizontalLogo": "https://www.iplt20.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fjot2qw8s50z1%2F68BTfjWpntEFEBXMhfs9Jf%2F27b791fb9dc3ee514ef5cddb5e6defb8%2Fimage.png&w=256&q=75",
+        "pointsTableColor": "#19388A",
+        "tileBackgroundColor": "#19388A",
         "teams": [
             "CSK",
             "MI",
@@ -27,21 +26,6 @@
             "PBKS",
             "LSG",
             "GT"
-        ],
-        "stadiums": [
-            "ACA Stadium",
-            "ACA-VDCA Cricket Stadium",
-            "Arun Jaitley Stadium",
-            "BRSABVE Cricket Stadium",
-            "Eden Gardens",
-            "HPCA Stadium",
-            "M. Chinnaswamy Stadium",
-            "MA Chidambaram Stadium",
-            "Narendra Modi Stadium",
-            "New International Cricket Stadium",
-            "Rajiv Gandhi International Stadium",
-            "Sawai Mansingh Stadium",
-            "Wankhede Stadium"
         ]
     },
     "stages": [
@@ -163,7 +147,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
@@ -171,7 +155,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 2
         },
@@ -179,7 +163,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T3",
+            "seed": "P3",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 3
         },
@@ -187,7 +171,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T4",
+            "seed": "P4",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 4
         },
@@ -930,8 +914,8 @@
             "stageOrder": 2,
             "date": "2025-05-29 07:00:00",
             "venue": "New International Cricket Stadium",
-            "homeStageTeamId": "T1",
-            "awayStageTeamId": "T2",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
             "result": "None",
             "status": "incomplete",
             "description": "Qualifier 1"
@@ -941,8 +925,8 @@
             "stageOrder": 2,
             "date": "2025-05-30 07:00:00",
             "venue": "New International Cricket Stadium",
-            "homeStageTeamId": "T3",
-            "awayStageTeamId": "T4",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
             "result": "None",
             "status": "incomplete",
             "description": "Eliminator"

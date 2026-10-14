@@ -1,0 +1,517 @@
+{
+    "tournament": {
+        "_id": "sa20-2026",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "SA20",
+        "acronym": "SA20",
+        "edition": "2026",
+        "startDate": "2025-12-26",
+        "endDate": "2026-01-25",
+        "structure": "league",
+        "gradient": "linear-gradient(135deg, #04063C, #04063C, #32E612)",
+        "mainLogo": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/SA20Logo.png/500px-SA20Logo.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+        "horizontalLogo": "https://media-cdn.cortextech.io/83da56bb-c2f7-49c4-a0d8-e2d4708c1f67.png?width=640&quality=100&format=webp",
+        "pointsTableColor": "#04063C",
+        "tileBackgroundColor": "#04063C",
+        "teams": [
+            "SEC",
+            "MICT",
+            "DSG",
+            "PC",
+            "PR",
+            "JSK"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 10,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "SEC",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "MICT",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "DSG",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "PC",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "PR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "JSK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q1",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 31
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 32
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 31
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 33
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2025-12-26 07:30:00",
+            "venue": "Newlands Cricket Ground",
+            "homeStageTeamId": "MICT",
+            "awayStageTeamId": "DSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2025-12-27 03:00:00",
+            "venue": "SuperSport Park",
+            "homeStageTeamId": "PC",
+            "awayStageTeamId": "JSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2025-12-27 07:30:00",
+            "venue": "Boland Park",
+            "homeStageTeamId": "PR",
+            "awayStageTeamId": "SEC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2025-12-28 05:30:00",
+            "venue": "Kingsmead Cricket Ground",
+            "homeStageTeamId": "DSG",
+            "awayStageTeamId": "MICT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2025-12-29 07:30:00",
+            "venue": "St George's Park",
+            "homeStageTeamId": "SEC",
+            "awayStageTeamId": "PC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2025-12-30 07:30:00",
+            "venue": "Kingsmead Cricket Ground",
+            "homeStageTeamId": "DSG",
+            "awayStageTeamId": "JSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2025-12-31 03:00:00",
+            "venue": "St George's Park",
+            "homeStageTeamId": "SEC",
+            "awayStageTeamId": "PR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2025-12-31 07:30:00",
+            "venue": "Newlands Cricket Ground",
+            "homeStageTeamId": "MICT",
+            "awayStageTeamId": "PC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2026-01-01 07:30:00",
+            "venue": "The Wanderers Stadium",
+            "homeStageTeamId": "JSK",
+            "awayStageTeamId": "DSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2026-01-02 07:30:00",
+            "venue": "Boland Park",
+            "homeStageTeamId": "PR",
+            "awayStageTeamId": "MICT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2026-01-03 03:00:00",
+            "venue": "The Wanderers Stadium",
+            "homeStageTeamId": "JSK",
+            "awayStageTeamId": "SEC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2026-01-03 07:30:00",
+            "venue": "SuperSport Park",
+            "homeStageTeamId": "PC",
+            "awayStageTeamId": "DSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2026-01-04 05:30:00",
+            "venue": "Newlands Cricket Ground",
+            "homeStageTeamId": "MICT",
+            "awayStageTeamId": "PR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2026-01-05 07:30:00",
+            "venue": "SuperSport Park",
+            "homeStageTeamId": "PC",
+            "awayStageTeamId": "SEC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2026-01-06 07:30:00",
+            "venue": "Newlands Cricket Ground",
+            "homeStageTeamId": "MICT",
+            "awayStageTeamId": "JSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2026-01-07 07:30:00",
+            "venue": "Kingsmead Cricket Ground",
+            "homeStageTeamId": "DSG",
+            "awayStageTeamId": "PC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2026-01-08 07:30:00",
+            "venue": "The Wanderers Stadium",
+            "homeStageTeamId": "JSK",
+            "awayStageTeamId": "PR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2026-01-09 07:30:00",
+            "venue": "Kingsmead Cricket Ground",
+            "homeStageTeamId": "DSG",
+            "awayStageTeamId": "SEC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2026-01-10 03:00:00",
+            "venue": "Boland Park",
+            "homeStageTeamId": "PR",
+            "awayStageTeamId": "PC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2026-01-10 07:30:00",
+            "venue": "The Wanderers Stadium",
+            "homeStageTeamId": "JSK",
+            "awayStageTeamId": "MICT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2026-01-11 05:30:00",
+            "venue": "St George's Park",
+            "homeStageTeamId": "SEC",
+            "awayStageTeamId": "DSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2026-01-12 07:30:00",
+            "venue": "SuperSport Park",
+            "homeStageTeamId": "PC",
+            "awayStageTeamId": "MICT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2026-01-13 07:30:00",
+            "venue": "Boland Park",
+            "homeStageTeamId": "PR",
+            "awayStageTeamId": "DSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2026-01-14 07:30:00",
+            "venue": "St George's Park",
+            "homeStageTeamId": "SEC",
+            "awayStageTeamId": "JSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2026-01-15 07:30:00",
+            "venue": "SuperSport Park",
+            "homeStageTeamId": "PC",
+            "awayStageTeamId": "PR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2026-01-16 07:30:00",
+            "venue": "Newlands Cricket Ground",
+            "homeStageTeamId": "MICT",
+            "awayStageTeamId": "SEC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2026-01-17 03:00:00",
+            "venue": "Kingsmead Cricket Ground",
+            "homeStageTeamId": "DSG",
+            "awayStageTeamId": "PR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2026-01-17 07:30:00",
+            "venue": "The Wanderers Stadium",
+            "homeStageTeamId": "JSK",
+            "awayStageTeamId": "PC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2026-01-18 05:30:00",
+            "venue": "St George's Park",
+            "homeStageTeamId": "SEC",
+            "awayStageTeamId": "MICT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2026-01-19 07:30:00",
+            "venue": "Boland Park",
+            "homeStageTeamId": "PR",
+            "awayStageTeamId": "JSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 2,
+            "date": "2026-01-21 07:30:00",
+            "venue": "Kingsmead Cricket Ground",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 1"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 2,
+            "date": "2026-01-22 07:30:00",
+            "venue": "SuperSport Park",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Eliminator"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 2,
+            "date": "2026-01-23 07:30:00",
+            "venue": "The Wanderers Stadium",
+            "homeStageTeamId": "L-Q1",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 2"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 2,
+            "date": "2026-01-25 05:30:00",
+            "venue": "Newlands Cricket Ground",
+            "homeStageTeamId": "W-Q1",
+            "awayStageTeamId": "W-Q2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

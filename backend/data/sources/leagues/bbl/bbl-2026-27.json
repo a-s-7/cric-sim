@@ -598,7 +598,7 @@
             "awayStageTeamId": "P2",
             "result": "None",
             "status": "incomplete",
-            "description": "The Qualifier"
+            "description": "Qualifier"
         },
         {
             "matchNumber": 42,
@@ -609,7 +609,7 @@
             "awayStageTeamId": "P4",
             "result": "None",
             "status": "incomplete",
-            "description": "The Knockout"
+            "description": "Knockout"
         },
         {
             "matchNumber": 43,
@@ -620,7 +620,7 @@
             "awayStageTeamId": "W-K",
             "result": "None",
             "status": "incomplete",
-            "description": "The Challenger"
+            "description": "Challenger"
         },
         {
             "matchNumber": 44,
@@ -631,7 +631,7 @@
             "awayStageTeamId": "W-C",
             "result": "None",
             "status": "incomplete",
-            "description": "The Final"
+            "description": "Final"
         }
     ]
 }

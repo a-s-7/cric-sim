@@ -29,14 +29,19 @@ TOURNAMENTS = {
     24: {"category": "events", "folder": "olympics", "name": "w-oly-2028.json"},
     25: {"category": "leagues", "folder": "bbl", "name": "bbl-2025-26.json"},
     26: {"category": "leagues", "folder": "bbl", "name": "bbl-2026-27.json"},
-    27: {"category": "leagues", "folder": "ilt20", "name": "ilt20-2026.json"}
+    27: {"category": "leagues", "folder": "ilt20", "name": "ilt20-2026.json"},
+    28: {"category": "leagues", "folder": "sa20", "name": "sa20-2025.json"},
+    29: {"category": "leagues", "folder": "sa20", "name": "sa20-2026.json"},
+    30: {"category": "leagues", "folder": "sa20", "name": "sa20-2027.json"},
+    31: {"category": "leagues", "folder": "mlc", "name": "mlc-2024.json"},
+    32: {"category": "leagues", "folder": "ipl", "name": "ipl-2024.json"},
 }
 
 def main():
     import_venues.main()
     import_teams.main()
     # import_events_leagues.main(TOURNAMENTS, [4, 5, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25])
-    import_events_leagues.main(TOURNAMENTS, [10, 11, 12, 25, 26, 27])
+    import_events_leagues.main(TOURNAMENTS, [5, 6, 8, 9, 10, 11, 12, 25, 26, 27, 28, 29, 30, 31, 32])
 
 
 

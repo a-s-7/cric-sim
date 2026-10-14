@@ -1,0 +1,957 @@
+{
+    "tournament": {
+        "_id": "ipl-2024",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "Indian Premier League",
+        "acronym": "IPL",
+        "edition": "2024",
+        "startDate": "2024-03-22",
+        "endDate": "2024-05-26",
+        "structure": "league",
+        "gradient": "linear-gradient(135deg, #19388A, #142959, #FF9E00)",
+        "mainLogo": "https://www.iplt20.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fjot2qw8s50z1%2F68BTfjWpntEFEBXMhfs9Jf%2F27b791fb9dc3ee514ef5cddb5e6defb8%2Fimage.png&w=256&q=75",
+        "horizontalLogo": "https://www.iplt20.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fjot2qw8s50z1%2F68BTfjWpntEFEBXMhfs9Jf%2F27b791fb9dc3ee514ef5cddb5e6defb8%2Fimage.png&w=256&q=75",
+        "pointsTableColor": "#19388A",
+        "tileBackgroundColor": "#19388A",
+        "teams": [
+            "CSK",
+            "MI",
+            "RCB",
+            "KKR",
+            "DC",
+            "SRH",
+            "RR",
+            "PBKS",
+            "LSG",
+            "GT"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 10,
+                "matchesPerTeam": 14,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "CSK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "MI",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "RCB",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "KKR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "DC",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SRH",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "RR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "PBKS",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "LSG",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "GT",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q1",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 71
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 72
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 71
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 73
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2024-03-22 07:30:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "CSK",
+            "awayStageTeamId": "RCB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2024-03-23 03:00:00",
+            "venue": "New International Cricket Stadium",
+            "homeStageTeamId": "PBKS",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2024-03-23 07:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "KKR",
+            "awayStageTeamId": "SRH",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2024-03-24 03:00:00",
+            "venue": "Sawai Mansingh Stadium",
+            "homeStageTeamId": "RR",
+            "awayStageTeamId": "LSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2024-03-24 07:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "GT",
+            "awayStageTeamId": "MI",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2024-03-25 07:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "RCB",
+            "awayStageTeamId": "PBKS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2024-03-26 07:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "CSK",
+            "awayStageTeamId": "GT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2024-03-27 07:00:00",
+            "venue": "Rajiv Gandhi International Stadium",
+            "homeStageTeamId": "SRH",
+            "awayStageTeamId": "MI",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2024-03-28 07:00:00",
+            "venue": "Sawai Mansingh Stadium",
+            "homeStageTeamId": "RR",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2024-03-29 07:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "RCB",
+            "awayStageTeamId": "KKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2024-03-30 07:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "LSG",
+            "awayStageTeamId": "PBKS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2024-03-31 03:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "GT",
+            "awayStageTeamId": "SRH",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2024-03-31 07:00:00",
+            "venue": "ACA-VDCA Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "CSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2024-04-01 07:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "MI",
+            "awayStageTeamId": "RR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2024-04-02 07:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "RCB",
+            "awayStageTeamId": "LSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2024-04-03 07:00:00",
+            "venue": "ACA-VDCA Cricket Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "KKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2024-04-04 07:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "PBKS",
+            "awayStageTeamId": "GT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2024-04-05 07:00:00",
+            "venue": "Rajiv Gandhi International Stadium",
+            "homeStageTeamId": "SRH",
+            "awayStageTeamId": "CSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2024-04-06 07:00:00",
+            "venue": "Sawai Mansingh Stadium",
+            "homeStageTeamId": "RR",
+            "awayStageTeamId": "RCB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2024-04-07 03:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "MI",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2024-04-07 07:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "LSG",
+            "awayStageTeamId": "GT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2024-04-08 07:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "CSK",
+            "awayStageTeamId": "KKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2024-04-09 07:00:00",
+            "venue": "New International Cricket Stadium",
+            "homeStageTeamId": "PBKS",
+            "awayStageTeamId": "SRH",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2024-04-10 07:00:00",
+            "venue": "Sawai Mansingh Stadium",
+            "homeStageTeamId": "RR",
+            "awayStageTeamId": "GT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2024-04-11 07:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "MI",
+            "awayStageTeamId": "RCB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2024-04-12 07:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "LSG",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2024-04-13 07:00:00",
+            "venue": "New International Cricket Stadium",
+            "homeStageTeamId": "PBKS",
+            "awayStageTeamId": "RR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2024-04-14 03:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "KKR",
+            "awayStageTeamId": "LSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2024-04-14 07:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "MI",
+            "awayStageTeamId": "CSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2024-04-15 07:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "RCB",
+            "awayStageTeamId": "SRH",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 1,
+            "date": "2024-04-16 07:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "KKR",
+            "awayStageTeamId": "RR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 1,
+            "date": "2024-04-17 07:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "GT",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 1,
+            "date": "2024-04-18 07:00:00",
+            "venue": "New International Cricket Stadium",
+            "homeStageTeamId": "PBKS",
+            "awayStageTeamId": "MI",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 1,
+            "date": "2024-04-19 07:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "LSG",
+            "awayStageTeamId": "CSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 35,
+            "stageOrder": 1,
+            "date": "2024-04-20 07:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "SRH",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 36,
+            "stageOrder": 1,
+            "date": "2024-04-21 03:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "KKR",
+            "awayStageTeamId": "RCB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 37,
+            "stageOrder": 1,
+            "date": "2024-04-21 07:00:00",
+            "venue": "New International Cricket Stadium",
+            "homeStageTeamId": "PBKS",
+            "awayStageTeamId": "GT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 38,
+            "stageOrder": 1,
+            "date": "2024-04-22 07:00:00",
+            "venue": "Sawai Mansingh Stadium",
+            "homeStageTeamId": "RR",
+            "awayStageTeamId": "MI",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 39,
+            "stageOrder": 1,
+            "date": "2024-04-23 07:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "CSK",
+            "awayStageTeamId": "LSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 40,
+            "stageOrder": 1,
+            "date": "2024-04-24 07:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "GT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 41,
+            "stageOrder": 1,
+            "date": "2024-04-25 07:00:00",
+            "venue": "Rajiv Gandhi International Stadium",
+            "homeStageTeamId": "SRH",
+            "awayStageTeamId": "RCB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 42,
+            "stageOrder": 1,
+            "date": "2024-04-26 07:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "KKR",
+            "awayStageTeamId": "PBKS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 43,
+            "stageOrder": 1,
+            "date": "2024-04-27 03:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "MI",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 44,
+            "stageOrder": 1,
+            "date": "2024-04-27 07:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "LSG",
+            "awayStageTeamId": "RR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 45,
+            "stageOrder": 1,
+            "date": "2024-04-28 03:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "GT",
+            "awayStageTeamId": "RCB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 46,
+            "stageOrder": 1,
+            "date": "2024-04-28 07:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "CSK",
+            "awayStageTeamId": "SRH",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 47,
+            "stageOrder": 1,
+            "date": "2024-04-29 07:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "KKR",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 48,
+            "stageOrder": 1,
+            "date": "2024-04-30 07:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "LSG",
+            "awayStageTeamId": "MI",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 49,
+            "stageOrder": 1,
+            "date": "2024-05-01 07:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "CSK",
+            "awayStageTeamId": "PBKS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 50,
+            "stageOrder": 1,
+            "date": "2024-05-02 07:00:00",
+            "venue": "Rajiv Gandhi International Stadium",
+            "homeStageTeamId": "SRH",
+            "awayStageTeamId": "RR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 51,
+            "stageOrder": 1,
+            "date": "2024-05-03 07:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "MI",
+            "awayStageTeamId": "KKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 52,
+            "stageOrder": 1,
+            "date": "2024-05-04 07:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "RCB",
+            "awayStageTeamId": "GT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 53,
+            "stageOrder": 1,
+            "date": "2024-05-05 03:00:00",
+            "venue": "HPCA Stadium",
+            "homeStageTeamId": "PBKS",
+            "awayStageTeamId": "CSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 54,
+            "stageOrder": 1,
+            "date": "2024-05-05 07:00:00",
+            "venue": "BRSABVE Cricket Stadium",
+            "homeStageTeamId": "LSG",
+            "awayStageTeamId": "KKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 55,
+            "stageOrder": 1,
+            "date": "2024-05-06 07:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "MI",
+            "awayStageTeamId": "SRH",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 56,
+            "stageOrder": 1,
+            "date": "2024-05-07 07:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "RR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 57,
+            "stageOrder": 1,
+            "date": "2024-05-08 07:00:00",
+            "venue": "Rajiv Gandhi International Stadium",
+            "homeStageTeamId": "SRH",
+            "awayStageTeamId": "LSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 58,
+            "stageOrder": 1,
+            "date": "2024-05-09 07:00:00",
+            "venue": "HPCA Stadium",
+            "homeStageTeamId": "PBKS",
+            "awayStageTeamId": "RCB",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 59,
+            "stageOrder": 1,
+            "date": "2024-05-10 07:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "GT",
+            "awayStageTeamId": "CSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 60,
+            "stageOrder": 1,
+            "date": "2024-05-11 07:00:00",
+            "venue": "Eden Gardens",
+            "homeStageTeamId": "KKR",
+            "awayStageTeamId": "MI",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 61,
+            "stageOrder": 1,
+            "date": "2024-05-12 03:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "CSK",
+            "awayStageTeamId": "RR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 62,
+            "stageOrder": 1,
+            "date": "2024-05-12 07:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "RCB",
+            "awayStageTeamId": "DC",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 63,
+            "stageOrder": 1,
+            "date": "2024-05-13 07:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "GT",
+            "awayStageTeamId": "KKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 64,
+            "stageOrder": 1,
+            "date": "2024-05-14 07:00:00",
+            "venue": "Arun Jaitley Stadium",
+            "homeStageTeamId": "DC",
+            "awayStageTeamId": "LSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 65,
+            "stageOrder": 1,
+            "date": "2024-05-15 07:00:00",
+            "venue": "ACA Stadium",
+            "homeStageTeamId": "RR",
+            "awayStageTeamId": "PBKS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 66,
+            "stageOrder": 1,
+            "date": "2024-05-16 07:00:00",
+            "venue": "Rajiv Gandhi International Stadium",
+            "homeStageTeamId": "SRH",
+            "awayStageTeamId": "GT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 67,
+            "stageOrder": 1,
+            "date": "2024-05-17 07:00:00",
+            "venue": "Wankhede Stadium",
+            "homeStageTeamId": "MI",
+            "awayStageTeamId": "LSG",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 68,
+            "stageOrder": 1,
+            "date": "2024-05-18 07:00:00",
+            "venue": "M. Chinnaswamy Stadium",
+            "homeStageTeamId": "RCB",
+            "awayStageTeamId": "CSK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 69,
+            "stageOrder": 1,
+            "date": "2024-05-19 03:00:00",
+            "venue": "Rajiv Gandhi International Stadium",
+            "homeStageTeamId": "SRH",
+            "awayStageTeamId": "PBKS",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 70,
+            "stageOrder": 1,
+            "date": "2024-05-19 07:00:00",
+            "venue": "ACA Stadium",
+            "homeStageTeamId": "RR",
+            "awayStageTeamId": "KKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 71,
+            "stageOrder": 2,
+            "date": "2024-05-21 07:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 1"
+        },
+        {
+            "matchNumber": 72,
+            "stageOrder": 2,
+            "date": "2024-05-22 07:00:00",
+            "venue": "Narendra Modi Stadium",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Eliminator"
+        },
+        {
+            "matchNumber": 73,
+            "stageOrder": 2,
+            "date": "2024-05-24 07:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "L-Q1",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 2"
+        },
+        {
+            "matchNumber": 74,
+            "stageOrder": 2,
+            "date": "2024-05-26 07:00:00",
+            "venue": "MA Chidambaram Stadium",
+            "homeStageTeamId": "W-Q1",
+            "awayStageTeamId": "W-Q2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

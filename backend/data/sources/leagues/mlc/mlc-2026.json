@@ -10,12 +10,11 @@
         "startDate": "2026-06-18",
         "endDate": "2026-07-18",
         "structure": "league",
-        "currentStageId": null,
-        "gradient": "linear-gradient(135deg, #ece8e8, red, darkblue)",
+        "gradient": "linear-gradient(135deg, #EBECF3, #C8102E, #102A56)",
         "mainLogo": "https://www.majorleaguecricket.com/assets/images/MLC_Logo_RGB_Foooter.png",
         "horizontalLogo": "https://www.majorleaguecricket.com/assets/images/MLC_Logo_RGB_Foooter.png",
-        "pointsTableColor": "#e60a12",
-        "tileBackgroundColor": "white",
+        "pointsTableColor": "#C8102E",
+        "tileBackgroundColor": "#EBECF3",
         "teams": [
             "MINY",
             "SFU",
@@ -23,11 +22,6 @@
             "TSK",
             "LAKR",
             "SEA"
-        ],
-        "stadiums": [
-            "Fairgrounds Cricket Stadium",
-            "Grand Prairie Stadium",
-            "Oakland Coliseum"
         ]
     },
     "stages": [
@@ -113,7 +107,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
@@ -121,7 +115,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 2
         },
@@ -129,7 +123,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T3",
+            "seed": "P3",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 3
         },
@@ -137,7 +131,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T4",
+            "seed": "P4",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 4
         },
@@ -480,8 +474,8 @@
             "stageOrder": 2,
             "date": "2026-07-15 14:30:00",
             "venue": "Oakland Coliseum",
-            "homeStageTeamId": "T1",
-            "awayStageTeamId": "T2",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
             "result": "None",
             "status": "incomplete",
             "description": "Qualifier"
@@ -491,8 +485,8 @@
             "stageOrder": 2,
             "date": "2026-07-15 18:30:00",
             "venue": "Oakland Coliseum",
-            "homeStageTeamId": "T3",
-            "awayStageTeamId": "T4",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
             "result": "None",
             "status": "incomplete",
             "description": "Eliminator"
