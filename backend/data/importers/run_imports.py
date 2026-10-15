@@ -38,12 +38,14 @@ TOURNAMENTS = {
     33: {"category": "leagues", "folder": "cpl", "name": "cpl-2026.json"},
     34: {"category": "leagues", "folder": "cpl", "name": "cpl-2025.json"},
     35: {"category": "leagues", "folder": "cpl", "name": "cpl-2024.json"},
+    36: {"category": "leagues", "folder": "thu", "name": "thu-2024.json"},
+    37: {"category": "leagues", "folder": "thu", "name": "thu-2023.json"},
 }
 
 def main():
     import_venues.main()
     import_teams.main()
-    import_events_leagues.main(TOURNAMENTS, [5, 6, 8, 9, 10, 20, 11, 12, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35])
+    import_events_leagues.main(TOURNAMENTS, [5, 6, 8, 9, 10, 20, 11, 12, 13, 14, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37])
 
 if __name__ == "__main__":
     main()

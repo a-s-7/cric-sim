@@ -44,7 +44,7 @@ function TournamentGroups({ sortedGroups, toggleGroup, groupField, closedGroups,
                                     : "translate-y-0 opacity-100 duration-250 delay-[220ms]"
                                     }`}
                             >
-                                <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,130px),1fr))] sm:grid-cols-[repeat(auto-fill,minmax(min(100%,160px),1fr))] justify-start gap-5">
+                                <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,130px),1fr))] sm:grid-cols-[repeat(auto-fill,minmax(min(100%,160px),1fr))] justify-start gap-6">
                                     {groupedTournaments.map((tournament, index) => {
                                         const Card = viewMode === "icon" ? TournamentIcon : TournamentCard;
                                         return (

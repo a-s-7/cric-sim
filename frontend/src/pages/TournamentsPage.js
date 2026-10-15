@@ -188,7 +188,14 @@ function TournamentsPage() {
     const filteredTournaments = getFilteredTournaments();
 
     const groupedTournaments = filteredTournaments.reduce((groups, tournament) => {
-        const keyMap = { "status": tournament.status, "gender": tournament.division, "format": tournament.format, "category": reverseCategoryMap[tournament.category], "name": tournament.name };
+        const keyMap = {
+            status: tournament.status,
+            gender: tournament.division,
+            format: tournament.format,
+            category: reverseCategoryMap[tournament.category],
+            name: tournament.name,
+            edition: tournament.edition ? String(tournament.edition).slice(0, 4) : "Unknown",
+        };
 
         const key = keyMap[groupField];
 
@@ -208,6 +215,12 @@ function TournamentsPage() {
 
         if (groupField === "format") {
             return formatOrder[a[0]] - formatOrder[b[0]];
+        }
+
+        if (groupField === "edition") {
+            if (a[0] === "Unknown") return 1;
+            if (b[0] === "Unknown") return -1;
+            return Number(b[0]) - Number(a[0]);
         }
 
         return a[0].localeCompare(b[0]);

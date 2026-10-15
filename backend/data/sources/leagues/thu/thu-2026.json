@@ -10,7 +10,6 @@
         "startDate": "2026-07-21",
         "endDate": "2026-08-16",
         "structure": "league",
-        "currentStageId": null,
         "gradient": "linear-gradient(135deg, #FF007F, #FF007F, black)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/The_Hundred_%28cricket%29_logo.svg/1280px-The_Hundred_%28cricket%29_logo.svg.png?_=20251104000412",
         "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/The_Hundred_%28cricket%29_logo.svg/1280px-The_Hundred_%28cricket%29_logo.svg.png?_=20251104000412",
@@ -25,16 +24,6 @@
             "SB",
             "TR",
             "WF"
-        ],
-        "stadiums": [
-            "Lord's Cricket Ground",
-            "Emirates Old Trafford",
-            "Headingley",
-            "Edgbaston",
-            "Trent Bridge",
-            "The Oval",
-            "Sophia Gardens",
-            "Utilita Bowl"
         ]
     },
     "stages": [
@@ -146,7 +135,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 2
         },
@@ -154,7 +143,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T3",
+            "seed": "P3",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 3
         },
@@ -162,7 +151,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
@@ -219,7 +208,7 @@
         {
             "matchNumber": 5,
             "stageOrder": 1,
-            "date": "2026-07-25 06:30:00",
+            "date": "2026-07-25 06:35:00",
             "venue": "Headingley",
             "homeStageTeamId": "SRL",
             "awayStageTeamId": "SB",
@@ -369,7 +358,7 @@
         {
             "matchNumber": 20,
             "stageOrder": 1,
-            "date": "2026-08-04 10:30:00",
+            "date": "2026-08-04 10:50:00",
             "venue": "Headingley",
             "homeStageTeamId": "SRL",
             "awayStageTeamId": "LS",
@@ -449,7 +438,7 @@
         {
             "matchNumber": 28,
             "stageOrder": 1,
-            "date": "2026-08-09 10:00:00",
+            "date": "2026-08-09 10:05:00",
             "venue": "Lord's Cricket Ground",
             "homeStageTeamId": "LS",
             "awayStageTeamId": "BP",
@@ -501,8 +490,8 @@
             "stageOrder": 2,
             "date": "2026-08-14 10:00:00",
             "venue": "The Oval",
-            "homeStageTeamId": "T2",
-            "awayStageTeamId": "T3",
+            "homeStageTeamId": "P2",
+            "awayStageTeamId": "P3",
             "result": "None",
             "status": "incomplete",
             "description": "Eliminator"
@@ -512,7 +501,7 @@
             "stageOrder": 2,
             "date": "2026-08-16 10:00:00",
             "venue": "Lord's Cricket Ground",
-            "homeStageTeamId": "T1",
+            "homeStageTeamId": "P1",
             "awayStageTeamId": "W-E",
             "result": "None",
             "status": "incomplete",

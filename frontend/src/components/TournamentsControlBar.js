@@ -40,6 +40,7 @@ function TournamentsControlBar({groupField, setGroupField, toggleAll, allClosed,
                             <option value="format">Format</option>
                             <option value="category">Category</option>
                             <option value="name">Name</option>
+                            <option value="edition">Edition</option>
                         </select>
                         <FontAwesomeIcon
                             icon={faChevronDown}
