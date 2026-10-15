@@ -292,7 +292,7 @@
             "acronym": "DBG",
             "name": "Dublin Guardians",
             "logo": "https://www.etplofficial.com/uploads/1785665557315-logo--dublin-guardians--1.png",
-            "gradient": "linear-gradient(135deg, #2d8de5, #009B73, #14B83A)",
+            "gradient": "linear-gradient(135deg, #57a5ea, #1e7ed4, #14B83A)",
             "type": "franchise",
             "league": "ETPL"
         },
@@ -300,7 +300,7 @@
             "acronym": "RTD",
             "name": "Rotterdam Dockers",
             "logo": "https://www.etplofficial.com/uploads/etpl-team-rot.png",
-            "gradient": "linear-gradient(135deg, #121F09, #121F09, #CF9F1E)",
+            "gradient": "linear-gradient(135deg, #1E3A0F, #1E3A0F, #FF7A1A)",
             "type": "franchise",
             "league": "ETPL"
         },
@@ -308,7 +308,7 @@
             "acronym": "GLC",
             "name": "Glasgow Cosmic",
             "logo": "https://www.etplofficial.com/uploads/etpl-team-gla.png",
-            "gradient": "linear-gradient(135deg, #17204A, #3567B3, #64AAAE)",
+            "gradient": "linear-gradient(135deg, #17204A, #17204A, #64AAAE)",
             "type": "franchise",
             "league": "ETPL"
         },

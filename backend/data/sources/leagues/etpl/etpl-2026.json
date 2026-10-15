@@ -10,7 +10,6 @@
         "startDate": "2026-08-26",
         "endDate": "2026-09-20",
         "structure": "league",
-        "currentStageId": null,
         "gradient": "linear-gradient(135deg, #0E207B, #0E207B, #E3EA00)",
         "mainLogo": "https://www.etplofficial.com/uploads/etpl-logo-full.png",
         "horizontalLogo": "https://www.etplofficial.com/uploads/etpl-logo-full.png",
@@ -23,10 +22,6 @@
             "DBG",
             "RTD",
             "GLC"
-        ],
-        "stadiums": [
-            "Sportpark Westvliet",
-            "The Village"
         ]
     },
     "stages": [
@@ -112,7 +107,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 2
         },
@@ -120,7 +115,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T3",
+            "seed": "P3",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 3
         },
@@ -128,7 +123,7 @@
             "stageOrder": 2,
             "teamId": null,
             "confirmed": false,
-            "seed": "T1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
@@ -447,8 +442,8 @@
             "stageOrder": 2,
             "date": "2026-09-19 06:15:00",
             "venue": "The Village",
-            "homeStageTeamId": "T2",
-            "awayStageTeamId": "T3",
+            "homeStageTeamId": "P2",
+            "awayStageTeamId": "P3",
             "result": "None",
             "status": "incomplete",
             "description": "Qualifier"
@@ -458,7 +453,7 @@
             "stageOrder": 2,
             "date": "2026-09-20 06:15:00",
             "venue": "The Village",
-            "homeStageTeamId": "T1",
+            "homeStageTeamId": "P1",
             "awayStageTeamId": "W-Q",
             "result": "None",
             "status": "incomplete",
