@@ -55,7 +55,7 @@ function PointsTable({ pointsTableTeamsData, headerColor, topQualifiers, nextBes
                             </td>
                             <td className="py-1 px-2 border-b border-zinc-200 font-['Reem_Kufi_Fun'] uppercase text-black whitespace-nowrap">
                                 <div className="flex flex-row items-center h-[5vh]">
-                                    <img src={team.logo || "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} alt={`${displayName} logo`} className={`${category === "franchise" ? "w-[4.5vh]" : "w-[3.75vh] border border-zinc-200 bg-red-500"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false && team.logo ? 'blur(2px)' : 'none' }} />
+                                    <img src={team.logo || "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} alt={`${displayName} logo`} className={`w-[50px] h-[50px] ${category === "franchise" ? "" : "border border-zinc-200 bg-red-500"} object-contain mr-3 flex-shrink-0`} style={{ filter: team.confirmed === false && team.logo ? 'blur(2px)' : 'none' }} />
                                     <span className={category === "franchise" ? "text-[1.75vh]" : "text-[1.5vh]"}>
                                         {displayName}
                                     </span>
