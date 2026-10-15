@@ -1,0 +1,517 @@
+{
+    "tournament": {
+        "_id": "cpl-2024",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "Caribbean Premier League",
+        "acronym": "CPL",
+        "edition": "2024",
+        "startDate": "2024-08-29",
+        "endDate": "2024-10-06",
+        "structure": "league",
+        "gradient": "linear-gradient(135deg, #10102B, #10102B, #00A8FF)",
+        "mainLogo": "https://www.cplt20.com/assets/images/CPLT20_logo.png",
+        "horizontalLogo": "https://www.cplt20.com/assets/images/CPLT20_logo.png",
+        "pointsTableColor": "#10102B",
+        "tileBackgroundColor": "#10102B",
+        "teams": [
+            "SKN",
+            "ABF",
+            "GAW",
+            "BR",
+            "SLK",
+            "TKR"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "League Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 6,
+                "matchesPerTeam": 10,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "SKN",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "ABF",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "GAW",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "BR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SLK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "TKR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 31
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q1",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 32
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 32
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 33
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2024-08-29 16:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2024-08-30 16:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2024-08-31 16:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2024-09-01 07:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "BR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2024-09-01 16:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2024-09-03 16:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2024-09-04 16:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2024-09-05 16:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2024-09-06 16:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "BR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2024-09-07 16:00:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2024-09-08 07:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2024-09-10 16:00:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2024-09-11 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BR",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2024-09-12 16:00:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2024-09-13 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BR",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2024-09-14 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BR",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2024-09-15 16:00:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2024-09-17 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BR",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2024-09-18 16:00:00",
+            "venue": "Queens Park Oval",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2024-09-19 16:00:00",
+            "venue": "Queens Park Oval",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2024-09-20 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2024-09-21 07:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "BR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2024-09-21 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2024-09-22 07:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "BR",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2024-09-22 16:00:00",
+            "venue": "Brian Lara Cricket Academy",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2024-09-24 07:00:00",
+            "venue": "Brian Lara Cricket Academy",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2024-09-25 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "BR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2024-09-27 16:00:00",
+            "venue": "Brian Lara Cricket Academy",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "BR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2024-09-28 07:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2024-09-29 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 2,
+            "date": "2024-10-01 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Eliminator"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 2,
+            "date": "2024-10-02 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 1"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 2,
+            "date": "2024-10-04 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "L-Q1",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 2"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 2,
+            "date": "2024-10-06 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "W-Q1",
+            "awayStageTeamId": "W-Q2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

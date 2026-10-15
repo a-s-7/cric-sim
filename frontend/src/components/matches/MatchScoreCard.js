@@ -7,6 +7,7 @@ import WicketsInput from "../inputs/WicketsInput";
 import FetchStatusButton from "../buttons/FetchStatusButton";
 import MATCHES_ENDPOINTS from "../../api/matches_endpoints";
 import { getTournamentLogoStyles } from "../../utils/tournamentScaleUtils";
+import { TEAM_LOGO_SIZE } from "./matchCardConstants";
 
 const SIDE_SECTION_WIDTH = 38;
 const TEAM_NAME_WIDTH = 24;
@@ -757,9 +758,17 @@ function MatchScoreCard({
                             }
                         </div>
 
-                        <div className={`h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={homeTeamLogo} alt={`${homeTeamName} Logo`} />
-                        </div>
+                     <div
+    className={`h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}
+    style={{ width: `${SIDE_SECTION_WIDTH}%` }}
+>
+    <img
+        className={`h-full w-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`}
+        src={homeTeamLogo}
+        alt={`${homeTeamName} Logo`}
+        style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE, maxWidth: "100%", maxHeight: "100%" }}
+    />
+</div>
                     </div>
 
                     <div className='flex flex-col border-l border-r border-gray-100 w-[27%] cursor-pointer'
@@ -896,7 +905,7 @@ function MatchScoreCard({
                         style={getStyle('Away-win', 2)}>
 
                         <div className={`h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
-                            <img className={`box-content max-w-full max-h-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
+                            <img className={`h-full w-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE, maxWidth: "100%", maxHeight: "100%" }} />
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] justify-start" style={{ width: `${TEAM_NAME_WIDTH}%` }}>

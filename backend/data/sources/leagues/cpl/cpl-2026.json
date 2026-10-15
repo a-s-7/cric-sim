@@ -1,0 +1,577 @@
+{
+    "tournament": {
+        "_id": "cpl-2026",
+        "division": "mens",
+        "category": "franchise",
+        "format": "T20",
+        "name": "Caribbean Premier League",
+        "acronym": "CPL",
+        "edition": "2026",
+        "startDate": "2026-08-07",
+        "endDate": "2026-09-20",
+        "structure": "league",
+        "gradient": "linear-gradient(135deg, #10102B, #10102B, #00A8FF)",
+        "mainLogo": "https://www.cplt20.com/assets/images/CPLT20_logo.png",
+        "horizontalLogo": "https://www.cplt20.com/assets/images/CPLT20_logo.png",
+        "pointsTableColor": "#10102B",
+        "tileBackgroundColor": "#10102B",
+        "teams": [
+            "TKR",
+            "JK",
+            "BT",
+            "SKN",
+            "SLK",
+            "ABF",
+            "GAW"
+        ]
+    },
+    "stages": [
+        {
+            "type": "group",
+            "order": 1,
+            "name": "Group Stage",
+            "status": "active",
+            "config": {
+                "numberOfGroups": 1,
+                "teamsPerGroup": 7,
+                "matchesPerTeam": 10,
+                "qualifiersPerGroup": 4
+            }
+        },
+        {
+            "type": "knockout",
+            "order": 2,
+            "name": "Playoffs",
+            "status": "locked",
+            "config": {
+                "numTeams": 4,
+                "numMatches": 4
+            }
+        }
+    ],
+    "stageTeams": [
+        {
+            "stageOrder": 1,
+            "teamId": "TKR",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "JK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "BT",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SKN",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "SLK",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "ABF",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 1,
+            "teamId": "GAW",
+            "matchesPlayed": 0,
+            "won": 0,
+            "lost": 0,
+            "noResult": 0,
+            "points": 0
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P1",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 1
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P2",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 2
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P3",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 3
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "P4",
+            "teamFromPreviousStage": "standings",
+            "teamFromStandingsPosition": 4
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "L-Q1",
+            "teamFromPreviousStage": "match-loser",
+            "teamFromMatchNumber": 37
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-E",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 36
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q1",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 37
+        },
+        {
+            "stageOrder": 2,
+            "teamId": null,
+            "confirmed": false,
+            "seed": "W-Q2",
+            "teamFromPreviousStage": "match-winner",
+            "teamFromMatchNumber": 38
+        }
+    ],
+    "matches": [
+        {
+            "matchNumber": 1,
+            "stageOrder": 1,
+            "date": "2026-08-07 16:00:00",
+            "venue": "Arnos Vale Stadium",
+            "homeStageTeamId": "JK",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 2,
+            "stageOrder": 1,
+            "date": "2026-08-08 16:00:00",
+            "venue": "Arnos Vale Stadium",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 3,
+            "stageOrder": 1,
+            "date": "2026-08-09 16:00:00",
+            "venue": "Arnos Vale Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 4,
+            "stageOrder": 1,
+            "date": "2026-08-11 17:00:00",
+            "venue": "Sabina Park",
+            "homeStageTeamId": "JK",
+            "awayStageTeamId": "BT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 5,
+            "stageOrder": 1,
+            "date": "2026-08-12 16:00:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 6,
+            "stageOrder": 1,
+            "date": "2026-08-13 17:00:00",
+            "venue": "Sabina Park",
+            "homeStageTeamId": "JK",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 7,
+            "stageOrder": 1,
+            "date": "2026-08-14 16:00:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 8,
+            "stageOrder": 1,
+            "date": "2026-08-15 17:00:00",
+            "venue": "Sabina Park",
+            "homeStageTeamId": "JK",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 9,
+            "stageOrder": 1,
+            "date": "2026-08-16 17:15:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "BT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 10,
+            "stageOrder": 1,
+            "date": "2026-08-18 17:00:00",
+            "venue": "Sabina Park",
+            "homeStageTeamId": "JK",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 11,
+            "stageOrder": 1,
+            "date": "2026-08-19 16:00:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 12,
+            "stageOrder": 1,
+            "date": "2026-08-20 16:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 13,
+            "stageOrder": 1,
+            "date": "2026-08-21 16:00:00",
+            "venue": "Daren Sammy Cricket Ground",
+            "homeStageTeamId": "SLK",
+            "awayStageTeamId": "JK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 14,
+            "stageOrder": 1,
+            "date": "2026-08-22 16:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 15,
+            "stageOrder": 1,
+            "date": "2026-08-23 16:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 16,
+            "stageOrder": 1,
+            "date": "2026-08-25 16:00:00",
+            "venue": "Sir Vivian Richards Stadium",
+            "homeStageTeamId": "ABF",
+            "awayStageTeamId": "BT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 17,
+            "stageOrder": 1,
+            "date": "2026-08-26 16:00:00",
+            "venue": "Queens Park Oval",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 18,
+            "stageOrder": 1,
+            "date": "2026-08-27 16:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "JK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 19,
+            "stageOrder": 1,
+            "date": "2026-08-28 17:00:00",
+            "venue": "Queens Park Oval",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "BT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 20,
+            "stageOrder": 1,
+            "date": "2026-08-29 16:00:00",
+            "venue": "Queens Park Oval",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "JK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 21,
+            "stageOrder": 1,
+            "date": "2026-08-30 16:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 22,
+            "stageOrder": 1,
+            "date": "2026-08-31 14:00:00",
+            "venue": "Queens Park Oval",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 23,
+            "stageOrder": 1,
+            "date": "2026-09-01 16:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "BT",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 24,
+            "stageOrder": 1,
+            "date": "2026-09-02 16:00:00",
+            "venue": "Queens Park Oval",
+            "homeStageTeamId": "TKR",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 25,
+            "stageOrder": 1,
+            "date": "2026-09-03 16:00:00",
+            "venue": "Warner Park",
+            "homeStageTeamId": "SKN",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 26,
+            "stageOrder": 1,
+            "date": "2026-09-04 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "JK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 27,
+            "stageOrder": 1,
+            "date": "2026-09-05 17:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BT",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 28,
+            "stageOrder": 1,
+            "date": "2026-09-06 12:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 29,
+            "stageOrder": 1,
+            "date": "2026-09-06 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BT",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 30,
+            "stageOrder": 1,
+            "date": "2026-09-08 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "ABF",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 31,
+            "stageOrder": 1,
+            "date": "2026-09-09 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "SLK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 32,
+            "stageOrder": 1,
+            "date": "2026-09-10 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BT",
+            "awayStageTeamId": "SKN",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 33,
+            "stageOrder": 1,
+            "date": "2026-09-11 16:00:00",
+            "venue": "Providence Stadium",
+            "homeStageTeamId": "GAW",
+            "awayStageTeamId": "TKR",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 34,
+            "stageOrder": 1,
+            "date": "2026-09-12 17:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BT",
+            "awayStageTeamId": "JK",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 35,
+            "stageOrder": 1,
+            "date": "2026-09-13 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "BT",
+            "awayStageTeamId": "GAW",
+            "result": "None",
+            "status": "incomplete"
+        },
+        {
+            "matchNumber": 36,
+            "stageOrder": 2,
+            "date": "2026-09-16 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Eliminator"
+        },
+        {
+            "matchNumber": 37,
+            "stageOrder": 2,
+            "date": "2026-09-17 17:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 1"
+        },
+        {
+            "matchNumber": 38,
+            "stageOrder": 2,
+            "date": "2026-09-18 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "L-Q1",
+            "awayStageTeamId": "W-E",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Qualifier 2"
+        },
+        {
+            "matchNumber": 39,
+            "stageOrder": 2,
+            "date": "2026-09-20 16:00:00",
+            "venue": "Kensington Oval",
+            "homeStageTeamId": "W-Q1",
+            "awayStageTeamId": "W-Q2",
+            "result": "None",
+            "status": "incomplete",
+            "description": "Final"
+        }
+    ]
+}

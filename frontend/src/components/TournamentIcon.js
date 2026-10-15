@@ -1,4 +1,4 @@
-import { tournamentTileStyle } from "./utils/tileStyles";
+import { tournamentLogoStyle, tournamentTileStyle } from "./utils/tileStyles";
 
 function TournamentIcon({ tournament, onClick }) {
     const isFranchise = tournament.category === "franchise";
@@ -11,7 +11,7 @@ function TournamentIcon({ tournament, onClick }) {
             <img
                 src={tournament.mainLogo}
                 alt={tournament.name}
-                className={"h-[60%] w-[60%] object-contain"}
+                className={tournamentLogoStyle}
             />
             {isFranchise && (
                 <div className="absolute font-['Nunito_Sans'] bottom-2 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-xl border border-white/20 text-white text-[10px] font-bold shadow-sm whitespace-nowrap">

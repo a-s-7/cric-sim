@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { formatDateRange } from "./utils/dateUtils";
-import { tournamentTileStyle } from "./utils/tileStyles";
+import { tournamentLogoStyle, tournamentTileStyle } from "./utils/tileStyles";
 
 const STATUS_STYLE = {
     active: { dot: "bg-emerald-500", text: "text-emerald-700" },
@@ -23,7 +23,7 @@ function TournamentCard({ tournament, onClick }) {
                 className="aspect-square flex items-center justify-center border-r border-black/[0.02]"
                 style={{ backgroundColor: tournament.tileBackgroundColor }}
             >
-                <img src={tournament.mainLogo} alt={tournament.name} className="h-[60%] w-[60%] object-contain" />
+                <img src={tournament.mainLogo} alt={tournament.name} className={tournamentLogoStyle} />
             </div>
 
             <div className="relative col-span-2 min-w-0">
