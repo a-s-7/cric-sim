@@ -1,7 +1,6 @@
 import { tournamentLogoStyle, tournamentTileStyle } from "./utils/tileStyles";
 
 function TournamentTile({ tournament, onClick }) {
-    const isFranchise = tournament.category === "franchise";
     return (
         <div
             onClick={onClick}
