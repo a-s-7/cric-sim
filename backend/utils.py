@@ -1,32 +1,18 @@
 import os
-from pymongo import MongoClient, UpdateOne
+import re
+from pymongo import UpdateOne
 from bson import ObjectId
 from flask import abort
-from pprint import pprint
-import re
-
-try:
-    from google.genai.errors import ClientError as GenaiClientError
-except ImportError:
-    GenaiClientError = None
-
-from dotenv import load_dotenv
-load_dotenv()
+from google.genai.errors import ClientError as GenaiClientError
+from config import (
+    matches_collection,
+    stage_teams_collection,
+    stages_collection,
+    teams_collection,
+    tournaments_collection,
+)
 
 verbose = True
-
-connection_string = os.getenv('MONGODB_URI')
-
-# Connect with MongoDB
-client = MongoClient(connection_string)
-db = client['events']
-
-tournaments_collection = db['tournaments']
-stageTeams_collection = db['stageTeams']
-teams_collection = db['teams']
-matches_collection = db['matches']
-stages_collection = db["stages"]
-
 
 def find_tournament(tournament_id):
     tournament = tournaments_collection.find_one({"_id": tournament_id})
@@ -89,10 +75,10 @@ def get_tournament_teams_data(tournament):
             }
         ]
     
-    return list(stageTeams_collection.aggregate(teams_pipeline))
+    return list(stage_teams_collection.aggregate(teams_pipeline))
 
 def resolve_team_acronym(stage_team_id):
-    stage_team = stageTeams_collection.find_one({"_id": ObjectId(stage_team_id)})
+    stage_team = stage_teams_collection.find_one({"_id": ObjectId(stage_team_id)})
     team = teams_collection.find_one({"_id": stage_team["teamId"]})
     return team["acronym"]
 
@@ -191,8 +177,8 @@ def determine_medal_playoffs_podium(tournament, medalMatches):
         return None  # Podium is only available after both matches are completed
 
     def resolve_match_outcome(match, match_label):
-        hT = stageTeams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
-        aT = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
+        hT = stage_teams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
+        aT = stage_teams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
         htA = teams_collection.find_one({"_id": hT["teamId"]})["acronym"]
         aTA = teams_collection.find_one({"_id": aT["teamId"]})["acronym"]
 
@@ -343,7 +329,7 @@ def get_tournament_standings_data(tournament_id, stageOrders, allGroupStages = F
     projectionCriteria.update(tournamentCriteria)
     stageTeamsPipeline.append({"$project": projectionCriteria})
 
-    stageTeamsData = list(stageTeams_collection.aggregate(stageTeamsPipeline))
+    stageTeamsData = list(stage_teams_collection.aggregate(stageTeamsPipeline))
 
     if tournament["format"] == "Test":
         for team in stageTeamsData:
@@ -429,7 +415,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
     stageToConfirm = stages_collection.find_one({"tournamentId": tournamentId, "order": stageOrder})
 
     if stageToConfirm["type"] == "group":
-        sample_team = stageTeams_collection.find_one({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])})
+        sample_team = stage_teams_collection.find_one({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])})
         if "preseededTeamId" in sample_team:
             confirmTeamsForGroupStageWithPreseeding(tournamentId, stageOrder, stageToConfirm)
         else:
@@ -441,7 +427,7 @@ def confirmTeamsForStage(tournamentId, stageOrder):
             confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm)
 
 def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
-    stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
+    stageTeams = list(stage_teams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
     prevStageGroups = None
 
     for team in stageTeams:
@@ -464,7 +450,7 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
                     f"to {stageToConfirm['name']} as {ordinal(position)} place"
                 )
                     
-            stageTeams_collection.update_one(
+            stage_teams_collection.update_one(
                         {"_id": ObjectId(team["_id"])},
                         {
                             "$set": {
@@ -482,8 +468,8 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
             if match["result"] == "Home-win":
                 id = match["homeStageTeamId"] if winner else match["awayStageTeamId"]
             elif match["result"] == "No-result":
-                hT = stageTeams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
-                aT = stageTeams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
+                hT = stage_teams_collection.find_one({"_id": ObjectId(match["homeStageTeamId"])})
+                aT = stage_teams_collection.find_one({"_id": ObjectId(match["awayStageTeamId"])})
 
                 if verbose:
                     requested_role = "winner" if winner else "loser"
@@ -540,9 +526,9 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
                 id = match["awayStageTeamId"] if winner else match["homeStageTeamId"]
 
             if id:
-                stageTeam = stageTeams_collection.find_one({"_id": ObjectId(id)})
+                stageTeam = stage_teams_collection.find_one({"_id": ObjectId(id)})
 
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                         {"_id": ObjectId(team["_id"])},
                         {
                             "$set": {
@@ -555,7 +541,7 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
                     source_label = "winner" if winner else "loser"
                     print(f"PROGRESSION: {stageTeam['teamId']} ({stageTeam.get('teamId')}) goes to {stageToConfirm['name']} as the {source_label} from match {match.get('matchNumber', 'N/A')}")
             else:
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                             {"_id": ObjectId(team["_id"])},
                         {
                             "$set": {
@@ -570,7 +556,7 @@ def confirmTeamsForFinals(tournamentId, stageOrder, stageToConfirm):
 def confirmTeamsForGroupStageBasic(tournamentId, stageToConfirm):
     carryOver = stageToConfirm.get("carryOver", False)
 
-    stageTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
+    stageTeams = list(stage_teams_collection.find({"tournamentId": tournamentId, "stageId": ObjectId(stageToConfirm["_id"])}))
     standings = get_tournament_standings_data(tournamentId, [stageToConfirm["order"] - 1])
     prevStageGroups = standings["standings"][0]["groups"]                            
 
@@ -618,7 +604,7 @@ def confirmTeamsForGroupStageBasic(tournamentId, stageToConfirm):
             )
         )  
 
-    stageTeams_collection.bulk_write(operations)        
+    stage_teams_collection.bulk_write(operations)        
 
 
 def ordinal(n):
@@ -632,7 +618,7 @@ def ordinal(n):
 def confirmTeamsForGroupStageWithPreseeding(tournamentId, stageOrder, currentStage):
     # Restore original preseeded teams so a prior qualifier replacement isn't
     # mistaken for an original seed during reconfirmation.
-    stageTeams_collection.update_many(
+    stage_teams_collection.update_many(
         {"tournamentId": tournamentId, "stageId": ObjectId(currentStage["_id"])},
         [{"$set": {"teamId": "$preseededTeamId", "confirmed": False}}]
     )
@@ -713,7 +699,7 @@ def handle3TeamPreseedingWithNextBest(tournamentId, currentStage, previousStage,
 
     # Retrieve all stage teams and their ids
     seededTeams = list(
-        stageTeams_collection.find(
+        stage_teams_collection.find(
             {"tournamentId": tournamentId, "stageId": currentStage["_id"]}
         ).sort("seedToGroupMapping", 1)
     )
@@ -727,7 +713,7 @@ def handle3TeamPreseedingWithNextBest(tournamentId, currentStage, previousStage,
         if verbose:
             print(f"All seeded teams qualified, confirming as-is")
 
-        stageTeams_collection.update_many(
+        stage_teams_collection.update_many(
             {"tournamentId": tournamentId, "stageId": currentStage["_id"]},
             {
                 "$set": {
@@ -893,7 +879,7 @@ def handle3TeamPreseedingWithNextBest(tournamentId, currentStage, previousStage,
 
     # Apply replacements and confirmations together in one database round trip.
     stageTeamOperations = replacementOperations + seededConfirmationOperations
-    stageTeams_collection.bulk_write(stageTeamOperations)
+    stage_teams_collection.bulk_write(stageTeamOperations)
 
 
 def handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups):
@@ -908,7 +894,7 @@ def handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups):
         }
 
         # Find teams that were pre-seeded for this group (e.g. A1, A2)
-        seededTeams = list(stageTeams_collection.find({"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }}))
+        seededTeams = list(stage_teams_collection.find({"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }}))
 
         seededIds = {team["teamId"] for team in seededTeams}
 
@@ -925,7 +911,7 @@ def handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups):
             if verbose:
                 print(f"Group {groupName}: both seeded teams qualified, confirming as-is")
 
-            stageTeams_collection.update_many(
+            stage_teams_collection.update_many(
                 {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }},
                 {
                     "$set": {
@@ -941,7 +927,7 @@ def handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups):
             if verbose:
                 print(f"Group {groupName}: replacing {replacing} with {replacement}")
 
-            stageTeamThatDidNotQualify = stageTeams_collection.find_one_and_update(
+            stageTeamThatDidNotQualify = stage_teams_collection.find_one_and_update(
                 {"stageId": currentStage["_id"], "teamId": seededTeamIdsNotQualified.pop()},
                 {
                     "$set": {
@@ -949,7 +935,7 @@ def handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups):
                     }
                 })
 
-            stageTeams_collection.update_many(
+            stage_teams_collection.update_many(
                 {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": { "$regex": "^" + groupName }},
                 {
                     "$set": {
@@ -966,7 +952,7 @@ def handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups):
             if verbose:
                 print(f"Group {groupName}: neither seeded team qualified. {s1} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s1][0]}) replaced by {firstPlaceTeam['teamId']} (1st place), {s2} ({[t['teamId'] for t in seededTeams if t['seedToGroupMapping'] == s2][0]}) replaced by {secondPlaceTeam['teamId']} (2nd place)")
 
-            stageTeams_collection.update_one(
+            stage_teams_collection.update_one(
                 {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s1},
                 {
                     "$set": {
@@ -976,7 +962,7 @@ def handleStandard2TeamPreseeding(tournamentId, currentStage, prevStageGroups):
                 }
             )
 
-            stageTeams_collection.update_one(
+            stage_teams_collection.update_one(
                 {"tournamentId": tournamentId, "stageId": currentStage["_id"], "seedToGroupMapping": s2},
                 {
                     "$set": {
@@ -1013,9 +999,9 @@ def reset_playoff_match(match):
 
 # Resolves a team slot by mapping its assigned seed position (e.g., 1st vs 2nd) to the actual team from the previous stage's standings
 def update_stage_team_from_standings(st_id, standingsGroup):
-    st = stageTeams_collection.find_one({"_id": ObjectId(st_id)})
+    st = stage_teams_collection.find_one({"_id": ObjectId(st_id)})
     standings_team = standingsGroup[st.get("teamFromStandingsPosition", 1) - 1]
-    stageTeams_collection.update_one({"_id": st["_id"]}, {"$set": {"teamId": standings_team["teamDbId"], "confirmed": True}})
+    stage_teams_collection.update_one({"_id": st["_id"]}, {"$set": {"teamId": standings_team["teamDbId"], "confirmed": True}})
 
 # Assigns a team to a match slot by identifying the winner or loser of a specific previous match based on its result
 def update_stage_team_from_result(target_st_id, source_match, standingsGroup, winner=True):
@@ -1025,9 +1011,9 @@ def update_stage_team_from_result(target_st_id, source_match, standingsGroup, wi
         is_home_win = source_match["result"] == "Home-win"
         source_st_id = (source_match["homeStageTeamId"] if is_home_win else source_match["awayStageTeamId"]) if winner else \
                         (source_match["awayStageTeamId"] if is_home_win else source_match["homeStageTeamId"])
-        source_st = stageTeams_collection.find_one({"_id": ObjectId(source_st_id)})
+        source_st = stage_teams_collection.find_one({"_id": ObjectId(source_st_id)})
 
-    stageTeams_collection.update_one({"_id": ObjectId(target_st_id)}, {"$set": {"teamId": source_st["teamId"], "confirmed": True}})
+    stage_teams_collection.update_one({"_id": ObjectId(target_st_id)}, {"$set": {"teamId": source_st["teamId"], "confirmed": True}})
 
 def confirmTeamsFor3TeamPlayoffs(tournamentId, stageOrder, matches):
     # Get standings from the previous stage
@@ -1047,7 +1033,7 @@ def confirmTeamsFor3TeamPlayoffs(tournamentId, stageOrder, matches):
     if elim["result"] != "None":
         update_stage_team_from_result(final["awayStageTeamId"], elim, standingsGroup, winner=True)  # Elim Winner
     else:
-        stageTeams_collection.update_one(
+        stage_teams_collection.update_one(
             {"_id": ObjectId(final["awayStageTeamId"])},
             {"$set": {"teamId": None, "confirmed": False}}
         )
@@ -1068,7 +1054,7 @@ def confirmTeamsFor4TeamPlayoffs(tournamentId, stageOrder, matches):
     for match in matches[:2]:
         seedPositions = set()
         for slot in ("homeStageTeamId", "awayStageTeamId"):
-            stageTeam = stageTeams_collection.find_one({"_id": ObjectId(match[slot])})
+            stageTeam = stage_teams_collection.find_one({"_id": ObjectId(match[slot])})
             seedPositions.add(stageTeam.get("teamFromStandingsPosition") if stageTeam else None)
 
         if seedPositions == {1, 2}:
@@ -1097,7 +1083,7 @@ def confirmTeamsFor4TeamPlayoffs(tournamentId, stageOrder, matches):
         update_stage_team_from_result(q2["homeStageTeamId"], q1, standingsGroup, winner=False)  # Q1 Loser
         update_stage_team_from_result(final["homeStageTeamId"], q1, standingsGroup, winner=True) # Q1 Winner
     else:
-        stageTeams_collection.update_many(
+        stage_teams_collection.update_many(
             {"_id": {"$in": [ObjectId(q2["homeStageTeamId"]), ObjectId(final["homeStageTeamId"])]}},
             {"$set": {"teamId": None, "confirmed": False}}
         )
@@ -1112,7 +1098,7 @@ def confirmTeamsFor4TeamPlayoffs(tournamentId, stageOrder, matches):
     if elim["result"] != "None":
         update_stage_team_from_result(q2["awayStageTeamId"], elim, standingsGroup, winner=True)  # Elim Winner
     else:
-        stageTeams_collection.update_one(
+        stage_teams_collection.update_one(
             {"_id": ObjectId(q2["awayStageTeamId"])},
             {"$set": {"teamId": None, "confirmed": False}}
         )
@@ -1120,14 +1106,14 @@ def confirmTeamsFor4TeamPlayoffs(tournamentId, stageOrder, matches):
     if q2["result"] != "None":
         update_stage_team_from_result(final["awayStageTeamId"], q2, standingsGroup, winner=True) # Q2 Winner
     else:
-        stageTeams_collection.update_one(
+        stage_teams_collection.update_one(
             {"_id": ObjectId(final["awayStageTeamId"])},
             {"$set": {"teamId": None, "confirmed": False}}
         )
       
 def decide_playoff_no_result(source_match, winner=True, standings=[]):
-    homeSt = stageTeams_collection.find_one({"_id": ObjectId(source_match["homeStageTeamId"])}) 
-    awaySt = stageTeams_collection.find_one({"_id": ObjectId(source_match["awayStageTeamId"])}) 
+    homeSt = stage_teams_collection.find_one({"_id": ObjectId(source_match["homeStageTeamId"])}) 
+    awaySt = stage_teams_collection.find_one({"_id": ObjectId(source_match["awayStageTeamId"])}) 
 
     if verbose:
         print(f"Deciding playoff progression for 'No-result' in match {source_match.get('matchNumber', 'N/A')}: {homeSt['teamId']} vs {awaySt['teamId']}")
@@ -1239,7 +1225,7 @@ def propagate_match_clear(earliest_stage, t_id, tournament):
                         "$ne": [{"$type": "$teamFromPreviousStage"}, "missing"]
                     }
 
-                    stageTeams_collection.update_many(
+                    stage_teams_collection.update_many(
                         # Only update stage teams belonging to this tournament and the next stage.
                         {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
                         [{
@@ -1300,13 +1286,13 @@ def propagate_match_clear(earliest_stage, t_id, tournament):
                 else:
                     # Clear knockout stage team slots entirely, omit runs and balls fields for ICC WTC
                     if tournament["name"] == "ICC World Test Championship":
-                        stageTeams_collection.update_many(
+                        stage_teams_collection.update_many(
                             {"tournamentId": t_id, "stageId": ObjectId(nextStage["_id"])},
                             [{"$set": {"teamId": None, "confirmed": False}}]
                         )
                     else:
                         # 1. Reset match stats for all teams in the next stage
-                        stageTeams_collection.update_many(
+                        stage_teams_collection.update_many(
                             {
                                 "tournamentId": t_id,
                                 "stageId": ObjectId(nextStage["_id"]),
@@ -1322,7 +1308,7 @@ def propagate_match_clear(earliest_stage, t_id, tournament):
                         )
 
                         # 2. Wipe dynamic qualifier team id's and confirmations
-                        stageTeams_collection.update_many(
+                        stage_teams_collection.update_many(
                             {
                                 "tournamentId": t_id,
                                 "stageId": ObjectId(nextStage["_id"]),
@@ -1378,7 +1364,7 @@ def commit_and_propagate_match_clear(tournament, t_id, matches, team_acc):
     ]
 
     if operations:
-        stageTeams_collection.bulk_write(operations)
+        stage_teams_collection.bulk_write(operations)
 
     match_ops = [
         UpdateOne(
@@ -1449,7 +1435,7 @@ def apply_nrr_contribution(match, mode):
 
     m = 1 if mode == "Apply" else -1
 
-    stageTeams_collection.update_one(
+    stage_teams_collection.update_one(
         {"_id": ObjectId(match["homeStageTeamId"])},
         {"$inc": {
             "runsScored": m * contribution["home"]["runsScored"],
@@ -1458,7 +1444,7 @@ def apply_nrr_contribution(match, mode):
             "ballsBowled": m * contribution["home"]["ballsBowled"],
         }}
     )
-    stageTeams_collection.update_one(
+    stage_teams_collection.update_one(
         {"_id": ObjectId(match["awayStageTeamId"])},
         {"$inc": {
             "runsScored": m * contribution["away"]["runsScored"],
@@ -1470,35 +1456,35 @@ def apply_nrr_contribution(match, mode):
 
 def update_team_match_win(stageTeamId, points, mode):
     m = 1 if mode == "Apply" else -1
-    stageTeams_collection.update_one(
+    stage_teams_collection.update_one(
         {"_id": ObjectId(stageTeamId)},
         {"$inc": {"won": m, "points": m*points, "matchesPlayed": m}}
     )
 
 def update_team_match_loss(stageTeamId, mode):
     m = 1 if mode == "Apply" else -1
-    stageTeams_collection.update_one(
+    stage_teams_collection.update_one(
         {"_id": ObjectId(stageTeamId)},
         {"$inc": {"lost": m, "matchesPlayed": m}}
     )
 
 def update_team_match_no_result(stageTeamId, points, mode):
     m = 1 if mode == "Apply" else -1
-    stageTeams_collection.update_one(
+    stage_teams_collection.update_one(
         {"_id": ObjectId(stageTeamId)},
         {"$inc": {"noResult": m, "matchesPlayed": m, "points": m*points}}
     )
 
 def update_team_match_draw(stageTeamId, points, mode):
     m = 1 if mode == "Apply" else -1
-    stageTeams_collection.update_one(
+    stage_teams_collection.update_one(
         {"_id": ObjectId(stageTeamId)},
         {"$inc": {"draw": m, "matchesPlayed": m, "points": m*points}}
     )
 
 def update_team_match_tie(stageTeamId, points, mode):
     m = 1 if mode == "Apply" else -1
-    stageTeams_collection.update_one(
+    stage_teams_collection.update_one(
         {"_id": ObjectId(stageTeamId)},
         {"$inc": {"tie": m, "matchesPlayed": m, "points": m*points}}
     )

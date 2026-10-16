@@ -1,23 +1,5 @@
-import os
-from pymongo import MongoClient
-from bson import ObjectId
+from config import matches_collection
 
-from dotenv import load_dotenv
-load_dotenv()
-
-connection_string = os.getenv('MONGODB_URI')
-
-# Connect with MongoDB
-client = MongoClient(connection_string)
-db = client['events']
-
-tournaments_collection = db['tournaments']
-stageTeams_collection = db['stageTeams']
-teams_collection = db['teams']
-matches_collection = db['matches']
-stages_collection = db["stages"]
-series_collection = db["series"]
-venues_collection = db["venues"]
 
 def _lookup_by_id_field(id_field, from_collection, as_name):
     """Build a $lookup+$match stage that joins on a string field holding an ObjectId."""

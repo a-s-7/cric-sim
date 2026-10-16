@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 import import_venues
 import import_teams
 import import_events_leagues
@@ -45,7 +49,10 @@ TOURNAMENTS = {
 def main():
     import_venues.main()
     import_teams.main()
-    import_events_leagues.main(TOURNAMENTS, [5, 6, 8, 9, 10, 20, 11, 12, 13, 14, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37])
+    import_events_leagues.main(TOURNAMENTS, [5, 6, 8, 9, 10, 16, 18, 20, 11, 12, 13, 14, 15, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37])
+    # import_events_leagues.main(TOURNAMENTS, [5, 6, 18])
+    
+    
 
 if __name__ == "__main__":
     main()

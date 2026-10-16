@@ -1,49 +1,28 @@
-from services.notification_service import send_notification
-from dataclasses import field
-from flask import abort
-from re import match
-from datetime import timezone
-import os
-from pymongo import MongoClient, UpdateOne
-from bson import ObjectId
 import random
 from collections import defaultdict
 
-from utils import ( 
-                is_gemini_quota_error, 
-                propagate_match_simulation,
-                build_clear_filter,
-                fetch_matches_with_stage_type,
-                commit_and_propagate_match_clear,
-                get_match_with_toss_guard,
-                find_tournament,
-                apply_nrr_contribution,
-                update_team_match_win,
-                update_team_match_loss,
-                update_team_match_no_result,
-                update_team_match_draw,
-                update_team_match_tie,
-                find_limited_overs_tournament,
-                find_wtc_tournament,
-                validate_result_summary,
-                update_toss_field)
-
-from agent.match_sync import sync_match_result
-from datetime import datetime
-
-if os.getenv("RENDER_STATUS") != "TRUE":
-    from dotenv import load_dotenv
-    load_dotenv()
-
-connection_string = os.getenv('MONGODB_URI')
-client = MongoClient(connection_string)
-db = client['events']
-
-tournaments_collection = db['tournaments']
-stageTeams_collection = db['stageTeams']
-matches_collection = db['matches']
-stages_collection = db["stages"]
-verbose = False
+from bson import ObjectId
+from config import matches_collection, stage_teams_collection, stages_collection
+from flask import abort
+from pymongo import UpdateOne
+from utils import (
+    apply_nrr_contribution,
+    build_clear_filter,
+    commit_and_propagate_match_clear,
+    fetch_matches_with_stage_type,
+    find_limited_overs_tournament,
+    find_tournament,
+    find_wtc_tournament,
+    get_match_with_toss_guard,
+    propagate_match_simulation,
+    update_team_match_draw,
+    update_team_match_loss,
+    update_team_match_no_result,
+    update_team_match_tie,
+    update_team_match_win,
+    update_toss_field,
+    validate_result_summary,
+)
 
 # Limited-overs + WTC   
 
@@ -63,7 +42,7 @@ def update_wtc_match_result(tournament, match_num, result):
     pointsPerDraw = 4
 
     if result not in ["Home-win", "Away-win", "Draw", "Tie"]:
-        abort(400, description=f"Invalid match result")
+        abort(400, description="Invalid match result")
 
     match = matches_collection.find_one({"tournamentId": t_id, "matchNumber": int(match_num)})
     matchStage = stages_collection.find_one({"_id": ObjectId(match["stageId"])})
@@ -119,7 +98,7 @@ def update_tournament_match_result(tournament, match_num, result):
     pointsPerNoResult = 2 if isHundred else 1
 
     if result not in ["Home-win", "Away-win", "No-result"]:
-        abort(400, description=f"Invalid match result")
+        abort(400, description="Invalid match result")
 
     match = get_match_with_toss_guard(t_id, match_num, "updating the match result")
     matchStage = stages_collection.find_one({"_id": ObjectId(match["stageId"])})
@@ -246,7 +225,7 @@ def simulate_wtc_matches(tournament, stage_num):
         match_updates.append(UpdateOne({"_id": match["_id"]}, {"$set": {"result": result}}))
 
     if team_updates:
-        stageTeams_collection.bulk_write(team_updates)
+        stage_teams_collection.bulk_write(team_updates)
 
     if match_updates:
         matches_collection.bulk_write(match_updates)    
@@ -311,7 +290,7 @@ def simulate_tournament_matches(tournament, stage_num):
         match_updates.append(UpdateOne({"_id": match["_id"]}, {"$set": {"result": result}}))
 
     if team_updates:
-        stageTeams_collection.bulk_write(team_updates)
+        stage_teams_collection.bulk_write(team_updates)
 
     if match_updates:
         matches_collection.bulk_write(match_updates)    
@@ -454,24 +433,24 @@ def clear_tournament_matches(tournament, mode, stage_order, match_nums):
 
 def update_match_toss_result(tournament_id, match_num, toss_result):
     if toss_result not in ["Home-win", "Away-win", "None"]:
-        abort(400, description=f"Invalid match toss result")
+        abort(400, description="Invalid match toss result")
 
     update_toss_field(tournament_id, match_num, "tossResult", toss_result, "result")
 
 def update_match_toss_decision(tournament_id, match_num, toss_decision):
     if toss_decision not in ["bat", "bowl", "None"]:
-        abort(400, description=f"Invalid match toss decision")
+        abort(400, description="Invalid match toss decision")
 
     update_toss_field(tournament_id, match_num, "tossDecision", toss_decision, "decision")
 
 def update_match_status(tournament_id, match_num, status):
     if status not in ["complete", "incomplete"]:
-        abort(400, description=f"Invalid status")
+        abort(400, description="Invalid status")
 
     match = matches_collection.find_one({"tournamentId": tournament_id, "matchNumber": int(match_num)})
     
     if not match:
-        abort(404, description=f"Match not found")
+        abort(404, description="Match not found")
 
     matches_collection.update_one(
         {"_id": ObjectId(match["_id"])},
@@ -483,22 +462,22 @@ def update_match_status_toss(tournament_id, match_num, status=None, toss_result=
 
     if status is not None:
         if status not in ["complete", "incomplete"]:
-            abort(400, description=f"Invalid status")
+            abort(400, description="Invalid status")
 
         update_fields["status"] = status
     if toss_result is not None:
         if toss_result not in ["Home-win", "Away-win", "None"]:
-            abort(400, description=f"Invalid match toss result")
+            abort(400, description="Invalid match toss result")
 
         update_fields["tossResult"] = toss_result
     if toss_decision is not None:
         if toss_decision not in ["bat", "bowl", "None"]:
-            abort(400, description=f"Invalid match toss decision")
+            abort(400, description="Invalid match toss decision")
             
         update_fields["tossDecision"] = toss_decision
 
     if not update_fields:
-        abort(400, description=f"No fields found to update")
+        abort(400, description="No fields found to update")
 
     result = matches_collection.update_one(
         {"tournamentId": tournament_id, "matchNumber": int(match_num)},
@@ -506,7 +485,7 @@ def update_match_status_toss(tournament_id, match_num, status=None, toss_result=
     )
 
     if result.matched_count == 0:
-        abort(404, description=f"Match not found")
+        abort(404, description="Match not found")
 
 def abandon_match(tournament_id, match_num):
     clear_matches(tournament_id, "match-numbers", None, str(match_num))
@@ -520,8 +499,6 @@ def abandon_match(tournament_id, match_num):
     update_match_result(tournament_id, match_num, abandonResult)
 
     update_match_status_toss(tournament_id, match_num, toss_result="None", toss_decision="None")
-
-from services.match_sync_service import force_sync_match, auto_sync_matches
 
 #######################################################################################################################################
 
@@ -544,7 +521,7 @@ def update_match_score(tournament_id, match_num, home_runs, home_wickets, home_b
     )
 
     if not old_match:
-        abort(404, description=f"No match was found")
+        abort(404, description="No match was found")
 
     isHundred = tournament["ballsPerInnings"] == 100
 
@@ -602,7 +579,7 @@ def update_match_score(tournament_id, match_num, home_runs, home_wickets, home_b
         new_hB = home_balls_nrr(home_wickets, home_balls) if new_score_active else 0
         new_aB = away_balls_nrr(away_wickets, away_balls) if new_score_active else 0
 
-        stageTeams_collection.update_one(
+        stage_teams_collection.update_one(
             {"_id": ObjectId(old_match["homeStageTeamId"])},
             {"$inc": {
                 "runsScored":   new_home_runs - old_home_runs,
@@ -612,7 +589,7 @@ def update_match_score(tournament_id, match_num, home_runs, home_wickets, home_b
             }}
         )
 
-        stageTeams_collection.update_one(
+        stage_teams_collection.update_one(
             {"_id": ObjectId(old_match["awayStageTeamId"])},
             {"$inc": {
                 "runsScored":   new_away_runs - old_away_runs,
@@ -642,64 +619,63 @@ def update_match_target_runs(tournament_id, match_num, target_runs):
     is_tie = has_score and (match["homeTeamRuns"] == match["awayTeamRuns"])
     is_nrr_active = match["result"] in ["Home-win", "Away-win"] or (isHundred and match["result"] == "No-result" and is_tie)
 
-    if is_nrr_active:
-        if has_score:
-            # Determine who batted first
-            toss_result = match["tossResult"]
-            toss_decision = match["tossDecision"]
-            
-            home_batted_first = (toss_result == "Home-win" and toss_decision == "bat") or \
-                                (toss_result == "Away-win" and toss_decision == "bowl")
-            
-            batting_first_id = match["homeStageTeamId"] if home_batted_first else match["awayStageTeamId"]
-            batting_second_id = match["awayStageTeamId"] if home_batted_first else match["homeStageTeamId"]
-            
-            first_team_actual_runs = match["homeTeamRuns"] if home_batted_first else match["awayTeamRuns"]
-            
-            # Calculate old and new effective runs for the team batting first
-            old_effective = (old_target - 1) if old_target is not None else first_team_actual_runs
-            new_effective = (target_runs - 1) if target_runs is not None else first_team_actual_runs
-            
-            delta = new_effective - old_effective
-            
-            if delta != 0:
-                stageTeams_collection.update_one(
-                    {"_id": ObjectId(batting_first_id)},
-                    {"$inc": {"runsScored": delta}}
-                )
-                stageTeams_collection.update_one(
-                    {"_id": ObjectId(batting_second_id)},
-                    {"$inc": {"runsConceded": delta}}
-                )
+    if is_nrr_active and has_score:
+        # Determine who batted first
+        toss_result = match["tossResult"]
+        toss_decision = match["tossDecision"]
+        
+        home_batted_first = (toss_result == "Home-win" and toss_decision == "bat") or \
+                            (toss_result == "Away-win" and toss_decision == "bowl")
+        
+        batting_first_id = match["homeStageTeamId"] if home_batted_first else match["awayStageTeamId"]
+        batting_second_id = match["awayStageTeamId"] if home_batted_first else match["homeStageTeamId"]
+        
+        first_team_actual_runs = match["homeTeamRuns"] if home_batted_first else match["awayTeamRuns"]
+        
+        # Calculate old and new effective runs for the team batting first
+        old_effective = (old_target - 1) if old_target is not None else first_team_actual_runs
+        new_effective = (target_runs - 1) if target_runs is not None else first_team_actual_runs
+        
+        delta = new_effective - old_effective
+        
+        if delta != 0:
+            stage_teams_collection.update_one(
+                {"_id": ObjectId(batting_first_id)},
+                {"$inc": {"runsScored": delta}}
+            )
+            stage_teams_collection.update_one(
+                {"_id": ObjectId(batting_second_id)},
+                {"$inc": {"runsConceded": delta}}
+            )
 
-            # DLS rule: the batting-first team is credited with the overs allowed to the
-            # batting-second team. Adjust ballsFaced/ballsBowled when a target is added or removed.
-            first_team_wickets = match["homeTeamWickets"] if home_batted_first else match["awayTeamWickets"]
-            first_team_actual_balls = match["homeTeamBalls"] if home_batted_first else match["awayTeamBalls"]
-            
-            first_team_max_balls = match["homeMaxBalls"] if home_batted_first else match["awayMaxBalls"]
-            second_team_max_balls = match["awayMaxBalls"] if home_batted_first else match["homeMaxBalls"]
+        # DLS rule: the batting-first team is credited with the overs allowed to the
+        # batting-second team. Adjust ballsFaced/ballsBowled when a target is added or removed.
+        first_team_wickets = match["homeTeamWickets"] if home_batted_first else match["awayTeamWickets"]
+        first_team_actual_balls = match["homeTeamBalls"] if home_batted_first else match["awayTeamBalls"]
+        
+        first_team_max_balls = match["homeMaxBalls"] if home_batted_first else match["awayMaxBalls"]
+        second_team_max_balls = match["awayMaxBalls"] if home_batted_first else match["homeMaxBalls"]
 
-            # With a DLS target: batting-first team is always credited with the 2nd innings over limit.
-            # Without a DLS target: standard NRR applies — all out uses the full over allocation,
-            # otherwise use actual balls. Wickets only matter in this non-DLS fallback.
-            
-            nrr_balls = first_team_max_balls if first_team_wickets == 10 else first_team_actual_balls
+        # With a DLS target: batting-first team is always credited with the 2nd innings over limit.
+        # Without a DLS target: standard NRR applies — all out uses the full over allocation,
+        # otherwise use actual balls. Wickets only matter in this non-DLS fallback.
+        
+        nrr_balls = first_team_max_balls if first_team_wickets == 10 else first_team_actual_balls
 
-            old_balls_nrr = second_team_max_balls if old_target is not None else nrr_balls
-            new_balls_nrr = second_team_max_balls if target_runs is not None else nrr_balls
+        old_balls_nrr = second_team_max_balls if old_target is not None else nrr_balls
+        new_balls_nrr = second_team_max_balls if target_runs is not None else nrr_balls
 
-            balls_delta = new_balls_nrr - old_balls_nrr
+        balls_delta = new_balls_nrr - old_balls_nrr
 
-            if balls_delta != 0:
-                stageTeams_collection.update_one(
-                    {"_id": ObjectId(batting_first_id)},
-                    {"$inc": {"ballsFaced": balls_delta}}
-                )
-                stageTeams_collection.update_one(
-                    {"_id": ObjectId(batting_second_id)},
-                    {"$inc": {"ballsBowled": balls_delta}}
-                )
+        if balls_delta != 0:
+            stage_teams_collection.update_one(
+                {"_id": ObjectId(batting_first_id)},
+                {"$inc": {"ballsFaced": balls_delta}}
+            )
+            stage_teams_collection.update_one(
+                {"_id": ObjectId(batting_second_id)},
+                {"$inc": {"ballsBowled": balls_delta}}
+            )
 
 def update_target_overtake_status(tournament_id, match_num, target_overtaken):
     find_limited_overs_tournament(tournament_id)
@@ -753,11 +729,11 @@ def update_match_max_balls(tournament_id, match_num, team, max_balls):
             # DLS: homeMaxBalls is the 2nd innings limit when away batted first.
             # Changing it adjusts the NRR credit for the away (batting-first) team.
             if has_score and target is not None and not home_batted_first:
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                     {"_id": ObjectId(old_match["awayStageTeamId"])},
                     {"$inc": {"ballsFaced": diff}}
                 )
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                     {"_id": ObjectId(old_match["homeStageTeamId"])},
                     {"$inc": {"ballsBowled": diff}}
                 )
@@ -767,11 +743,11 @@ def update_match_max_balls(tournament_id, match_num, team, max_balls):
             # Safe to run without checking if overs are entered yet, because the database wickets
             # count remains 0 (or previously saved value) until the complete score is submitted.
             if old_match["homeTeamWickets"] == 10 and not (target is not None and home_batted_first):
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                     {"_id": ObjectId(old_match["homeStageTeamId"])},
                     {"$inc": {"ballsFaced": diff}}
                 )
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                     {"_id": ObjectId(old_match["awayStageTeamId"])},
                     {"$inc": {"ballsBowled": diff}}
                 )
@@ -782,11 +758,11 @@ def update_match_max_balls(tournament_id, match_num, team, max_balls):
             # DLS: awayMaxBalls is the 2nd innings limit when home batted first.
             # Changing it adjusts the NRR credit for the home (batting-first) team.
             if has_score and target is not None and home_batted_first:
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                     {"_id": ObjectId(old_match["homeStageTeamId"])},
                     {"$inc": {"ballsFaced": diff}}
                 )
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                     {"_id": ObjectId(old_match["awayStageTeamId"])},
                     {"$inc": {"ballsBowled": diff}}
                 )
@@ -794,11 +770,11 @@ def update_match_max_balls(tournament_id, match_num, team, max_balls):
             # Standard NRR: away all out uses awayMaxBalls. Skip if a DLS target is set and
             # away batted first — in that case away's NRR uses homeMaxBalls, not awayMaxBalls.
             if old_match["awayTeamWickets"] == 10 and not (target is not None and not home_batted_first):
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                     {"_id": ObjectId(old_match["awayStageTeamId"])},
                     {"$inc": {"ballsFaced": diff}}
                 )
-                stageTeams_collection.update_one(
+                stage_teams_collection.update_one(
                     {"_id": ObjectId(old_match["homeStageTeamId"])},
                     {"$inc": {"ballsBowled": diff}}
                 )
@@ -839,7 +815,7 @@ def update_wtc_match_points_deduction(tournament_id, match_num, team, deduction)
 
     sid = old_match["homeStageTeamId"] if team == "home" else old_match["awayStageTeamId"]
 
-    result = stageTeams_collection.update_one(
+    result = stage_teams_collection.update_one(
         {"_id": sid},
         {"$inc": {"deductionPoints": diff}}
     )

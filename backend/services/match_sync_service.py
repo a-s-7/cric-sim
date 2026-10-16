@@ -1,27 +1,10 @@
-import os
 from datetime import datetime, timezone
-from pymongo import MongoClient
-from flask import abort
-
-try:
-    from utils import is_gemini_quota_error, format_auto_sync_log
-    from services.notification_service import send_notification
-except ImportError:
-    from backend.utils import is_gemini_quota_error, format_auto_sync_log
-    from backend.services.notification_service import send_notification
 
 from agent.match_sync import sync_match_result
-
-if os.getenv("RENDER_STATUS") != "TRUE":
-    from dotenv import load_dotenv
-    load_dotenv()
-
-connection_string = os.getenv('MONGODB_URI')
-client = MongoClient(connection_string)
-db = client['events']
-
-tournaments_collection = db['tournaments']
-matches_collection = db['matches']
+from config import matches_collection, tournaments_collection
+from flask import abort
+from services.notification_service import send_notification
+from utils import format_auto_sync_log
 
 
 def force_sync_match(tournament_id, match_num):

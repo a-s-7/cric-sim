@@ -1,11 +1,17 @@
 from datetime import timedelta
 import json
 import os
-from pymongo import MongoClient
 from pymongo.errors import BulkWriteError, DuplicateKeyError
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
-from bson import ObjectId
+from config import (matches_collection, 
+                    stages_collection, 
+                    series_collection, 
+                    stage_teams_collection, 
+                    tournaments_collection, 
+                    teams_collection, 
+                    venues_collection)
+
 
 def main(category, folder, file_name, auto_update=False, realWorld=False):
     # ANSI escape codes for colored terminal output
@@ -27,19 +33,6 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     with open(file_path, 'r') as file:
         json_info = json.load(file)
 
-    ######################################### Load connection variables
-    if os.getenv("RENDER_STATUS") != "TRUE":
-        from dotenv import load_dotenv
-        load_dotenv()
-
-    connection_string = os.getenv('MONGODB_URI')
-
-    if not connection_string:
-        raise ValueError("MONGODB_URI not found in environment variables")
-
-    client = MongoClient(connection_string)
-    db = client['events']  
-
     tournament = json_info["tournament"]
 
     print(f"\n{CYAN}{BOLD}{'='*80}{ENDC}")
@@ -55,7 +48,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     teams_in_file = tournament.get("teams", [])
     team_ids_in_file = set(teams_in_file)
 
-    existing_teams = list(db['teams'].find({"_id": {"$in": list(team_ids_in_file)}}))
+    existing_teams = list(teams_collection.find({"_id": {"$in": list(team_ids_in_file)}}))
     existing_team_ids = set(t["_id"] for t in existing_teams)
 
     missing_teams = team_ids_in_file - existing_team_ids
@@ -67,7 +60,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     for m in matches:
         stadiums_in_file.add(m['venue'])
     
-    existing_venues = list(db['venues'].find({"stadium": {"$in": list(stadiums_in_file)}}))
+    existing_venues = list(venues_collection.find({"stadium": {"$in": list(stadiums_in_file)}}))
     existing_stadiums = set(v["stadium"] for v in existing_venues)
 
     missing_stadiums = stadiums_in_file - existing_stadiums
@@ -119,8 +112,6 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     ).replace(tzinfo=zone)
 
     # Add tournament to DB
-    tournaments_collection = db['tournaments']
-
     if realWorld:
         tournament["_id"] = tournament["_id"] + "-rw"
     else:
@@ -139,9 +130,7 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     ######################################### Insert stages data
 
     stages = json_info["stages"]
-
-    stages_collection = db['stages']
-    
+        
     stages_collection.create_index(
         [("tournamentId", 1), ("order", 1)],
         unique=True
@@ -178,8 +167,6 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
     ######################################### Insert stage teams data
 
     stage_teams = json_info["stageTeams"]
-
-    stage_teams_collection = db['stageTeams']
 
     stage_teams_collection.create_index(
         [("stageId", 1), ("teamId", 1)],
@@ -228,8 +215,6 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
                 DB_NAME_OR_SEED_TO_ID[s_team["teamId"]] = s_team["_id"]
 
     ######################################### Insert series data
-
-    series_collection = db['series']
 
     series_collection.create_index(
         [("tournamentId", 1), ("name", 1)],
@@ -295,15 +280,12 @@ def main(category, folder, file_name, auto_update=False, realWorld=False):
 
     ######################################## Insert matches data
 
-    venues_collection = db['venues']
     venues = venues_collection.find({
         "stadium": {
             "$in": list(stadiums_in_file)
         }
     })
     venue_dict = {v["stadium"]: v["_id"] for v in venues}
-
-    matches_collection = db['matches']
 
     matches_collection.create_index(
         [("tournamentId", 1), ("matchNumber", 1)],

@@ -1,33 +1,23 @@
-from flask import abort
-import os
-from pymongo import MongoClient
-from utils import (
-    determine_medal_playoffs_podium,
-    get_tournament_standings_data,
-    find_tournament,
-    get_tournament_teams_data,
-    parse_filter_params,
-    build_or_filter_condition,
-    build_common_match_lookup_stages,
-    determine_final_winner,
-)
 from datetime import datetime, timezone
 
-verbose = True
+from config import (
+    matches_collection,
+    stage_teams_collection,
+    stages_collection,
+    tournaments_collection,
+)
+from flask import abort
+from utils import (
+    build_common_match_lookup_stages,
+    build_or_filter_condition,
+    determine_final_winner,
+    determine_medal_playoffs_podium,
+    find_tournament,
+    get_tournament_standings_data,
+    get_tournament_teams_data,
+    parse_filter_params,
+)
 
-if os.getenv("RENDER_STATUS") != "TRUE":
-    from dotenv import load_dotenv
-    load_dotenv()
-
-connection_string = os.getenv('MONGODB_URI')
-client = MongoClient(connection_string)
-db = client['events']
-
-tournaments_collection = db['tournaments']
-stageTeams_collection = db['stageTeams']
-matches_collection = db['matches']
-stages_collection = db["stages"]
-teams_collection = db['teams']
 
 def get_tournaments():
     # Fetch all tournaments within the category to pair real-world and what-if modes
@@ -106,7 +96,7 @@ def get_tournament_info(tournament_base_id):
 def get_tournament_teams(tournament_id):
     find_tournament(tournament_id)
     
-    teams = list(stageTeams_collection.aggregate([
+    teams = list(stage_teams_collection.aggregate([
         {
             "$match": {
                 "tournamentId": tournament_id
