@@ -5,14 +5,11 @@ from pymongo import MongoClient
 
 load_dotenv()
 
-def get_db_name():
-    return "cricsim_prod" if os.getenv("ENVIRONMENT") == "production" else "cricsim_dev"
-
 connection_string = os.getenv('MONGODB_URI')
-
-# Connect with MongoDB
 client = MongoClient(connection_string)
-db = client[get_db_name()]
+
+db_name = "cricsim_prod" if os.getenv("ENVIRONMENT") == "production" else "cricsim_dev"
+db = client[db_name]
 
 matches_collection = db['matches']
 series_collection = db['series']
