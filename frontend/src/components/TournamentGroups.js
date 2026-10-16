@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import TournamentIcon from "./TournamentIcon";
+import TournamentTile from "./TournamentTile";
 import TournamentCard from "./TournamentCard";
 
 function TournamentGroups({ sortedGroups, toggleGroup, groupField, closedGroups, viewMode, handleTournamentClick }) {
@@ -46,7 +46,7 @@ function TournamentGroups({ sortedGroups, toggleGroup, groupField, closedGroups,
                             >
                                 <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,130px),1fr))] sm:grid-cols-[repeat(auto-fill,minmax(min(100%,160px),1fr))] justify-start gap-6">
                                     {groupedTournaments.map((tournament, index) => {
-                                        const Card = viewMode === "icon" ? TournamentIcon : TournamentCard;
+                                        const Card = viewMode === "icon" ? TournamentTile : TournamentCard;
                                         return (
                                             <Card
                                                 key={tournament["baseId"] + "-" + index}

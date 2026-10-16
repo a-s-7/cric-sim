@@ -10,7 +10,6 @@
         "startDate": "2023-08-30",
         "endDate": "2023-09-17",
         "structure": "groups",
-        "currentStageId": null,
         "gradient": "linear-gradient(135deg, white, darkblue, darkblue)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/c/c7/2023_Asia_Cup_logo.png",
         "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/c/c7/2023_Asia_Cup_logo.png",
@@ -23,12 +22,6 @@
             "NEP",
             "PAK",
             "SL"
-        ],
-        "stadiums": [
-            "Gaddafi Stadium",
-            "Multan Cricket Stadium",
-            "R. Premadasa Stadium",
-            "Pallekele International Cricket Stadium"
         ]
     },
     "stages": [
@@ -184,7 +177,7 @@
             "stageOrder": 3,
             "teamId": null,
             "confirmed": false,
-            "seed": "G1-1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsGroup": "1",
             "teamFromStandingsPosition": 1
@@ -193,7 +186,7 @@
             "stageOrder": 3,
             "teamId": null,
             "confirmed": false,
-            "seed": "G1-2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsGroup": "1",
             "teamFromStandingsPosition": 2
@@ -331,8 +324,8 @@
             "stageOrder": 3,
             "date": "2023-09-17 02:30:00",
             "venue": "R. Premadasa Stadium",
-            "homeStageTeamId": "G1-1",
-            "awayStageTeamId": "G1-2",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
             "result": "None",
             "status": "incomplete",
             "description": "Final"

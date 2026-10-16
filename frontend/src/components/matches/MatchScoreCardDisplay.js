@@ -302,7 +302,9 @@ function MatchScoreCardDisplay({
                         </div>
 
                         <div className={`h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
-                            <img className={`h-full w-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE, maxWidth: "100%", maxHeight: "100%", filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(2px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
+                            <div className="flex items-center justify-center" style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE }}>
+                                <img className={`object-contain ${category === "franchise" ? "h-full w-full" : "h-auto max-h-full w-full border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={homeTeamLogo ? homeTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: homeConfirmed === false && homeTeamLogo !== "" ? 'blur(2px)' : 'none' }} alt={`${homeTeamName} Logo`}></img>
+                            </div>
                         </div>
                     </div>
 
@@ -339,7 +341,9 @@ function MatchScoreCardDisplay({
                         style={getStyle('Away-win', 2)}>
 
                         <div className={`h-full flex justify-center items-center ${category === "franchise" ? (isEtplMatch ? "p-3" : "p-4") : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
-                            <img className={`h-full w-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE, maxWidth: "100%", maxHeight: "100%", filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(2px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
+                            <div className="flex items-center justify-center" style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE }}>
+                                <img className={`object-contain ${category === "franchise" ? "h-full w-full" : "h-auto max-h-full w-full border border-zinc-200"} ${isEtplMatch ? "scale-[0.8]" : ""}`} src={awayTeamLogo ? awayTeamLogo : "https://assets-icc.sportz.io/static-assets/buildv3-stg/images/teams/0.png?v=14"} style={{ filter: awayConfirmed === false && awayTeamLogo !== "" ? 'blur(2px)' : 'none' }} alt={`${awayTeamName} Logo`}></img>
+                            </div>
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] justify-start" style={{ width: `${TEAM_NAME_WIDTH}%` }}>

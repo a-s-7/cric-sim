@@ -762,12 +762,13 @@ function MatchScoreCard({
     className={`h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`}
     style={{ width: `${SIDE_SECTION_WIDTH}%` }}
 >
-    <img
-        className={`h-full w-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`}
-        src={homeTeamLogo}
-        alt={`${homeTeamName} Logo`}
-        style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE, maxWidth: "100%", maxHeight: "100%" }}
-    />
+    <div className="flex items-center justify-center" style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE }}>
+        <img
+            className={`object-contain ${category === "franchise" ? "h-full w-full" : "h-auto max-h-full w-full border border-zinc-200"} ${scaleClass}`}
+            src={homeTeamLogo}
+            alt={`${homeTeamName} Logo`}
+        />
+    </div>
 </div>
                     </div>
 
@@ -905,7 +906,9 @@ function MatchScoreCard({
                         style={getStyle('Away-win', 2)}>
 
                         <div className={`h-full flex justify-center items-center ${category === "franchise" ? paddingClass : "p-6"}`} style={{ width: `${SIDE_SECTION_WIDTH}%` }}>
-                            <img className={`h-full w-full object-contain ${category === "franchise" ? "" : "border border-zinc-200"} ${scaleClass}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE, maxWidth: "100%", maxHeight: "100%" }} />
+                            <div className="flex items-center justify-center" style={{ width: TEAM_LOGO_SIZE, height: TEAM_LOGO_SIZE }}>
+                                <img className={`object-contain ${category === "franchise" ? "h-full w-full" : "h-auto max-h-full w-full border border-zinc-200"} ${scaleClass}`} src={awayTeamLogo} alt={`${awayTeamName} Logo`} />
+                            </div>
                         </div>
 
                         <div className="relative flex items-center justify-start text-[2.25vh] justify-start" style={{ width: `${TEAM_NAME_WIDTH}%` }}>

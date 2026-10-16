@@ -11,7 +11,6 @@
         "startDate": "2028-07-22",
         "endDate": "2028-07-29",
         "structure": "groups",
-        "currentStageId": null,
         "gradient": "linear-gradient(135deg, #ffe3c9, #00aaae, #08a3a6)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/2028_Summer_Olympics_Logo.svg/330px-2028_Summer_Olympics_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
         "horizontalLogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/2028_Summer_Olympics_Logo.svg/330px-2028_Summer_Olympics_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
@@ -24,9 +23,6 @@
             "AUS",
             "NZ",
             "USA"
-        ],
-        "stadiums": [
-            "Fairgrounds Cricket Stadium"
         ]
     },
     "stages": [
@@ -215,7 +211,7 @@
             "stageOrder": 3,
             "teamId": null,
             "confirmed": false,
-            "seed": "T1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
@@ -223,7 +219,7 @@
             "stageOrder": 3,
             "teamId": null,
             "confirmed": false,
-            "seed": "T2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 2
         },
@@ -231,7 +227,7 @@
             "stageOrder": 3,
             "teamId": null,
             "confirmed": false,
-            "seed": "T3",
+            "seed": "P3",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 3
         },
@@ -239,7 +235,7 @@
             "stageOrder": 3,
             "teamId": null,
             "confirmed": false,
-            "seed": "T4",
+            "seed": "P4",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 4
         }
@@ -376,8 +372,8 @@
             "stageOrder": 3,
             "date": "2028-07-28 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
-            "homeStageTeamId": "T3",
-            "awayStageTeamId": "T4",
+            "homeStageTeamId": "P3",
+            "awayStageTeamId": "P4",
             "result": "None",
             "status": "incomplete",
             "description": "Men's Bronze Medal Match"
@@ -387,8 +383,8 @@
             "stageOrder": 3,
             "date": "2028-07-29 09:00:00",
             "venue": "Fairgrounds Cricket Stadium",
-            "homeStageTeamId": "T1",
-            "awayStageTeamId": "T2",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
             "result": "None",
             "status": "incomplete",
             "description": "Men's Gold Medal Match"

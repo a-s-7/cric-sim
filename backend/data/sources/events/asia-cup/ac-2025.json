@@ -10,7 +10,6 @@
         "startDate": "2025-09-09",
         "endDate": "2025-09-28",
         "structure": "groups",
-        "currentStageId": null,
         "gradient": "linear-gradient(135deg, white, darkblue, darkblue)",
         "mainLogo": "https://upload.wikimedia.org/wikipedia/en/f/fd/2025_ACC_Asia_Cup.png",
         "horizontalLogo": "https://upload.wikimedia.org/wikipedia/en/f/fd/2025_ACC_Asia_Cup.png",
@@ -25,10 +24,6 @@
             "BAN",
             "AFG",
             "HK"
-        ],
-        "stadiums": [
-            "Dubai International Cricket Stadium",
-            "Sheikh Zayed Stadium"
         ]
     },
     "stages": [
@@ -208,7 +203,7 @@
             "stageOrder": 3,
             "teamId": null,
             "confirmed": false,
-            "seed": "T1",
+            "seed": "P1",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 1
         },
@@ -216,7 +211,7 @@
             "stageOrder": 3,
             "teamId": null,
             "confirmed": false,
-            "seed": "T2",
+            "seed": "P2",
             "teamFromPreviousStage": "standings",
             "teamFromStandingsPosition": 2
         }
@@ -419,8 +414,8 @@
             "stageOrder": 3,
             "date": "2025-09-28 07:30:00",
             "venue": "Dubai International Cricket Stadium",
-            "homeStageTeamId": "T1",
-            "awayStageTeamId": "T2",
+            "homeStageTeamId": "P1",
+            "awayStageTeamId": "P2",
             "result": "None",
             "status": "incomplete",
             "description": "Final"
