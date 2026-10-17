@@ -1,4 +1,4 @@
-function Spinner({ label = "", size = 60, strokeWidth = 2, className = "" }) {
+function Spinner({ label = "", size = 60, strokeWidth = 2, spinDuration = "1s", className = "" }) {
     return (
         <div className={`w-full flex-1 flex flex-col items-center justify-center gap-4 px-4 ${className}`}>
             <svg
@@ -6,6 +6,7 @@ function Spinner({ label = "", size = 60, strokeWidth = 2, className = "" }) {
                 height={size}
                 viewBox="0 0 50 50"
                 className="animate-spin text-stone-400"
+                style={{ animationDuration: spinDuration }}
             >
                 <circle
                     cx="25" cy="25" r="20"

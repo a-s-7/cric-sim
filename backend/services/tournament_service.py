@@ -60,12 +60,12 @@ def get_tournament_info(tournament_base_id):
     tournaments = list(tournaments_collection.find({"_id": {"$in": tournament_ids}}))
 
     if len(tournaments) == 0:
-        abort(404, description="Tournament not found")
+        abort(404, description="Tournament not found.")
     elif len(tournaments) == 1:
-        abort(404, description="Incomplete tournament: expected RW and PS records")
+        abort(500, description="Tournament incomplete.")
     elif len(tournaments) > 2:
-        abort(404, description="Multiple tournament records found")
-
+        abort(500, description="Tournament data conflicting.")
+        
     paired = {}
 
     for tournament in tournaments:

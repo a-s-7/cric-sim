@@ -1,12 +1,21 @@
 import os
-from flask import Flask, send_from_directory
-from flask_cors import CORS
 
+from flask import Flask, jsonify, send_from_directory
+from flask_cors import CORS
 from routes.match_service_routes import match_service_bp
-from routes.tournament_service_routes import tournament_service_bp
 from routes.match_sync_service_routes import match_sync_service_bp
+from routes.tournament_service_routes import tournament_service_bp
+from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__, static_folder='../frontend/build')
+
+@app.errorhandler(HTTPException)
+def handle_http_error(error):
+    return jsonify({
+        "status": error.code,
+        "message": error.description
+    }), error.code
+    
 CORS(app)
 
 app.register_blueprint(match_service_bp)
