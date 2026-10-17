@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import TournamentLoader from "./pages/TournamentLoader";
 import TournamentsPage from "./pages/TournamentsPage";
+import DataManagerPage from './pages/DataManagerPage';
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/tournaments" element={<TournamentsPage />} />
                 <Route path="/tournaments/:tournamentBaseId" element={<TournamentLoader />} />
+                <Route path="/data-manager" element={<DataManagerPage/>}/>
             </Routes>
         </div>
     );

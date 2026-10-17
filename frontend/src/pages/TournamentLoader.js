@@ -50,6 +50,12 @@ function TournamentLoader() {
         return <Spinner spinDuration="1s" className="animate-[fadeIn_500ms_ease-out]" />;
     }
 
+    // Uncomment a line to preview each error state:
+    // return <TournamentErrorPage errorCode={404} message="Tournament not found." />;
+    // return <TournamentErrorPage errorCode={500} message="Tournament incomplete." />;
+    // return <TournamentErrorPage errorCode={500} message="Tournament data conflicting." />;
+    // return <TournamentErrorPage errorCode={null} message={null} />; // Network failure or malformed response
+
     if (showError || !tournament) {
         return (
             <TournamentErrorPage

@@ -13,7 +13,7 @@ function TournamentErrorPage({ errorCode, message }) {
             : "Please try again in a moment.";
 
     return (
-        <main className="flex flex-1 items-center justify-center bg-stone-50 px-6 pb-20 pt-8">
+        <main className="flex flex-1 items-center justify-center bg-stone-50 px-6 pb-20 pt-8 font-['Nunito_Sans']">
             <section className="flex w-full max-w-4xl flex-col items-center text-center">
                 <svg
                     viewBox="27 4 42 82"
@@ -29,7 +29,7 @@ function TournamentErrorPage({ errorCode, message }) {
                 <p className={`mt-7 text-xl font-semibold lg:text-2xl ${errorColor}`}>
                     {errorCode ?? "Error"}
                 </p>
-                <h1 className="mt-3 text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
+                <h1 className="mt-3 font-['Reem_Kufi'] text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
                     {message || "Something went wrong."}
                 </h1>
                 <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600 lg:text-xl lg:leading-9">
