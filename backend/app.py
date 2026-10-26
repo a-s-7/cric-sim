@@ -5,6 +5,7 @@ from flask_cors import CORS
 from routes.match_service_routes import match_service_bp
 from routes.match_sync_service_routes import match_sync_service_bp
 from routes.tournament_service_routes import tournament_service_bp
+from routes.venue_service_routes import venue_service_bp
 from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__, static_folder='../frontend/build')
@@ -21,6 +22,7 @@ CORS(app)
 app.register_blueprint(match_service_bp)
 app.register_blueprint(tournament_service_bp)
 app.register_blueprint(match_sync_service_bp)
+app.register_blueprint(venue_service_bp)
 
 @app.route('/')
 @app.route('/<path:path>')

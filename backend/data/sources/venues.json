@@ -183,7 +183,7 @@
         {
             "stadium": "Brian Lara Cricket Academy",
             "city": "Tarouba",
-            "country": "Trinidad & Tobago"
+            "country": "Trinidad and Tobago"
         },
         {
             "stadium": "Queens Park Oval",
@@ -194,11 +194,6 @@
             "stadium": "Sabina Park",
             "city": "Kingston",
             "country": "Jamaica"
-        },
-        {
-            "stadium": "Central Broward Park",
-            "city": "Lauderhill",
-            "country": "United States"
         },
         {
             "stadium": "Nassau County Stadium",
@@ -251,11 +246,6 @@
             "country": "Pakistan"
         },
         {
-            "stadium": "Rajiv Gandhi Stadium",
-            "city": "Hyderabad",
-            "country": "India"
-        },
-        {
             "stadium": "MCA International Stadium",
             "city": "Pune",
             "country": "India"
@@ -286,7 +276,7 @@
             "country": "India"
         },
         {
-            "stadium": "Rajiv Gandhi International Stadium",
+            "stadium": "Rajiv Gandhi International Cricket Stadium",
             "city": "Hyderabad",
             "country": "India"
         },
@@ -311,7 +301,7 @@
             "country": "United States"
         },
         {
-            "stadium": "Broward County Stadium",
+            "stadium": "Central Broward Park",
             "city": "Fort Lauderdale",
             "country": "United States"
         },
@@ -323,11 +313,6 @@
         {
             "stadium": "Old Trafford Cricket Ground",
             "city": "Manchester",
-            "country": "England"
-        },
-        {
-            "stadium": "Hampshire Bowl",
-            "city": "Southampton",
             "country": "England"
         },
         {

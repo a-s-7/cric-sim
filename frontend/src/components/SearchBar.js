@@ -62,7 +62,8 @@ export function SearchBar({
         <button
           type="button"
           onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-2xl p-1.5 text-stone-400 transition-all duration-150 hover:bg-stone-100 hover:text-stone-600 active:scale-90"
+          title="Clear search"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-xl p-1.5 text-red-500 transition-all duration-150 hover:bg-red-50 hover:text-red-600 active:scale-90"
         >
           <FontAwesomeIcon icon={faXmark} className="text-xs" />
         </button>
